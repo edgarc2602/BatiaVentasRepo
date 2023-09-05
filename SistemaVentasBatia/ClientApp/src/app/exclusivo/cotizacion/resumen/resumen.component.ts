@@ -334,9 +334,10 @@ export class ResumenComponent implements OnInit, OnDestroy {
             }, err => console.log(err));
         }
     }
-    reAbrirModal() {
-        this.getMatPues(this.selPuesto, this.selDireccion, this.selTipo);
-
+    return($event) {
+        if ($event = true) {
+            this.getMatPues(this.selPuesto, this.selDireccion, this.selTipo);
+        }
     }
     
 }

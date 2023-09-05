@@ -339,7 +339,7 @@
                                                     <span class="badge text-dark">Prima Vacacional:</span>
                                                     <div class="ms-1">$ {{ pt.primaVacacional }}</div>
                                                 </div>
-                                                
+
                                                 <div class="col-6 col-sm-2">
                                                     <span class="badge text-dark">ISN:</span>
                                                     <div class="ms-1">$ {{ pt.isn | number: '0.2' }}</div>
@@ -484,7 +484,9 @@
 <pues-widget (smEvent)="savePlan($event)"></pues-widget>
 
 <mate-widget (smEvent)="newMate($event)"></mate-widget>
-<mateadd-widget (smEvent)="saveMate($event)"></mateadd-widget>
+<mateadd-widget (smEvent)="saveMate($event)" (returnModal)="return($event)"></mateadd-widget>
+
+
 
 <elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
 
@@ -492,7 +494,3 @@
 
 <eliminaOperario-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></eliminaOperario-widget>
 <!--<mateoperarioadd-widget (m2Event)="opeMat($event)"></mateoperarioadd-widget>-->
-
-<mateadd-widget (returnModal)="reAbrirModal()"></mateadd-widget>
-
-

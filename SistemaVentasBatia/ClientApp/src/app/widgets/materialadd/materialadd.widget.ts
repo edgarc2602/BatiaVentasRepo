@@ -94,6 +94,9 @@ export class MaterialAddWidget {
         let docModal = document.getElementById('modalLimpiezaAgregarMaterialCotizacion');
         let myModal = bootstrap.Modal.getOrCreateInstance(docModal);
         myModal.hide();
-        this.returnModal.emit(true);
+
+        if (this.model.idPuestoDireccionCotizacion != 0) {
+            this.returnModal.emit(true);
+        }
     }
 }
