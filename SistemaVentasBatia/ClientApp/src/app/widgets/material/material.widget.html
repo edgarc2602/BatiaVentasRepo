@@ -12,15 +12,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <!--<mateadd-widget (sendEvent)="open()"></mateadd-widget>-->
-                <div class="row mb-3">
-                    <div>
-                        <div class="float-end">
-                            <a id="btnAgregarMaterial" (click)="agregarMaterial()" class="btn btn-outline-primary">
-                                <i class="fa-solid fa-plus"></i> Agregar {{ tipo }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                
                 <div style="border-radius: 10px; overflow-x: hidden;">
                     <table class="table table-borderless table-striped table-responsive">
                         <tbody>
@@ -71,6 +63,9 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
+                <a id="btnAgregarMaterial" (click)="agregarMaterial()" class="btn btn-outline-primary">
+                    <i class="fa-solid fa-plus"></i> Agregar {{ tipo }}
+                </a>
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
 

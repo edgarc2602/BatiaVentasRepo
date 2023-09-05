@@ -1,5 +1,6 @@
 <meta charset="UTF-8">
-<div class="pt-3 mb-2">
+<br />
+<div class="pt-1 mb-3">
     <div class="float-end">
         <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
     </div>
@@ -275,7 +276,7 @@
             <div class="card ">
                 <div class="card-header bg-primary bg-opacity-75">
                     <div class="row ">
-                        <div class="col-md-3">
+                        <div class="col-md-3 pt-2">
                             <a id="aListaOperarios{{ dir.idDireccionCotizacion }}" class="btn text-white " data-bs-toggle="collapse" href="#dvPuestosDireccion{{ dir.idDireccionCotizacion }}">
                                 <h5 style="margin-bottom:0;">
                                     {{ dir.nombreSucursal }}
@@ -355,23 +356,24 @@
                                         </td>
                                         <td class="align-middle w-auto">
                                             <div class="float-end">
-                                                <a class="btn btn-sm text-primary mb-1" (click)="updPlan(pt.idPuestoDireccionCotizacion, dir.idTabulador)" data-bs-toggle="tooltip" title="Editar">
-                                                    <i class="fa-solid fa-pencil fa-2x"></i>
-                                                </a>
+
                                                 <a class="btn btn-sm text-secondary mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'material')" data-bs-toggle="tooltip" title="Material">
                                                     <i class="fa-solid fa-pump-soap fa-2x"></i>
                                                 </a>
                                                 <a class="btn btn-sm text-info mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'uniforme')" data-bs-toggle="tooltip" title="Uniforme">
                                                     <i class="fa-solid fa-shirt fa-2x"></i>
                                                 </a>
-                                                <a class="btn btn-sm text-danger mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'herramienta')" data-bs-toggle="tooltip" title="Herramienta">
-                                                    <i class="fa-solid fa-hammer fa-2x"></i>
-                                                </a>
                                                 <a class="btn btn-sm text-success mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'equipo')" data-bs-toggle="tooltip" title="Equipo">
                                                     <i class="fa-solid fa-helmet-safety fa-2x"></i>
                                                 </a>
+                                                <a class="btn btn-sm text-danger mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'herramienta')" data-bs-toggle="tooltip" title="Herramienta">
+                                                    <i class="fa-solid fa-hammer fa-2x"></i>
+                                                </a>
                                                 <a class="btn btn-sm text-danger mb-1" (click)="eligeOperario(pt.idPuestoDireccionCotizacion)" title="Descartar">
                                                     <i class="fa-solid fa-times fa-2x"></i>
+                                                </a>
+                                                <a class="btn btn-sm text-primary mb-1" (click)="updPlan(pt.idPuestoDireccionCotizacion, dir.idTabulador)" data-bs-toggle="tooltip" title="Editar">
+                                                    <i class="fa-solid fa-pencil fa-2x"></i>
                                                 </a>
                                             </div>
                                         </td>
@@ -412,9 +414,9 @@
                     </div>
                 </div>-->
 
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <button type="button" (click)="getMat(selTipo)" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
-                    <button type="button" (click)="getNewMat(selTipo)" class="btn btn-outline-primary float-end align-" id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Nuevo {{ selTipo }}</button>
+                    <button type="button" (click)="getNewMat(selTipo)" class="btn btn-outline-primary float-end " id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar {{ selTipo }}</button>
                 </div>
             </div>
         </div>
@@ -430,12 +432,12 @@
                     <tr *ngFor="let mat of lsmat.materialesCotizacion">
                         <td>
                             <div class="row pb-2 text-center">
-                                <div class="col-md-2 col-sm-4">
-                                    <span class="badge text-dark">Clave:</span>
-                                    <div class="ms-2">{{ mat.claveProducto }}</div>
+                                <div class="col-md-1 col-sm-4">
+                                    <span class="badge text-dark text-center">Clave:</span>
+                                    <div class="text-center">{{ mat.claveProducto }}</div>
                                     <small>{{ mat.descripcionPuesto }}</small>
                                 </div>
-                                <div class="col-md-3 col-sm-8">
+                                <div class="col-md-4 col-sm-8">
                                     <span class="badge text-dark">Producto:</span>
                                     <div class="ms-2">{{ mat.descripcionMaterial }}</div>
                                     <small>{{ mat.nombreSucursal }}</small>
