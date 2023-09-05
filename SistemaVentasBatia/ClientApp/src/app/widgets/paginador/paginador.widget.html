@@ -1,0 +1,22 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item" [ngClass]="{'disabled': pagina == 1}">
+            <a class="page-link" aria-label="Previous" (click)="toPrev()">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li *ngFor="let ix of makePages(numPaginas); let i = index" [ngClass]="{'active': pagina == (i + 1)}" class="page-item">
+            <a class="page-link" (click)="move(i + 1)">
+                {{ i + 1 }}
+            </a>
+        </li>
+        <li [ngClass]="{'disabled': pagina == numPaginas}" class="page-item">
+            <a class="page-link" aria-label="Next" (click)="toNext()">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <div class="page-link">{{ rows }} Registros</div>
+        </li>
+    </ul>
+</nav>

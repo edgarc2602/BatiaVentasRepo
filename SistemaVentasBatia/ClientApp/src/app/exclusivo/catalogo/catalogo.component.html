@@ -1,0 +1,160 @@
+<h3>Configuración de puesto</h3>
+
+<div class="row mb-3">
+    <div class="col-sm-12 col-md-6">
+        <div class="form-floating">
+            <select class="form-select" name="Puesto" (change)="chgPuesto()" [(ngModel)]="selPuesto">
+                <option value="0">Seleccione</option>
+                <option *ngFor="let p of pues" [ngValue]="p.id">{{ p.descripcion }}</option>
+            </select>
+            <label asp-for="IdPuesto">Puesto</label>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs" id="tabconfig" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button type="button" class="nav-link active" (click)="chgTab('material')" id="material-tab" data-bs-toggle="tab" data-bs-target="#material"
+        role="tab" aria-controls="material" aria-selected="true">Materiales</button>
+    </li>
+    <li class="nav-item">
+        <button type="button" class="nav-link" (click)="chgTab('uniforme')" id="uniforme-tab" data-bs-toggle="tab" data-bs-target="#uniforme"
+        role="tab" aria-controls="uniforme" aria-selected="false">Uniforme</button>
+    </li>
+    <li class="nav-item">
+        <button type="button" class="nav-link" (click)="chgTab('equipo')" id="equipo-tab" data-bs-toggle="tab" data-bs-target="#equipo"
+        role="tab" aria-controls="equipo" aria-selected="false">Equipo de seguridad</button>
+    </li>
+    <li class="nav-item">
+        <button type="button" class="nav-link" (click)="chgTab('herramienta')" id="herramienta-tab" data-bs-toggle="tab" data-bs-target="#herramienta"
+        role="tab" aria-controls="herramienta" aria-selected="false">Herramienta</button>
+    </li>
+</ul>
+<div class="tab-content pt-2" id="tabcontent">
+    <div class="tab-pane fade show active" id="material" role="tabpanel" aria-labelledby="material-tab">
+        <div class="row">
+            <div class="col d-flex justify-content-end">
+                <button type="button" (click)="openMat()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar producto</button>
+            </div>
+        </div>
+        <table class="table table-borderless table-striped table-responsive">
+            <thead>
+                <tr class="bg-primary bg-opacity-75 text-white">
+                    <th>Clave</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Frecuencia</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let mt of mates">
+                    <td>{{ mt.claveProducto }}</td>
+                    <td>{{ mt.descripcion }}</td>
+                    <td>{{ mt.cantidad }}</td>
+                    <td>{{ mt.idFrecuencia }}</td>
+                    <td>
+                        <button type="button" (click)="deleteMat(mt.idMaterialPuesto)" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="uniforme" role="tabpanel" aria-labelledby="uniforme-tab">
+        <div class="row">
+            <div class="col d-flex justify-content-end">
+                <button type="button" (click)="openUni()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar uniforme</button>
+            </div>
+        </div>
+        <table class="table table-borderless table-striped table-responsive">
+            <thead>
+                <tr class="bg-primary bg-opacity-75 text-white">
+                    <th>Clave</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Frecuencia</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let mt of mates">
+                    <td>{{ mt.claveProducto }}</td>
+                    <td>{{ mt.descripcion }}</td>
+                    <td>{{ mt.cantidad }}</td>
+                    <td>{{ mt.idFrecuencia }}</td>
+                    <td>
+                        <button type="button" (click)="deleteMat(mt.idMaterialPuesto)" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">
+        <div class="row">
+            <div class="col d-flex justify-content-end">
+                <button type="button" (click)="openEqui()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar equipo</button>
+            </div>
+        </div>
+        <table class="table table-borderless table-striped table-responsive">
+            <thead>
+                <tr class="bg-primary bg-opacity-75 text-white">
+                    <th>Clave</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Frecuencia</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let mt of mates">
+                    <td>{{ mt.claveProducto }}</td>
+                    <td>{{ mt.descripcion }}</td>
+                    <td>{{ mt.cantidad }}</td>
+                    <td>{{ mt.idFrecuencia }}</td>
+                    <td>
+                        <button type="button" (click)="deleteMat(mt.idMaterialPuesto)" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="herramienta" role="tabpanel" aria-labelledby="herramienta-tab">
+        <div class="row">
+            <div class="col d-flex justify-content-end">
+                <button type="button" (click)="openHer()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar herramienta</button>
+            </div>
+        </div>
+        <table class="table table-borderless table-striped table-responsive">
+            <thead>
+                <tr class="bg-primary bg-opacity-75 text-white">
+                    <th>Clave</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Frecuencia</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let mt of mates">
+                    <td>{{ mt.claveProducto }}</td>
+                    <td>{{ mt.descripcion }}</td>
+                    <td>{{ mt.cantidad }}</td>
+                    <td>{{ mt.idFrecuencia }}</td>
+                    <td>
+                        <button type="button" (click)="deleteMat(mt.idMaterialPuesto)" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<producto-widget [idP]="selPuesto" [grupo]="grupo" (saveEvent)="closeMat($event)"></producto-widget>

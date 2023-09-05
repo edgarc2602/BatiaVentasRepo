@@ -1,0 +1,108 @@
+﻿<div class="modal fade" id="modalAgregarOperario">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar Operario</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="IdPuesto" [(ngModel)]="model.idPuesto" (change)="chgSalario()">
+                                    <option value="0">Seleccione</option>
+                                    <option *ngFor="let p of pues" [ngValue]="p.id">{{ p.descripcion }}</option>
+                                </select>
+                                <label asp-for="IdPuesto">Puesto</label>
+                            </div>
+                            <span *ngIf="ferr('IdPuesto')" class="text-danger">{{ terr('IdPuesto') }}</span>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="IdTurno" [(ngModel)]="model.idTurno" (change)="chgSalario()">
+                                    <option value="0">Seleccione</option>
+                                    <option *ngFor="let t of turs" [ngValue]="t.id">{{ t.descripcion }}</option>
+                                </select>
+                                <label asp-for="IdTurno">Turno</label>
+                            </div>
+                            <span *ngIf="ferr('IdTurno')" class="text-danger">{{ terr('IdTurno') }}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="DiaInicio" [(ngModel)]="model.diaInicio">
+                                    <option value="0">Seleccione</option>
+                                    <option *ngFor="let d of dias" [ngValue]="d.id">{{ d.nom }}</option>
+                                </select>
+                                <label asp-for="DiaInicio">Dia Inicio</label>
+                            </div>
+                            <span *ngIf="ferr('DiaInicio')" class="text-danger">{{ terr('DiaInicio') }}</span>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="DiaFin" [(ngModel)]="model.diaFin">
+                                    <option value="0">Seleccione</option>
+                                    <option *ngFor="let d of dias" [ngValue]="d.id">{{ d.nom }}</option>
+                                </select>
+                                <label asp-for="DiaFin">Dia Fin</label>
+                            </div>
+                            <span *ngIf="ferr('DiaFin')" class="text-danger">{{ terr('DiaFin') }}</span>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-floating">
+                                <select type="text" class="form-control" [(ngModel)]="model.hrInicio">
+                                    <option *ngFor="let h of hors" [ngValue]="h">{{ h }}</option>
+                                </select>
+                                <label asp-for="HrInicio">De</label>
+                            </div>
+                            <span *ngIf="ferr('HrInicio')" class="text-danger">{{ terr('HrInicio') }}</span>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-floating">
+                                <select type="text" class="form-control" [(ngModel)]="model.hrFin">
+                                    <option *ngFor="let h of hors" [ngValue]="h">{{ h }}</option>
+                                </select>
+                                <label asp-for="HrFin">A</label>
+                            </div>
+                            <span *ngIf="ferr('HrFin')" class="text-danger">{{ terr('HrFin') }}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" [(ngModel)]="model.jornada">
+                                <label asp-for="Jornada">Jornada</label>
+                            </div>
+                            <span *ngIf="ferr('Jornada')" class="text-danger">{{ terr('Jornada') }}</span>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" [(ngModel)]="model.sueldo">
+                                <label asp-for="Sueldo">Sueldo</label>
+                            </div>
+                            <span *ngIf="ferr('Sueldo')" class="text-danger">{{ terr('Sueldo') }}</span>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" [(ngModel)]="model.cantidad">
+                                <label asp-for="Cantidad">Cantidad</label>
+                            </div>
+                            <span *ngIf="ferr('Cantidad')" class="text-danger">{{ terr('Cantidad') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-save"></i> Guardar</button>
+
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

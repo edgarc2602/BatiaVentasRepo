@@ -1,0 +1,79 @@
+<div class="modal fade" id="modalLimpiezaMaterialOperario">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-capitalize">{{ tipo }}</h4>
+                <!--<h6 class="modal-title text-black-50 ms-2 mt-1"> @Model.NombreSucursal - @Model.DescripcionPuesto</h6>-->
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <!--<mateadd-widget (sendEvent)="open()"></mateadd-widget>-->
+                <div class="row mb-3">
+                    <div>
+                        <div class="float-end">
+                            <a id="btnAgregarMaterial" (click)="agregarMaterial()" class="btn btn-outline-primary">
+                                <i class="fa-solid fa-plus"></i> Agregar {{ tipo }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div style="border-radius: 10px; overflow-x: hidden;">
+                    <table class="table table-borderless table-striped table-responsive">
+                        <tbody>
+                            <tr *ngFor="let mat of model.materialesCotizacion">
+                                <td>
+                                    <div class="row pb-2 text-center">
+                                        <div class="col-6 col-sm-2">
+                                            <span class="badge text-dark">Clave:</span>
+                                            <div class="ms-2">{{ mat.claveProducto }}</div>
+                                        </div>
+                                        <div class="col-6 col-sm-4">
+                                            <span class="badge text-dark">Descripción:</span>
+                                            <div class="ms-2">{{ mat.descripcionMaterial }}</div>
+                                        </div>
+                                        <div class="col-6 col-sm-1">
+                                            <span class="badge text-dark">Precio:</span>
+                                            <div class="ms-2">{{ mat.precioUnitario | number: '0.2' }}</div>
+                                        </div>
+                                        <div class="col-6 col-sm-1">
+                                            <span class="badge text-dark">Cantidad:</span>
+                                            <div class="ms-2">{{ mat.cantidad | number: '0.2' }}</div>
+                                        </div>
+                                        <div class="col-6 col-sm-2">
+                                            <span class="badge text-dark">Frecuencia:</span>
+                                            <div class="ms-2">{{ mat.idFrecuencia }}</div>
+                                        </div>
+                                        <div class="col-6 col-sm-2">
+                                            <span class="badge text-dark">Total:</span>
+                                            <div class="ms-2">{{ mat.total | number: '0.2' }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle w-auto">
+                                    <div class="float-end">
+                                        <button type="button" (click)="select(mat.idMaterialCotizacion)" class="btn btn-sm text-primary mb-1" data-bs-toggle="tooltip" title="Editar">
+                                            <i class="fa-solid fa-pencil fa-2x"></i>
+                                        </button>
+                                        <button type="button" (click)="remove(mat.idMaterialCotizacion)" class="btn btn-sm text-danger mb-1" data-bs-toggle="tooltip" title="Descartar">
+                                            <i class="fa-solid fa-times fa-2x"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>

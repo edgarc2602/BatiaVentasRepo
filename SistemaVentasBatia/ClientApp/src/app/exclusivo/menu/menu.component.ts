@@ -1,0 +1,31 @@
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { StoreUser } from 'src/app/stores/StoreUser';
+
+@Component({
+    selector: 'ex-menu',
+    templateUrl: './menu.component.html'
+})
+export class ExMenuComponent {
+    isExpanded = false;
+
+    constructor(public user: StoreUser, private rtr: Router) {
+        if (user.idPersonal == undefined) {
+            rtr.navigate(['/']);
+        }
+    }
+
+    logout() {
+        localStorage.removeItem('singaUser');
+        window.location.reload();
+        //this.rtr.navigate(['/']);
+    }
+
+  collapse() {
+    this.isExpanded = false;
+  }
+
+  toggle() {
+    this.isExpanded = !this.isExpanded;
+  }
+}

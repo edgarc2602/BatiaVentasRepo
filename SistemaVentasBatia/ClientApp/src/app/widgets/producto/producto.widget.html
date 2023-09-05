@@ -1,0 +1,71 @@
+<div class="modal fade" id="modalAgregarProductoPuesto">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar producto</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="d-flex justify-content-end mb-3">
+                    <div>
+                        <button type="button" id="btnGuardarMaterial" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-save"></i> Guardar</button>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="Servicio" [(ngModel)]="idSer" (change)="chgServicio()">
+                                    <option value="0">Seleccione...</option>
+                                    <option *ngFor="let s of sers" [ngValue]="s.id">{{ s.nom }}</option>
+                                </select>
+                                <label for="Servicio">Servicio</label>
+                            </div>
+                            <!--<span *ngIf="ferr('NombreSucursal')" class="text-danger">{{ terr('NombreSucursal') }}</span>-->
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-floating">
+                                <select class="form-select" [(ngModel)]="model.claveProducto">
+                                    <option value="">Selecciona una opción...</option>
+                                    <option *ngFor="let m of lsmat" [ngValue]="m.clave">{{ m.descripcion }}</option>
+                                </select>
+                                <label for="ClaveProducto">Producto</label>
+                            </div>
+                            <span *ngIf="ferr('ClaveProducto')" class="text-danger">{{ terr('ClaveProducto') }}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6 col-md-4 col-sm-4">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" [(ngModel)]="model.cantidad">
+                                <label asp-for="Cantidad">Cantidad</label>
+                            </div>
+                            <span *ngIf="ferr('Cantidad')" class="text-danger">{{ terr('Cantidad') }}</span>
+                        </div>
+                        <div class="col-12 col-md-4 col-sm-4">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="IdFrecuencia" [(ngModel)]="model.idFrecuencia">
+                                    <option value="0">Selecciona una opción...</option>
+                                    <option *ngFor="let f of fres" [ngValue]="f.id">{{ f.nom }}</option>
+                                </select>
+                                <label asp-for="Cantidad">Frecuencia</label>
+                            </div>
+                            <span *ngIf="ferr('IdFrecuencia')" class="text-danger">{{ terr('IdFrecuencia') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
