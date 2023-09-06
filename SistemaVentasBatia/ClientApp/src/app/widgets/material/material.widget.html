@@ -29,7 +29,7 @@
                                         </div>
                                         <div class="col-6 col-sm-1">
                                             <span class="badge text-dark">Precio:</span>
-                                            <div class="ms-2">{{ mat.precioUnitario | number: '0.2' }}</div>
+                                            <div class="ms-2">${{ mat.precioUnitario | number: '0.2' }}</div>
                                         </div>
                                         <div class="col-6 col-sm-1">
                                             <span class="badge text-dark">Cantidad:</span>
@@ -41,7 +41,7 @@
                                         </div>
                                         <div class="col-6 col-sm-2">
                                             <span class="badge text-dark">Total:</span>
-                                            <div class="ms-2">{{ mat.total | number: '0.2' }}</div>
+                                            <div class="ms-2">${{ mat.total | number: '0.2' }}</div>
                                         </div>
                                     </div>
                                 </td>
@@ -55,9 +55,11 @@
                                         </button>
                                     </div>
                                 </td>
+
                             </tr>
                         </tbody>
                     </table>
+                        <div class="col-7 offset-3 text-end"><h4>Total: ${{total}}</h4></div>
                 </div>
             </div>
 

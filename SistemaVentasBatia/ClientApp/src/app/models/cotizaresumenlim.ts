@@ -16,4 +16,6 @@ export interface CotizaResumenLim {
     idCotizacionOriginal: number;
 
     nombreComercial: string;
+    utilidadPor: string;
+    indirectoPor: string;
 }

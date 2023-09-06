@@ -17,6 +17,7 @@ import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
 import { EliminaOperarioWidget } from 'src/app/widgets/eliminaOperario/eliminaOperario.widget';
 import { MaterialOperarioAddWidget } from 'src/app/widgets/materialoperarioadd/materialoperarioadd.widget';
 import { EliminaDirectorioWidget } from 'src/app/widgets/eliminadirectorio/eliminadirectorio.widget';
+import { ActualizaCotizacionWidget } from 'src/app/widgets/actualizacotizacion/actualizacotizacion.widget';
 
 
 import { Cotizacionupd } from 'src/app/models/cotizacionupd';
@@ -37,11 +38,16 @@ export class ResumenComponent implements OnInit, OnDestroy {
     @ViewChild(MaterialOperarioAddWidget, { static: false }) opeMat: MaterialOperarioAddWidget;
     @ViewChild(DireccionWidget, { static: false }) dirAdd: DireccionWidget;
     @ViewChild(PuestoWidget, { static: false }) pueAdd: PuestoWidget;
+    @ViewChild(EliminaWidget, { static: false }) eliw: EliminaWidget;
+    @ViewChild(ActualizaCotizacionWidget, { static: false }) actCot: ActualizaCotizacionWidget;
+    @ViewChild(EliminaOperarioWidget, { static: false }) eliope: EliminaOperarioWidget;
+    @ViewChild(EliminaDirectorioWidget, { static: false }) elidir: EliminaDirectorioWidget;
+
     sub: any;
     model: CotizaResumenLim = {
         idCotizacion: 0, idProspecto: 0, salario: 0, cargaSocial: 0, provisiones: 0,
         material: 0, uniforme: 0, equipo: 0, herramienta: 0,
-        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: ''
+        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: ''
     };
     dirs: ItemN[] = [];
     cotdirs: Catalogo[] = [];
@@ -62,27 +68,17 @@ export class ResumenComponent implements OnInit, OnDestroy {
     modelcot: Cotizacionupd = {
         idCotizacion: 0, indirecto: '', utilidad: ''
     };
-    indirectoValue: string = "";
-    utilidadValue: string = "";
+    indirectoValue: string = this.model.utilidadPor;
+    utilidadValue: string = this.model.indirectoPor;
+
 
     modelDir: DireccionCotizacion = {
         idCotizacion: 0, idDireccionCotizacion: 0, idDireccion: 0, nombreSucursal: ''
     };
-
-
     idpro: number = 0;
-    @ViewChild(EliminaWidget, { static: false }) eliw: EliminaWidget;
-
-    @ViewChild(EliminaOperarioWidget, { static: false }) eliope: EliminaOperarioWidget;
-    @ViewChild(EliminaDirectorioWidget, { static: false }) elidir: EliminaDirectorioWidget;
     idope: number = 0;
-
     idDC: number = 0;
 
-
-
-    //@ViewChild(MaterialOperarioAddWidget, { static: false }) mateope: MaterialOperarioAddWidget;
-    //ope: number = 0;
     constructor(
         @Inject('BASE_URL') private url: string, private http: HttpClient,
         private route: ActivatedRoute
@@ -91,7 +87,11 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.lsdir = {
             pagina: 1, idCotizacion: this.model.idProspecto, idProspecto: this.model.idProspecto,
             idDireccion: 0, direcciones: []
+
+
+
         };
+        
     }
 
 
@@ -99,7 +99,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.model = {
             idCotizacion: 0, idProspecto: 0, salario: 0, cargaSocial: 0, provisiones: 0,
             material: 0, uniforme: 0, equipo: 0, herramienta: 0,
-            subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: ''
+            subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: ''
         };
     }
 
@@ -262,6 +262,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
             let idcot: number = +params['id'];
             this.existe(idcot);
         });
+        
     }
 
     ngOnDestroy(): void {
@@ -298,7 +299,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.eliope.open();
     }
 
-    actualizarIndirectoUtilidad() {
+    actualizarIndirectoUtilidad($event) {
         this.modelcot.idCotizacion = this.model.idCotizacion;
         this.modelcot.indirecto = this.indirectoValue;
         this.modelcot.utilidad = this.utilidadValue;
@@ -310,14 +311,18 @@ export class ResumenComponent implements OnInit, OnDestroy {
         }
         location.reload();
     }
+
+
+
+
+
+
+
     validarSoloNumeros(utilidadValue: string): boolean {
         utilidadValue = this.utilidadValue;
         const regex = /^[0-9]+$/;
         return regex.test(utilidadValue);
     }
-
-
-
 
 
     validaDireccionCotizacion(idDireccionCotizacion) {
@@ -339,5 +344,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
             this.getMatPues(this.selPuesto, this.selDireccion, this.selTipo);
         }
     }
-    
+    validaActualizacionCotizacion() {
+        this.actCot.open();
+    }
 }

@@ -1,0 +1,31 @@
+<div class="modal fade" id="modalActualizarCotizacion">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Actualizar</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row mb-12">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" [(ngModel)]="clave">
+                            <label asp-for="RazonSocial">Ingresa la clave de autorización</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+                <button type="button" id="btnGuardarMaterial" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-save"></i> Enviar</button>
+                <!--(click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'material')"-->
+                <button type="button" class="btn btn-outline-secondary" (click)="close()" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>

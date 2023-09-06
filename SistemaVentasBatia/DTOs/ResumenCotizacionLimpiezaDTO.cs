@@ -26,5 +26,7 @@ namespace SistemaVentasBatia.DTOs
 
 
         public string NombreComercial { get; set; }
+        public string UtilidadPor { get; set; }
+        public string IndirectoPor { get; set; }
     }
 }

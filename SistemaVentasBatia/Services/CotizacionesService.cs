@@ -340,6 +340,11 @@ namespace SistemaVentasBatia.Services
             resumenCotizacion.Utilidad = (resumenCotizacion.SubTotal + resumenCotizacion.Indirecto) * obtenercot.Utilidad;
             resumenCotizacion.NombreComercial = obtenernombre.NombreComercial;
 
+            decimal indirecto = Math.Round((resumenCotizacion.Indirecto / resumenCotizacion.SubTotal) * 100);
+            decimal utilidad = Math.Round((resumenCotizacion.Utilidad / (resumenCotizacion.Indirecto + resumenCotizacion.SubTotal)) * 100);
+
+            resumenCotizacion.IndirectoPor = indirecto.ToString();
+            resumenCotizacion.UtilidadPor = utilidad.ToString();
             return resumenCotizacion;
         }
 

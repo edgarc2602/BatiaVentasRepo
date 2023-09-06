@@ -32,6 +32,7 @@ import { EliminaWidget } from './widgets/elimina/elimina.widget';
 import { EliminaOperarioWidget } from './widgets/eliminaOperario/eliminaOperario.widget';
 import { EliminaDirectorioWidget } from './widgets/eliminadirectorio/eliminadirectorio.widget';
 import { ProductoWidget } from './widgets/producto/producto.widget';
+import { ActualizaCotizacionWidget } from './widgets/actualizacotizacion/actualizacotizacion.widget';
 
 import { StoreUser } from './stores/StoreUser';
 
@@ -65,7 +66,8 @@ import { StoreUser } from './stores/StoreUser';
     EliminaWidget,
     EliminaOperarioWidget,
     ProductoWidget,
-    EliminaDirectorioWidget
+    EliminaDirectorioWidget,
+    ActualizaCotizacionWidget
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -81,7 +83,7 @@ import { StoreUser } from './stores/StoreUser';
         ]
       },
       {
-        path: 'exclusivo', component: ExclusivoComponent,
+          path: 'exclusivo', component: ExclusivoComponent,
         children: [
           { path: '', component: HomeComponent, pathMatch: 'full' },
           { path: 'prospecto', component: ProspectoComponent },
