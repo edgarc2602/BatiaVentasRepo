@@ -15,19 +15,33 @@
 <ul class="nav nav-tabs" id="tabconfig" role="tablist">
     <li class="nav-item" role="presentation">
         <button type="button" class="nav-link active" (click)="chgTab('material')" id="material-tab" data-bs-toggle="tab" data-bs-target="#material"
-        role="tab" aria-controls="material" aria-selected="true">Materiales</button>
+                role="tab" aria-controls="material" aria-selected="true">
+            Materiales
+        </button>
     </li>
     <li class="nav-item">
         <button type="button" class="nav-link" (click)="chgTab('uniforme')" id="uniforme-tab" data-bs-toggle="tab" data-bs-target="#uniforme"
-        role="tab" aria-controls="uniforme" aria-selected="false">Uniforme</button>
+                role="tab" aria-controls="uniforme" aria-selected="false">
+            Uniforme
+        </button>
     </li>
     <li class="nav-item">
         <button type="button" class="nav-link" (click)="chgTab('equipo')" id="equipo-tab" data-bs-toggle="tab" data-bs-target="#equipo"
-        role="tab" aria-controls="equipo" aria-selected="false">Equipo de seguridad</button>
+                role="tab" aria-controls="equipo" aria-selected="false">
+            Equipo de seguridad
+        </button>
     </li>
     <li class="nav-item">
         <button type="button" class="nav-link" (click)="chgTab('herramienta')" id="herramienta-tab" data-bs-toggle="tab" data-bs-target="#herramienta"
-        role="tab" aria-controls="herramienta" aria-selected="false">Herramienta</button>
+                role="tab" aria-controls="herramienta" aria-selected="false">
+            Herramienta
+        </button>
+    </li>
+    <li class="nav-item">
+        <button type="button" class="nav-link" (click)="openTab()" id="tabulador-tab" data-bs-toggle="tab" data-bs-target="#tabulador"
+                role="tab" aria-controls="tabulador" aria-selected="false">
+            Tabulador
+        </button>
     </li>
 </ul>
 <div class="tab-content pt-2" id="tabcontent">
@@ -155,6 +169,46 @@
             </tbody>
         </table>
     </div>
+
+
+    <div class="tab-pane fade show active" id="tabulador" role="tabpanel" aria-labelledby="tabulador-tab">
+        <!--<div class="row">
+            <div class="col d-flex justify-content-end">
+                <button type="button" (click)="openMat()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar producto</button>
+            </div>
+        </div>-->
+        <table class="table table-borderless text-center table-striped table-responsive">
+            <thead>
+                <tr class="bg-primary bg-opacity-75 text-white">
+
+                    <th>Id</th>
+                    <th>Salario Mixto</th>
+                    <th>Salario Mixto Frontera</th>
+                    <th>Salario Real</th>
+                    <th>Salario Real Frontera</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ sal.idPuesto }}</td>
+                    <td>{{ sal.salarioMixto }}</td>
+                    <td>{{ sal.salarioMixtoFrontera }}</td>
+                    <td>{{ sal.salarioReal }}</td>
+                    <td>{{ sal.salarioRealFrontera }}</td>
+                    <td>
+                        <button type="button" (click)="actualizarSalarios(sal.idPuesto)" class="btn btn-lg btn-outline-info">
+                            <i class="fa-solid fa-save"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
 </div>
 
 <producto-widget [idP]="selPuesto" [grupo]="grupo" (saveEvent)="closeMat($event)"></producto-widget>

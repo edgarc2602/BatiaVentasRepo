@@ -1,5 +1,6 @@
-import { Component, Inject, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+//import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { CotizaResumenLim } from 'src/app/models/cotizaresumenlim';
 import { ItemN } from 'src/app/models/item';
@@ -22,11 +23,8 @@ import { ActualizaCotizacionWidget } from 'src/app/widgets/actualizacotizacion/a
 
 import { Cotizacionupd } from 'src/app/models/cotizacionupd';
 
-
-
-
-
-
+import { Router } from '@angular/router';
+import { ReportService } from 'src/app/report.service';
 
 @Component({
     selector: 'resumen',
@@ -42,6 +40,11 @@ export class ResumenComponent implements OnInit, OnDestroy {
     @ViewChild(ActualizaCotizacionWidget, { static: false }) actCot: ActualizaCotizacionWidget;
     @ViewChild(EliminaOperarioWidget, { static: false }) eliope: EliminaOperarioWidget;
     @ViewChild(EliminaDirectorioWidget, { static: false }) elidir: EliminaDirectorioWidget;
+
+    @ViewChild('resumen', { static: false }) resumen: ElementRef;
+    @ViewChild('pdfCanvas', { static: true }) pdfCanvas: ElementRef;
+
+
 
     sub: any;
     model: CotizaResumenLim = {
@@ -70,6 +73,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
     };
     indirectoValue: string = this.model.utilidadPor;
     utilidadValue: string = this.model.indirectoPor;
+    CSV: string;
 
 
     modelDir: DireccionCotizacion = {
@@ -78,10 +82,17 @@ export class ResumenComponent implements OnInit, OnDestroy {
     idpro: number = 0;
     idope: number = 0;
     idDC: number = 0;
+    urlF: string = '';
+
+    reportData: Blob;
+    pdfUrl: string;
 
     constructor(
-        @Inject('BASE_URL') private url: string, private http: HttpClient,
-        private route: ActivatedRoute
+        @Inject('BASE_URL') private url: string,
+        private http: HttpClient,
+        private route: ActivatedRoute,
+        private router: Router,
+        private reportService: ReportService,
     ) {
         this.nuevo();
         this.lsdir = {
@@ -91,7 +102,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
 
 
         };
-        
+
     }
 
 
@@ -262,7 +273,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
             let idcot: number = +params['id'];
             this.existe(idcot);
         });
-        
+
     }
 
     ngOnDestroy(): void {
@@ -275,7 +286,6 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.eliw.mensaje = '¿Está seguro de que desea duplicar la cotización?';
         this.eliw.open();
     }
-
     elimina($event) {
         if ($event == true) {
             this.model.idCotizacion = this.model.idCotizacion;
@@ -298,7 +308,6 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.eliope.mensaje = '¿Está seguro de que desea eliminar al operario seleccionado?';
         this.eliope.open();
     }
-
     actualizarIndirectoUtilidad($event) {
         this.modelcot.idCotizacion = this.model.idCotizacion;
         this.modelcot.indirecto = this.indirectoValue;
@@ -311,27 +320,17 @@ export class ResumenComponent implements OnInit, OnDestroy {
         }
         location.reload();
     }
-
-
-
-
-
-
-
     validarSoloNumeros(utilidadValue: string): boolean {
         utilidadValue = this.utilidadValue;
         const regex = /^[0-9]+$/;
         return regex.test(utilidadValue);
     }
-
-
     validaDireccionCotizacion(idDireccionCotizacion) {
         this.idDC = idDireccionCotizacion;
         this.elidir.titulo = 'Eliminar directorio';
         this.elidir.mensaje = 'Nota: Eliminar el directorio tambien afectara a los items relacionados a el, ¿Está seguro de que desea eliminar el directorio seleccionado?';
         this.elidir.open();
     }
-
     eliminaDireccionCotizacion($event) {
         if ($event == true) {
             this.http.post(`${this.url}api/cotizacion/EliminarDireccionCotizacion`, this.idDC).subscribe(response => {
@@ -346,5 +345,32 @@ export class ResumenComponent implements OnInit, OnDestroy {
     }
     validaActualizacionCotizacion() {
         this.actCot.open();
+    }
+    descargarCotizacionComponent() {
+        this.iniciarAnimacion();
+        this.http.post(`${this.url}api/report/DescargarReporteCotizacion`, this.model.idCotizacion, { responseType: 'arraybuffer' })
+            .subscribe(
+                (data: ArrayBuffer) => {
+                    const pdfDataUrl = this.arrayBufferToDataUrl(data);
+                    window.open(pdfDataUrl, '_blank');
+                },
+                error => {
+                    console.error('Error al obtener el archivo PDF', error);
+                }
+            );
+    }
+    arrayBufferToDataUrl(buffer: ArrayBuffer): string {
+        const blob = new Blob([buffer], { type: 'application/pdf' });
+        const dataUrl = URL.createObjectURL(blob);
+        return dataUrl;
+    }
+
+    iniciarAnimacion() {
+        const boton = document.getElementById("miBoton") as HTMLButtonElement;
+        boton.disabled = true;
+
+        setTimeout(function () {
+            boton.disabled = false;
+        }, 2000);
     }
 }

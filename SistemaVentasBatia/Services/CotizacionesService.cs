@@ -339,13 +339,41 @@ namespace SistemaVentasBatia.Services
             resumenCotizacion.Indirecto = resumenCotizacion.SubTotal * obtenercot.CostoIndirecto;
             resumenCotizacion.Utilidad = (resumenCotizacion.SubTotal + resumenCotizacion.Indirecto) * obtenercot.Utilidad;
             resumenCotizacion.NombreComercial = obtenernombre.NombreComercial;
+            try
+            {
+                //decimal indirecto = (resumenCotizacion.Indirecto / resumenCotizacion.SubTotal) * 100M;
+                decimal indirecto;
+                if (resumenCotizacion.SubTotal != 0)
+                {
+                    indirecto = (resumenCotizacion.Indirecto / resumenCotizacion.SubTotal) * 100M;
+                }
+                else
+                {
+                    indirecto = 0;
+                }
 
-            decimal indirecto = Math.Round((resumenCotizacion.Indirecto / resumenCotizacion.SubTotal) * 100);
-            decimal utilidad = Math.Round((resumenCotizacion.Utilidad / (resumenCotizacion.Indirecto + resumenCotizacion.SubTotal)) * 100);
 
-            resumenCotizacion.IndirectoPor = indirecto.ToString();
-            resumenCotizacion.UtilidadPor = utilidad.ToString();
-            return resumenCotizacion;
+                //decimal utilidad = (resumenCotizacion.Utilidad / (resumenCotizacion.Indirecto + resumenCotizacion.SubTotal)) * 100;
+                decimal utilidad;
+                if ((resumenCotizacion.Indirecto + resumenCotizacion.SubTotal) != 0)
+                {
+                    utilidad = (resumenCotizacion.Utilidad / (resumenCotizacion.Indirecto + resumenCotizacion.SubTotal)) * 100;
+                }
+                else
+                {
+                    utilidad = 0; 
+                }
+                int indirectoint = Convert.ToInt32(indirecto);
+                int utilidadint = Convert.ToInt32(utilidad);
+
+                resumenCotizacion.IndirectoPor = indirectoint.ToString();
+                resumenCotizacion.UtilidadPor = utilidadint.ToString();
+                return resumenCotizacion;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public async Task EliminarCotizacion(int registroAEliminar)

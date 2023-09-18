@@ -15,6 +15,7 @@ namespace SistemaVentasBatia.Repositories
         Task<bool> Eliminar(int id);
         Task<Tabulador> Obtener(int id);
         Task<IEnumerable<Tabulador>> ObtenerPorEstado(int id);
+        Task<PuestoTabulador> ObtenerTabuladorPuesto(int id);
     }
 
     public class TabuladorRepository : ITabuladorRepository
@@ -64,9 +65,8 @@ namespace SistemaVentasBatia.Repositories
         public async Task<IEnumerable<Tabulador>> ObtenerPorEstado(int id)
         {
             IEnumerable<Tabulador> ls;
-            var query = @"SELECT id_tabulador as IdTabulador, nombre as Nombre, id_estado as IdEstado
-                        FROM tb_cotiza_tabulador a
-                        WHERE a.id_estado = isnull(nullif(@id, 0), a.id_estado);";
+            var query = @"SELECT id_tiposalario as IdTabulador, descripcion as Nombre
+                        FROM tb_tiposalario a";
             try
             {
                 using (var connection = ctx.CreateConnection())
@@ -80,5 +80,53 @@ namespace SistemaVentasBatia.Repositories
             }
             return ls;
         }
+        //public async Task<IEnumerable<Tabulador>> ObtenerPorEstado(int id)
+        //{
+        //    IEnumerable<Tabulador> ls;
+        //    var query = @"SELECT id_tabulador as IdTabulador, nombre as Nombre, id_estado as IdEstado
+        //                FROM tb_cotiza_tabulador a
+        //                WHERE a.id_estado = isnull(nullif(@id, 0), a.id_estado);";
+        //    try
+        //    {
+        //        using (var connection = ctx.CreateConnection())
+        //        {
+        //            ls = (await connection.QueryAsync<Tabulador>(query, new { id })).ToList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //    return ls;
+        //}
+
+
+        public async Task<PuestoTabulador> ObtenerTabuladorPuesto(int id)
+        {
+            PuestoTabulador result = new PuestoTabulador();
+            var query = @"SELECT 
+id_puestosalario IdPuestoSalario,
+id_puesto IdPuesto,
+salariomixto SalarioMixto,
+salariomixto_frontera SalarioMixtoFrontera,
+salarioreal SalarioReal,
+salarioreal_frontera SalarioRealFrontera
+FROM tb_puesto_salario 
+WHERE id_puesto = @id";
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    result = await connection.QueryFirstAsync<PuestoTabulador>(query, new { id });
+                    //resumen = await connection.QueryFirstAsync<ResumenCotizacionLimpieza>(query, new { idCotizacion });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return result;
+        }
+
     }
 }

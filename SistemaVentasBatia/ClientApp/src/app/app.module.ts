@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { CounterComponent } from './colectivo/counter/counter.component';
 import { FetchDataComponent } from './colectivo/fetch-data/fetch-data.component';
@@ -36,6 +35,8 @@ import { ActualizaCotizacionWidget } from './widgets/actualizacotizacion/actuali
 
 import { StoreUser } from './stores/StoreUser';
 
+import { DescargarComponent } from './exclusivo/cotizacion/descargar/descargar.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,8 +68,10 @@ import { StoreUser } from './stores/StoreUser';
     EliminaOperarioWidget,
     ProductoWidget,
     EliminaDirectorioWidget,
-    ActualizaCotizacionWidget
-  ],
+    ActualizaCotizacionWidget,
+        
+        DescargarComponent,
+    ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -92,7 +95,8 @@ import { StoreUser } from './stores/StoreUser';
           { path: 'cotiza/:idp', component: CotizacionComponent },
           { path: 'nuevocot', component: CotizaComponent },
           { path: 'resumen/:id', component: ResumenComponent },
-          { path: 'catalogo', component: CatalogoComponent }
+          { path: 'catalogo', component: CatalogoComponent },
+          { path: 'descargar/:id', component: DescargarComponent }
         ]
       }
     ])

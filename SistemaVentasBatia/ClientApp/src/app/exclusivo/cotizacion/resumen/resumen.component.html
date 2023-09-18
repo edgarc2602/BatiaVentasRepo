@@ -1,9 +1,13 @@
 <div [@fadeInOut]>
     <meta charset="UTF-8">
     <br />
+    <link rel="stylesheet" type="text/css" href="/ClientApp/src/app/exclusivo/cotizacion/resumen/Effects.css">
     <div class="pt-1 mb-3">
         <div class="float-end">
-            <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
+            <!--<button type="submit" (click)="descargarCotizacion(model.idCotizacion)" class="btn btn-outline-info"><i class="fa-solid fa-download"></i>  Descargar cotización</button><br><br>-->
+            <!--<button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>-->
+            <button type="button" id="miBoton" (click)="descargarCotizacionComponent()" class="btn btn-outline-info"><i class="fa-solid fa-download"></i> Descargar Cotización</button>
+            <script src="../../cotizacion/resumen/"></script>
         </div>
         <h2 class="text-black-90">Cotización {{model.nombreComercial}}</h2>
         <h6 class="text-black-50">Id: {{model.idCotizacion}}</h6>
@@ -151,11 +155,11 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Costo Indirecto (%)</h5></div>
                                     <div class="col-1">
-                                        <input type="text" class="form-control aliggn-content-start" id="indirecto" name="indirecto" [(ngModel)]="indirectoValue"  placeholder="{{model.indirectoPor}}" autocomplete="off" required>
+                                        <input type="text" class="form-control aliggn-content-start" id="indirecto" name="indirecto" [(ngModel)]="indirectoValue" placeholder="{{model.indirectoPor}}" autocomplete="off" required>
                                     </div>
                                     <!--<div class="col-1">
-                                        <div class="col-2 text-start"><h5>%</h5></div>
-                                    </div>-->
+                    <div class="col-2 text-start"><h5>%</h5></div>
+                </div>-->
                                     <div class="col-2 text-end"><h5>${{ model.indirecto | number: '1.2' }}</h5></div>
                                 </div>
                             </td>
@@ -173,11 +177,8 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Utilidad (%)</h5></div>
                                     <div class="col-1">
-                                        <input type="text" class="form-control" id="utilidad" name="utilidad" [(ngModel)]="utilidadValue" (input)="validarSoloNumeros(utilidadValue)" placeholder="{{model.utilidadPor}}" autocomplete="off" required >
+                                        <input type="text" class="form-control" id="utilidad" name="utilidad" [(ngModel)]="utilidadValue" (input)="validarSoloNumeros(utilidadValue)" placeholder="{{model.utilidadPor}}" autocomplete="off" required>
                                     </div>
-                                    <!--<div class="col-1">
-                                        <div class="col-2 text-start"><h5>%</h5></div>
-                                    </div>-->
                                     <div class="col-2  text-end"><h5>${{ model.utilidad | number: '1.2' }}</h5></div>
                                 </div>
                             </td>
@@ -190,12 +191,37 @@
                                 </div>
                             </td>
                         </tr>
+
+
+
+                        <tr>
+                            <td class="border-bottom border-success">
+                                <div class="row">
+                                    <div class="col-3 offset-3 text-start"><h5>Comision sobre venta (%)</h5></div>
+                                    <div class="col-1">
+                                        <input type="text" class="form-control" id="CSV" name="CSV" [(ngModel)]="CSV" (input)="validarSoloNumeros(utilidadValue)" autocomplete="off" required>
+                                    </div>
+                                    <div class="col-2  text-end"><h5>${{ (model.subTotal + model.indirecto + model.utilidad) * 0.02 | number: '1.2' }}</h5></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border-bottom">
+                                <div class="row">
+                                    <div class="col-3 offset-6  text-end text-success"><h5>${{ (model.subTotal + model.indirecto + model.utilidad) * 1.02 | number: '1.2' }}</h5></div>
+                                    <div class="col-3 text-start text-success"><h5>Total CSV</h5></div>
+                                </div>
+                            </td>
+                        </tr>
+
+
+
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h4>Total</h4></div>
                                     <!--<div class="col-3  text-end"><h5>   { model.total | number: '1.2' }   </h5></div>-->
-                                    <div class="col-3  text-end"><h4>${{ model.subTotal + model.indirecto + model.utilidad | number: '1.2' }}</h4></div>
+                                    <div class="col-3  text-end"><h4>${{ (model.subTotal + model.indirecto + model.utilidad) * 1.02 | number: '1.2' }}</h4></div>
                                 </div>
                             </td>
                         </tr>
@@ -210,7 +236,14 @@
                         </div>
                         <div class="col-3">
                             <!--<button type="submit" class="btn btn-outline-info" (click)="actualizarIndirectoUtilidad()">Actualizar</button><br><br>-->
-                            <button type="submit" class="btn btn-outline-info" (click)="validaActualizacionCotizacion()">Actualizar</button><br><br>
+                            <button type="submit" class="btn btn-outline-success" (click)="validaActualizacionCotizacion()">Actualizar</button><br><br>
+                        </div>
+                        <div class="col-2">
+
+                        </div>
+                        <div class="col-4">
+                            <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
+                            <!--<button type="submit" class="btn btn-outline-info" (click)="descargarCotizacion()">Descargar cotización</button><br><br>-->
                         </div>
                     </div>
                 </form>
@@ -316,10 +349,14 @@
                                     <tbody>
                                         <tr *ngFor="let pt of filtroPlan(dir.idDireccionCotizacion)" id="tr{{ pt.idPuestoDireccionCotizacion }}">
                                             <td>
-                                                <div class="row pb-2">
+                                                <div class="row pb-3">
                                                     <div class="col-6 col-sm-2">
                                                         <span class="badge text-dark">Puesto:</span>
                                                         <div class="ms-1">{{ pt.puesto }}</div>
+                                                    </div>
+                                                    <div class="col-6 col-sm-2 ">
+                                                        <span class="badge text-dark">Cantidad:</span>
+                                                        <div class="ms-1">{{ pt.cantidad }}</div>
                                                     </div>
                                                     <div class="col-6 col-sm-4">
                                                         <span class="badge text-dark">Horario:</span>
@@ -358,6 +395,7 @@
                                                         <span class="badge text-dark">Total:</span>
                                                         <div class="ms-1">$ {{ pt.total | number: '0.2' }}</div>
                                                     </div>
+
                                                 </div>
                                             </td>
                                             <td class="align-middle w-auto">
@@ -485,7 +523,8 @@
             </div>
         </div>
     </div>
-</div>  
+</div> 
+
 
 <direc-widget (smEvent)="saveDir($event)"></direc-widget>
 <pues-widget (smEvent)="savePlan($event)"></pues-widget>

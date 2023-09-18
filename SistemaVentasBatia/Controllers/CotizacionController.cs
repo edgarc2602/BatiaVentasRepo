@@ -11,6 +11,10 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using SistemaVentasBatia.Enums;
 using SistemaVentasBatia.Models;
+using System.IO;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Text;
 
 namespace SistemaVentasBatia.Controllers
 {
@@ -22,7 +26,7 @@ namespace SistemaVentasBatia.Controllers
         private readonly ICotizacionesService cotizacionesSvc;
         private readonly IProspectosService prospectosSvc;
         private readonly ICatalogosService catalogosSvc;
-
+        
         public CotizacionController(ILogger<CotizacionController> logger, ICotizacionesService cotizacionesSvc, IProspectosService prospectosSvc, ICatalogosService catalogosSvc)
         {
             _logger = logger;
@@ -30,6 +34,8 @@ namespace SistemaVentasBatia.Controllers
             this.prospectosSvc = prospectosSvc;
             this.catalogosSvc = catalogosSvc;
         }
+
+
 
         [HttpGet("{pagina}")]
         public async Task<ActionResult<ListaCotizacionDTO>> Index(int idProspecto, EstatusCotizacion estatus, int servicio, int pagina = 1)

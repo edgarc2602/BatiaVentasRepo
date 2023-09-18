@@ -54,25 +54,25 @@
                             <span class="badge  text-dark">RFC:</span>
                             <div class="ms-2">{{ prospecto.rfc }}</div>
                         </div>
-                        <div class="col-6 col-sm-3">
-                            <span class="badge  text-dark">Representante Legal:</span>
-                            <div class="ms-2">{{ prospecto.representanteLegal }}</div>
-                        </div>
+                        <!--<div class="col-6 col-sm-3">
+                            <span class="badge  text-dark">Representante Legal:</span>-->
+                            <!--<div class="ms-2">{prospecto.representanteLegal /div>-->
+                        <!--</div>-->
                         <div class="col-6 col-sm-3">
                             <span class="badge  text-dark">Domicilio Fiscal:</span>
                             <div class="ms-2">{{ prospecto.domicilioFiscal }}</div>
                         </div>
                         <div class="col-6 col-sm-3">
                             <span class="badge  text-dark">Teléfono:</span>
-                            <div class="ms-2">{{ prospecto.telefono }}</div>
+                            <div class="ms-2">{{ prospecto.numeroContacto }}</div>
                         </div>
-                        <div class="col-6 col-sm-3">
+                        <div class="col-2 col-sm-3">
                             <span class="badge  text-dark">Fecha Alta:</span>
                             <div class="ms-2">{{ prospecto.fechaAlta | date: 'dd-MM-yyyy' }}</div>
                         </div>
                         <div class="col-6 col-sm-3">
                             <span class="badge  text-dark">Usuario Alta:</span>
-                            <div class="ms-2"></div>
+                            <div class="ms-2">{{ prospecto.representanteLegal }}</div>
                         </div>
                     </div>
                 </td>

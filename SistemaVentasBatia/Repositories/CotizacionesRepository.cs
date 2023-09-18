@@ -68,15 +68,15 @@ namespace SistemaVentasBatia.Repositories
 
         public async Task InsertaCotizacion(Cotizacion cotizacion)
         {
-            var query = @"declare @idp int = 0, @pci decimal(5, 4), @pu decimal (5, 4);
+            var query = @"declare @idp int = 0, @pci decimal(5, 4), @pu decimal (5, 4), @cv decimal (5,4);
 
-                        select top (1) @idp = id_porcentaje, @pci = costoindirecto, @pu = utilidad
+                        select top (1) @idp = id_porcentaje, @pci = costoindirecto, @pu = utilidad, @cv = comision_venta
                         from tb_cotiza_porcentaje
                         where fechaaplica <= @FechaAlta
                         order by id_porcentaje desc;
 
-                        insert into tb_cotizacion(id_prospecto, id_servicio, costo_indirecto, utilidad, total, id_estatus_cotizacion, fecha_alta, id_personal, id_porcentaje)
-                        values(@IdProspecto, @IdServicio, @pci, @pu, @Total, @IdEstatusCotizacion, @FechaAlta, @IdPersonal, @idp)
+                        insert into tb_cotizacion(id_prospecto, id_servicio, costo_indirecto, utilidad, total, id_estatus_cotizacion, fecha_alta, id_personal, id_porcentaje, comision_venta)
+                        values(@IdProspecto, @IdServicio, @pci, @pu, @Total, @IdEstatusCotizacion, @FechaAlta, @IdPersonal, @idp, @cv)
                         select scope_identity()";
             try
             {

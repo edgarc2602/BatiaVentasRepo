@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SistemaVentasBatia.Enums;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SistemaVentasBatia.Repositories
 {
@@ -87,9 +88,10 @@ namespace SistemaVentasBatia.Repositories
         public async Task<List<Prospecto>> ObtenerProspectos(int pagina, EstatusProspecto idEstatusProspecto, string keywords)
         {        
             var query = @"SELECT ROW_NUMBER() OVER ( ORDER BY id_prospecto desc ) AS RowNum, id_prospecto IdProspecto, nombre_comercial NombreComercial , razon_social RazonSocial, rfc Rfc, 
-				                domicilio_fiscal DomicilioFiscal, telefono Telefono, representante_legal RepresentanteLegal , documentacion Documentacion, 
-				                id_estatus_prospecto IdEstatusProspecto, fecha_alta FechaAlta, id_personal IdPersonal
+				                domicilio_fiscal DomicilioFiscal, telefono Telefono,numero_contacto NumeroContacto, p.Per_Nombre + ' ' + p.Per_Paterno +' ' + p.Per_Materno RepresentanteLegal , documentacion Documentacion, 
+				                id_estatus_prospecto IdEstatusProspecto, tb_prospecto.fecha_alta FechaAlta, id_personal IdPersonal
                         FROM tb_prospecto
+						INNER JOIN dbo.Personal p on tb_prospecto.id_personal = p.IdPersonal
                         WHERE
                             ISNULL(NULLIF(@idEstatusProspecto,0), id_estatus_prospecto) = id_estatus_prospecto AND
                             nombre_comercial like '%' + @keywords + '%'

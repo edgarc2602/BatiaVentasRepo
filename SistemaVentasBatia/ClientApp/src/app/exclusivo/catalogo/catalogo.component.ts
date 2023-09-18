@@ -4,6 +4,8 @@ import { Catalogo } from 'src/app/models/catalogo';
 import { ProductoItem } from 'src/app/models/productoitem';
 import { ProductoWidget } from 'src/app/widgets/producto/producto.widget';
 
+import { PuestoTabulador } from 'src/app/models/puestotabulador';
+
 @Component({
     selector: 'catalogo-comp',
     templateUrl: './catalogo.component.html'
@@ -15,6 +17,11 @@ export class CatalogoComponent {
     mates: ProductoItem[] = [];
     grupo: string = 'material';
 
+    sal: PuestoTabulador = {
+        idPuesto: 0, idPuestoSalario: 0, salarioMixto: 0, salarioMixtoFrontera: 0, salarioReal: 0, salarioRealFrontera: 0
+    };
+    
+
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
             this.pues = response;
@@ -23,6 +30,7 @@ export class CatalogoComponent {
 
     chgPuesto() {
         this.getMaterial();
+        this.openTab();
     }
 
     chgTab(nm: string) {
@@ -50,6 +58,13 @@ export class CatalogoComponent {
         this.prow.inicio();
     }
 
+    openTab() {
+        this.mates = [];
+        this.http.get<PuestoTabulador>(`${this.url}api/tabulador/ObtenerTabuladorPuesto/${this.selPuesto}`).subscribe(response => {
+            this.sal = response;
+        }, err => console.log(err));
+    }
+
     closeMat($event) {
         this.getMaterial();
     }
@@ -65,5 +80,8 @@ export class CatalogoComponent {
         this.http.delete<boolean>(`${this.url}api/producto/del${this.grupo}/${id}`).subscribe(response => {
             this.getMaterial();
         }, err => console.log(err));
+    }
+
+    actualizarSalarios(id: number) {
     }
 }
