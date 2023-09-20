@@ -249,5 +249,13 @@ namespace SistemaVentasBatia.Controllers
 
             return ls;
         }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult<PuestoTabulador>> ActualizarSalarios([FromBody] PuestoTabulador salarios)
+        {
+            await cotizacionesSvc.ActualizarSalarios(salarios);
+            return salarios;
+            
+        }
     }
 }

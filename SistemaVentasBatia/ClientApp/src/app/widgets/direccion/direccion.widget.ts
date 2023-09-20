@@ -74,7 +74,7 @@ export class DireccionWidget {
     }
 
     chgEdo() {
-        this.http.get<Catalogo[]>(`${this.url}api/tabulador/getbyedo/${this.model.idEstado}`).subscribe(response => {
+        this.http.get<Catalogo[]>(`${this.url}api/tabulador/getbyedo/${1}`).subscribe(response => {
             this.tabs = response;
         }, err => console.log(err));
     }
@@ -109,6 +109,7 @@ export class DireccionWidget {
         let docModal = document.getElementById('modalAgregarDireccion');
         let myModal = bootstrap.Modal.getOrCreateInstance(docModal);
         myModal.show();
+        this.chgEdo();
     }
 
     close() {

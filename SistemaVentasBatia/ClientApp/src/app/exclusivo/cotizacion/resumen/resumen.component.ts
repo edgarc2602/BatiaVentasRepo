@@ -162,7 +162,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
             }, err => console.log(err));
         }
     }
-
+    
     getPlan() {
         this.http.get<ListaPuesto>(`${this.url}api/cotizacion/${this.model.idCotizacion}/0/0`).subscribe(response => {
             this.lspue = response;

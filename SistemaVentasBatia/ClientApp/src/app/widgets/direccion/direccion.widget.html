@@ -39,7 +39,7 @@
 
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <select class="form-select" aria-label="IdEstado" [(ngModel)]="model.idEstado" (change)="chgEdo()">
+                                <select class="form-select" aria-label="IdEstado" [(ngModel)]="model.idEstado">
                                     <!--(change)="chgEdo()"-->
                                     <option *ngFor="let e of edos" [ngValue]="e.id">{{ e.descripcion }}</option>
                                 </select>

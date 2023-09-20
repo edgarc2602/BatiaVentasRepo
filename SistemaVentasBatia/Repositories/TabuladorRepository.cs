@@ -118,7 +118,6 @@ WHERE id_puesto = @id";
                 using (var connection = ctx.CreateConnection())
                 {
                     result = await connection.QueryFirstAsync<PuestoTabulador>(query, new { id });
-                    //resumen = await connection.QueryFirstAsync<ResumenCotizacionLimpieza>(query, new { idCotizacion });
                 }
             }
             catch (Exception ex)

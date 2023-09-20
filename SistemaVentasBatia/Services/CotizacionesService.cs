@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SistemaVentasBatia.Enums;
 using System.Runtime.CompilerServices;
+using SistemaVentasBatia.Controllers;
 
 namespace SistemaVentasBatia.Services
 {
@@ -32,6 +33,7 @@ namespace SistemaVentasBatia.Services
 
         Task<ListaMaterialesCotizacionLimpiezaDTO> ObtenerMaterialCotizacionLimpieza(int id);
         Task ActualizarPuestoDireccionCotizacion(PuestoDireccionCotizacionDTO operarioVM);
+        Task <Boolean>ActualizarSalarios(PuestoTabulador salarios);
         Task<int> ObtieneIdCotizacionPorOperario(int idPuestoDireccionCotizacion);
         Task<int> ObtieneIdDireccionCotizacionPorOperario(int idPuestoDireccionCotizacion);
         Task<int> ObtenerIdPuestoDireccionCotizacionPorMaterial(int registroAEliminar);
@@ -370,7 +372,7 @@ namespace SistemaVentasBatia.Services
                 resumenCotizacion.UtilidadPor = utilidadint.ToString();
                 return resumenCotizacion;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -664,6 +666,12 @@ namespace SistemaVentasBatia.Services
             return turno == Enums.Turno.MEDIO ? (Frecuencia)((int)frecuencia * 2) :
                         (turno == Enums.Turno.CUARTO ? (Frecuencia)((int)frecuencia * 4) :
                         (Frecuencia)frecuencia);
+        }
+
+        public async Task<bool> ActualizarSalarios(PuestoTabulador salarios)
+        {
+            bool result =  await cotizacionesRepo.ActualizarSalarios(salarios);
+            return result;
         }
     }
 }

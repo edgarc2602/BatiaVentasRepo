@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SistemaVentasBatia.DTOs;
+using SistemaVentasBatia.Enums;
+using SistemaVentasBatia.Models;
 using SistemaVentasBatia.Services;
 
 namespace SistemaVentasBatia.Controllers
@@ -42,7 +44,7 @@ namespace SistemaVentasBatia.Controllers
             return operarioVM;
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<ActionResult<bool>> EditarOperario([FromBody] PuestoDireccionCotizacionDTO operarioVM)
         {
             await _logic.ActualizarPuestoDireccionCotizacion(operarioVM);
@@ -67,5 +69,7 @@ namespace SistemaVentasBatia.Controllers
 
             return true;
         }
+
+        
     }
 }

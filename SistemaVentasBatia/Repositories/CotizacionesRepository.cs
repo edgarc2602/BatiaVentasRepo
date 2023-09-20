@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using SistemaVentasBatia.Enums;
 using SistemaVentasBatia.Controllers;
 using System.Reflection;
+using Microsoft.AspNetCore.Connections;
+using System.Reflection.Metadata.Ecma335;
 
 namespace SistemaVentasBatia.Repositories
 {
@@ -56,6 +58,8 @@ namespace SistemaVentasBatia.Repositories
         Task CopiarUniforme(UniformeCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
         Task CopiarEquipo(EquipoCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
         Task CopiarHerramienta(HerramientaCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
+
+        Task<bool> ActualizarSalarios(PuestoTabulador salarios);
     }
 
     public class CotizacionesRepository : ICotizacionesRepository
@@ -313,7 +317,7 @@ namespace SistemaVentasBatia.Repositories
                 using (var connection = ctx.CreateConnection())
                 {
                     resumen = await connection.QueryFirstAsync<ResumenCotizacionLimpieza>(query, new { idCotizacion });
-                    }
+                }
             }
             catch (Exception ex)
             {
@@ -323,7 +327,7 @@ namespace SistemaVentasBatia.Repositories
         }
 
 
-        public async Task<Cotizacion> ObtenerNombreComercialCotizacion (int idCotizacion)
+        public async Task<Cotizacion> ObtenerNombreComercialCotizacion(int idCotizacion)
         {
             var query = @"SELECT p.nombre_comercial NombreComercial FROM tb_cotizacion c
                           INNER JOIN tb_prospecto p on c.id_prospecto = p.id_prospecto
@@ -457,7 +461,7 @@ DELETE FROM tb_cotiza_herramienta WHERE id_direccion_cotizacion = @idDireccionCo
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                        await connection.ExecuteAsync(query, new { idDireccionCotizacion });
+                    await connection.ExecuteAsync(query, new { idDireccionCotizacion });
                 }
             }
             catch (Exception ex)
@@ -534,7 +538,7 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             return idCotizacionNueva;
         }
 
-        public async Task ActualizarIndirectoUtilidad(int idCotizacion ,string indirecto, string utilidad)
+        public async Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad)
         {
             decimal indirectoval = decimal.Parse(indirecto);
             decimal utilidadval = decimal.Parse(utilidad);
@@ -551,7 +555,7 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             }
             else
             {
-                 indirectofin = basemayor + indirecto;
+                indirectofin = basemayor + indirecto;
             }
             if (utilidadval < 10)
             {
@@ -572,7 +576,7 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    await connection.ExecuteAsync(query, new {idCotizacion, indirectodec, utilidaddec });
+                    await connection.ExecuteAsync(query, new { idCotizacion, indirectodec, utilidaddec });
                 }
             }
             catch (Exception ex)
@@ -1310,13 +1314,28 @@ WHERE id_cotizacion = @idCotizacion";
                 throw ex;
             }
         }
+        public async Task<bool> ActualizarSalarios(PuestoTabulador salarios)
+        {
+            var query = @"UPDATE tb_puesto_salario
+                        SET 
+salariomixto = @SalarioMixto, 
+salariomixto_frontera = @SalarioMixtoFrontera,
+salarioreal = @SalarioReal, 
+salarioreal_frontera = @SalarioRealFrontera
+                        WHERE id_puesto = @IdPuesto";
+            try
+            {
+                using (var connectiom = ctx.CreateConnection())
+                {
+                    await connectiom.ExecuteAsync(query, salarios);
+                }
 
-
-
-
-
-
-
-
+            }
+            catch
+            {   
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -38,19 +38,15 @@
         </button>
     </li>
     <li class="nav-item">
-        <button type="button" class="nav-link" (click)="openTab()" id="tabulador-tab" data-bs-toggle="tab" data-bs-target="#tabulador"
+        <button type="button" class="nav-link" id="tabulador-tab" data-bs-toggle="tab" data-bs-target="#tabulador"
                 role="tab" aria-controls="tabulador" aria-selected="false">
             Tabulador
         </button>
     </li>
 </ul>
 <div class="tab-content pt-2" id="tabcontent">
-    <div class="tab-pane fade show active" id="material" role="tabpanel" aria-labelledby="material-tab">
-        <div class="row">
-            <div class="col d-flex justify-content-end">
-                <button type="button" (click)="openMat()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar producto</button>
-            </div>
-        </div>
+    <div class="tab-pane fade show active text-center" style="border-radius: 10px; overflow-x: hidden;" id="material" role="tabpanel" aria-labelledby="material-tab">
+
         <table class="table table-borderless table-striped table-responsive">
             <thead>
                 <tr class="bg-primary bg-opacity-75 text-white">
@@ -75,13 +71,50 @@
                 </tr>
             </tbody>
         </table>
+        
+        <div class="row">
+            <div class="col d-flex justify-content-end">
+                <button type="button" (click)="openMat()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar producto</button>
+            </div>
+        </div>
+        <br>
     </div>
-    <div class="tab-pane fade" id="uniforme" role="tabpanel" aria-labelledby="uniforme-tab">
+    <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="uniforme" role="tabpanel" aria-labelledby="uniforme-tab">
+
+        <table class="table table-borderless table-striped table-responsive">
+            <thead>
+                <tr class="bg-primary bg-opacity-75 text-white">
+                    <th>Clave</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Frecuencia</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let mt of mates">
+                    <td>{{ mt.claveProducto }}</td>
+                    <td>{{ mt.descripcion }}</td>
+                    <td>{{ mt.cantidad }}</td>
+                    <td>{{ mt.idFrecuencia }}</td>
+                    <td>
+                        <button type="button" (click)="deleteMat(mt.idMaterialPuesto)" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
         <div class="row">
             <div class="col d-flex justify-content-end">
                 <button type="button" (click)="openUni()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar uniforme</button>
             </div>
         </div>
+        <br>
+    </div>
+    <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">
+
         <table class="table table-borderless table-striped table-responsive">
             <thead>
                 <tr class="bg-primary bg-opacity-75 text-white">
@@ -106,13 +139,16 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div class="tab-pane fade" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">
+        
         <div class="row">
             <div class="col d-flex justify-content-end">
                 <button type="button" (click)="openEqui()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar equipo</button>
             </div>
         </div>
+        <br>
+    </div>
+    <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="herramienta" role="tabpanel" aria-labelledby="herramienta-tab">
+
         <table class="table table-borderless table-striped table-responsive">
             <thead>
                 <tr class="bg-primary bg-opacity-75 text-white">
@@ -137,51 +173,19 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div class="tab-pane fade" id="herramienta" role="tabpanel" aria-labelledby="herramienta-tab">
+        
         <div class="row">
             <div class="col d-flex justify-content-end">
                 <button type="button" (click)="openHer()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar herramienta</button>
             </div>
         </div>
-        <table class="table table-borderless table-striped table-responsive">
-            <thead>
-                <tr class="bg-primary bg-opacity-75 text-white">
-                    <th>Clave</th>
-                    <th>Descripción</th>
-                    <th>Cantidad</th>
-                    <th>Frecuencia</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let mt of mates">
-                    <td>{{ mt.claveProducto }}</td>
-                    <td>{{ mt.descripcion }}</td>
-                    <td>{{ mt.cantidad }}</td>
-                    <td>{{ mt.idFrecuencia }}</td>
-                    <td>
-                        <button type="button" (click)="deleteMat(mt.idMaterialPuesto)" class="btn btn-sm btn-outline-danger">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <br>
     </div>
+    <div class= "tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="tabulador" role="tabpanel" aria-labelledby="tabulador-tab">
 
-
-    <div class="tab-pane fade show active" id="tabulador" role="tabpanel" aria-labelledby="tabulador-tab">
-        <!--<div class="row">
-            <div class="col d-flex justify-content-end">
-                <button type="button" (click)="openMat()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar producto</button>
-            </div>
-        </div>-->
         <table class="table table-borderless text-center table-striped table-responsive">
             <thead>
                 <tr class="bg-primary bg-opacity-75 text-white">
-
-                    <th>Id</th>
                     <th>Salario Mixto</th>
                     <th>Salario Mixto Frontera</th>
                     <th>Salario Real</th>
@@ -191,21 +195,39 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ sal.idPuesto }}</td>
-                    <td>{{ sal.salarioMixto }}</td>
-                    <td>{{ sal.salarioMixtoFrontera }}</td>
-                    <td>{{ sal.salarioReal }}</td>
-                    <td>{{ sal.salarioRealFrontera }}</td>
-                    <td>
-                        <button type="button" (click)="actualizarSalarios(sal.idPuesto)" class="btn btn-lg btn-outline-info">
-                            <i class="fa-solid fa-save"></i>
-                        </button>
-                    </td>
+                    <td><input #salarioMixtotxt type="number" class="form-control aliggn-content-center" id="salarioMixto" name="salarioMixto" value="{{ sal.salarioMixto }}" [(ngModel)]="salarioMixto" placeholder="{{ sal.salarioMixto }}" autocomplete="off" required></td>
+                    <td><input #salarioMixtoFronteratxt type="number" class="form-control aliggn-content-center" id="salarioMixtoFrontera" name="salarioMixtoFrontera" value="{{ sal.salarioMixtoFrontera }}" [(ngModel)]="salarioMixtoFrontera" placeholder="{{ sal.salarioMixtoFrontera }}" autocomplete="off" required></td>
+                    <td><input #salarioRealtxt type="number" class="form-control aliggn-content-center" id="salarioReal" name="salarioReal" value="{{ sal.salarioReal }}" [(ngModel)]="salarioReal" placeholder="{{ sal.salarioReal }}" autocomplete="off" required></td>
+                    <td><input #salarioRealFronteratxt type="number" class="form-control aliggn-content-center" id="salarioRealFrontera" name="salarioRealFrontera" value="{{ sal.salarioRealFrontera }}" [(ngModel)]="salarioRealFrontera" placeholder="{{ sal.salarioRealFrontera }}" autocomplete="off" required></td>
+                    <td><button type="button" (click)="actualizarSalarios(sal.idPuesto)" class="btn btn-lg btn-outline-success"><i class="fa-solid fa-save"></i></button></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
+
+    <!--<div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="tabulador" role="tabpanel" aria-labelledby="tabulador-tab">
+        <table class="table table-borderless text-center table-striped table-responsive">
+            <thead>
+                <tr class="bg-primary bg-opacity-75 text-white">
+                    <th style="width: 5%;">Salario Mixto</th>
+                    <th style="width: 5%;">Salario Mixto Frontera</th>
+                    <th style="width: 5%;">Salario Real</th>
+                    <th style="width: 5%;">Salario Real Frontera</th>
+                    <th style="width: 5%;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input #salarioMixtotxt type="number" class="form-control aliggn-content-center" id="salarioMixto" name="salarioMixto" value="{{ sal.salarioMixto }}" [(ngModel)]="salarioMixto" placeholder="{{ sal.salarioMixto }}" autocomplete="off" required></td>
+                    <td><input #salarioMixtoFronteratxt type="number" class="form-control aliggn-content-center" id="salarioMixtoFrontera" name="salarioMixtoFrontera" value="{{ sal.salarioMixtoFrontera }}" [(ngModel)]="salarioMixtoFrontera" placeholder="{{ sal.salarioMixtoFrontera }}" autocomplete="off" required></td>
+                    <td><input #salarioRealtxt type="number" class="form-control aliggn-content-center" id="salarioReal" name="salarioReal" value="{{ sal.salarioReal }}" [(ngModel)]="salarioReal" placeholder="{{ sal.salarioReal }}" autocomplete="off" required></td>
+                    <td><input #salarioRealFronteratxt type="number" class="form-control aliggn-content-center" id="salarioRealFrontera" name="salarioRealFrontera" value="{{ sal.salarioRealFrontera }}" [(ngModel)]="salarioRealFrontera" placeholder="{{ sal.salarioRealFrontera }}" autocomplete="off" required></td>
+                    <td><button type="button" (click)="actualizarSalarios(sal.idPuesto)" class="btn btn-sm btn-outline-info"><i class="fa-solid fa-save"></i> Guardar </button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>-->
 
 
 

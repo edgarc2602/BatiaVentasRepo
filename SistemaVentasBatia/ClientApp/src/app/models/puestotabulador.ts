@@ -1,5 +1,5 @@
 ﻿export interface PuestoTabulador {
-    idPuestoSalario: number
+    idPuestoSalario: number;
     idPuesto: number;
     salarioMixto: number;
     salarioMixtoFrontera: number;

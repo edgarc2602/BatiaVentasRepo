@@ -26,7 +26,9 @@ namespace SistemaVentasBatia.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<PuestoTabulador> ObtenerTabuladorPuesto(int id)
         {
-            return await _logic.ObtenerTabuladorPuesto(id);
+            PuestoTabulador result = new PuestoTabulador();
+            result = await _logic.ObtenerTabuladorPuesto(id);
+            return result;
         }
     }
 }
