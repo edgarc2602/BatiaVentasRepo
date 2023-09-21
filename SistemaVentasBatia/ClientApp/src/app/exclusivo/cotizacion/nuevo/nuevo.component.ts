@@ -92,6 +92,7 @@ export class CotizaComponent {
     }
 
     openNew() {
+        this.nuevo();
         this.lerr = {};
         let docModal = document.getElementById('modalCrearProspecto');
         let myModal = bootstrap.Modal.getOrCreateInstance(docModal);
