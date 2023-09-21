@@ -39,7 +39,7 @@
 
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <select class="form-select" aria-label="IdEstado" [(ngModel)]="model.idEstado">
+                                <select class="form-select" aria-label="IdEstado" [(ngModel)]="model.idEstado" (change)="loadMun()">
                                     <!--(change)="chgEdo()"-->
                                     <option *ngFor="let e of edos" [ngValue]="e.id">{{ e.descripcion }}</option>
                                 </select>
@@ -50,13 +50,24 @@
 
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-12 col-md-4">
+                        <!--<div class="col-sm-12 col-md-4">
                             <div class="form-floating">
                                 <input type="text" class="form-control" [(ngModel)]="model.municipio">
                                 <label asp-for="Municipio">Delegación o Municipio</label>
                             </div>
                             <span *ngIf="ferr('Municipio')" class="text-danger">{{ terr('Municipio') }}</span>
+                        </div>-->
+
+                        <div class="col-sm-12 col-md-4">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="IdMunicipio" [(ngModel)]="model.municipio">
+                                    <option *ngFor="let m of muns" [ngValue]="m.descripcion">{{ m.descripcion }}</option>
+                                </select>
+                                <label asp-for="IdMunicipio">Municipio</label>
+                            </div>
+                            <span *ngIf="ferr('IdMunicipio')" class="text-danger">{{ terr('Municipio') }}</span>
                         </div>
+
                         <div class="col-sm-12 col-md-4">
                             <div class="form-floating">
                                 <input type="text" class="form-control" [(ngModel)]="model.ciudad">

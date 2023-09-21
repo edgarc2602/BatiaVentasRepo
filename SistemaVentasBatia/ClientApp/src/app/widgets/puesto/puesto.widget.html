@@ -82,7 +82,7 @@
                         </div>
                         <div class="col-sm-12 col-md-3">
                             <div class="form-floating">
-                                <input type="number" class="form-control" [(ngModel)]="model.sueldo">
+                                <input type="number" class="form-control" [(ngModel)]="model.sueldo" disabled>
                                 <label asp-for="Sueldo">Sueldo</label>
                             </div>
                             <span *ngIf="ferr('Sueldo')" class="text-danger">{{ terr('Sueldo') }}</span>

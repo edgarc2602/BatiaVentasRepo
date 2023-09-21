@@ -993,7 +993,7 @@ VALUES(
         public async Task ActualizarPuestoDireccionCotizacion(PuestoDireccionCotizacion operario)
         {
             var query = @"UPDATE tb_puesto_direccion_cotizacion 
-                        SET jornada = @Jornada, id_turno = @IdTurno, cantidad = @Cantidad, hr_inicio = @HrInicio, hr_fin = @HrFin, 
+                        SET id_puesto = @IdPuesto, jornada = @Jornada, id_turno = @IdTurno, cantidad = @Cantidad, hr_inicio = @HrInicio, hr_fin = @HrFin, 
                             dia_inicio = @DiaInicio, dia_fin = @DiaFin, sueldo = @Sueldo, aguinaldo = @Aguinaldo,
                             vacaciones = @Vacaciones, prima_vacacional = @PrimaVacacional, isn= @ISN, imss = @IMSS, total = @Total
                         WHERE id_puesto_direccioncotizacion = @IdPuestoDireccionCotizacion";

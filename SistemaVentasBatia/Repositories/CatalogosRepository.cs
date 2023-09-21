@@ -12,6 +12,7 @@ namespace SistemaVentasBatia.Repositories
     public interface ICatalogosRepository
     {
         Task<List<Catalogo>> ObtenerEstados();
+        Task<List<Catalogo>> ObtenerMunicipios(int idMunicipio);
         Task<List<Catalogo>> ObtenerTiposInmueble();
         Task<List<MaterialPuesto>> ObtenerMaterialDefaultPorPuesto(int idPuesto);
         Task<IEnumerable<MaterialPuesto>> ObtenerHerramientaDefaultPorPuesto(int idPuesto);
@@ -36,7 +37,7 @@ namespace SistemaVentasBatia.Repositories
 
         public async Task<List<Catalogo>> ObtenerEstados()
         {
-            var query = @"SELECT id_estado Id, descripcion Descripcion from tb_estado";
+            var query = @"SELECT id_Estado Id, Estado Descripcion from tb_estados";
 
             var estados = new List<Catalogo>();
 
@@ -53,6 +54,30 @@ namespace SistemaVentasBatia.Repositories
             }
 
             return estados;
+        }
+
+        public async Task<List<Catalogo>> ObtenerMunicipios(int idEstado)
+        {
+            var query = @"
+SELECT es.id_municipio Id,
+m.Municipio Descripcion FROM tb_estados_municipios es
+INNER JOIN dbo.Municipios m ON m.Id_Municipio = es.id_municipio
+WHERE es.id_estado = @idEstado ORDER BY m.Municipio";
+
+            var municipios = new List<Catalogo>();
+
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    municipios = (await connection.QueryAsync<Catalogo>(query, new { idEstado})).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return municipios;
         }
 
         public async Task<List<Catalogo>> ObtenerTiposInmueble()

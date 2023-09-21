@@ -5,6 +5,7 @@ using SistemaVentasBatia.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 
 namespace SistemaVentasBatia.Services
@@ -45,18 +46,39 @@ namespace SistemaVentasBatia.Services
 
         public async Task<SalarioMinDTO> GetFind(int idTabulador, int idPuesto, int idTurno)
         {
-            SalarioMinDTO reg;
-            IEnumerable<SalarioMinDTO> lf = _mapper.Map<IEnumerable<SalarioMinDTO>>(
-                await _repo.Busqueda(idTabulador, idPuesto, idTurno)).ToList();
 
-            reg = lf.FirstOrDefault();
-            if (reg == null)
+            //IEnumerable<SalarioMinDTO> lf = _mapper.Map<IEnumerable<SalarioMinDTO>>(
+            // await _repo.Busqueda(idTabulador, idPuesto, idTurno)).ToList
+            // //reg = lf.FirstOrDefault();
+            //if (reg == null)
+            //{
+            //    SalarioMinimo sm = await _repo.ObtenerMinimo(DateTime.Today.Year);
+            //    reg = new SalarioMinDTO
+            //    {
+            //        SalarioI = sm.SalarioBase * 30.4167m
+            //    };
+            //}
+            decimal result = 0;
+            SalarioMinDTO reg = new SalarioMinDTO();
+            if (idTabulador == 1)
             {
-                SalarioMinimo sm = await _repo.ObtenerMinimo(DateTime.Today.Year);
-                reg = new SalarioMinDTO
-                {
-                    SalarioI = sm.SalarioBase * 30.4167m
-                };
+                result = await _repo.ObtenerSalarioMixto(idPuesto);
+                reg.SalarioI = result;
+            }
+            else if (idTabulador == 2)
+            {
+                result = await _repo.ObtenerSalarioMixtoFrontera(idPuesto);
+                reg.SalarioI = result;
+            }
+            else if (idTabulador == 3)
+            {
+                result = await _repo.ObtenerSalarioReal(idPuesto);
+                reg.SalarioI = result;
+            }
+            else if (idTabulador == 4)
+            {
+                result = await _repo.ObtenerSalarioRealFrontera(idPuesto);
+                reg.SalarioI = result;
             }
             return reg;
         }

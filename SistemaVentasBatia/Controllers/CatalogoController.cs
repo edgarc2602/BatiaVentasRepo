@@ -20,6 +20,12 @@ namespace SistemaVentasBatia.Controllers
             logic = service;
         }
 
+        [HttpGet("[action]/{idEstado}")]
+        public async Task<IEnumerable<CatalogoDTO>> GetMunicipio(int idEstado)
+        {
+            return await logic.ObtenerMunicipios(idEstado);
+        }
+
         [HttpGet("[action]")]
         public async Task<IEnumerable<CatalogoDTO>> GetEstado()
         {

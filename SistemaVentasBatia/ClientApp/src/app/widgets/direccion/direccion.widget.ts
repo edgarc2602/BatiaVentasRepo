@@ -17,6 +17,7 @@ export class DireccionWidget {
     edos: Catalogo[] = [];
     tabs: Catalogo[] = [];
     lerr: any = {};
+    muns: Catalogo[] = [];
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient) {
         http.get<Catalogo[]>(`${url}api/catalogo/getestado`).subscribe(response => {
@@ -77,6 +78,13 @@ export class DireccionWidget {
         this.http.get<Catalogo[]>(`${this.url}api/tabulador/getbyedo/${1}`).subscribe(response => {
             this.tabs = response;
         }, err => console.log(err));
+    }
+    loadMun() {
+        this.http.get<Catalogo[]>(`${this.url}api/catalogo/getmunicipio/${this.model.idEstado}`).subscribe(response => {
+            this.muns = response;
+        }, err => console.log(err));
+
+        
     }
 
     valida() {
