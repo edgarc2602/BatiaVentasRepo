@@ -32,76 +32,81 @@ import { EliminaOperarioWidget } from './widgets/eliminaOperario/eliminaOperario
 import { EliminaDirectorioWidget } from './widgets/eliminadirectorio/eliminadirectorio.widget';
 import { ProductoWidget } from './widgets/producto/producto.widget';
 import { ActualizaCotizacionWidget } from './widgets/actualizacotizacion/actualizacotizacion.widget';
+import { EditarCotizacion } from './widgets/editacotizacion/editacotizacion.widget';
 
 import { StoreUser } from './stores/StoreUser';
 
 import { DescargarComponent } from './exclusivo/cotizacion/descargar/descargar.component';
 
+import { CommonModule } from '@angular/common';
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    // NavMenuComponent,
-    CounterComponent,
-    FetchDataComponent,
-    ColectivoComponent,
-    ColMenuComponent,
-    LoginComponent,
-    ExclusivoComponent,
-    ExMenuComponent,
-    LatMenuComponent,
-    HomeComponent,
-    ProspectoComponent,
-    ProsNuevoComponent,
-    ProspectoWidget,
-    DireccionWidget,
-    CotizacionComponent,
-    CotizaComponent,
-    PuestoWidget,
-    MaterialWidget,
-    MaterialAddWidget,
-    MaterialOperarioAddWidget,
-    ResumenComponent,
-    CatalogoComponent,
-    PaginaWidget,
-    ToastWidget,
-    EliminaWidget,
-    EliminaOperarioWidget,
-    ProductoWidget,
-    EliminaDirectorioWidget,
-    ActualizaCotizacionWidget,
-        
+    declarations: [
+        AppComponent,
+        // NavMenuComponent,
+        CounterComponent,
+        FetchDataComponent,
+        ColectivoComponent,
+        ColMenuComponent,
+        LoginComponent,
+        ExclusivoComponent,
+        ExMenuComponent,
+        LatMenuComponent,
+        HomeComponent,
+        ProspectoComponent,
+        ProsNuevoComponent,
+        ProspectoWidget,
+        DireccionWidget,
+        CotizacionComponent,
+        CotizaComponent,
+        PuestoWidget,
+        MaterialWidget,
+        MaterialAddWidget,
+        MaterialOperarioAddWidget,
+        ResumenComponent,
+        CatalogoComponent,
+        PaginaWidget,
+        ToastWidget,
+        EliminaWidget,
+        EliminaOperarioWidget,
+        ProductoWidget,
+        EliminaDirectorioWidget,
+        ActualizaCotizacionWidget,
         DescargarComponent,
+        EditarCotizacion,
+        
     ],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot([
-      {
-        path: '', component: ColectivoComponent,
-        children: [
-          { path: '', component: LoginComponent, pathMatch: 'full' },
-          { path: 'counter', component: CounterComponent },
-          { path: 'fetch-data', component: FetchDataComponent }
-        ]
-      },
-      {
-          path: 'exclusivo', component: ExclusivoComponent,
-        children: [
-          { path: '', component: HomeComponent, pathMatch: 'full' },
-          { path: 'prospecto', component: ProspectoComponent },
-          { path: 'nuevopros', component: ProsNuevoComponent },
-          { path: 'prospecto/:id', component: ProsNuevoComponent },
-          { path: 'cotiza/:idp', component: CotizacionComponent },
-          { path: 'nuevocot', component: CotizaComponent },
-          { path: 'resumen/:id', component: ResumenComponent },
-          { path: 'catalogo', component: CatalogoComponent },
-          { path: 'descargar/:id', component: DescargarComponent }
-        ]
-      }
-    ])
-  ],
-  providers: [ StoreUser ],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        HttpClientModule,
+        FormsModule,
+        CommonModule,
+        RouterModule.forRoot([
+            {
+                path: '', component: ColectivoComponent,
+                children: [
+                    { path: '', component: LoginComponent, pathMatch: 'full' },
+                    { path: 'counter', component: CounterComponent },
+                    { path: 'fetch-data', component: FetchDataComponent }
+                ]
+            },
+            {
+                path: 'exclusivo', component: ExclusivoComponent,
+                children: [
+                    { path: '', component: HomeComponent, pathMatch: 'full' },
+                    { path: 'prospecto', component: ProspectoComponent },
+                    { path: 'nuevopros', component: ProsNuevoComponent },
+                    { path: 'prospecto/:id', component: ProsNuevoComponent },
+                    { path: 'cotiza/:idp', component: CotizacionComponent },
+                    { path: 'nuevocot', component: CotizaComponent },
+                    { path: 'resumen/:id', component: ResumenComponent },
+                    { path: 'catalogo', component: CatalogoComponent },
+                    { path: 'descargar/:id', component: DescargarComponent }
+                ]
+            }
+        ])
+    ],
+    providers: [StoreUser],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

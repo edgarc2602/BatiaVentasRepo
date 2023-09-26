@@ -11,5 +11,6 @@ namespace SistemaVentasBatia.DTOs
         public DateTime FechaAlta { get; set; }
         public int IdCotizacionOriginal { get; set; }
         public string NombreComercial { get; set; }
+        public string IdAlta { get; set; }
     }
 }

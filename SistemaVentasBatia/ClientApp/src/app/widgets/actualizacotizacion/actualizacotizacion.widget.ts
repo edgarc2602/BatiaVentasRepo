@@ -18,7 +18,7 @@ export class ActualizaCotizacionWidget {
     model: Material = {} as Material;
 
     modelcot: Cotizacionupd = {
-        idCotizacion: 0, indirecto: '', utilidad: ''
+        idCotizacion: 0, indirecto: '', utilidad: '', comisionSV: ''
     };
     indirectoValue: string = "";
     utilidadValue: string = "";

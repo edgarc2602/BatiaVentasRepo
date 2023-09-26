@@ -1,7 +1,62 @@
+<!--<style>
+    .background-image {
+        background-color: rgba(0, 0, 0, 0.5);
+        background-image: url('images/pexels-03.jpg'); /* Ruta de la imagen de fondo */
+        background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+        background-position: center center; /* Centra la imagen en el contenedor */
+        background-repeat: no-repeat; /* Evita que la imagen se repita */
+        min-height: 100vh; /* Establece la altura mínima al 100% del viewport */
+    }
+
+    .login-card {
+        background-color: rgba(255, 255, 255, 0.95); /* Fondo semi-transparente para la tarjeta de inicio de sesión */
+        padding: 30px; /* Espaciado interior para la tarjeta */
+        border-radius: 10px; /* Bordes redondeados */
+        margin: 0 auto; /* Centra la tarjeta horizontalmente */
+        max-width: 600px; /* Ancho máximo de la tarjeta */
+    }
+</style>
+
+<div class="background-image">
+    <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="col">
+            <div class="card login-card">
+                <div class="card-body text-center mb-0">-->
+                    <!-- Agrega mb-0 aquí -->
+                    <!--<h2 class="card-body text-center">Sistema Integral de Gestion Administrativa (CRM)</h2>
+                </div>
+
+                <div class="card-body mb-0">-->
+                    <!-- Agrega mb-0 aquí -->
+                    <!--<div class="mb-3">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" [(ngModel)]="model.usuario" id="txusuario" placeholder="Usuario">
+                            <label for="txusuario">Usuario</label>
+                        </div>
+                        <span *ngIf="ferr('Usuario')" class="text-danger">{{ terr('Usuario') }}</span>
+                    </div>
+                    <div>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" [(ngModel)]="model.contrasena" id="txpassword" placeholder="Contraseña">
+                            <label for="txpassword">Contraseña</label>
+                        </div>
+                        <span *ngIf="ferr('Contrasena')" class="text-danger">{{ terr('Contrasena') }}</span>
+                    </div>
+                </div>
+                <div class="card-body text-center mb-0">-->
+                    <!-- Agrega mb-0 aquí -->
+                    <!--<button type="button" (click)="onLogin()" class="btn btn-primary" isDefault="true">Entrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+
 <div class="row">
     <div class="col">
         <div class="card" (keydown)="review($event)">
-            <h3 class="card-header">Sistema Integral de Gestion Administrativa</h3>
+            <h3 class="card-header">Sistema Integral de Gestion Administrativa (CRM)</h3>
             <div class="card-body">
                 <div class="mb-3">
                     <div class="form-floating">
@@ -23,11 +78,11 @@
             </div>
         </div>
     </div>
-    <div class="col">
+    <div class="col-5">
         <img src="images/pexels-03.jpg" alt="" class="img-fluid rounded">
-        <!--
-        <img src="images/pexels-01.jpg" alt="" class="img-fluid">
-        -->
-    </div>
+
+<!--<img src="images/pexels-01.jpg" alt="" class="img-fluid">-->
+
+</div>
 </div>
 <toast-widget [events]="evenSub.asObservable()" [isError]="isErr" [message]="errMessage"></toast-widget>

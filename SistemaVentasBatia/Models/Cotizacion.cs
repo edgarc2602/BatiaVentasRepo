@@ -16,6 +16,7 @@ namespace SistemaVentasBatia.Models
         public string NombreComercial { get; set; }
         public decimal CostoIndirecto { get; set; }
         public decimal Utilidad { get; set; }
+        public decimal ComisionSV { get; set; }
         public decimal Total { get; set; }
         public Servicio IdServicio { get; set; }
         public EstatusCotizacion IdEstatusCotizacion { get; set; }
@@ -23,7 +24,8 @@ namespace SistemaVentasBatia.Models
         public int IdPersonal { get; set; }
         public int IdCotizacionOriginal { get; set; }
         public int IdPorcentaje { get; set; }
-     
+        public string IdAlta { get; set; }
+
 
     }
 }

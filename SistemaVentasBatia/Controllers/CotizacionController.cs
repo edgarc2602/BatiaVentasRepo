@@ -26,7 +26,7 @@ namespace SistemaVentasBatia.Controllers
         private readonly ICotizacionesService cotizacionesSvc;
         private readonly IProspectosService prospectosSvc;
         private readonly ICatalogosService catalogosSvc;
-        
+
         public CotizacionController(ILogger<CotizacionController> logger, ICotizacionesService cotizacionesSvc, IProspectosService prospectosSvc, ICatalogosService catalogosSvc)
         {
             _logger = logger;
@@ -123,7 +123,7 @@ namespace SistemaVentasBatia.Controllers
         [HttpGet("{id}/{idDireccionCotizacion}/{idPuestoDireccionCotizacion}")]
         public async Task<ActionResult<ListaPuestosDireccionCotizacionDTO>> LimpiezaPlantilla(int id, int idDireccionCotizacion = 0, int idPuestoDireccionCotizacion = 0)
         {
-            var listaPuestosDireccionCotizacionVM = new ListaPuestosDireccionCotizacionDTO { IdCotizacion = id, IdDireccionCotizacion = idDireccionCotizacion, IdPuestoDireccionCotizacion = idPuestoDireccionCotizacion};
+            var listaPuestosDireccionCotizacionVM = new ListaPuestosDireccionCotizacionDTO { IdCotizacion = id, IdDireccionCotizacion = idDireccionCotizacion, IdPuestoDireccionCotizacion = idPuestoDireccionCotizacion };
 
             await cotizacionesSvc.ObtenerListaPuestosPorCotizacion(listaPuestosDireccionCotizacionVM);
 
@@ -136,13 +136,13 @@ namespace SistemaVentasBatia.Controllers
             // TempData["IdCotizacion"] = id;
             // TempData["Action"] = "LimpiezaPlantilla";
 
-                    
+
             var empleados = 0;
             foreach (var cant in listaPuestosDireccionCotizacionVM.PuestosDireccionesCotizacion)
             {
 
                 empleados += cant.Cantidad;
-            }   
+            }
 
             listaPuestosDireccionCotizacionVM.Empleados = empleados;
 
@@ -154,7 +154,7 @@ namespace SistemaVentasBatia.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> ActualizarIndirectoUtilidadService([FromBody] Cotizacionupd cotizacionupd)
         {
-            await cotizacionesSvc.ActualizarIndirectoUtilidad(cotizacionupd.IdCotizacion,cotizacionupd.Indirecto,cotizacionupd.Utilidad);
+            await cotizacionesSvc.ActualizarIndirectoUtilidad(cotizacionupd.IdCotizacion, cotizacionupd.Indirecto, cotizacionupd.Utilidad, cotizacionupd.ComisionSV);
             return RedirectToAction("LimpiezaResumen");
         }
 
@@ -165,7 +165,7 @@ namespace SistemaVentasBatia.Controllers
             var listaPuestosDireccionCotizacionVM = new ListaPuestosDireccionCotizacionDTO { IdCotizacion = direccionCVM.IdCotizacion };
             await cotizacionesSvc.ObtenerCatalogoDireccionesPorCotizacion(listaPuestosDireccionCotizacionVM);
 
-            foreach(var direccion in listaPuestosDireccionCotizacionVM.DireccionesCotizacion)
+            foreach (var direccion in listaPuestosDireccionCotizacionVM.DireccionesCotizacion)
             {
                 if (direccionCVM.IdDireccion == direccion.IdDireccion)
                 {
@@ -174,7 +174,7 @@ namespace SistemaVentasBatia.Controllers
                     // TempData["IdTipoAlerta"] = TipoAlerta.False;
                 }
             }
-                await cotizacionesSvc.AgregarDireccionCotizacion(direccionCVM);
+            await cotizacionesSvc.AgregarDireccionCotizacion(direccionCVM);
 
             // TempData["DescripcionAlerta"] = "Se agregó correctamente la dirección.";
             // TempData["IdTipoAlerta"] = TipoAlerta.Exito;
@@ -185,7 +185,7 @@ namespace SistemaVentasBatia.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> EliminarCotizacion([FromBody] int idCotizacion)
         {
-                await cotizacionesSvc.EliminarCotizacion(idCotizacion);
+            await cotizacionesSvc.EliminarCotizacion(idCotizacion);
 
             // TempData["DescripcionAlerta"] = "Se descartó correctamente la cotización";
             // TempData["IdTipoAlerta"] = TipoAlerta.Info;
@@ -194,7 +194,7 @@ namespace SistemaVentasBatia.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> EliminarDireccionCotizacion([FromBody]int idDireccionCotizacion)
+        public async Task<IActionResult> EliminarDireccionCotizacion([FromBody] int idDireccionCotizacion)
         {
             var idCotizacion = await cotizacionesSvc.ObtenerIdCotizacionPorDireccion(idDireccionCotizacion);
 
@@ -226,7 +226,7 @@ namespace SistemaVentasBatia.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> DuplicarCotizacion([FromBody]int idCotizacion)
+        public async Task<IActionResult> DuplicarCotizacion([FromBody] int idCotizacion)
         {
             var idNuevaCotizacion = await cotizacionesSvc.DuplicarCotizacion(idCotizacion);
 
@@ -255,7 +255,24 @@ namespace SistemaVentasBatia.Controllers
         {
             await cotizacionesSvc.ActualizarSalarios(salarios);
             return salarios;
-            
+
+        }
+
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult<bool>> ActualizarCotizacion([FromBody] Cotizacion cotizacionupd)
+        {
+            bool result;
+            result = await cotizacionesSvc.ActualizarCotizacion(cotizacionupd.IdCotizacion, cotizacionupd.IdProspecto, cotizacionupd.IdServicio);
+
+            if (result == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

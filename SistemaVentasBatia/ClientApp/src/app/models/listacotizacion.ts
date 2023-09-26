@@ -8,4 +8,6 @@ export interface ListaCotizacion {
     rows: number;
     cotizaciones: CotizacionMin[];
     idEstatusCotizacion: number;
+    idAlta: string;
+    total: number;
 }

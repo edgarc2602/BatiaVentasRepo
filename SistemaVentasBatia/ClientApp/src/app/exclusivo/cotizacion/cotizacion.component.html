@@ -1,4 +1,3 @@
-
 <br />
 <div class="row pt-1 mb-3">
     <div>
@@ -58,38 +57,44 @@
         <tbody>
             <!--
             var action = cotizacion.IdServicio == Servicio.Limpieza ? "LimpiezaResumen" : (cotizacion.IdServicio == Servicio.Mantenimiento ? "MantenimientoResumen" : (cotizacion.IdServicio == Servicio.Sanitización ? "SanitizacionResumen" : ""));
-            -->            
+            -->
             <tr *ngFor="let cot of lcots.cotizaciones">
                 <td>
-                    <div class="row pb-2">
-                        <div class="col-2 text-center">
+                    <div class="row pb-4">
+                        <div class="col-md-1 col-sm-6 text-center">
                             <span class="badge text-dark">ID:</span>
                             <div class="ms-2">{{ cot.idCotizacion }}</div>
                         </div>
-                        <div class="col-md-3 col-sm-6 text-center">
-                            <span class="badge text-dark">Prospecto:</span> 
+                        <div class="col-md-2 col-sm-6 text-center">
+                            <span class="badge text-dark">Prospecto:</span>
                             <div class="ms-2">{{ cot.nombreComercial }}</div>
                         </div>
                         <div class="col-md-2 col-sm-6 text-center">
                             <span class="badge text-dark">Servicio:</span>
                             <div class="ms-2">{{ cot.servicio }}</div>
                         </div>
-                        <!--<div class="col-md-2 col-sm-6">
+                        <div class="col-md-2 col-sm-6 text-center">
                             <span class="badge text-dark">Total:</span>
-                            <div class="ms-2">   cot.total | number: '1.2'   </div>
-                        </div>-->
-                        <div class="col-1 col-sm-3 text-center">
+                            <div class="ms-2">${{cot.total | number: '1.2'}}</div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 text-center">
                             <span class="badge text-dark">Fecha Alta:</span>
                             <div class="ms-2">{{ cot.fechaAlta | date: 'dd-MM-yyyy' }}</div>
                         </div>
+                        <div class="col-md-3 col-sm-6 text-center">
+                            <span class="badge text-dark">Usuario Alta:</span>
+                            <div class="ms-2"> {{  cot.idAlta }}  </div>
+                        </div>
                     </div>
                 </td>
-                <td class="align-middle w-auto">
+                <td class="align-content-end w-auto">
                     <button type="button" class="btn btn-sm text-primary mb-1" [routerLink]="['/exclusivo/resumen/' + cot.idCotizacion]" data-bs-toggle="tooltip" title="Detalle">
                         <i class="fa-solid fa-search-dollar fa-2x"></i>
                     </button>
                     <!--<button type="button" (click)="removeCot(cot.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-delete-left"></i> Desactivar </button>-->
-
+                    <a class="btn btn-sm text-success mb-1" (click)="editar(cot.idCotizacion, cot.nombreComercial,cot.servicio)" data-bs-toggle="tooltip" title="Editar">
+                        <i class="fa-solid fa-pencil fa-2x"></i>
+                    </a>
                     <a class="btn btn-sm text-danger mb-1 btnEliminarCotizacion" data-bs-toggle="tooltip" title="Descartar" (click)="elige(cot.idCotizacion)">
                         <i class="fa-solid fa-times fa-2x"></i>
                     </a>
@@ -99,8 +104,6 @@
     </table>
     <pagina-widget [pagina]="lcots.pagina" [numPaginas]="lcots.numPaginas" [rows]="lcots.rows" (chgEvent)="muevePagina($event)"></pagina-widget>
 </div>
-<!--
-<partial name="_ModalEliminarRegistro" />
--->
 
 <elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
+<editcot-widget (ansEvent)="elimina($event)"></editcot-widget>

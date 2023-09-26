@@ -155,7 +155,7 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Costo Indirecto (%)</h5></div>
                                     <div class="col-1">
-                                        <input type="text" class="form-control aliggn-content-start" id="indirecto" name="indirecto" [(ngModel)]="indirectoValue" placeholder="{{model.indirectoPor}}" autocomplete="off" required>
+                                        <input #indirectotxt type="text" class="form-control aliggn-content-start" id="indirectoPor" name="indirecto" [(ngModel)]="indirectoValue" value="{{model.indirectoPor}}" placeholder="{{model.indirectoPor}}" autocomplete="off" required>
                                     </div>
                                     <div class="col-2 text-end"><h5>${{ model.indirecto | number: '1.2' }}</h5></div>
                                 </div>
@@ -174,7 +174,7 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Utilidad (%)</h5></div>
                                     <div class="col-1">
-                                        <input type="text" class="form-control" id="utilidad" name="utilidad" [(ngModel)]="utilidadValue" (input)="validarSoloNumeros(utilidadValue)" placeholder="{{model.utilidadPor}}" autocomplete="off" required>
+                                        <input #utilidadtxt type="text" class="form-control" id="utilidad" name="utilidadPor" [(ngModel)]="utilidadValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.utilidadPor}}" placeholder="{{model.utilidadPor}}" autocomplete="off" required>
                                     </div>
                                     <div class="col-2  text-end"><h5>${{ model.utilidad | number: '1.2' }}</h5></div>
                                 </div>
@@ -196,16 +196,16 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Comision sobre venta (%)</h5></div>
                                     <div class="col-1">
-                                        <input type="text" class="form-control" id="CSV" name="CSV" [(ngModel)]="CSV" (input)="validarSoloNumeros(utilidadValue)" autocomplete="off" required>
+                                        <input #CSVtxt type="text" class="form-control" id="CSV" name="CSV" [(ngModel)]="CSV" (input)="validarSoloNumeros(utilidadValue)" value="{{model.csvPor}}" placeholder="{{model.csvPor}}"autocomplete="off" required>
                                     </div>
-                                    <div class="col-2  text-end"><h5>${{ (model.subTotal + model.indirecto + model.utilidad) * 0.02 | number: '1.2' }}</h5></div>
+                                    <div class="col-2  text-end"><h5>${{ model.comisionSV | number: '1.2' }}</h5></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 offset-6  text-end text-success"><h5>${{ (model.subTotal + model.indirecto + model.utilidad) * 1.02 | number: '1.2' }}</h5></div>
+                                    <div class="col-3 offset-6  text-end text-success"><h5>${{ (model.subTotal + model.indirecto + model.utilidad) + model.comisionSV | number: '1.2' }}</h5></div>
                                     <div class="col-3 text-start text-success"><h5>Total CSV</h5></div>
                                 </div>
                             </td>
@@ -218,7 +218,7 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h4>Total</h4></div>
                                     <!--<div class="col-3  text-end"><h5>   { model.total | number: '1.2' }   </h5></div>-->
-                                    <div class="col-3  text-end"><h4>${{ (model.subTotal + model.indirecto + model.utilidad) * 1.02 | number: '1.2' }}</h4></div>
+                                    <div class="col-3  text-end"><h4>${{ (model.subTotal + model.indirecto + model.utilidad) + model.comisionSV| number: '1.2' }}</h4></div>
                                 </div>
                             </td>
                         </tr>
@@ -232,8 +232,8 @@
 
                         </div>
                         <div class="col-3">
-                            <!--<button type="submit" class="btn btn-outline-info" (click)="actualizarIndirectoUtilidad()">Actualizar</button><br><br>-->
-                            <button type="submit" class="btn btn-outline-success" (click)="validaActualizacionCotizacion()">Actualizar</button><br><br>
+                            <button type="submit" class="btn btn-outline-info" (click)="actualizarIndirectoUtilidad()">Actualizar</button><br><br>
+                            <!--<button type="submit" class="btn btn-outline-success" (click)="validaActualizacionCotizacion()">Actualizar</button><br><br>-->
                         </div>
                         <div class="col-2">
 
@@ -527,7 +527,7 @@
 
 <mate-widget (smEvent)="newMate($event)"></mate-widget>
 <mateadd-widget (smEvent)="saveMate($event)" (returnModal)="return($event)"></mateadd-widget>
-<actualizacotizacion-widget (valida)="actualizarIndirectoUtilidad($event)"></actualizacotizacion-widget>
+<actualizacotizacion-widget (valida)="actualizarIndirectoUtilidad()"></actualizacotizacion-widget>
 
 
 

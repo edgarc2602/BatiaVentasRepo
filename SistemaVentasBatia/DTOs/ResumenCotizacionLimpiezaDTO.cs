@@ -19,6 +19,7 @@ namespace SistemaVentasBatia.DTOs
         public decimal SubTotal { get; set; }
         public decimal Indirecto { get; set; }
         public decimal Utilidad { get; set; }
+        public decimal ComisionSV { get; set; }
         public decimal Total { get; set; }
         public int IdProspecto { get; set; }
         public Servicio IdServicio { get; set; }
@@ -28,5 +29,6 @@ namespace SistemaVentasBatia.DTOs
         public string NombreComercial { get; set; }
         public string UtilidadPor { get; set; }
         public string IndirectoPor { get; set; }
+        public string CsvPor { get; set; }
     }
 }

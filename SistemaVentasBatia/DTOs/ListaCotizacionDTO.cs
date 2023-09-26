@@ -21,5 +21,7 @@ namespace SistemaVentasBatia.DTOs
         public int NumPaginas { get; set; }
 
         public int Rows { get; set; }
+
+        public string IdAlta { get; set; }
     }
 }

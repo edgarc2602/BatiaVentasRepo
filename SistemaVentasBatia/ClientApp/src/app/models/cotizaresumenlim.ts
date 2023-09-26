@@ -12,10 +12,13 @@ export interface CotizaResumenLim {
     subTotal: number;
     indirecto: number;
     utilidad: number;
+    comisionSV: number;
     total: number;
     idCotizacionOriginal: number;
 
     nombreComercial: string;
     utilidadPor: string;
     indirectoPor: string;
+    csvPor: string;
+    
 }

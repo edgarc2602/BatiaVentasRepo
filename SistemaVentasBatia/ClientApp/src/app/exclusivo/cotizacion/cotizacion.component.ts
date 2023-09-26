@@ -6,21 +6,22 @@ import { Prospecto } from 'src/app/models/prospecto';
 import { ItemN } from 'src/app/models/item';
 
 import { CotizaResumenLim } from 'src/app/models/cotizaresumenlim';
-import { DireccionCotizacion } from '../../models/direccioncotizacion';
+//import { DireccionCotizacion } from '../../models/direccioncotizacion';
 import { ListaDireccion } from '../../models/listadireccion';
 import { Cotizacion } from '../../models/cotizacion';
 
 import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
-
+import { EditarCotizacion } from 'src/app/widgets/editacotizacion/editacotizacion.widget';
 @Component({
     selector: 'cotizacion',
     templateUrl: './cotizacion.component.html'
+    
 })
 export class CotizacionComponent implements OnInit, OnDestroy {
     sub: any;
     lcots: ListaCotizacion = {
         idProspecto: 0, idServicio: 0, pagina: 1, numPaginas: 0,
-        rows: 0, cotizaciones: [], idEstatusCotizacion: 0
+        rows: 0, cotizaciones: [], idEstatusCotizacion: 0, idAlta: '', total: 0
     };
     lsers: ItemN[] = [];
     lests: ItemN[] = [];
@@ -29,14 +30,18 @@ export class CotizacionComponent implements OnInit, OnDestroy {
     model: CotizaResumenLim = {
         idCotizacion: 0, idProspecto: 0, salario: 0, cargaSocial: 0, provisiones: 0,
         material: 0, uniforme: 0, equipo: 0, herramienta: 0,
-        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', indirectoPor: '', utilidadPor: ''
+        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', indirectoPor: '', utilidadPor: '', csvPor: '', comisionSV: 0
     };
 
     lsdir: ListaDireccion = {} as ListaDireccion;
 
     idpro: number = 0;
     @ViewChild(EliminaWidget, { static: false }) eliw: EliminaWidget;
- 
+    @ViewChild(EditarCotizacion, { static: false }) ediw: EditarCotizacion;
+
+
+
+
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private route: ActivatedRoute) {
         http.get<Prospecto[]>(`${url}api/prospecto/getcatalogo`).subscribe(response => {
@@ -48,13 +53,28 @@ export class CotizacionComponent implements OnInit, OnDestroy {
         http.get<ItemN[]>(`${url}api/cotizacion/getestatus`).subscribe(response => {
             this.lests = response;
         }, err => console.log(err));
+
+
+
+
     }
 
-    nuevo() {   
+    nuevo() {
         this.lcots = {
             idProspecto: 0, idServicio: 0, pagina: 1, numPaginas: 0,
-            rows: 0, cotizaciones: [], idEstatusCotizacion: 0
+            rows: 0, cotizaciones: [], idEstatusCotizacion: 0, idAlta: '', total: 0
         };
+    }
+    init() {
+        let fil: string = (this.lcots.idEstatusCotizacion > 0 ? `estatus=1` : '');
+        if (fil.length > 0) fil += '&';
+        fil += (this.lcots.idServicio > 0 ? `servicio=${this.lcots.idServicio}` : '');
+        if (fil.length > 0) fil += '&';
+        fil += (this.lcots.idProspecto > 0 ? `idProspecto=${this.lcots.idProspecto}` : '');
+        if (fil.length > 0) fil = '?' + fil;
+        this.http.get<ListaCotizacion>(`${this.url}api/cotizacion/${this.lcots.pagina}${fil}`).subscribe(response => {
+            this.lcots = response;
+        }, err => console.log(err));
     }
 
     lista() {
@@ -92,6 +112,7 @@ export class CotizacionComponent implements OnInit, OnDestroy {
                 this.nuevo();
             }
             this.lista();
+            this.init();
         });
     }
 
@@ -108,16 +129,18 @@ export class CotizacionComponent implements OnInit, OnDestroy {
 
     elige(idCotizacion) {
         this.idpro = idCotizacion;
-        this.eliw.titulo = 'Desactivar cotización';
-        this.eliw.mensaje = '¿Está seguro de que desea inactivar la cotización?';
+        this.eliw.titulo = 'Desactivar'; //error
+        this.eliw.mensaje = 'El estatus cambiara a "Inactivo"';
         this.eliw.open();
     }
-    
+
     elimina($event) {
         if ($event) {
             this.http.post<Cotizacion>(`${this.url}api/cotizacion/EliminarCotizacion`, this.idpro).subscribe(response => {
             }, err => console.log(err));
         }
     }
+    editar(idCotizacion: number, prospecto: string, servicio: string) {
+        this.ediw.openSel(idCotizacion, prospecto, servicio);
+    }
 }
-

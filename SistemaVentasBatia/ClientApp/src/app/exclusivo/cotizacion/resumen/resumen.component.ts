@@ -44,13 +44,17 @@ export class ResumenComponent implements OnInit, OnDestroy {
     @ViewChild('resumen', { static: false }) resumen: ElementRef;
     @ViewChild('pdfCanvas', { static: true }) pdfCanvas: ElementRef;
 
+    @ViewChild('indirectotxt', { static: false }) indirectotxt: ElementRef;
+    @ViewChild('utilidadtxt', { static: false }) utilidadtxt: ElementRef;
+    @ViewChild('CSVtxt', { static: false }) CSVtxt: ElementRef;
+
 
 
     sub: any;
     model: CotizaResumenLim = {
         idCotizacion: 0, idProspecto: 0, salario: 0, cargaSocial: 0, provisiones: 0,
         material: 0, uniforme: 0, equipo: 0, herramienta: 0,
-        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: ''
+        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: '', csvPor: '', comisionSV: 0
     };
     dirs: ItemN[] = [];
     cotdirs: Catalogo[] = [];
@@ -69,11 +73,11 @@ export class ResumenComponent implements OnInit, OnDestroy {
     txtMatKey: string = '';
     sDir: boolean = false;
     modelcot: Cotizacionupd = {
-        idCotizacion: 0, indirecto: '', utilidad: ''
+        idCotizacion: 0, indirecto: '', utilidad: '', comisionSV: ''
     };
     indirectoValue: string = this.model.utilidadPor;
     utilidadValue: string = this.model.indirectoPor;
-    CSV: string;
+    CSV: string = this.model.csvPor;
 
 
     modelDir: DireccionCotizacion = {
@@ -110,7 +114,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.model = {
             idCotizacion: 0, idProspecto: 0, salario: 0, cargaSocial: 0, provisiones: 0,
             material: 0, uniforme: 0, equipo: 0, herramienta: 0,
-            subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: ''
+            subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: '', csvPor: '', comisionSV: 0
         };
     }
 
@@ -304,14 +308,30 @@ export class ResumenComponent implements OnInit, OnDestroy {
     }
     eligeOperario(idOperario) {
         this.idope = idOperario;
-        this.eliope.titulo = 'Eliminar operario';
-        this.eliope.mensaje = '¿Está seguro de que desea eliminar al operario seleccionado?';
+        this.eliope.titulo = 'Eliminar Operario';
+        this.eliope.mensaje = 'Al eliminar al operario se borraran los registros relacionados';
         this.eliope.open();
     }
-    actualizarIndirectoUtilidad($event) {
+
+    limpiarInputs() {
+        this.modelcot.indirecto = "";
+        this.modelcot.utilidad = "";
+        this.modelcot.comisionSV = "";
+        this.indirectoValue = "";
+        this.utilidadValue = "";
+        this.CSV = "";
+    }
+    actualizarIndirectoUtilidad() {
         this.modelcot.idCotizacion = this.model.idCotizacion;
-        this.modelcot.indirecto = this.indirectoValue;
-        this.modelcot.utilidad = this.utilidadValue;
+        //this.modelcot.indirecto = this.indirectoValue;
+        //this.modelcot.utilidad = this.utilidadValue;
+        //this.modelcot.comisionSV = this.CSV;
+
+
+        this.modelcot.indirecto = this.indirectotxt.nativeElement.value;
+        this.modelcot.utilidad = this.utilidadtxt.nativeElement.value;
+        this.modelcot.comisionSV = this.CSVtxt.nativeElement.value;
+
 
         if (this.model.idCotizacion != 0) {
             this.http.post<Cotizacionupd>(`${this.url}api/cotizacion/ActualizarIndirectoUtilidadService`, this.modelcot).subscribe(response => {
@@ -319,6 +339,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
             }, err => console.log(err));
         }
         location.reload();
+        this.limpiarInputs();
     }
     validarSoloNumeros(utilidadValue: string): boolean {
         utilidadValue = this.utilidadValue;

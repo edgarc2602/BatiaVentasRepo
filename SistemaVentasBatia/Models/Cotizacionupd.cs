@@ -11,6 +11,6 @@ namespace SistemaVentasBatia.Models
         public int IdCotizacion { get; set; }
         public string Indirecto { get; set; }
         public string Utilidad { get; set; }
-
+        public string ComisionSV { get; set; }
     }
 }

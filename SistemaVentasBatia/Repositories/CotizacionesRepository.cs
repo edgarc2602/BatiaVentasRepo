@@ -25,6 +25,7 @@ namespace SistemaVentasBatia.Repositories
         Task<List<Direccion>> ObtenerCatalogoDireccionesCotizacion(int idCotizacion);
         Task<int> InsertaPuestoDireccionCotizacion(PuestoDireccionCotizacion operario);
         Task<ResumenCotizacionLimpieza> ObtenerResumenCotizacionLimpieza(int idCotizacion);
+        Task InsertarTotalCotizacion(decimal total, int idCotizacion);
         Task<Cotizacion> ObtenerNombreComercialCotizacion(int idCotizacion);
         Task<ResumenCotizacionLimpieza> ObtenerResumenCotizacionLimpieza2(int idCotizacion);
         Task<Cotizacion> ObtenerCotizacion(int id);
@@ -35,7 +36,9 @@ namespace SistemaVentasBatia.Repositories
         Task EliminarOperario(int registroAEliminar);
         Task<int> CopiarCotizacion(int idCotizacion);
 
-        Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad);
+        Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV);
+        Task ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio);
+        Task<bool> ValidarDirecciones(int idCotizacion);
         Task CopiarDirectorioCotizacion(int idCotizacion, int idCotizacionNueva);
         Task<int> CopiarPlantillaDireccionCotizacion(int direccionCotizacion, int direccionCotizacionNueva);
         Task<List<DireccionCotizacion>> ObtieneDireccionesCotizacion(int idCotizacion);
@@ -126,9 +129,10 @@ namespace SistemaVentasBatia.Repositories
         {
             var query = @"SELECT  *
                           FROM (SELECT ROW_NUMBER() OVER ( ORDER BY id_cotizacion desc ) AS RowNum, id_cotizacion IdCotizacion, id_servicio IdServicio, nombre_comercial NombreComercial, 
-                                id_estatus_Cotizacion IdEstatusCotizacion, c.fecha_alta FechaAlta, c.id_personal IdPersonal, r.SubTotal Total, c.nombre Nombre
+                                id_estatus_Cotizacion IdEstatusCotizacion, c.fecha_alta FechaAlta, c.id_personal IdPersonal, c.total Total, c.nombre Nombre, per.Per_Nombre + ' ' + per.Per_Paterno + ' ' + per.Per_Materno AS IdAlta
                                 FROM tb_cotizacion c
                                 JOIN tb_prospecto p on c.id_prospecto = p.id_prospecto
+                                INNER JOIN dbo.Personal per ON c.id_personal = per.IdPersonal 
                                 JOIN (SELECT * FROM fn_resumencotizacion(null)) r on c.id_Cotizacion = r.IdCotizacion
                                 WHERE 
                                     ISNULL(NULLIF(@idProspecto,0), c.id_prospecto) = c.id_prospecto AND
@@ -327,6 +331,26 @@ namespace SistemaVentasBatia.Repositories
         }
 
 
+        public async Task InsertarTotalCotizacion(decimal total, int idCotizacion)
+        {
+            var query = @"UPDATE tb_cotizacion set total = @total where id_cotizacion = @idCotizacion";
+
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    
+                        await connection.ExecuteAsync(query, new { idCotizacion,total });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
         public async Task<Cotizacion> ObtenerNombreComercialCotizacion(int idCotizacion)
         {
             var query = @"SELECT p.nombre_comercial NombreComercial FROM tb_cotizacion c
@@ -377,7 +401,9 @@ namespace SistemaVentasBatia.Repositories
 
             var query = @"SELECT id_cotizacion IdCotizacion,
 costo_indirecto CostoIndirecto,
-utilidad Utilidad FROM tb_cotizacion  WHERE id_cotizacion = @id ";
+utilidad Utilidad,
+comision_venta ComisionSV
+FROM tb_cotizacion  WHERE id_cotizacion = @id ";
             try
             {
                 using (var connection = ctx.CreateConnection())
@@ -514,8 +540,8 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
 
         public async Task<int> CopiarCotizacion(int idCotizacion)
         {
-            var query = @"INSERT INTO tb_cotizacion(id_prospecto, id_servicio, costo_indirecto,utilidad,total, id_estatus_cotizacion, fecha_alta, id_personal, id_cotizacion_original, id_porcentaje)
-                          SELECT  id_prospecto, id_servicio,costo_indirecto,utilidad, total, id_estatus_cotizacion, getdate(), id_personal, id_cotizacion, id_porcentaje
+            var query = @"INSERT INTO tb_cotizacion(id_prospecto, id_servicio, costo_indirecto,utilidad,total, id_estatus_cotizacion, fecha_alta, id_personal, id_cotizacion_original, id_porcentaje,comision_venta)
+                          SELECT  id_prospecto, id_servicio,costo_indirecto,utilidad, total, id_estatus_cotizacion, getdate(), id_personal, id_cotizacion, id_porcentaje, comision_venta
                           FROM tb_cotizacion
                           WHERE id_cotizacion = @idCotizacion;
                         
@@ -538,16 +564,18 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             return idCotizacionNueva;
         }
 
-        public async Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad)
+        public async Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV)
         {
             decimal indirectoval = decimal.Parse(indirecto);
             decimal utilidadval = decimal.Parse(utilidad);
+            decimal comisionSVval = decimal.Parse(comisionSV);
 
             string basemenor = ".0";
             string basemayor = ".";
 
             string indirectofin = "";
             string utilidadfin = "";
+            string comisionSVfin = "";
 
             if (indirectoval < 10)
             {
@@ -566,17 +594,32 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
                 utilidadfin = basemayor + utilidad;
             }
 
+            if (comisionSVval < 10)
+            {
+                comisionSVfin = basemenor + comisionSV;
+            }
+            else
+            {
+                comisionSVfin = basemayor + comisionSV;
+            }
+
+
             decimal indirectodec = decimal.Parse(indirectofin);
             decimal utilidaddec = decimal.Parse(utilidadfin);
+            decimal comisionSVdec = decimal.Parse(comisionSVfin);
 
 
-            var query = @"UPDATE tb_cotizacion set costo_indirecto = @indirectodec, utilidad = @utilidaddec where id_cotizacion = @idCotizacion";
+            var query = @"UPDATE tb_cotizacion set 
+costo_indirecto = @indirectodec, 
+utilidad = @utilidaddec,
+comision_venta = @comisionSVdec
+where id_cotizacion = @idCotizacion";
 
             try
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    await connection.ExecuteAsync(query, new { idCotizacion, indirectodec, utilidaddec });
+                    await connection.ExecuteAsync(query, new { idCotizacion, indirectodec, utilidaddec, comisionSVdec });
                 }
             }
             catch (Exception ex)
@@ -585,6 +628,47 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             }
         }
 
+        public async Task ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio)
+        {
+            var query = @"UPDATE tb_cotizacion set id_prospecto = @idProspecto, id_servicio = @idServicio where id_cotizacion = @idCotizacion";
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    await connection.ExecuteAsync(query, new { idCotizacion, idProspecto, idServicio });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> ValidarDirecciones(int idCotizacion)
+        {
+            var query = @"SELECT COUNT(*) FROM tb_direccion_cotizacion WHERE id_cotizacion = @idCotizacion";
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    var rowCount = await connection.ExecuteScalarAsync<int>(query, new { idCotizacion });
+
+                    if (rowCount == 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
 
 
@@ -1332,7 +1416,7 @@ salarioreal_frontera = @SalarioRealFrontera
 
             }
             catch
-            {   
+            {
                 return false;
             }
             return true;
