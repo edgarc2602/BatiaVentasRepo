@@ -77,6 +77,7 @@ namespace SistemaVentasBatia
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<ITabuladorRepository, TabuladorRepository>();
             services.AddScoped<ISalarioRepository, SalarioRepository>();
+            services.AddScoped<IServicioRepository, ServicioRepository>();
 
         }
 

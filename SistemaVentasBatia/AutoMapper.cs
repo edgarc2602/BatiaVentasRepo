@@ -4,8 +4,8 @@ using SistemaVentasBatia.DTOs;
 using SistemaVentasBatia.Enums;
 
 namespace SistemaVentasBatia
-{  
-    public class AutoMapper : Profile  
+{
+    public class AutoMapper : Profile
     {
         public AutoMapper()
         {
@@ -41,9 +41,14 @@ namespace SistemaVentasBatia
             CreateMap<ResumenCotizacionLimpieza, ResumenCotizacionLimpiezaDTO>();
             CreateMap<ResumenCotizacionLimpiezaDTO, ResumenCotizacionLimpieza>();
 
-            CreateMap<MaterialCotizacion, MaterialCotizacionDTO>();
             CreateMap<MaterialCotizacionDTO, MaterialCotizacion>();
+            CreateMap<MaterialCotizacion, MaterialCotizacionDTO>();
             CreateMap<MaterialCotizacion, MaterialCotizacionMinDTO>();
+
+            CreateMap<ServicioCotizacionDTO, ServicioCotizacion>();
+            CreateMap<ServicioCotizacion, ServicioCotizacionDTO>();
+            CreateMap<ServicioCotizacion, ServicioCotizacionMinDTO>();
+
             CreateMap<MaterialPuesto, MaterialPuestoDTO>();
             CreateMap<MaterialPuestoDTO, MaterialPuesto>();
             CreateMap<ProductoItem, ProductoItemDTO>();
@@ -69,4 +74,4 @@ namespace SistemaVentasBatia
             CreateMap<TabuladorDTO, Tabulador>();
         }
     }
-}  
+}
