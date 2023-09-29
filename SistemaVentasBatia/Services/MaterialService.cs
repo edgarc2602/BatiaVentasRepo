@@ -41,6 +41,14 @@ namespace SistemaVentasBatia.Services
         Task<MaterialCotizacionDTO> ObtenerHerramientaCotizacionPorId(int id);
         Task<MaterialCotizacionDTO> ObtenerMaterialCotizacionPorId(int id);
         Task<MaterialCotizacionDTO> ObtenerUniformeCotizacionPorId(int id);
+        Task<ServicioCotizacionDTO> ServicioGetById(int id);
+
+        Task InsertarServicioCotizacion(ServicioCotizacion servicio);
+        Task ActualizarServicioCotizacion(ServicioCotizacion servicio);
+
+
+        Task<ListaServiciosCotizacionLimpiezaDTO> ObtenerListaServiciosCotizacion(int idCotizacion, int idDireccionCotizacion);
+
     }
 
     public class MaterialService : IMaterialService
@@ -48,12 +56,14 @@ namespace SistemaVentasBatia.Services
         private readonly IMaterialRepository _materialRepo;
         private readonly ICotizacionesRepository _cotizaRepo;
         private readonly IMapper _mapper;
+        private readonly IServicioRepository _servicioRepo;
 
-        public MaterialService(IMaterialRepository materialRepo, ICotizacionesRepository cotizaRepo, IMapper mapper)
+        public MaterialService(IMaterialRepository materialRepo, ICotizacionesRepository cotizaRepo, IServicioRepository servicioRepo, IMapper mapper)
         {
             _materialRepo = materialRepo;
             _cotizaRepo = cotizaRepo;
             _mapper = mapper;
+            _servicioRepo = servicioRepo;
         }
         public async Task AgregarMaterialOperario(MaterialCotizacionDTO materialVM)
         {
@@ -165,6 +175,12 @@ namespace SistemaVentasBatia.Services
             return materialCotizacionLimpieza;
         }
 
+
+        
+
+
+
+
         public async Task<MaterialCotizacionDTO> ObtenerMaterialCotizacionPorId(int id)
         {
             var material = _mapper.Map<MaterialCotizacionDTO>(await _materialRepo.ObtenerMaterialCotizacionPorId(id));
@@ -241,6 +257,43 @@ namespace SistemaVentasBatia.Services
             }
         }
 
+
+
+
+
+        public async Task <ListaServiciosCotizacionLimpiezaDTO> ObtenerListaServiciosCotizacion(int idCotizacion, int idDireccioNCotizacion)
+        {
+            var servicioCotizacion = new ListaServiciosCotizacionLimpiezaDTO { IdCotizacion = idCotizacion };
+            servicioCotizacion.ServiciosCotizacion = _mapper.Map<List<ServicioCotizacionMinDTO>>(await _servicioRepo.ObtenerListaServiciosCotizacion(idCotizacion, idDireccioNCotizacion));
+            return servicioCotizacion;
+        }
+
+        //public async Task<ListaMaterialesCotizacionLimpiezaDTO> ObtenerListaUniformeOperario(int idPuestoCotizacion)
+        //{
+        //    var uniformeCotizacion = new ListaMaterialesCotizacionLimpiezaDTO { IdPuestoDireccionCotizacion = idPuestoCotizacion };
+
+        //    uniformeCotizacion.IdCotizacion = await _cotizaRepo.ObtieneIdCotizacionPorOperario(uniformeCotizacion.IdPuestoDireccionCotizacion);
+
+        //    uniformeCotizacion.IdDireccionCotizacion = await _cotizaRepo.ObtieneIdDireccionCotizacionPorOperario(uniformeCotizacion.IdPuestoDireccionCotizacion);
+
+        //    uniformeCotizacion.MaterialesCotizacion = _mapper.Map<List<MaterialCotizacionMinDTO>>(await _materialRepo.ObtenerUniformeCotizacionOperario(idPuestoCotizacion, idPuestoCotizacion));
+
+        //    return uniformeCotizacion;
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task<ListaMaterialesCotizacionLimpiezaDTO> ObtenerListaEquipoOperario(int idPuestoCotizacion)
         {
             var equipoCotizacion = new ListaMaterialesCotizacionLimpiezaDTO { IdPuestoDireccionCotizacion = idPuestoCotizacion };
@@ -299,6 +352,14 @@ namespace SistemaVentasBatia.Services
             var uniforme = _mapper.Map<MaterialCotizacionDTO>(await _materialRepo.ObtenerUniformeCotizacionPorId(id));
 
             return uniforme;
+        }
+
+        public async Task<ServicioCotizacionDTO> ServicioGetById(int id)
+        {
+            var servicio = new ServicioCotizacionDTO();
+
+            servicio = _mapper.Map<ServicioCotizacionDTO>(await _materialRepo.ServicioGetById(id));
+                return servicio;
         }
 
         public async Task AgregarEquipoOperario(MaterialCotizacionDTO dto)
@@ -431,6 +492,29 @@ namespace SistemaVentasBatia.Services
                 }
             }
         }
+
+        public async Task InsertarServicioCotizacion(ServicioCotizacion servicio)
+        {
+            servicio.Total = servicio.PrecioUnitario * servicio.Cantidad;
+            servicio.ImporteMensual = servicio.Total / (int)servicio.IdFrecuencia;
+            servicio.FechaAlta = DateTime.Now;
+            await _materialRepo.InsertarServicioCotizacion(servicio);
+        }
+
+        public async Task ActualizarServicioCotizacion(ServicioCotizacion servicio)
+        {
+            servicio.Total = servicio.PrecioUnitario * servicio.Cantidad;
+            servicio.ImporteMensual = servicio.Total / (int)servicio.IdFrecuencia;
+            servicio.FechaAlta = DateTime.Now;
+            await _materialRepo.ActualizarServicioCotizacion(servicio);
+        }
+
+
+
+
+
+
+
 
         public async Task ActualizarUniformeCotizacion(MaterialCotizacionDTO dto)
         {

@@ -5,6 +5,8 @@ import { ListaProspecto } from '../../models/listaprospecto';
 import { ItemN } from 'src/app/models/item';
 import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
 
+import { StoreUser } from 'src/app/stores/StoreUser';
+
 @Component({
     selector: 'prospecto',
     templateUrl: './prospecto.component.html'
@@ -18,7 +20,7 @@ export class ProspectoComponent {
     idpro: number = 0;
     @ViewChild(EliminaWidget, { static: false }) eliw: EliminaWidget;
     
-    constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private rter: Router) {
+    constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private rter: Router, public user: StoreUser) {
         http.get<ItemN[]>(`${url}api/prospecto/getestatus`).subscribe(response => {
             this.lests = response;
         }, err => console.log(err));
@@ -27,7 +29,7 @@ export class ProspectoComponent {
 
     lista() {
         let qust: string = this.lspro.keywords == '' ? '' : '?keywords=' + this.lspro.keywords;
-        this.http.get<ListaProspecto>(`${this.url}api/prospecto/${this.lspro.pagina}/${this.lspro.idEstatusProspecto}${qust}`).subscribe(response => {
+        this.http.get<ListaProspecto>(`${this.url}api/prospecto/${this.user.idPersonal}/${this.lspro.pagina}/${this.lspro.idEstatusProspecto}${qust}`).subscribe(response => {
             this.lspro = response;
         }, err => console.log(err));
     }
@@ -43,7 +45,7 @@ export class ProspectoComponent {
 
     elige(id: number) {
         this.idpro = id;
-        this.eliw.titulo = 'Eliminar prospecto¿¿¿¿¿¿¿¿¿¿';
+        this.eliw.titulo = 'Eliminar prospecto';
         this.eliw.mensaje = '¿Está seguro de que desea inactivar el prospecto?';
         this.eliw.open();
     }

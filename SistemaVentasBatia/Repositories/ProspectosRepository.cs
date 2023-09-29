@@ -13,12 +13,12 @@ namespace SistemaVentasBatia.Repositories
     public interface IProspectosRepository
     {
         Task InsertarProspecto(Prospecto prospecto);
-        Task<List<Prospecto>> ObtenerProspectos(int pagina, EstatusProspecto idEstatusProspecto, string keywords);
+        Task<List<Prospecto>> ObtenerProspectos(int pagina, EstatusProspecto idEstatusProspecto, string keywords, int autorizacion, int idPersonal);
         Task<Prospecto> ObtenerProspectoPorId(int idProspecto);
         Task ActualizarProspecto(Prospecto prospecto);
         Task<List<Direccion>> ObtenerDireccionesPorProspecto(int idProspecto, int pagina);
         Task InsertarDireccion(Direccion direccion);
-        Task<List<Prospecto>> ObtenerCatalogoProspectos();
+        Task<List<Prospecto>> ObtenerCatalogoProspectos(int autorizacion, int idPersonal);
         Task<int> ObtenerIdProspectoPorCotizacion(int idCotizacion);
         Task<Prospecto> ObtenerProspectoPorCotizacion(int idCotizacion);
         Task InactivarProspecto(int registroAEliminar);
@@ -85,30 +85,50 @@ namespace SistemaVentasBatia.Repositories
             return numrows;
         }
 
-        public async Task<List<Prospecto>> ObtenerProspectos(int pagina, EstatusProspecto idEstatusProspecto, string keywords)
-        {        
-            var query = @"SELECT ROW_NUMBER() OVER ( ORDER BY id_prospecto desc ) AS RowNum, id_prospecto IdProspecto, nombre_comercial NombreComercial , razon_social RazonSocial, rfc Rfc, 
+        public async Task<List<Prospecto>> ObtenerProspectos(int pagina, EstatusProspecto idEstatusProspecto, string keywords, int autorizacion, int idPersonal)
+        {
+            var queryadmin = @"SELECT ROW_NUMBER() OVER ( ORDER BY id_prospecto desc ) AS RowNum, id_prospecto IdProspecto, nombre_comercial NombreComercial , razon_social RazonSocial, rfc Rfc, 
 				                domicilio_fiscal DomicilioFiscal, telefono Telefono,numero_contacto NumeroContacto, p.Per_Nombre + ' ' + p.Per_Paterno +' ' + p.Per_Materno RepresentanteLegal , documentacion Documentacion, 
 				                id_estatus_prospecto IdEstatusProspecto, tb_prospecto.fecha_alta FechaAlta, id_personal IdPersonal
                         FROM tb_prospecto
 						INNER JOIN dbo.Personal p on tb_prospecto.id_personal = p.IdPersonal
                         WHERE
                             ISNULL(NULLIF(@idEstatusProspecto,0), id_estatus_prospecto) = id_estatus_prospecto AND
-                            nombre_comercial like '%' + @keywords + '%'
+                            nombre_comercial like '%' + @keywords + '%' 
                         ORDER BY id_prospecto
                         OFFSET ((@pagina - 1) * 10) ROWS
                         FETCH NEXT 10 ROWS ONLY;";
-
+            var queryuser = @"SELECT ROW_NUMBER() OVER ( ORDER BY id_prospecto desc ) AS RowNum, id_prospecto IdProspecto, nombre_comercial NombreComercial , razon_social RazonSocial, rfc Rfc, 
+				                domicilio_fiscal DomicilioFiscal, telefono Telefono,numero_contacto NumeroContacto, p.Per_Nombre + ' ' + p.Per_Paterno +' ' + p.Per_Materno RepresentanteLegal , documentacion Documentacion, 
+				                id_estatus_prospecto IdEstatusProspecto, tb_prospecto.fecha_alta FechaAlta, id_personal IdPersonal
+                        FROM tb_prospecto
+						INNER JOIN dbo.Personal p on tb_prospecto.id_personal = p.IdPersonal
+                        WHERE
+                            ISNULL(NULLIF(@idEstatusProspecto,0), id_estatus_prospecto) = id_estatus_prospecto AND
+                            nombre_comercial like '%' + @keywords + '%'  AND
+                            tb_prospecto.id_personal = @idPersonal
+                        ORDER BY id_prospecto
+                        OFFSET ((@pagina - 1) * 10) ROWS
+                        FETCH NEXT 10 ROWS ONLY;";
             var prospectos = new List<Prospecto>();
 
             try
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    prospectos = (await connection.QueryAsync<Prospecto>(query, new { pagina, idEstatusProspecto, keywords = keywords ?? "" })).ToList();
+                    if (autorizacion == 1)
+                    {
+                        prospectos = (await connection.QueryAsync<Prospecto>(queryadmin, new { pagina, idEstatusProspecto, keywords = keywords ?? "" })).ToList();
+
+                    }
+                    else if (autorizacion == 0)
+                    {
+                        prospectos = (await connection.QueryAsync<Prospecto>(queryuser, new { pagina, idEstatusProspecto, keywords = keywords ?? "", idPersonal })).ToList();
+
+                    }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -214,10 +234,12 @@ namespace SistemaVentasBatia.Repositories
             }
         }
 
-        public async Task<List<Prospecto>> ObtenerCatalogoProspectos()
+        public async Task<List<Prospecto>> ObtenerCatalogoProspectos(int autorizacion, int idPersonal)
         {
-            var query = @"SELECT id_prospecto IdProspecto, nombre_comercial NombreComercial
+            var queryadmin = @"SELECT id_prospecto IdProspecto, nombre_comercial NombreComercial
                           FROM tb_prospecto WHERE id_estatus_prospecto = 1";
+            var queryuser = @"SELECT id_prospecto IdProspecto, nombre_comercial NombreComercial
+                          FROM tb_prospecto WHERE id_estatus_prospecto = 1 AND id_personal = @idPersonal";
 
             var prospectos = new List<Prospecto>();
 
@@ -225,7 +247,14 @@ namespace SistemaVentasBatia.Repositories
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    prospectos = (await connection.QueryAsync<Prospecto>(query)).ToList();
+                    if (autorizacion == 1)
+                    {
+                        prospectos = (await connection.QueryAsync<Prospecto>(queryadmin)).ToList();
+                    }
+                    else if (autorizacion == 0)
+                    {
+                        prospectos = (await connection.QueryAsync<Prospecto>(queryuser, new { idPersonal })).ToList();
+                    }
                 }
             }
             catch (Exception ex)

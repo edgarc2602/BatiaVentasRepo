@@ -28,6 +28,7 @@ namespace SistemaVentasBatia.Repositories
         Task<MaterialCotizacion> ObtenerEquipoCotizacionPorId(int id);
         Task<MaterialCotizacion> ObtenerHerramientaCotizacionPorId(int id);
         Task<MaterialCotizacion> ObtenerUniformeCotizacionPorId(int id);
+        Task<ServicioCotizacion> ServicioGetById(int id);
         Task<int> ContarEquipoCotizacion(int idCotizacion, int idDireccionCotizacion, int idPuestoDireccionCotizacion, string keywords);
         Task<int> ContarHerramientaCotizacion(int idCotizacion, int idDireccionCotizacion, int idPuestoDireccionCotizacion, string keywords);
         Task<int> ContarMaterialesCotizacion(int idCotizacion, int idDireccionCotizacion, int idPuestoDireccionCotizacion, string keywords);
@@ -57,6 +58,9 @@ namespace SistemaVentasBatia.Repositories
         Task<List<EquipoCotizacion>> ObtieneEquiposPorIdCotizacion(int idCotizacion);
         Task<List<HerramientaCotizacion>> ObtieneHerramientasPorIdCotizacion(int idCotizacion);
 
+
+        Task InsertarServicioCotizacion(ServicioCotizacion servicio);
+        Task ActualizarServicioCotizacion(ServicioCotizacion servicio);
     }
 
     public class MaterialRepository : IMaterialRepository
@@ -698,6 +702,91 @@ WHERE hc.id_cotizacion = @idCotizacion";
             }
         }
 
+        public async Task InsertarServicioCotizacion(ServicioCotizacion servicio)
+        {
+            string query = @"INSERT INTO tb_cotiza_servicioextra
+(
+id_servicioextra,
+id_cotizacion,
+id_direccion_cotizacion,
+precio_unitario,
+cantidad,
+total,
+importemensual,
+id_frecuencia,
+fecha_alta,
+id_personal
+)
+VALUES
+(
+@IdServicioExtra,
+@IdCotizacion,
+@IdDireccionCotizacion,
+@PrecioUnitario,
+@Cantidad,
+@Total,
+@ImporteMensual,
+@IdFrecuencia,
+@FechaAlta,
+@IdPersonal
+)";
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    await connection.ExecuteAsync(query, servicio);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task ActualizarServicioCotizacion(ServicioCotizacion servicio)
+        {
+            string query = @"
+UPDATE tb_cotiza_servicioextra
+SET 
+id_servicioextra = @IdServicioExtra,
+id_direccion_cotizacion = @IdDireccionCotizacion,
+precio_unitario = @PrecioUnitario,
+cantidad = @Cantidad,
+total = @Total, 
+importemensual = @ImporteMensual,
+id_frecuencia = @IdFrecuencia
+WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    await connection.ExecuteAsync(query, servicio);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task<bool> EliminarEquipoCotizacion(int idEquipoCotizacion)
         {
             bool reg = false;
@@ -1301,6 +1390,45 @@ p.descripcion DescripcionMaterial
 
             return naterialCotizacion;
         }
+
+        public async Task<ServicioCotizacion> ServicioGetById(int id)
+        {
+            var query = @"SELECT 
+cse.id_servicioextra_cotizacion IdServicioExtraCotizacion,
+cse.id_servicioextra IdServicioExtra,
+se.descripcion ServicioExtra,
+cse.id_cotizacion IdCotizacion,
+ISNULL(cse.id_direccion_cotizacion,0) IdDireccionCotizacion,
+ISNULL(d.nombre_sucursal,'General') Direccion,
+cse.precio_unitario PrecioUnitario,
+cse.cantidad Cantidad,
+cse.total Total,
+cse.importemensual ImporteMensual,
+cse.id_frecuencia IdFrecuencia,
+cse.fecha_alta FechaAlta,
+cse.id_personal IdPersonal
+FROM tb_cotiza_servicioextra cse
+INNER JOIN tb_servicioextra se ON cse.id_servicioextra =  se.id_servicioextra
+LEFT JOIN tb_direccion_cotizacion dc ON dc.id_direccion_cotizacion = cse.id_direccion_cotizacion
+LEFT JOIN tb_direccion d ON d.id_direccion = dc.id_direccion
+WHERE cse.id_servicioextra_cotizacion = @id";
+
+            var servicio = new ServicioCotizacion();
+
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    servicio = await connection.QueryFirstAsync<ServicioCotizacion>(query, new {id});
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return servicio;
+        }
+
 
         public async Task InsertarEquipoCotizacion(List<MaterialCotizacion> materialList)
         {

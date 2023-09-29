@@ -16,6 +16,7 @@ namespace SistemaVentasBatia.Models
         public decimal Uniforme { get; set; }
         public decimal Equipo { get; set; }
         public decimal Herramienta { get; set; }
+        public decimal Servicio { get; set; }
         public decimal SubTotal { get; set; }
         public decimal Indirecto { get; set; }
         public decimal Utilidad { get; set; }

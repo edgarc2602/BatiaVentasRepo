@@ -15,6 +15,9 @@ using System.IO;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace SistemaVentasBatia.Controllers
 {
@@ -35,10 +38,18 @@ namespace SistemaVentasBatia.Controllers
             this.catalogosSvc = catalogosSvc;
         }
 
+        //private readonly IConfiguration _configuration;
+
+        //public CotizacionController(IConfiguration configuration)
+        //{
+        //    _configuration = configuration;
+        //}
+
+        ///{idPersonal}
 
 
-        [HttpGet("{pagina}")]
-        public async Task<ActionResult<ListaCotizacionDTO>> Index(int idProspecto, EstatusCotizacion estatus, int servicio, int pagina = 1)
+        [HttpGet("{idPersonal}/{pagina}")]
+        public async Task<ActionResult<ListaCotizacionDTO>> Index(int idProspecto, EstatusCotizacion estatus, int servicio, int idPersonal = 0, int pagina = 1)
         {
             var listaCotizacionesVM = new ListaCotizacionDTO();
             listaCotizacionesVM.Pagina = pagina;
@@ -46,7 +57,8 @@ namespace SistemaVentasBatia.Controllers
             listaCotizacionesVM.IdServicio = servicio;
             listaCotizacionesVM.IdProspecto = idProspecto;
 
-            await cotizacionesSvc.ObtenerListaCotizaciones(listaCotizacionesVM);
+            int autorizacion = await cotizacionesSvc.ObtenerAutorizacion(idPersonal);
+            await cotizacionesSvc.ObtenerListaCotizaciones(listaCotizacionesVM, autorizacion, idPersonal);
 
             return listaCotizacionesVM;
         }
@@ -150,11 +162,11 @@ namespace SistemaVentasBatia.Controllers
         }
 
 
-
+        
         [HttpPost("[action]")]
         public async Task<IActionResult> ActualizarIndirectoUtilidadService([FromBody] Cotizacionupd cotizacionupd)
         {
-            await cotizacionesSvc.ActualizarIndirectoUtilidad(cotizacionupd.IdCotizacion, cotizacionupd.Indirecto, cotizacionupd.Utilidad, cotizacionupd.ComisionSV);
+            await cotizacionesSvc.ActualizarIndirectoUtilidad(cotizacionupd.IdCotizacion, cotizacionupd.Indirecto, cotizacionupd.Utilidad, cotizacionupd.ComisionSV, cotizacionupd.ComisionExt);
             return RedirectToAction("LimpiezaResumen");
         }
 

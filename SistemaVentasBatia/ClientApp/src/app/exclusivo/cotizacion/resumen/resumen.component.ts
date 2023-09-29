@@ -8,6 +8,7 @@ import { DireccionCotizacion } from 'src/app/models/direccioncotizacion';
 import { ListaDireccion } from 'src/app/models/listadireccion';
 import { ListaPuesto } from 'src/app/models/listapuesto';
 import { ListaMaterial } from 'src/app/models/listamaterial';
+import { ListaServicio } from 'src/app/models/listaservicio';
 import { Catalogo } from 'src/app/models/catalogo';
 import { MaterialAddWidget } from 'src/app/widgets/materialadd/materialadd.widget';
 import { MaterialWidget } from 'src/app/widgets/material/material.widget';
@@ -19,6 +20,7 @@ import { EliminaOperarioWidget } from 'src/app/widgets/eliminaOperario/eliminaOp
 import { MaterialOperarioAddWidget } from 'src/app/widgets/materialoperarioadd/materialoperarioadd.widget';
 import { EliminaDirectorioWidget } from 'src/app/widgets/eliminadirectorio/eliminadirectorio.widget';
 import { ActualizaCotizacionWidget } from 'src/app/widgets/actualizacotizacion/actualizacotizacion.widget';
+import { ServicioAddWidget } from 'src/app/widgets/servicioadd/servicioadd.widget';
 
 
 import { Cotizacionupd } from 'src/app/models/cotizacionupd';
@@ -41,20 +43,23 @@ export class ResumenComponent implements OnInit, OnDestroy {
     @ViewChild(EliminaOperarioWidget, { static: false }) eliope: EliminaOperarioWidget;
     @ViewChild(EliminaDirectorioWidget, { static: false }) elidir: EliminaDirectorioWidget;
 
+    @ViewChild(ServicioAddWidget, { static: false }) serAdd: ServicioAddWidget;
+
     @ViewChild('resumen', { static: false }) resumen: ElementRef;
     @ViewChild('pdfCanvas', { static: true }) pdfCanvas: ElementRef;
 
     @ViewChild('indirectotxt', { static: false }) indirectotxt: ElementRef;
     @ViewChild('utilidadtxt', { static: false }) utilidadtxt: ElementRef;
     @ViewChild('CSVtxt', { static: false }) CSVtxt: ElementRef;
+    @ViewChild('comisionExttxt', { static: false }) comisionExttxt: ElementRef;
 
 
 
     sub: any;
     model: CotizaResumenLim = {
         idCotizacion: 0, idProspecto: 0, salario: 0, cargaSocial: 0, provisiones: 0,
-        material: 0, uniforme: 0, equipo: 0, herramienta: 0,
-        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: '', csvPor: '', comisionSV: 0
+        material: 0, uniforme: 0, equipo: 0, herramienta: 0, servicio: 0,
+        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: '', csvPor: '', comisionSV: 0, comisionExt: 0, comisionExtPor: ''
     };
     dirs: ItemN[] = [];
     cotdirs: Catalogo[] = [];
@@ -62,6 +67,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
     lspue: ListaPuesto = {} as ListaPuesto;
     lsmat: ListaMaterial = {} as ListaMaterial;
     lsher: ListaMaterial = {} as ListaMaterial;
+    lsser: ListaServicio = {} as ListaServicio;
     selDireccion: number = 0;
     selPuesto: number = 0;
     selMatDir: number = 0;
@@ -73,11 +79,12 @@ export class ResumenComponent implements OnInit, OnDestroy {
     txtMatKey: string = '';
     sDir: boolean = false;
     modelcot: Cotizacionupd = {
-        idCotizacion: 0, indirecto: '', utilidad: '', comisionSV: ''
+        idCotizacion: 0, indirecto: '', utilidad: '', comisionSV: '', comisionExt: ''
     };
     indirectoValue: string = this.model.utilidadPor;
     utilidadValue: string = this.model.indirectoPor;
     CSV: string = this.model.csvPor;
+    ComisionExtValue: string = this.model.comisionExtPor;
 
 
     modelDir: DireccionCotizacion = {
@@ -113,8 +120,8 @@ export class ResumenComponent implements OnInit, OnDestroy {
     nuevo() {
         this.model = {
             idCotizacion: 0, idProspecto: 0, salario: 0, cargaSocial: 0, provisiones: 0,
-            material: 0, uniforme: 0, equipo: 0, herramienta: 0,
-            subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: '', csvPor: '', comisionSV: 0
+            material: 0, uniforme: 0, equipo: 0, herramienta: 0, servicio: 0,
+            subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', utilidadPor: '', indirectoPor: '', csvPor: '', comisionSV: 0, comisionExt: 0, comisionExtPor: ''
         };
     }
 
@@ -331,6 +338,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.modelcot.indirecto = this.indirectotxt.nativeElement.value;
         this.modelcot.utilidad = this.utilidadtxt.nativeElement.value;
         this.modelcot.comisionSV = this.CSVtxt.nativeElement.value;
+        this.modelcot.comisionExt = this.comisionExttxt.nativeElement.value;
 
 
         if (this.model.idCotizacion != 0) {
@@ -359,6 +367,13 @@ export class ResumenComponent implements OnInit, OnDestroy {
             }, err => console.log(err));
         }
     }
+
+    servicio(id: number) {
+        this.serAdd.open(id, this.model.idCotizacion);
+    }
+
+
+
     return($event) {
         if ($event = true) {
             this.getMatPues(this.selPuesto, this.selDireccion, this.selTipo);
@@ -393,5 +408,10 @@ export class ResumenComponent implements OnInit, OnDestroy {
         setTimeout(function () {
             boton.disabled = false;
         }, 2000);
+    }
+    getServ() {
+        this.http.get<ListaServicio>(`${this.url}api/material/ObtenerListaServiciosCotizacion/${this.model.idCotizacion}/${this.selMatDir}`).subscribe(response => {
+            this.lsser = response;
+        }, err => console.log(err));
     }
 }

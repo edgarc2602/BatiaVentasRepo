@@ -17,7 +17,8 @@ namespace SistemaVentasBatia.Repositories
     {
         Task InsertaCotizacion(Cotizacion cotizacion);
         Task<int> ContarCotizaciones(int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio);
-        Task<List<Cotizacion>> ObtenerCotizaciones(int pagina, int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio);
+        Task<List<Cotizacion>> ObtenerCotizaciones(int pagina, int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio, int admin, int idPersonal);
+        Task<int> ObtenerAutorizacion(int idPersonal);
         Task<List<Direccion>> ObtenerDireccionesPorCotizacion(int idCotizacion, int pagina);
         Task<List<Direccion>> ObtenerCatalogoDirecciones(int idProspecto);
         Task InsertarDireccionCotizacion(DireccionCotizacion direccionCVM);
@@ -36,7 +37,7 @@ namespace SistemaVentasBatia.Repositories
         Task EliminarOperario(int registroAEliminar);
         Task<int> CopiarCotizacion(int idCotizacion);
 
-        Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV);
+        Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV, string comisionExt);
         Task ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio);
         Task<bool> ValidarDirecciones(int idCotizacion);
         Task CopiarDirectorioCotizacion(int idCotizacion, int idCotizacionNueva);
@@ -125,11 +126,12 @@ namespace SistemaVentasBatia.Repositories
             return rows;
         }
 
-        public async Task<List<Cotizacion>> ObtenerCotizaciones(int pagina, int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio)
+        public async Task<List<Cotizacion>> ObtenerCotizaciones(int pagina, int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio, int admin, int idPersonal)
         {
-            var query = @"SELECT  *
+
+            var queryadmin = @"SELECT  *
                           FROM (SELECT ROW_NUMBER() OVER ( ORDER BY id_cotizacion desc ) AS RowNum, id_cotizacion IdCotizacion, id_servicio IdServicio, nombre_comercial NombreComercial, 
-                                id_estatus_Cotizacion IdEstatusCotizacion, c.fecha_alta FechaAlta, c.id_personal IdPersonal, c.total Total, c.nombre Nombre, per.Per_Nombre + ' ' + per.Per_Paterno + ' ' + per.Per_Materno AS IdAlta
+                                id_estatus_Cotizacion IdEstatusCotizacion, c.fecha_alta FechaAlta, c.id_personal IdPersonal, c.total Total, c.nombre Nombre, per.Per_Nombre + ' ' + per.Per_Paterno AS IdAlta
                                 FROM tb_cotizacion c
                                 JOIN tb_prospecto p on c.id_prospecto = p.id_prospecto
                                 INNER JOIN dbo.Personal per ON c.id_personal = per.IdPersonal 
@@ -138,10 +140,30 @@ namespace SistemaVentasBatia.Repositories
                                     ISNULL(NULLIF(@idProspecto,0), c.id_prospecto) = c.id_prospecto AND
                                     ISNULL(NULLIF(@idEstatusCotizacion,0), c.id_estatus_cotizacion) = c.id_estatus_cotizacion AND
                                     ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio
+                                    
+
                                ) AS Cotizaciones
                           WHERE   RowNum >= ((@pagina - 1) * 10) + 1
                               AND RowNum <= (@pagina * 10)
                           ORDER BY RowNum";
+            var queryuser = @"SELECT  *
+                          FROM (SELECT ROW_NUMBER() OVER ( ORDER BY id_cotizacion desc ) AS RowNum, id_cotizacion IdCotizacion, id_servicio IdServicio, nombre_comercial NombreComercial, 
+                                id_estatus_Cotizacion IdEstatusCotizacion, c.fecha_alta FechaAlta, c.id_personal IdPersonal, c.total Total, c.nombre Nombre, per.Per_Nombre + ' ' + per.Per_Paterno AS IdAlta
+                                FROM tb_cotizacion c
+                                JOIN tb_prospecto p on c.id_prospecto = p.id_prospecto
+                                INNER JOIN dbo.Personal per ON c.id_personal = per.IdPersonal 
+                                JOIN (SELECT * FROM fn_resumencotizacion(null)) r on c.id_Cotizacion = r.IdCotizacion
+                                WHERE 
+                                    ISNULL(NULLIF(@idProspecto,0), c.id_prospecto) = c.id_prospecto AND
+                                    ISNULL(NULLIF(@idEstatusCotizacion,0), c.id_estatus_cotizacion) = c.id_estatus_cotizacion AND
+                                    ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio AND
+                                    c.id_personal = @idPersonal
+
+                               ) AS Cotizaciones
+                          WHERE   RowNum >= ((@pagina - 1) * 10) + 1
+                              AND RowNum <= (@pagina * 10)
+                          ORDER BY RowNum";
+
 
             var cotizaciones = new List<Cotizacion>();
 
@@ -149,7 +171,14 @@ namespace SistemaVentasBatia.Repositories
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    cotizaciones = (await connection.QueryAsync<Cotizacion>(query, new { pagina, idProspecto, idEstatusCotizacion, idServicio })).ToList();
+                    if (admin == 1)
+                    {
+                        cotizaciones = (await connection.QueryAsync<Cotizacion>(queryadmin, new { pagina, idProspecto, idEstatusCotizacion, idServicio })).ToList();
+                    }
+                    else if (admin == 0)
+                    {
+                        cotizaciones = (await connection.QueryAsync<Cotizacion>(queryuser, new { pagina, idProspecto, idEstatusCotizacion, idServicio, idPersonal })).ToList();
+                    }
                 }
             }
             catch (Exception ex)
@@ -158,6 +187,24 @@ namespace SistemaVentasBatia.Repositories
             }
 
             return cotizaciones;
+        }
+
+        public async Task<int> ObtenerAutorizacion(int idPersonal)
+        {
+            var query = @"SELECT per_autoriza FROM Autorizacion_ventas WHERE idPersonal = @idPersonal";
+            int autorizacion = 0;
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    autorizacion = await connection.QueryFirstAsync<int>(query, new { idPersonal });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return autorizacion;
         }
 
         public async Task<List<Direccion>> ObtenerDireccionesPorCotizacion(int idCotizacion, int pagina)
@@ -313,6 +360,9 @@ namespace SistemaVentasBatia.Repositories
         public async Task<ResumenCotizacionLimpieza> ObtenerResumenCotizacionLimpieza(int idCotizacion)
         {
             var query = @"SELECT * FROM fn_resumencotizacion(@idCotizacion)";
+            var queryserv = @"SELECT ISNULL(SUM(ISNULL(importemensual,0)),0) AS Servicio
+FROM tb_cotiza_servicioextra
+WHERE id_cotizacion = @idCotizacion";
 
             var resumen = new ResumenCotizacionLimpieza();
 
@@ -321,6 +371,9 @@ namespace SistemaVentasBatia.Repositories
                 using (var connection = ctx.CreateConnection())
                 {
                     resumen = await connection.QueryFirstAsync<ResumenCotizacionLimpieza>(query, new { idCotizacion });
+
+                    resumen.Servicio = await connection.QueryFirstAsync<decimal>(queryserv, new { idCotizacion });
+
                 }
             }
             catch (Exception ex)
@@ -339,8 +392,8 @@ namespace SistemaVentasBatia.Repositories
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    
-                        await connection.ExecuteAsync(query, new { idCotizacion,total });
+
+                    await connection.ExecuteAsync(query, new { idCotizacion, total });
                 }
             }
             catch (Exception ex)
@@ -402,7 +455,8 @@ namespace SistemaVentasBatia.Repositories
             var query = @"SELECT id_cotizacion IdCotizacion,
 costo_indirecto CostoIndirecto,
 utilidad Utilidad,
-comision_venta ComisionSV
+comision_venta ComisionSV,
+comision_externa ComisionExt
 FROM tb_cotizacion  WHERE id_cotizacion = @id ";
             try
             {
@@ -564,11 +618,12 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             return idCotizacionNueva;
         }
 
-        public async Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV)
+        public async Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV, string comisionExt)
         {
             decimal indirectoval = decimal.Parse(indirecto);
             decimal utilidadval = decimal.Parse(utilidad);
             decimal comisionSVval = decimal.Parse(comisionSV);
+            decimal comisionExtval = decimal.Parse(comisionExt);
 
             string basemenor = ".0";
             string basemayor = ".";
@@ -576,6 +631,7 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             string indirectofin = "";
             string utilidadfin = "";
             string comisionSVfin = "";
+            string comisionExtfin = "";
 
             if (indirectoval < 10)
             {
@@ -602,24 +658,33 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             {
                 comisionSVfin = basemayor + comisionSV;
             }
-
+            if (comisionExtval < 10)
+            {
+                comisionExtfin = basemenor + comisionExt;
+            }
+            else
+            {
+                comisionExtfin = basemayor + comisionExt;
+            }
 
             decimal indirectodec = decimal.Parse(indirectofin);
             decimal utilidaddec = decimal.Parse(utilidadfin);
             decimal comisionSVdec = decimal.Parse(comisionSVfin);
+            decimal comisionExtdec = decimal.Parse(comisionExtfin);
 
 
             var query = @"UPDATE tb_cotizacion set 
 costo_indirecto = @indirectodec, 
 utilidad = @utilidaddec,
-comision_venta = @comisionSVdec
+comision_venta = @comisionSVdec,
+comision_externa = @comisionExtdec
 where id_cotizacion = @idCotizacion";
 
             try
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    await connection.ExecuteAsync(query, new { idCotizacion, indirectodec, utilidaddec, comisionSVdec });
+                    await connection.ExecuteAsync(query, new { idCotizacion, indirectodec, utilidaddec, comisionSVdec, comisionExtdec });
                 }
             }
             catch (Exception ex)

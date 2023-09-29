@@ -13,12 +13,12 @@ namespace SistemaVentasBatia.Services
     public interface IProspectosService
     {
         Task CrearProspecto(ProspectoDTO prospectoVM);
-        Task ObtenerListaProspectos(ListaProspectoDTO listaProspectosVM);
+        Task ObtenerListaProspectos(ListaProspectoDTO listaProspectosVM, int autorizacion, int idPersonal);
         Task<ProspectoDTO> ObtenerProspecto(int idProspecto);
         Task EditarProspecto(ProspectoDTO prospectoVM);
         Task ObtenerListaDirecciones(ListaDireccionDTO listaDireccionesVM);
         Task CrearDireccion(DireccionDTO direccionVM);
-        Task<List<ProspectoDTO>> ObtenerCatalogoProspectos();
+        Task<List<ProspectoDTO>> ObtenerCatalogoProspectos(int autorizacion, int idPersonal);
         Task<int> ObtenerIdProspectoPorCotizacion(int idCotizacion);
         Task<ProspectoDTO> ObtenerProspectoPorCotizacion(int idCotizacion);
         Task EliminarProspecto(int registroAEliminar);
@@ -55,7 +55,7 @@ namespace SistemaVentasBatia.Services
             prospectoVM.IdProspecto = prospecto.IdProspecto;
         }
 
-        public async Task ObtenerListaProspectos(ListaProspectoDTO listaProspectosVM)
+        public async Task ObtenerListaProspectos(ListaProspectoDTO listaProspectosVM, int autorizacion, int idPersonal)
         {
             listaProspectosVM.Rows = await prospectosRepo.ContarProspectos(listaProspectosVM.IdEstatusProspecto, listaProspectosVM.Keywords);
 
@@ -69,7 +69,7 @@ namespace SistemaVentasBatia.Services
                 }
 
                 listaProspectosVM.Prospectos = mapper.Map<List<ProspectoDTO>>(
-                    await prospectosRepo.ObtenerProspectos(listaProspectosVM.Pagina, listaProspectosVM.IdEstatusProspecto, listaProspectosVM.Keywords));
+                    await prospectosRepo.ObtenerProspectos(listaProspectosVM.Pagina, listaProspectosVM.IdEstatusProspecto, listaProspectosVM.Keywords, autorizacion, idPersonal));
             }
             else
             {
@@ -159,10 +159,10 @@ namespace SistemaVentasBatia.Services
 
         }
 
-        public async Task<List<ProspectoDTO>> ObtenerCatalogoProspectos()
-        {
+        public async Task<List<ProspectoDTO>> ObtenerCatalogoProspectos(int autorizacion, int idPersonal)
+            {
             //TODO Agregar Filtro por usuario
-            var prospectos = mapper.Map<List<ProspectoDTO>>(await prospectosRepo.ObtenerCatalogoProspectos());
+            var prospectos = mapper.Map<List<ProspectoDTO>>(await prospectosRepo.ObtenerCatalogoProspectos(autorizacion, idPersonal));
 
             return prospectos;
         }

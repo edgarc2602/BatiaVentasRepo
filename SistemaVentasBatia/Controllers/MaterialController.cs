@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SistemaVentasBatia.DTOs;
+using SistemaVentasBatia.Enums;
+using SistemaVentasBatia.Models;
 using SistemaVentasBatia.Services;
 
 namespace SistemaVentasBatia.Controllers
@@ -32,6 +34,61 @@ namespace SistemaVentasBatia.Controllers
 
             return listaMaterialesVM;
         }
+
+        [HttpGet("[action]/{idCotizacion}/{idDireccionCotizacion}")]
+        public async Task<ActionResult<ListaServiciosCotizacionLimpiezaDTO>> ObtenerListaServiciosCotizacion(int idCotizacion = 0, int idDireccionCotizacion = 0)
+        {
+            var listaServiciosVM = new ListaServiciosCotizacionLimpiezaDTO()
+            {
+                IdCotizacion = idCotizacion,
+            };
+
+            listaServiciosVM = await _logic.ObtenerListaServiciosCotizacion(idCotizacion, idDireccionCotizacion);
+
+            return listaServiciosVM;
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<ServicioCotizacionDTO>> ServicioGetById(int id)
+        {
+            var servicio = new ServicioCotizacionDTO();
+
+            servicio = await _logic.ServicioGetById(id);
+            return servicio;
+        }
+
+
+        [HttpPost("[action]")]
+        public async Task InsertarServicioCotizacion(ServicioCotizacion servicio)
+        {
+            await _logic.InsertarServicioCotizacion(servicio);
+            
+        }
+
+        [HttpPost("[action]")]
+        public async Task ActualizarServicioCotizacion(ServicioCotizacion servicio)
+        {
+            await _logic.ActualizarServicioCotizacion(servicio);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         [HttpGet("[action]/{idPuestoDireccionCotizacion}")]
         public async Task<ActionResult<ListaMaterialesCotizacionLimpiezaDTO>> GetByPuesto(int idPuestoDireccionCotizacion)

@@ -17,17 +17,19 @@ namespace SistemaVentasBatia.Controllers
         private readonly ILogger<ProspectoController> _logger;
         private readonly IProspectosService prospectosSvc;
         private readonly ICatalogosService catalogosSvc;
+        private readonly ICotizacionesService cotizacionesSvc;
 
 
-        public ProspectoController(ILogger<ProspectoController> logger, IProspectosService prospectosSvc, ICatalogosService catalogosSvc)
+        public ProspectoController(ILogger<ProspectoController> logger, IProspectosService prospectosSvc, ICatalogosService catalogosSvc, ICotizacionesService cotizacionesSvc)
         {
             _logger = logger;
             this.prospectosSvc = prospectosSvc;
             this.catalogosSvc = catalogosSvc;
+            this.cotizacionesSvc = cotizacionesSvc;
         }
 
-        [HttpGet("{pagina?}/{idEstatus?}")]
-        public async Task<ActionResult<ListaProspectoDTO>> Index([FromQuery] string keywords, int pagina = 1, int idEstatus = 0)
+        [HttpGet("{idPersonal?}/{pagina?}/{idEstatus?}")]
+        public async Task<ActionResult<ListaProspectoDTO>> Index([FromQuery] string keywords, int idPersonal = 0, int pagina = 1, int idEstatus = 0)
         {
             ListaProspectoDTO listaProspectosVM = new ListaProspectoDTO()
             {
@@ -36,7 +38,8 @@ namespace SistemaVentasBatia.Controllers
                 Keywords = keywords ?? ""
             };
 
-            await prospectosSvc.ObtenerListaProspectos(listaProspectosVM);
+            int autorizacion = await cotizacionesSvc.ObtenerAutorizacion(idPersonal);
+            await prospectosSvc.ObtenerListaProspectos(listaProspectosVM, autorizacion, idPersonal);
 
             return listaProspectosVM;
         }
@@ -47,10 +50,12 @@ namespace SistemaVentasBatia.Controllers
             return await prospectosSvc.ObtenerProspecto(id);
         }
 
-        [HttpGet("[action]")]
-        public async Task<IEnumerable<ProspectoDTO>> GetCatalogo()
+
+        [HttpPost("[action]")]
+        public async Task<IEnumerable<ProspectoDTO>> GetCatalogo([FromBody]int idPersonal = 0)
         {
-            return await prospectosSvc.ObtenerCatalogoProspectos();
+            int autorizacion = await cotizacionesSvc.ObtenerAutorizacion(idPersonal);
+            return await prospectosSvc.ObtenerCatalogoProspectos(autorizacion, idPersonal);
         }
 
         [HttpPut]

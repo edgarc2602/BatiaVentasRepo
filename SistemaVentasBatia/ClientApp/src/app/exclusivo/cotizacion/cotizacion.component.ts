@@ -12,6 +12,8 @@ import { Cotizacion } from '../../models/cotizacion';
 
 import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
 import { EditarCotizacion } from 'src/app/widgets/editacotizacion/editacotizacion.widget';
+
+import { StoreUser } from 'src/app/stores/StoreUser';
 @Component({
     selector: 'cotizacion',
     templateUrl: './cotizacion.component.html'
@@ -29,8 +31,8 @@ export class CotizacionComponent implements OnInit, OnDestroy {
 
     model: CotizaResumenLim = {
         idCotizacion: 0, idProspecto: 0, salario: 0, cargaSocial: 0, provisiones: 0,
-        material: 0, uniforme: 0, equipo: 0, herramienta: 0,
-        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', indirectoPor: '', utilidadPor: '', csvPor: '', comisionSV: 0
+        material: 0, uniforme: 0, equipo: 0, herramienta: 0, servicio: 0,
+        subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', indirectoPor: '', utilidadPor: '', csvPor: '', comisionSV: 0, comisionExtPor: '', comisionExt:0
     };
 
     lsdir: ListaDireccion = {} as ListaDireccion;
@@ -43,10 +45,8 @@ export class CotizacionComponent implements OnInit, OnDestroy {
 
 
 
-    constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private route: ActivatedRoute) {
-        http.get<Prospecto[]>(`${url}api/prospecto/getcatalogo`).subscribe(response => {
-            this.lpros = response;
-        }, err => console.log(err));
+    constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private route: ActivatedRoute, public user: StoreUser) {
+       
         http.get<ItemN[]>(`${url}api/prospecto/getservicio`).subscribe(response => {
             this.lsers = response;
         }, err => console.log(err));
@@ -72,8 +72,11 @@ export class CotizacionComponent implements OnInit, OnDestroy {
         if (fil.length > 0) fil += '&';
         fil += (this.lcots.idProspecto > 0 ? `idProspecto=${this.lcots.idProspecto}` : '');
         if (fil.length > 0) fil = '?' + fil;
-        this.http.get<ListaCotizacion>(`${this.url}api/cotizacion/${this.lcots.pagina}${fil}`).subscribe(response => {
+        this.http.get<ListaCotizacion>(`${this.url}api/cotizacion/${this.user.idPersonal}/${this.lcots.pagina}${fil}`).subscribe(response => {
             this.lcots = response;
+        }, err => console.log(err));
+        this.http.post<Prospecto[]>(`${this.url}api/prospecto/getcatalogo`, this.user.idPersonal).subscribe(response => {
+            this.lpros = response;
         }, err => console.log(err));
     }
 
@@ -84,7 +87,7 @@ export class CotizacionComponent implements OnInit, OnDestroy {
         if (fil.length > 0) fil += '&';
         fil += (this.lcots.idProspecto > 0 ? `idProspecto=${this.lcots.idProspecto}` : '');
         if (fil.length > 0) fil = '?' + fil;
-        this.http.get<ListaCotizacion>(`${this.url}api/cotizacion/${this.lcots.pagina}${fil}`).subscribe(response => {
+        this.http.get<ListaCotizacion>(`${this.url}api/cotizacion/${this.user.idPersonal}/${this.lcots.pagina}${fil}`).subscribe(response => {
             this.lcots = response;
         }, err => console.log(err));
     }
@@ -104,6 +107,8 @@ export class CotizacionComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        
+
         this.sub = this.route.params.subscribe(params => {
             let idp: number = +params['idp'];
             if (idp > 0) {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaVentasBatia.DTOs;
 using SistemaVentasBatia.Services;
 using SistemaVentasBatia.Enums;
+using System.Diagnostics.Eventing.Reader;
 
 namespace SistemaVentasBatia.Controllers
 {
@@ -30,6 +31,12 @@ namespace SistemaVentasBatia.Controllers
         public async Task<IEnumerable<CatalogoDTO>> GetEstado()
         {
             return await logic.ObtenerEstados();
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<CatalogoDTO>> GetServicio()
+        {
+            return await logic.ObtenerServicios();
         }
 
         [HttpGet("[action]")]

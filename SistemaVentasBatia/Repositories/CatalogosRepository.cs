@@ -12,6 +12,7 @@ namespace SistemaVentasBatia.Repositories
     public interface ICatalogosRepository
     {
         Task<List<Catalogo>> ObtenerEstados();
+        Task<List<Catalogo>> ObtenerServicios();
         Task<List<Catalogo>> ObtenerMunicipios(int idMunicipio);
         Task<List<Catalogo>> ObtenerTiposInmueble();
         Task<List<MaterialPuesto>> ObtenerMaterialDefaultPorPuesto(int idPuesto);
@@ -55,6 +56,30 @@ namespace SistemaVentasBatia.Repositories
 
             return estados;
         }
+
+        public async Task<List<Catalogo>> ObtenerServicios()
+        {
+            var query = @"SELECT id_servicioextra Id, descripcion Descripcion  FROM tb_servicioextra";
+                          
+
+            var servicios = new List<Catalogo>();
+
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    servicios = (await connection.QueryAsync<Catalogo>(query)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return servicios;
+        }
+
+
 
         public async Task<List<Catalogo>> ObtenerMunicipios(int idEstado)
         {

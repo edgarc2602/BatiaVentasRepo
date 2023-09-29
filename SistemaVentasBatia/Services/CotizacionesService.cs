@@ -16,7 +16,8 @@ namespace SistemaVentasBatia.Services
     public interface ICotizacionesService
     {
         Task CrearCotizacion(CotizacionDTO cotizacionVM);
-        Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM);
+        Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM, int autorizacion, int idPersonal);
+        Task<int> ObtenerAutorizacion(int idPersonal);
         Task ObtenerListaDireccionesPorCotizacion(ListaDireccionDTO listaDireccionesVM);
         Task<List<DireccionDTO>> ObtenerCatalogoDireccionesPorProspecto(int idProspecto);
         Task AgregarDireccionCotizacion(DireccionCotizacionDTO direccionCVM);
@@ -30,7 +31,7 @@ namespace SistemaVentasBatia.Services
         Task<int> ObtenerIdDireccionCotizacionPorOperario(int registroAEliminar);
         Task EliminarOperario(int registroAEliminar);
         Task<int> DuplicarCotizacion(int idCotizacion);
-        Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV);
+        Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV, string comisionExt);
         Task <bool>ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio);
         
         Task<ListaMaterialesCotizacionLimpiezaDTO> ObtenerMaterialCotizacionLimpieza(int id);
@@ -41,7 +42,7 @@ namespace SistemaVentasBatia.Services
         Task<int> ObtenerIdPuestoDireccionCotizacionPorMaterial(int registroAEliminar);
         Task<int> ObtenerIdDireccionCotizacionPorMaterial(int registroAEliminar);
         Task<int> ObtenerIdCotizacionPorMaterial(int idDireccionCotizacion);
-        
+        //Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM, object admin, int idPersonal);
     }
 
     public class CotizacionesService : ICotizacionesService
@@ -71,7 +72,8 @@ namespace SistemaVentasBatia.Services
             cotizacionVM.IdCotizacion = cotizacion.IdCotizacion;
         }
 
-        public async Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM)
+        
+        public async Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM, int autorizacion, int idPersonal)
         {
             listaCotizacionesVM.Rows = await cotizacionesRepo.ContarCotizaciones(listaCotizacionesVM.IdProspecto, listaCotizacionesVM.IdEstatusCotizacion, listaCotizacionesVM.IdServicio);
 
@@ -84,7 +86,7 @@ namespace SistemaVentasBatia.Services
                     listaCotizacionesVM.NumPaginas++;
                 }
 
-                var lista = await cotizacionesRepo.ObtenerCotizaciones(listaCotizacionesVM.Pagina, listaCotizacionesVM.IdProspecto, listaCotizacionesVM.IdEstatusCotizacion, listaCotizacionesVM.IdServicio);
+                var lista = await cotizacionesRepo.ObtenerCotizaciones(listaCotizacionesVM.Pagina, listaCotizacionesVM.IdProspecto, listaCotizacionesVM.IdEstatusCotizacion, listaCotizacionesVM.IdServicio, autorizacion, idPersonal);
                 listaCotizacionesVM.Cotizaciones = lista.Select(c =>
                     new CotizacionMinDTO
                     {
@@ -102,6 +104,11 @@ namespace SistemaVentasBatia.Services
             {
                 listaCotizacionesVM.Cotizaciones = new List<CotizacionMinDTO>();
             }
+        }
+        public async Task<int> ObtenerAutorizacion(int idPersonal)
+        {
+            int autorizacion = await cotizacionesRepo.ObtenerAutorizacion(idPersonal);
+            return autorizacion;
         }
 
         public async Task ObtenerListaDireccionesPorCotizacion(ListaDireccionDTO listaDireccionesVM)
@@ -346,10 +353,12 @@ namespace SistemaVentasBatia.Services
 
             try
             {
-                resumenCotizacion.SubTotal = resumenCotizacion.Salario + resumenCotizacion.Provisiones + resumenCotizacion.CargaSocial + resumenCotizacion.Material + resumenCotizacion.Uniforme + resumenCotizacion.Equipo + resumenCotizacion.Herramienta;
+                //resumenCotizacion.SubTotal = resumenCotizacion.SubTotal + resumenCotizacion.Servicio;
+                resumenCotizacion.SubTotal = resumenCotizacion.Salario + resumenCotizacion.Provisiones + resumenCotizacion.CargaSocial + resumenCotizacion.Material + resumenCotizacion.Uniforme + resumenCotizacion.Equipo + resumenCotizacion.Herramienta + resumenCotizacion.Servicio;
                 resumenCotizacion.Indirecto = resumenCotizacion.SubTotal * obtenercot.CostoIndirecto;
                 resumenCotizacion.Utilidad = (resumenCotizacion.SubTotal + resumenCotizacion.Indirecto) * obtenercot.Utilidad;
                 resumenCotizacion.ComisionSV = (resumenCotizacion.SubTotal + resumenCotizacion.Indirecto + resumenCotizacion.Utilidad) * (obtenercot.ComisionSV);
+                resumenCotizacion.ComisionExt = (resumenCotizacion.SubTotal + resumenCotizacion.Indirecto + resumenCotizacion.Utilidad + resumenCotizacion.ComisionSV) * (obtenercot.ComisionExt);
                 resumenCotizacion.NombreComercial = obtenernombre.NombreComercial;
 
                 
@@ -384,15 +393,27 @@ namespace SistemaVentasBatia.Services
                     ComisionSV = 0;
                 }
 
+                decimal ComisionExt;
+                if ((resumenCotizacion.Indirecto + resumenCotizacion.Utilidad + resumenCotizacion.ComisionSV + resumenCotizacion.SubTotal) != 0)
+                {
+                    ComisionExt = (resumenCotizacion.ComisionExt / (resumenCotizacion.ComisionSV + resumenCotizacion.Utilidad + resumenCotizacion.Indirecto + resumenCotizacion.SubTotal)) * 100;
+                }
+                else
+                {
+                    ComisionExt = 0;
+                }
+
 
 
                 int indirectoint = Convert.ToInt32(indirecto);
                 int utilidadint = Convert.ToInt32(utilidad);
                 int comisionsvint = Convert.ToInt32(ComisionSV);
+                int comisionExtint = Convert.ToInt32(ComisionExt);
 
                 resumenCotizacion.IndirectoPor = indirectoint.ToString();
                 resumenCotizacion.UtilidadPor = utilidadint.ToString();
                 resumenCotizacion.CsvPor = comisionsvint.ToString();
+                resumenCotizacion.ComisionExtPor = comisionExtint.ToString();
 
 
                if (resumenCotizacion.SubTotal == 0)
@@ -400,8 +421,9 @@ namespace SistemaVentasBatia.Services
                     resumenCotizacion.IndirectoPor = obtenercot.CostoIndirecto.ToString();
                     resumenCotizacion.UtilidadPor = obtenercot.Utilidad.ToString();
                     resumenCotizacion.CsvPor = obtenercot.ComisionSV.ToString();
+                    resumenCotizacion.ComisionExtPor = obtenercot.ComisionExt.ToString();
                 }
-                decimal total = resumenCotizacion.SubTotal + resumenCotizacion.Indirecto + resumenCotizacion.Utilidad + resumenCotizacion.ComisionSV;
+                decimal total = resumenCotizacion.SubTotal + resumenCotizacion.Indirecto + resumenCotizacion.Utilidad + resumenCotizacion.ComisionSV + resumenCotizacion.ComisionExt;
                 await cotizacionesRepo.InsertarTotalCotizacion(total, id);
 
 
@@ -651,9 +673,9 @@ namespace SistemaVentasBatia.Services
             return idCotizacionNueva;
         }
 
-        public async Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV)
+        public async Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV, string comisionExt)
         {
-            await cotizacionesRepo.ActualizarIndirectoUtilidad(idCotizacion, indirecto, utilidad,comisionSV);
+            await cotizacionesRepo.ActualizarIndirectoUtilidad(idCotizacion, indirecto, utilidad,comisionSV,comisionExt);
         }
 
         public async Task <bool>ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio)

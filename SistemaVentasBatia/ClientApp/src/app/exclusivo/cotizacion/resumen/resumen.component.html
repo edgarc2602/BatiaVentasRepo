@@ -10,10 +10,15 @@
             <script src="../../cotizacion/resumen/"></script>
         </div>
         <h2 class="text-black-90">Cotización {{model.nombreComercial}}</h2>
-        <h6 class="text-black-50">Id: {{model.idCotizacion}}</h6>
-        <div class="float-end">
-            <h6 class="text-black-50">Id cotizacion original: {{model.idCotizacionOriginal}}</h6>
+        <div class="row">
+            <h6 class="text-black-50">Id: {{model.idCotizacion}}</h6>
+            <!--<h6 class="text-black-50 float-end">Id cotizacion original: {{model.idCotizacionOriginal}}</h6>-->
         </div>
+
+
+        <!--<div class="float-end">
+            <h6 class="text-black-50">Id cotizacion original: {{model.idCotizacionOriginal}}</h6>
+        </div>-->
     </div>
 
     <ul class="nav nav-tabs" role="tablist">
@@ -71,6 +76,13 @@
                     data-bs-target="#material" role="tab" aria-controls="herramienta"
                     aria-selected="false">
                 Herramienta
+            </button>
+        </li>
+        <li class="nav-item">
+            <button type="button" class="nav-link" (click)="getServ()" data-bs-toggle="tab"
+                    data-bs-target="#servicio" role="tab" aria-controls="servicio"
+                    aria-selected="false">
+                Servicio
             </button>
         </li>
     </ul>
@@ -135,10 +147,18 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="border-bottom border-success">
+                            <td class="border-bottom">
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Herramientas</h5></div>
                                     <div class="col-3  text-end"><h5>${{ model.herramienta | number: '1.2' }}</h5></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border-bottom border-success">
+                                <div class="row">
+                                    <div class="col-3 offset-3 text-start"><h5>Servicios</h5></div>
+                                    <div class="col-3  text-end"><h5>${{ model.servicio | number: '1.2' }}</h5></div>
                                 </div>
                             </td>
                         </tr>
@@ -188,15 +208,12 @@
                                 </div>
                             </td>
                         </tr>
-
-
-
                         <tr>
                             <td class="border-bottom border-success">
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Comision sobre venta (%)</h5></div>
                                     <div class="col-1">
-                                        <input #CSVtxt type="text" class="form-control" id="CSV" name="CSV" [(ngModel)]="CSV" (input)="validarSoloNumeros(utilidadValue)" value="{{model.csvPor}}" placeholder="{{model.csvPor}}"autocomplete="off" required>
+                                        <input #CSVtxt type="text" class="form-control" id="CSV" name="CSV" [(ngModel)]="CSV" (input)="validarSoloNumeros(utilidadValue)" value="{{model.csvPor}}" placeholder="{{model.csvPor}}" autocomplete="off" required>
                                     </div>
                                     <div class="col-2  text-end"><h5>${{ model.comisionSV | number: '1.2' }}</h5></div>
                                 </div>
@@ -213,12 +230,44 @@
 
 
 
+
+
+
+
+
+                        <tr>
+                            <td class="border-bottom border-success">
+                                <div class="row">
+                                    <div class="col-3 offset-3 text-start"><h5>Comision externa (%)</h5></div>
+                                    <div class="col-1">
+                                        <input #comisionExttxt type="text" class="form-control" id="comisionExt" name="comisionExt" [(ngModel)]="comisionExtValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.comisionExtPor}}" placeholder="{{model.comisionExtPor}}" autocomplete="off" required>
+                                    </div>
+                                    <div class="col-2  text-end"><h5>${{ model.comisionExt | number: '1.2' }}</h5></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border-bottom">
+                                <div class="row">
+                                    <div class="col-3 offset-6  text-end text-success"><h5>${{ model.subTotal + model.indirecto + model.utilidad + model.comisionSV + model.comisionExt | number: '1.2' }}</h5></div>
+                                    <div class="col-3 text-start text-success"><h5>Total Comision Externa</h5></div>
+                                </div>
+                            </td>
+                        </tr>
+
+
+
+
+
+
+
+
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h4>Total</h4></div>
                                     <!--<div class="col-3  text-end"><h5>   { model.total | number: '1.2' }   </h5></div>-->
-                                    <div class="col-3  text-end"><h4>${{ (model.subTotal + model.indirecto + model.utilidad) + model.comisionSV| number: '1.2' }}</h4></div>
+                                    <div class="col-3  text-end"><h4>${{ model.subTotal + model.indirecto + model.utilidad + model.comisionSV + model.comisionExt | number: '1.2' }}</h4></div>
                                 </div>
                             </td>
                         </tr>
@@ -518,8 +567,109 @@
                 <pagina-widget [pagina]="lsmat.pagina" [numPaginas]="lsmat.numPaginas" [rows]="lsmat.rows" (chgEvent)="matPagina($event)"></pagina-widget>
             </div>
         </div>
+        <div class="tab-pane fade" id="servicio" role="tabpanel" aria-labelledby="plantilla-tab">
+            <div>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" [(ngModel)]="txtMatKey" asp-for="Keywords" placeholder="Escriba un nombre">
+                            <label asp-for="Keywords">Servicio</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <select class="form-select" [(ngModel)]="selMatDir" asp-for="IdDireccionCotizacion" aria-label="IdDireccionCotizacion">
+                                <option value="0" selected>Selecciona una opción...</option>
+                                <option *ngFor="let dm of cotdirs" [ngValue]="dm.id">{{ dm.descripcion }}</option>
+                            </select>
+                            <label for="ddlServicio">Sucursal</label>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-3">
+                        <div class="form-floating">
+                            <select class="form-select" [(ngModel)]="selMatPue" asp-for="IdPuestoDireccionCotizacion" aria-label="IdEstatusCotizacion">
+                                <option value="0" selected>Selecciona una opción...</option>
+                                <option *ngFor="let pm of lspue.puestosDireccionesCotizacion" [ngValue]="pm.idPuestoDireccionCotizacion">{{ pm.puesto }}</option>
+                            </select>
+                            <label for="ddlServicio">Puesto</label>
+                        </div>
+                    </div>-->
+
+                    <div class="col-md-6">
+                        <button type="button" (click)="getServ()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+                        <button type="button" (click)="servicio(0)" class="btn btn-outline-primary float-end " id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar servicio</button>
+                        <!--(click)="getNewMat(selTipo)"-->
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="border-radius: 10px; overflow-x: hidden;">
+                <table class="table table-borderless table-striped table-responsive">
+                    <thead>
+                        <tr class="bg-primary bg-opacity-75 text-white">
+                            <th class="ps-2">Lista de servicios</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--<tr *ngFor="let mat of lsmat.materialesCotizacion">-->
+                        <tr *ngFor="let ser of lsser.serviciosCotizacion">
+                            <td>
+                                <div class="row pb-2 text-center">
+                                    <div class="col-md-1 col-sm-4" style="display: none;">
+                                        <span class="badge text-dark text-center">idServicio:</span>
+                                        <div class="text-center">{{ ser.idServicioExtra }}</div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4">
+                                        <span class="badge text-dark">Servicio:</span>
+                                        <div class="ms-2 text-center">{{ ser.servicioExtra }}</div>
+                                        <small>{{ ser.direccion }}</small>
+
+                                    </div>
+                                    <div class="col-md-3 col-sm-4">
+                                        <span class="badge text-dark text-center">Dirección:</span>
+                                        <div class="text-center">{{ ser.direccion }}</div>
+                                    </div>
+                                    <div class="col-md-1 col-sm-4 text-center">
+                                        <span class="badge text-dark">Costo:</span>
+                                        <div class="ms-2 text-center">${{ ser.precioUnitario | number: '0.2' }}</div>
+                                    </div>
+                                    <div class="col-md-1 col-sm-4">
+                                        <span class="badge text-dark">Cantidad:</span>
+                                        <div class="ms-2 text-center">{{ ser.cantidad | number: '0.0' }}</div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4">
+                                        <span class="badge text-dark">Frecuencia:</span>
+                                        <div class="ms-2 text-center">{{ ser.idFrecuencia }}</div>
+                                    </div>
+                                    <div class="col-md-1 col-sm-4">
+                                        <span class="badge text-dark">Total:</span>
+                                        <div class="ms-2 text-center">${{ ser.cantidad * ser.precioUnitario | number: '0.2' }}</div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4">
+                                        <span class="badge text-dark">Fecha Alta:</span>
+                                        <div class="ms-2 text-center">{{ ser.fechaAlta | date: 'dd/MM/yyyy' }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle w-auto">
+                                <a class="btn btn-sm text-primary mb-1" (click)="servicio(ser.idServicioExtraCotizacion)" data-bs-toggle="tooltip" title="Editar">
+                                    <i class="fa-solid fa-pencil fa-2x"></i>
+                                </a>
+                                <a class="btn btn-sm text-danger mb-1" (click)="removeMat(mat.idMaterialCotizacion)" data-bs-toggle="tooltip" title="Eliminar">
+                                    <i class="fa-solid fa-times fa-2x"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagina-widget [pagina]="lsmat.pagina" [numPaginas]="lsmat.numPaginas" [rows]="lsmat.rows" (chgEvent)="matPagina($event)"></pagina-widget>
+            </div>
+        </div>
+
+
+
     </div>
-</div> 
+</div>
 
 
 <direc-widget (smEvent)="saveDir($event)"></direc-widget>
@@ -537,3 +687,5 @@
 
 <eliminaOperario-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></eliminaOperario-widget>
 <!--<mateoperarioadd-widget (m2Event)="opeMat($event)"></mateoperarioadd-widget>-->
+
+<servadd-widget (servEvent)="guardar($event)"></servadd-widget>
