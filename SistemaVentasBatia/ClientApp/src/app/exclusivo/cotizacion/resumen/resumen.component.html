@@ -6,7 +6,7 @@
         <div class="float-end">
             <!--<button type="submit" (click)="descargarCotizacion(model.idCotizacion)" class="btn btn-outline-info"><i class="fa-solid fa-download"></i>  Descargar cotización</button><br><br>-->
             <!--<button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>-->
-            <button type="button" id="miBoton" (click)="descargarCotizacionComponent()" class="btn btn-outline-info"><i class="fa-solid fa-download"></i> Descargar Cotización</button>
+            <button type="button" id="miBoton" (click)="descargarCotizacionComponent()" class="btn btn-outline-info box-shadow"><i class="fa-solid fa-download"></i> Descargar Cotización</button>
             <script src="../../cotizacion/resumen/"></script>
         </div>
         <h2 class="text-black-90">Cotización {{model.nombreComercial}}</h2>
@@ -175,7 +175,7 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Costo Indirecto (%)</h5></div>
                                     <div class="col-1">
-                                        <input #indirectotxt type="text" class="form-control aliggn-content-start" id="indirectoPor" name="indirecto" [(ngModel)]="indirectoValue" value="{{model.indirectoPor}}" placeholder="{{model.indirectoPor}}" autocomplete="off" required>
+                                        <input #indirectotxt type="text" class="form-control aliggn-content-start box-shadow" id="indirectoPor" name="indirecto" [(ngModel)]="indirectoValue" value="{{model.indirectoPor}}" placeholder="{{model.indirectoPor}}" autocomplete="off" required>
                                     </div>
                                     <div class="col-2 text-end"><h5>${{ model.indirecto | number: '1.2' }}</h5></div>
                                 </div>
@@ -194,7 +194,7 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Utilidad (%)</h5></div>
                                     <div class="col-1">
-                                        <input #utilidadtxt type="text" class="form-control" id="utilidad" name="utilidadPor" [(ngModel)]="utilidadValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.utilidadPor}}" placeholder="{{model.utilidadPor}}" autocomplete="off" required>
+                                        <input #utilidadtxt type="text" class="form-control box-shadow" id="utilidad" name="utilidadPor" [(ngModel)]="utilidadValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.utilidadPor}}" placeholder="{{model.utilidadPor}}" autocomplete="off" required>
                                     </div>
                                     <div class="col-2  text-end"><h5>${{ model.utilidad | number: '1.2' }}</h5></div>
                                 </div>
@@ -213,7 +213,7 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Comision sobre venta (%)</h5></div>
                                     <div class="col-1">
-                                        <input #CSVtxt type="text" class="form-control" id="CSV" name="CSV" [(ngModel)]="CSV" (input)="validarSoloNumeros(utilidadValue)" value="{{model.csvPor}}" placeholder="{{model.csvPor}}" autocomplete="off" required>
+                                        <input #CSVtxt type="text" class="form-control box-shadow" id="CSV" name="CSV" [(ngModel)]="CSV" (input)="validarSoloNumeros(utilidadValue)" value="{{model.csvPor}}" placeholder="{{model.csvPor}}" autocomplete="off" required>
                                     </div>
                                     <div class="col-2  text-end"><h5>${{ model.comisionSV | number: '1.2' }}</h5></div>
                                 </div>
@@ -240,7 +240,7 @@
                                 <div class="row">
                                     <div class="col-3 offset-3 text-start"><h5>Comision externa (%)</h5></div>
                                     <div class="col-1">
-                                        <input #comisionExttxt type="text" class="form-control" id="comisionExt" name="comisionExt" [(ngModel)]="comisionExtValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.comisionExtPor}}" placeholder="{{model.comisionExtPor}}" autocomplete="off" required>
+                                        <input #comisionExttxt type="text" class="form-control box-shadow" id="comisionExt" name="comisionExt" [(ngModel)]="comisionExtValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.comisionExtPor}}" placeholder="{{model.comisionExtPor}}" autocomplete="off" required>
                                     </div>
                                     <div class="col-2  text-end"><h5>${{ model.comisionExt | number: '1.2' }}</h5></div>
                                 </div>
@@ -274,6 +274,7 @@
                     </tbody>
                 </table>
             </div>
+            <br />
             <div>
                 <form id="forcotupd">
                     <div class="row">
@@ -281,18 +282,19 @@
 
                         </div>
                         <div class="col-3">
-                            <button type="submit" class="btn btn-outline-info" (click)="actualizarIndirectoUtilidad()">Actualizar</button><br><br>
+                            <button type="submit" class="btn btn-outline-info box-shadow" (click)="actualizarIndirectoUtilidad()">Actualizar</button><br><br>
                             <!--<button type="submit" class="btn btn-outline-success" (click)="validaActualizacionCotizacion()">Actualizar</button><br><br>-->
                         </div>
                         <div class="col-2">
 
                         </div>
                         <div class="col-4">
-                            <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
+                            <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-success box-shadow"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
                             <!--<button type="submit" class="btn btn-outline-info" (click)="descargarCotizacion()">Descargar cotización</button><br><br>-->
                         </div>
                     </div>
                 </form>
+                <br />
                 <script src="script.js"></script>
 
 
@@ -325,9 +327,9 @@
                 <div class="col-sm-12 col-md-2">
                     <button type="button" (click)="addDir()" class="btn btn-outline-success"><i class="fa-solid fa-plus"></i> Agregar</button>
                 </div>
-                <div class="col-sm-12 col-md-2 offset-md-2">
+                <div class="col-sm-12 col-md-3 offset-md-2">
                     <div class="btn-group">
-                        <button type="button" (click)="getNewDir()" class="btn btn-outline-primary" id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Nueva Dirección</button>
+                        <button type="button" (click)="getNewDir()" class="btn btn-outline-primary box-shadow" id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Nueva Dirección</button>
                     </div>
                 </div>
             </div>
@@ -352,31 +354,31 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="plantilla" role="tabpanel" aria-labelledby="plantilla-tab">
+        <div class="tab-pane fade " id="plantilla" role="tabpanel" aria-labelledby="plantilla-tab">
             <div class="d-flex flex-row-reverse">
                 <h5><i class="bi bi-people-fill"></i><span class="badge bg-primary ">No. Empleados: {{lspue.empleados}}  </span></h5>
                 <h5 class="me-1"><span class="badge bg-primary ">Importe mensual: $ {{ model.subTotal + model.indirecto + model.utilidad | number: '1.2' }}</span></h5>
             </div>
             <div id="accordion" *ngFor="let dir of lspue.direccionesCotizacion">
-                <div class="card ">
+                <div class="card box-shadow">
                     <div class="card-header bg-primary bg-opacity-75">
                         <div class="row ">
                             <div class="col-md-3 pt-2">
-                                <a id="aListaOperarios{{ dir.idDireccionCotizacion }}" class="btn text-white " data-bs-toggle="collapse" href="#dvPuestosDireccion{{ dir.idDireccionCotizacion }}">
+                                <a id="aListaOperarios{{ dir.idDireccionCotizacion }}" class="btn text-white" data-bs-toggle="collapse" href="#dvPuestosDireccion{{ dir.idDireccionCotizacion }}">
                                     <h5 style="margin-bottom:0;">
                                         {{ dir.nombreSucursal }}
                                     </h5>
                                 </a>
                             </div>
                             <div class="col-md-3">
-
                             </div>
                             <div class="col-md-3">
-
                             </div>
                             <div class="col-md-3">
                                 <div class="float-end text-primary mt-2" style="cursor:pointer;" data-bs-toggle="tooltip" title="Agregar operario">
-                                    <a (click)="addPlan(dir.idDireccionCotizacion, dir.idTabulador)" class="agrega-puesto"><i class="fa-solid fa-user-plus fa-3x" style="color: white"></i> </a>
+                                    <a (click)="addPlan(dir.idDireccionCotizacion, dir.idTabulador)" class="agrega-puesto">
+                                        <i class="fa-solid fa-user-plus fa-3x" style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -441,28 +443,33 @@
                                                         <span class="badge text-dark">Total:</span>
                                                         <div class="ms-1">$ {{ pt.total | number: '0.2' }}</div>
                                                     </div>
-
                                                 </div>
                                             </td>
                                             <td class="align-middle w-auto">
                                                 <div class="float-end">
                                                     <a class="btn btn-sm text-secondary mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'material')" data-bs-toggle="tooltip" title="Material">
                                                         <i class="fa-solid fa-pump-soap fa-2x"></i>
+                                                        <!--<i class="fa-solid fa-pump-soap fa-2x" style="color: darkseagreen; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-info mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'uniforme')" data-bs-toggle="tooltip" title="Uniforme">
                                                         <i class="fa-solid fa-shirt fa-2x"></i>
+                                                        <!--<i class="fa-solid fa-shirt fa-2x" style="color: deepskyblue; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-success mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'equipo')" data-bs-toggle="tooltip" title="Equipo">
                                                         <i class="fa-solid fa-helmet-safety fa-2x"></i>
+                                                        <!--<i class="fa-solid fa-helmet-safety fa-2x" style="color: darkgreen; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-danger mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'herramienta')" data-bs-toggle="tooltip" title="Herramienta">
                                                         <i class="fa-solid fa-hammer fa-2x"></i>
+                                                        <!--<i class="fa-solid fa-hammer fa-2x" style="color: yellowgreen; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-danger mb-1" (click)="eligeOperario(pt.idPuestoDireccionCotizacion)" title="Descartar">
                                                         <i class="fa-solid fa-times fa-2x"></i>
+                                                        <!--<i class="fa-solid fa-times fa-2x" style="color: red; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-primary mb-1" (click)="updPlan(pt.idPuestoDireccionCotizacion, dir.idTabulador)" data-bs-toggle="tooltip" title="Editar">
                                                         <i class="fa-solid fa-pencil fa-2x"></i>
+                                                        <!--<i class="fa-solid fa-pencil fa-2x" style="color: blue; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                 </div>
                                             </td>
@@ -474,6 +481,7 @@
                     </div>
                 </div>
             </div>
+            <br />
         </div>
         <div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="plantilla-tab">
             <div>
@@ -568,124 +576,156 @@
             </div>
         </div>
         <div class="tab-pane fade" id="servicio" role="tabpanel" aria-labelledby="plantilla-tab">
-            <div>
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" [(ngModel)]="txtMatKey" asp-for="Keywords" placeholder="Escriba un nombre">
-                            <label asp-for="Keywords">Servicio</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-floating">
-                            <select class="form-select" [(ngModel)]="selMatDir" asp-for="IdDireccionCotizacion" aria-label="IdDireccionCotizacion">
-                                <option value="0" selected>Selecciona una opción...</option>
-                                <option *ngFor="let dm of cotdirs" [ngValue]="dm.id">{{ dm.descripcion }}</option>
-                            </select>
-                            <label for="ddlServicio">Sucursal</label>
-                        </div>
-                    </div>
-                    <!--<div class="col-md-3">
-                        <div class="form-floating">
-                            <select class="form-select" [(ngModel)]="selMatPue" asp-for="IdPuestoDireccionCotizacion" aria-label="IdEstatusCotizacion">
-                                <option value="0" selected>Selecciona una opción...</option>
-                                <option *ngFor="let pm of lspue.puestosDireccionesCotizacion" [ngValue]="pm.idPuestoDireccionCotizacion">{{ pm.puesto }}</option>
-                            </select>
-                            <label for="ddlServicio">Puesto</label>
-                        </div>
-                    </div>-->
 
-                    <div class="col-md-6">
-                        <button type="button" (click)="getServ()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+
+
+
+
+            <ng-container *ngIf="lsser?.serviciosCotizacion?.length > 0">
+                <div class="row" style="border-radius: 10px; overflow-x: hidden;">
+                    <table class="table table-borderless table-striped table-responsive">
+                        <thead>
+                            <tr class="bg-primary bg-opacity-75 text-white">
+                                <th class="ps-2">General (cotización)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let ser of lsser.serviciosCotizacion">
+                                <tr *ngIf="ser.idDireccionCotizacion == 0">
+                                    <td>
+                                        <div class="row pb-2 text-center">
+                                            <div class="col-md-1 col-sm-4" style="display: none;">
+                                                <span class="badge text-dark text-center">idServicio:</span>
+                                                <div class="text-center">{{ ser.idServicioExtra }}</div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6">
+                                                <span class="badge text-dark">Servicio:</span>
+                                                <div class="ms-2 text-center">{{ ser.servicioExtra }}</div>
+                                            </div>
+
+                                            <div class="col-md-2 col-sm-4">
+                                                <span class="badge text-dark">Costo:</span>
+                                                <div class="ms-2 text-center">${{ ser.precioUnitario | number: '0.2' }}</div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-4">
+                                                <span class="badge text-dark">Cantidad:</span>
+                                                <div class="ms-2 text-center">{{ ser.cantidad | number: '0.0' }}</div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4">
+                                                <span class="badge text-dark">Frecuencia:</span>
+                                                <div class="ms-2 text-center">{{ ser.idFrecuencia }}</div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4 text-center">
+                                                <span class="badge text-dark ">Total:</span>
+                                                <div class="ms-2 ">${{ ser.cantidad * ser.precioUnitario | number: '0.2' }}</div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4">
+                                                <span class="badge text-dark">Fecha Alta:</span>
+                                                <div class="ms-2 text-center">{{ ser.fechaAlta | date: 'dd/MM/yyyy' }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle w-auto">
+                                        <a class="btn btn-sm text-primary mb-1" (click)="servicio(ser.idServicioExtraCotizacion)" data-bs-toggle="tooltip" title="Editar">
+                                            <i class="fa-solid fa-pencil fa-2x"></i>
+                                        </a>
+                                        <a class="btn btn-sm text-danger mb-1" (click)="eliSer(ser.idServicioExtraCotizacion)" data-bs-toggle="tooltip" title="Eliminar">
+                                            <i class="fa-solid fa-times fa-2x"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-container>
+            <br />
+
+            <ng-container *ngIf="lsser?.serviciosCotizacion?.length > 0">
+                <div class="row" style="border-radius: 10px; overflow-x: hidden;">
+                    <table class="table table-borderless table-striped table-responsive">
+                        <thead>
+                            <tr class="bg-primary bg-opacity-75 text-white">
+                                <th class="ps-2">Por directorio</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let ser of lsser.serviciosCotizacion">
+                                <tr *ngIf="ser.idDireccionCotizacion != 0">
+                                    <td>
+                                        <div class="row pb-2 text-center">
+                                            <div class="col-md-1 col-sm-4" style="display: none;">
+                                                <span class="badge text-dark text-center">idServicio:</span>
+                                                <div class="text-center">{{ ser.idServicioExtra }}</div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6">
+                                                <span class="badge text-dark">Servicio:</span>
+                                                <div class="ms-2 text-center">{{ ser.servicioExtra }}</div>
+                                                <small>{{ ser.direccion }}</small>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4 text-center">
+                                                <span class="badge text-dark">Costo:</span>
+                                                <div class="ms-2 text-center">${{ ser.precioUnitario | number: '0.2' }}</div>
+                                            </div>
+                                            <div class="col-md-1 col-sm-4">
+                                                <span class="badge text-dark">Cantidad:</span>
+                                                <div class="ms-2 text-center">{{ ser.cantidad | number: '0.0' }}</div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4">
+                                                <span class="badge text-dark">Frecuencia:</span>
+                                                <div class="ms-2 text-center">{{ ser.idFrecuencia }}</div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4">
+                                                <span class="badge text-dark">Total:</span>
+                                                <div class="ms-2 text-center">${{ ser.cantidad * ser.precioUnitario | number: '0.2' }}</div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-4">
+                                                <span class="badge text-dark">Fecha Alta:</span>
+                                                <div class="ms-2 text-center">{{ ser.fechaAlta | date: 'dd/MM/yyyy' }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle w-auto">
+                                        <a class="btn btn-sm text-primary mb-1" (click)="servicio(ser.idServicioExtraCotizacion)" data-bs-toggle="tooltip" title="Editar">
+                                            <i class="fa-solid fa-pencil fa-2x"></i>
+                                        </a>
+                                        <a class="btn btn-sm text-danger mb-1" (click)="eliSer(ser.idServicioExtraCotizacion)" data-bs-toggle="tooltip" title="Eliminar">
+                                            <i class="fa-solid fa-times fa-2x"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-container>
+
+            <div>
+                <div class="row float-end">
+                    <div>
                         <button type="button" (click)="servicio(0)" class="btn btn-outline-primary float-end " id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar servicio</button>
-                        <!--(click)="getNewMat(selTipo)"-->
                     </div>
                 </div>
             </div>
-            <div class="row" style="border-radius: 10px; overflow-x: hidden;">
-                <table class="table table-borderless table-striped table-responsive">
-                    <thead>
-                        <tr class="bg-primary bg-opacity-75 text-white">
-                            <th class="ps-2">Lista de servicios</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!--<tr *ngFor="let mat of lsmat.materialesCotizacion">-->
-                        <tr *ngFor="let ser of lsser.serviciosCotizacion">
-                            <td>
-                                <div class="row pb-2 text-center">
-                                    <div class="col-md-1 col-sm-4" style="display: none;">
-                                        <span class="badge text-dark text-center">idServicio:</span>
-                                        <div class="text-center">{{ ser.idServicioExtra }}</div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-4">
-                                        <span class="badge text-dark">Servicio:</span>
-                                        <div class="ms-2 text-center">{{ ser.servicioExtra }}</div>
-                                        <small>{{ ser.direccion }}</small>
-
-                                    </div>
-                                    <div class="col-md-3 col-sm-4">
-                                        <span class="badge text-dark text-center">Dirección:</span>
-                                        <div class="text-center">{{ ser.direccion }}</div>
-                                    </div>
-                                    <div class="col-md-1 col-sm-4 text-center">
-                                        <span class="badge text-dark">Costo:</span>
-                                        <div class="ms-2 text-center">${{ ser.precioUnitario | number: '0.2' }}</div>
-                                    </div>
-                                    <div class="col-md-1 col-sm-4">
-                                        <span class="badge text-dark">Cantidad:</span>
-                                        <div class="ms-2 text-center">{{ ser.cantidad | number: '0.0' }}</div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-4">
-                                        <span class="badge text-dark">Frecuencia:</span>
-                                        <div class="ms-2 text-center">{{ ser.idFrecuencia }}</div>
-                                    </div>
-                                    <div class="col-md-1 col-sm-4">
-                                        <span class="badge text-dark">Total:</span>
-                                        <div class="ms-2 text-center">${{ ser.cantidad * ser.precioUnitario | number: '0.2' }}</div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-4">
-                                        <span class="badge text-dark">Fecha Alta:</span>
-                                        <div class="ms-2 text-center">{{ ser.fechaAlta | date: 'dd/MM/yyyy' }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle w-auto">
-                                <a class="btn btn-sm text-primary mb-1" (click)="servicio(ser.idServicioExtraCotizacion)" data-bs-toggle="tooltip" title="Editar">
-                                    <i class="fa-solid fa-pencil fa-2x"></i>
-                                </a>
-                                <a class="btn btn-sm text-danger mb-1" (click)="removeMat(mat.idMaterialCotizacion)" data-bs-toggle="tooltip" title="Eliminar">
-                                    <i class="fa-solid fa-times fa-2x"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <pagina-widget [pagina]="lsmat.pagina" [numPaginas]="lsmat.numPaginas" [rows]="lsmat.rows" (chgEvent)="matPagina($event)"></pagina-widget>
-            </div>
+            <br />
+            <br />
+            <br />
+            <!--<pagina-widget [pagina]="lsser.pagina" [numPaginas]="lsser.numPaginas" [rows]="lsser?.serviciosCotizacion?.rows" (chgEvent)="matPagina($event)"></pagina-widget>-->
         </div>
-
-
-
     </div>
 </div>
 
 
 <direc-widget (smEvent)="saveDir($event)"></direc-widget>
 <pues-widget (smEvent)="savePlan($event)"></pues-widget>
-
 <mate-widget (smEvent)="newMate($event)"></mate-widget>
 <mateadd-widget (smEvent)="saveMate($event)" (returnModal)="return($event)"></mateadd-widget>
+<servadd-widget (smEvent)="getServ($event)"></servadd-widget>
 <actualizacotizacion-widget (valida)="actualizarIndirectoUtilidad()"></actualizacotizacion-widget>
-
-
-
 <elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
-
 <eliminadirectorio-widget [titulo]="" [mensaje]="" (EventDC)="eliminaDireccionCotizacion($event)"></eliminadirectorio-widget>
-
 <eliminaOperario-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></eliminaOperario-widget>
 <!--<mateoperarioadd-widget (m2Event)="opeMat($event)"></mateoperarioadd-widget>-->
-
-<servadd-widget (servEvent)="guardar($event)"></servadd-widget>
+<!--<servadd-widget (servEvent)="guardar($event)"></servadd-widget>-->

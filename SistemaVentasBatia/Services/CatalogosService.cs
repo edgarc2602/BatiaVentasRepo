@@ -118,6 +118,9 @@ namespace SistemaVentasBatia.Services
                 case "herramienta":
                     fams = _option.Herramienta;
                     break;
+                case "servicio":
+                    fams = _option.Servicio;
+                    break;
                 default:
                     fams = new int[] {};
                     break;

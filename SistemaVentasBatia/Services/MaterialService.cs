@@ -45,6 +45,7 @@ namespace SistemaVentasBatia.Services
 
         Task InsertarServicioCotizacion(ServicioCotizacion servicio);
         Task ActualizarServicioCotizacion(ServicioCotizacion servicio);
+        Task EliminarServicioCotizacion(int id);
 
 
         Task<ListaServiciosCotizacionLimpiezaDTO> ObtenerListaServiciosCotizacion(int idCotizacion, int idDireccionCotizacion);
@@ -507,6 +508,11 @@ namespace SistemaVentasBatia.Services
             servicio.ImporteMensual = servicio.Total / (int)servicio.IdFrecuencia;
             servicio.FechaAlta = DateTime.Now;
             await _materialRepo.ActualizarServicioCotizacion(servicio);
+        }
+
+        public async Task EliminarServicioCotizacion(int id)
+        {
+            await _materialRepo.EliminarServicioCotizacion(id);
         }
 
 

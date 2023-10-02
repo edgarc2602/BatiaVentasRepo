@@ -61,6 +61,7 @@ namespace SistemaVentasBatia.Repositories
 
         Task InsertarServicioCotizacion(ServicioCotizacion servicio);
         Task ActualizarServicioCotizacion(ServicioCotizacion servicio);
+        Task EliminarServicioCotizacion(int id);
     }
 
     public class MaterialRepository : IMaterialRepository
@@ -769,6 +770,23 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
             }
 
 
+        }
+
+        public async Task EliminarServicioCotizacion(int id)
+        {
+            string query = @"DELETE FROM tb_cotiza_servicioextra WHERE id_servicioextra_cotizacion = @id";
+
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    await connection.ExecuteAsync(query,new {id});
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
 

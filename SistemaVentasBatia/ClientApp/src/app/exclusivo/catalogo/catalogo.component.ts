@@ -20,6 +20,7 @@ export class CatalogoComponent {
     pues: Catalogo[] = [];
     selPuesto: number = 0;
     mates: ProductoItem[] = [];
+    sers: Catalogo[] = [];
     grupo: string = 'material';
 
     salarioMixto: number = 0;
@@ -35,6 +36,15 @@ export class CatalogoComponent {
 
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient) {
+        http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
+            this.pues = response;
+        }, err => console.log(err));
+        http.get<Catalogo[]>(`${url}api/catalogo/getservicio`).subscribe(response => {
+            this.pues = response;
+        }, err => console.log(err));
+        http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
+            this.pues = response;
+        }, err => console.log(err));
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
             this.pues = response;
         }, err => console.log(err));

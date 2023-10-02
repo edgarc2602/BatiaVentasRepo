@@ -72,6 +72,12 @@ namespace SistemaVentasBatia.Controllers
 
         }
 
+        [HttpDelete("[action]/{id}")]
+        public async Task EliminarServicioCotizacion(int id)
+        {
+            await _logic.EliminarServicioCotizacion(id);
+
+        }
 
 
 

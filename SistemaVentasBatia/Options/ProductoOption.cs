@@ -6,5 +6,6 @@
         public int[] Herramienta { get; set; }
         public int[] Material { get; set; }
         public int[] Uniforme { get; set; }
+        public int[] Servicio { get; set; }
     }
 }

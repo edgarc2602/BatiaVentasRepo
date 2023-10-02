@@ -78,8 +78,6 @@ export class ServicioAddWidget {
         if (this.model.idDireccionCotizacion == 0) {
             this.model.idDireccionCotizacion = 0
         }
-
-
         if (this.edit == 0) {
             this.http.post<Servicio>(`${this.url}api/material/insertarserviciocotizacion`, this.model).subscribe(response => {
                 this.close();

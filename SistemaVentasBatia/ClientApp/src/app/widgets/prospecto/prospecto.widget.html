@@ -1,11 +1,5 @@
-    <div>
-    <div class="row mb-3">
-        <div>
-            <div class="btn-group float-end">
-                <button type="button" (click)="guarda()" class="btn btn-outline-success" id="btnGuardarProspecto"><i class="fa-solid fa-save"></i> Guardar</button>
-            </div>
-        </div>
-    </div>
+<div>
+
     <div class="row mb-3">
         <div class="col-sm-12 col-md-4">
             <div class="form-floating">
@@ -68,7 +62,7 @@
             <span *ngIf="ferr('ExtContacto')" class="text-danger">{{ terr('ExtContacto') }}</span>
         </div>
     </div>
-   
+
     <br />
 
     <h5>Documentación</h5>
@@ -77,12 +71,19 @@
     <div class="row">
         <div class="col-sm-6 col-md-3" *ngFor="let d of docs">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" [(ngModel)]="d.act" [value]="d.id" >
+                <input class="form-check-input" type="checkbox" [(ngModel)]="d.act" [value]="d.id">
                 <label class="form-check-label">
                     {{ d.nom }}
                 </label>
             </div>
         </div>
     </div>
-        <br />
+    <div class="row mb-3">
+        <div>
+            <div class="btn-group float-end">
+                <button type="button" (click)="guarda()" class="btn btn-outline-success box-shadow" id="btnGuardarProspecto"><i class="fa-solid fa-save"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+    <br />
 </div>
