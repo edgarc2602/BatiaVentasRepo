@@ -15,6 +15,7 @@ export class AgregarServicioWidget {
     guarda() {
         this.http.get<boolean>(`${this.url}api/producto/agregarservicio/${this.servicio}/${this.sinU.idPersonal}`).subscribe(response => {
             this.close();
+            this.servicio = '';
             this.sendEvent.emit(4);
         }, err => console.log(err));
     }
