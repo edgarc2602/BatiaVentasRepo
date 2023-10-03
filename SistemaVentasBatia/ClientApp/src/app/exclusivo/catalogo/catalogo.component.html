@@ -35,59 +35,102 @@
     <!--Pestaña 1-->
     <div class="accordion-item">
         <h1 class="accordion-header" id="headingCatalogo">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCatalogo" aria-expanded="false" aria-controls="collapseCatalogo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCatalogo" aria-expanded="false" aria-controls="collapseCatalogo">
                 Catálogos
             </button>
         </h1>
         <div id="collapseCatalogo" class="accordion-collapse collapse" aria-labelledby="headingCatalogo">
             <div class="accordion-body">
 
-
+                <div class="row mb-3">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select  box-shadow" name="tipoServicio" (change)="chgServicio()" [(ngModel)]="tipoServicio" disabled>
+                                <option value="0">Seleccione una opción</option>
+                                <option *ngFor="let s of tser" [ngValue]="s.id">{{ s.descripcion }}</option>
+                            </select>
+                            <label>Tipo de servicio</label>
+                        </div>
+                    </div>
+                </div>
 
 
                 <ul class="nav nav-tabs" id="tabconfig" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button type="button" class="nav-link active" (click)="chgTab('catmaterial')" id="material-tab" data-bs-toggle="tab" data-bs-target="#material"
+                    <!--<li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link active" (click)="chgTab('catmaterial')" id="catmaterial-tab" data-bs-toggle="tab" data-bs-target="#catmaterial"
                                 role="tab" aria-controls="material" aria-selected="true">
-                            Materiales
+                            Material
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" (click)="chgTab('catuniforme')" id="uniforme-tab" data-bs-toggle="tab" data-bs-target="#uniforme"
+                        <button type="button" class="nav-link" (click)="chgTab('catuniforme')" id="catuniforme-tab" data-bs-toggle="tab" data-bs-target="#catuniforme"
                                 role="tab" aria-controls="uniforme" aria-selected="false">
                             Uniforme
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" (click)="chgTab('catequipo')" id="equipo-tab" data-bs-toggle="tab" data-bs-target="#equipo"
+                        <button type="button" class="nav-link" (click)="chgTab('catequipo')" id="catequipo-tab" data-bs-toggle="tab" data-bs-target="#catequipo"
                                 role="tab" aria-controls="equipo" aria-selected="false">
                             Equipo de seguridad
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" (click)="chgTab('catherramienta')" id="herramienta-tab" data-bs-toggle="tab" data-bs-target="#herramienta"
+                        <button type="button" class="nav-link" (click)="chgTab('catherramienta')" id="catherramienta-tab" data-bs-toggle="tab" data-bs-target="#catherramienta"
                                 role="tab" aria-controls="herramienta" aria-selected="false">
                             Herramienta
                         </button>
-                    </li>
-                    <li class="nav-item">
-                        <button type="button" class="nav-link" (click)="chgTab('catservicio')" id="servicio-tab" data-bs-toggle="tab" data-bs-target="#servicio"
-                                role="tab" aria-controls="servicio" aria-selected="false">
+                    </li>-->
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link active" (click)="chgTab('catservicio')" id="catservicio-tab" data-bs-toggle="tab" data-bs-target="#catservicio"
+                                role="tab" aria-controls="servicio" aria-selected="true">
                             Servicio
                         </button>
                     </li>
                 </ul>
 
+                <div class="tab-content pt-2" id="tabcontent">
+                    <div class="tab-pane fade show active text-center" style="border-radius: 10px; overflow-x: hidden;" id="servicio" role="tabpanel" aria-labelledby="material-tab">
 
+                        <table class="table table-borderless table-striped table-responsive  box-shadow">
+                            <thead>
+                                <tr class="bg-primary bg-opacity-75 text-white">
+                                    <th>Clave</th>
+                                    <th>Descripción</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let s of sers">
+                                    <td>{{ s.id }}</td>
+                                    <td>{{ s.descripcion }}</td>
+                                    <td>
+                                        <button type="button" (click)="deleteServ(s.id)" class="btn btn-sm btn-outline-danger">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <button type="button" (click)="openSer()" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar servicio</button>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+
+
+
     <!-- Pestaña 2 -->
     <div class="accordion-item">
         <h1 class="accordion-header" id="headingMaterial">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMaterial" aria-expanded="false" aria-controls="collapseMaterial">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMaterial" aria-expanded="false" aria-controls="collapseMaterial">
                 Puestos
             </button>
         </h1>
@@ -99,7 +142,7 @@
                 <div class="row mb-3">
                     <div class="col-sm-12 col-md-6">
                         <div class="form-floating">
-                            <select class="form-select" name="Puesto" (change)="chgPuesto()" [(ngModel)]="selPuesto">
+                            <select class="form-select  box-shadow" name="Puesto" (change)="chgPuesto()" [(ngModel)]="selPuesto">
                                 <option value="0">Seleccione</option>
                                 <option *ngFor="let p of pues" [ngValue]="p.id">{{ p.descripcion }}</option>
                             </select>
@@ -140,10 +183,11 @@
                         </button>
                     </li>
                 </ul>
+
                 <div class="tab-content pt-2" id="tabcontent">
                     <div class="tab-pane fade show active text-center" style="border-radius: 10px; overflow-x: hidden;" id="material" role="tabpanel" aria-labelledby="material-tab">
 
-                        <table class="table table-borderless table-striped table-responsive">
+                        <table class="table table-borderless table-striped table-responsive  box-shadow">
                             <thead>
                                 <tr class="bg-primary bg-opacity-75 text-white">
                                     <th>Clave</th>
@@ -170,14 +214,14 @@
 
                         <div class="row">
                             <div class="col d-flex justify-content-end">
-                                <button type="button" (click)="openMat()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar producto</button>
+                                <button type="button" (click)="openMat()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar producto</button>
                             </div>
                         </div>
                         <br>
                     </div>
                     <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="uniforme" role="tabpanel" aria-labelledby="uniforme-tab">
 
-                        <table class="table table-borderless table-striped table-responsive">
+                        <table class="table table-borderless table-striped table-responsive  box-shadow">
                             <thead>
                                 <tr class="bg-primary bg-opacity-75 text-white">
                                     <th>Clave</th>
@@ -204,14 +248,14 @@
 
                         <div class="row">
                             <div class="col d-flex justify-content-end">
-                                <button type="button" (click)="openUni()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar uniforme</button>
+                                <button type="button" (click)="openUni()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar uniforme</button>
                             </div>
                         </div>
                         <br>
                     </div>
                     <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">
 
-                        <table class="table table-borderless table-striped table-responsive">
+                        <table class="table table-borderless table-striped table-responsive  box-shadow">
                             <thead>
                                 <tr class="bg-primary bg-opacity-75 text-white">
                                     <th>Clave</th>
@@ -238,14 +282,14 @@
 
                         <div class="row">
                             <div class="col d-flex justify-content-end">
-                                <button type="button" (click)="openEqui()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar equipo</button>
+                                <button type="button" (click)="openEqui()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar equipo</button>
                             </div>
                         </div>
                         <br>
                     </div>
                     <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="herramienta" role="tabpanel" aria-labelledby="herramienta-tab">
 
-                        <table class="table table-borderless table-striped table-responsive">
+                        <table class="table table-borderless table-striped table-responsive  box-shadow">
                             <thead>
                                 <tr class="bg-primary bg-opacity-75 text-white">
                                     <th>Clave</th>
@@ -272,13 +316,13 @@
 
                         <div class="row">
                             <div class="col d-flex justify-content-end">
-                                <button type="button" (click)="openHer()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar herramienta</button>
+                                <button type="button" (click)="openHer()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar herramienta</button>
                             </div>
                         </div>
                         <br>
                     </div>
                     <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden; " id="tabulador" role="tabpanel" aria-labelledby="tabulador-tab">
-                        <table class="table table-borderless text-center table-striped table-responsive">
+                        <table class="table table-borderless text-center table-striped table-responsive  box-shadow">
                             <thead>
                                 <tr class="bg-primary bg-opacity-75 text-white">
                                     <th>Zona 1</th>
@@ -294,7 +338,7 @@
                                     <td><input #salarioMixtoFronteratxt type="number" class="form-control aliggn-content-center" id="salarioMixtoFrontera" name="salarioMixtoFrontera" value="{{ sal.salarioMixtoFrontera }}" [(ngModel)]="salarioMixtoFrontera" placeholder="{{ sal.salarioMixtoFrontera }}" autocomplete="off" required></td>
                                     <td><input #salarioRealtxt type="number" class="form-control aliggn-content-center" id="salarioReal" name="salarioReal" value="{{ sal.salarioReal }}" [(ngModel)]="salarioReal" placeholder="{{ sal.salarioReal }}" autocomplete="off" required></td>
                                     <td><input #salarioRealFronteratxt type="number" class="form-control aliggn-content-center" id="salarioRealFrontera" name="salarioRealFrontera" value="{{ sal.salarioRealFrontera }}" [(ngModel)]="salarioRealFrontera" placeholder="{{ sal.salarioRealFrontera }}" autocomplete="off" required></td>
-                                    <td><button type="button" (click)="actualizarSalarios(sal.idPuesto)" class="btn btn-lg btn-outline-success"><i class="fa-solid fa-save"></i></button></td>
+                                    <td><button type="button" (click)="actualizarSalarios(sal.idPuesto)" class="btn btn-lg btn-outline-success  box-shadow"><i class="fa-solid fa-save"></i></button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -363,3 +407,4 @@
 </div>
 <br />
 <producto-widget [idP]="selPuesto" [grupo]="grupo" (saveEvent)="closeMat($event)"></producto-widget>
+<agregarservicio-widget (serEvent)="reloadServicios()"></agregarservicio-widget>

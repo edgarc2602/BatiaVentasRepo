@@ -18,6 +18,8 @@ namespace SistemaVentasBatia.Services
         Task CreateEquipo(MaterialPuestoDTO equi);
         Task<bool> DeleteMaterial(int id);
         Task<bool> DeleteUniforme(int id);
+        Task<bool> EliminarServicio(int id);
+        Task<bool> AgregarServicio(string servicio, int idPersonal);
         Task<bool> DeleteHerramienta(int id);
         Task<bool> DeleteEquipo(int id);
 
@@ -84,6 +86,16 @@ namespace SistemaVentasBatia.Services
         public async Task<bool> DeleteUniforme(int id)
         {
             return await repo.EliminarUniformePuesto(id);
+        }
+
+        public async Task<bool> EliminarServicio(int id)
+        {
+            return await repo.EliminarServicio(id);
+        }
+
+        public async Task<bool> AgregarServicio(string servicio, int idPersonal)
+        {
+            return await repo.AgregarServicio(servicio, idPersonal);
         }
 
         public async Task<IEnumerable<ProductoItemDTO>> GetEquipoPuesto(int idPuesto)

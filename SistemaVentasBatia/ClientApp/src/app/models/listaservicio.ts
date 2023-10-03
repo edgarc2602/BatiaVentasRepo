@@ -8,6 +8,6 @@ export interface ListaServicio {
     pagina: number;
     rows: number;
     numPaginas: number; 
-    ServiciosCotizacion: ServicioMin[];
+    serviciosCotizacion: ServicioMin[];
     edit: number;
 }

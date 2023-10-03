@@ -20,6 +20,7 @@ namespace SistemaVentasBatia.Repositories
         Task<IEnumerable<MaterialPuesto>> ObtenerEquipoDefaultPorPuesto(int idPuesto);
         Task<IEnumerable<MaterialPuesto>> ObtenerUniformeDefaultPorPuesto(int idPuesto);
         Task<List<Catalogo>> ObtenerCatalogoPuestos();
+        Task<List<Catalogo>> ObtenerCatalogoServicios();
         Task<List<Catalogo>> ObtenerCatalogoTurnos();
         Task<List<Catalogo>> ObtenerCatalogoDireccionesCotizacion(int idCotizacion);
         Task<List<Catalogo>> ObtenerCatalogoPuestosCotizacion(int idCotizacion);
@@ -147,6 +148,27 @@ WHERE es.id_estado = @idEstado ORDER BY m.Municipio";
             }
 
             return puestos;
+        }
+
+        public async Task<List<Catalogo>> ObtenerCatalogoServicios()
+        {
+            var query = @"SELECT IdTpoServicio Id, TS_Descripcion Descripcion FROM Tbl_TipoServicio";
+
+            var servicios = new List<Catalogo>();
+
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    servicios = (await connection.QueryAsync<Catalogo>(query)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return servicios;
         }
 
         public async Task<List<Catalogo>> ObtenerCatalogoTurnos()

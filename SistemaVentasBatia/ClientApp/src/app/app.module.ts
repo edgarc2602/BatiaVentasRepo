@@ -34,6 +34,7 @@ import { ProductoWidget } from './widgets/producto/producto.widget';
 import { ActualizaCotizacionWidget } from './widgets/actualizacotizacion/actualizacotizacion.widget';
 import { EditarCotizacion } from './widgets/editacotizacion/editacotizacion.widget';
 import { ServicioAddWidget } from './widgets/servicioadd/servicioadd.widget';
+import { AgregarServicioWidget } from './widgets/agregarservicio/agregarservicio.widget';
 
 import { StoreUser } from './stores/StoreUser';
 
@@ -76,6 +77,7 @@ import { CommonModule } from '@angular/common';
         DescargarComponent,
         EditarCotizacion,
         ServicioAddWidget,
+        AgregarServicioWidget,
         
     ],
     imports: [

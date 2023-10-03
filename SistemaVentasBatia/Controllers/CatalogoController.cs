@@ -69,6 +69,14 @@ namespace SistemaVentasBatia.Controllers
             return await logic.ObtenerCatalogoPuestos();
         }
 
+
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<CatalogoDTO>> GetTipoServicio()
+        {
+            return await logic.ObtenerCatalogoServicios();
+        }
+
+
         [HttpGet("[action]/{servicio}")]
         public async Task<IEnumerable<CatalogoDTO>> GetProductoBySer(Servicio servicio)
         {

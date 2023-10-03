@@ -18,6 +18,8 @@ namespace SistemaVentasBatia.Repositories
         Task AgregarUniformePuesto(MaterialPuesto uni);
         Task<bool> ActualizarUniformePuesto(MaterialPuesto uni);
         Task<bool> EliminarUniformePuesto(int id);
+        Task<bool> EliminarServicio(int id);
+        Task<bool> AgregarServicio(string servicio, int idPersonal);
         Task<IEnumerable<ProductoItem>> ObtenerUniformePuesto(int id);
         Task AgregarEquipoPuesto(MaterialPuesto equi);
         Task<bool> ActualizarEquipoPuesto(MaterialPuesto equi);
@@ -265,6 +267,59 @@ namespace SistemaVentasBatia.Repositories
             }
             return reg;
         }
+
+
+        public async Task<bool> EliminarServicio(int id)
+        {
+            bool reg = false;
+            var query = @"DELETE FROM tb_servicioextra WHERE id_servicioextra = @id";
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    await connection.ExecuteScalarAsync<int>(query, new { id });
+                }
+                reg = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return reg;
+        }
+
+
+        public async Task<bool> AgregarServicio(string servicio, int idPersonal)
+        {
+            bool reg = false;
+            var query = @"INSERT INTO tb_servicioextra
+(
+descripcion,
+fecha_alta,
+id_personal
+)
+VALUES 
+(
+@servicio,
+GETDATE(),
+@idPersonal
+)";
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    await connection.ExecuteScalarAsync<int>(query, new { servicio, idPersonal });
+                }
+                reg = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return reg;
+        }
+
+
 
         public async Task<IEnumerable<ProductoItem>> ObtenerEquipoPuesto(int id)
         {

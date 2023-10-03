@@ -1,0 +1,36 @@
+<div class="modal fade" id="modalLimpiezaAgregarServicio">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4  class="modal-title">Agregar Servicio</h4> 
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">                    
+
+                    <div>
+                        <div class="row mb-3">
+                            <div >
+                                <div class="form-floating box-shadow">
+                                    <input type="text" class="form-control" [(ngModel)]="servicio">
+                                    <label >Servicio</label>
+                                </div>
+                                <span asp-validation-for="Cantidad" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+                            <button type="button" id="btnGuardarMaterial" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-save"></i> Guardar</button>
+                            <!--(click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'material')"-->
+                    <button type="button" class="btn btn-outline-secondary"  data-bs-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+</div>

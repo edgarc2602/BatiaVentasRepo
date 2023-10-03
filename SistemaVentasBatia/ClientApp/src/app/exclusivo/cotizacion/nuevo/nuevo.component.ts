@@ -22,7 +22,10 @@ export class CotizaComponent {
         private rtr: Router, private sinU: StoreUser
     ) {
         this.nuevo();
-        http.get<Prospecto[]>(`${url}api/prospecto/getcatalogo`).subscribe(response => {
+        //http.get<Prospecto[]>(`${url}api/prospecto/getcatalogo`).subscribe(response => {
+        //    this.lpros = response;
+        //}, err => console.log(err));
+        http.post<Prospecto[]>(`${url}api/prospecto/getcatalogo`, this.sinU.idPersonal).subscribe(response => {
             this.lpros = response;
         }, err => console.log(err));
         http.get<ItemN[]>(`${url}api/prospecto/getservicio`).subscribe(response => {

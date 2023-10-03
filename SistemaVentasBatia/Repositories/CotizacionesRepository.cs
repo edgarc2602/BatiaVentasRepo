@@ -76,15 +76,15 @@ namespace SistemaVentasBatia.Repositories
 
         public async Task InsertaCotizacion(Cotizacion cotizacion)
         {
-            var query = @"declare @idp int = 0, @pci decimal(5, 4), @pu decimal (5, 4), @cv decimal (5,4);
+            var query = @"declare @idp int = 0, @pci decimal(5, 4), @pu decimal (5, 4), @cv decimal (5,4), @ce decimal (5, 4);
 
-                        select top (1) @idp = id_porcentaje, @pci = costoindirecto, @pu = utilidad, @cv = comision_venta
+                        select top (1) @idp = id_porcentaje, @pci = costoindirecto, @pu = utilidad, @cv = comision_venta, @ce = comision_externa
                         from tb_cotiza_porcentaje
                         where fechaaplica <= @FechaAlta
                         order by id_porcentaje desc;
 
-                        insert into tb_cotizacion(id_prospecto, id_servicio, costo_indirecto, utilidad, total, id_estatus_cotizacion, fecha_alta, id_personal, id_porcentaje, comision_venta)
-                        values(@IdProspecto, @IdServicio, @pci, @pu, @Total, @IdEstatusCotizacion, @FechaAlta, @IdPersonal, @idp, @cv)
+                        insert into tb_cotizacion(id_prospecto, id_servicio, costo_indirecto, utilidad, total, id_estatus_cotizacion, fecha_alta, id_personal, id_porcentaje, comision_venta, comision_externa)
+                        values(@IdProspecto, @IdServicio, @pci, @pu, @Total, @IdEstatusCotizacion, @FechaAlta, @IdPersonal, @idp, @cv, @ce)
                         select scope_identity()";
             try
             {
@@ -594,8 +594,8 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
 
         public async Task<int> CopiarCotizacion(int idCotizacion)
         {
-            var query = @"INSERT INTO tb_cotizacion(id_prospecto, id_servicio, costo_indirecto,utilidad,total, id_estatus_cotizacion, fecha_alta, id_personal, id_cotizacion_original, id_porcentaje,comision_venta)
-                          SELECT  id_prospecto, id_servicio,costo_indirecto,utilidad, total, id_estatus_cotizacion, getdate(), id_personal, id_cotizacion, id_porcentaje, comision_venta
+            var query = @"INSERT INTO tb_cotizacion(id_prospecto, id_servicio, costo_indirecto,utilidad,total, id_estatus_cotizacion, fecha_alta, id_personal, id_cotizacion_original, id_porcentaje,comision_venta, comision_externa)
+                          SELECT  id_prospecto, id_servicio,costo_indirecto,utilidad, total, id_estatus_cotizacion, getdate(), id_personal, id_cotizacion, id_porcentaje, comision_venta, comision_externa
                           FROM tb_cotizacion
                           WHERE id_cotizacion = @idCotizacion;
                         

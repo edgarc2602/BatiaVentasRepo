@@ -93,5 +93,17 @@ namespace SistemaVentasBatia.Controllers
         {
             return await logic.DeleteUniforme(id);
         }
+
+        [HttpDelete("[action]/{id}")]
+        public async Task<ActionResult<bool>> EliminarServicio(int id)
+        {
+             return await logic.EliminarServicio(id);
+        }
+
+        [HttpGet("[action]/{servicio}/{idPersonal}")]
+        public async Task<ActionResult<bool>> AgregarServicio(string servicio = "", int idPersonal = 0)
+        {
+            return await logic.AgregarServicio(servicio,idPersonal);
+        }
     }
 }

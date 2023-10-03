@@ -409,7 +409,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
             boton.disabled = false;
         }, 2000);
     }
-    getServ($event) {
+    getServ() {
         this.http.get<ListaServicio>(`${this.url}api/material/ObtenerListaServiciosCotizacion/${this.model.idCotizacion}/${this.selMatDir}`).subscribe(response => {
             this.lsser = response;
         }, err => console.log(err));
@@ -418,6 +418,6 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.http.delete(`${this.url}api/material/EliminarServicioCotizacion/${id}`).subscribe(response => {
         }, err => console.log(err));
 
-        this.getServ(2);
+        this.getServ();
     }
 }   

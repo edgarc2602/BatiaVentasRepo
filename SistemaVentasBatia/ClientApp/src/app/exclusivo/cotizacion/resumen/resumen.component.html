@@ -204,14 +204,14 @@
                             <td class="border-bottom">
                                 <div class="row">
                                     <div class="col-3 offset-6  text-end text-success"><h5>${{ model.subTotal + model.indirecto + model.utilidad | number: '1.2' }}</h5></div>
-                                    <div class="col-3 text-start text-success"><h5>Total Utilidad</h5></div>
+                                    <div class="col-3 text-start text-success"><h5>Total U</h5></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom border-success">
                                 <div class="row">
-                                    <div class="col-3 offset-3 text-start"><h5>Comision sobre venta (%)</h5></div>
+                                    <div class="col-3 offset-3 text-start"><h5>Comision Sobre Venta (%)</h5></div>
                                     <div class="col-1">
                                         <input #CSVtxt type="text" class="form-control box-shadow" id="CSV" name="CSV" [(ngModel)]="CSV" (input)="validarSoloNumeros(utilidadValue)" value="{{model.csvPor}}" placeholder="{{model.csvPor}}" autocomplete="off" required>
                                     </div>
@@ -238,9 +238,9 @@
                         <tr>
                             <td class="border-bottom border-success">
                                 <div class="row">
-                                    <div class="col-3 offset-3 text-start"><h5>Comision externa (%)</h5></div>
+                                    <div class="col-3 offset-3 text-start"><h5>Comision Externa (%)</h5></div>
                                     <div class="col-1">
-                                        <input #comisionExttxt type="text" class="form-control box-shadow" id="comisionExt" name="comisionExt" [(ngModel)]="comisionExtValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.comisionExtPor}}" placeholder="{{model.comisionExtPor}}" autocomplete="off" required>
+                                        <input #comisionExttxt type="text" class="form-control box-shadow" id="comisionExt" name="comisionExt" [(ngModel)]="ComisionExtValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.comisionExtPor}}" placeholder="{{model.comisionExtPor}}" autocomplete="off" required>
                                     </div>
                                     <div class="col-2  text-end"><h5>${{ model.comisionExt | number: '1.2' }}</h5></div>
                                 </div>
@@ -250,7 +250,7 @@
                             <td class="border-bottom">
                                 <div class="row">
                                     <div class="col-3 offset-6  text-end text-success"><h5>${{ model.subTotal + model.indirecto + model.utilidad + model.comisionSV + model.comisionExt | number: '1.2' }}</h5></div>
-                                    <div class="col-3 text-start text-success"><h5>Total Comision Externa</h5></div>
+                                    <div class="col-3 text-start text-success"><h5>Total CE</h5></div>
                                 </div>
                             </td>
                         </tr>
@@ -513,12 +513,12 @@
 
                     <div class="col-md-6">
                         <button type="button" (click)="getMat(selTipo)" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
-                        <button type="button" (click)="getNewMat(selTipo)" class="btn btn-outline-primary float-end " id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar {{ selTipo }}</button>
+                        <button type="button" (click)="getNewMat(selTipo)" class="btn btn-outline-primary float-end  box-shadow " id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar {{ selTipo }}</button>
                     </div>
                 </div>
             </div>
             <div class="row" style="border-radius: 10px; overflow-x: hidden;">
-                <table class="table table-borderless table-striped table-responsive">
+                <table class="table table-borderless table-striped table-responsive  box-shadow">
                     <thead>
                         <tr class="bg-primary bg-opacity-75 text-white">
                             <th class="ps-2">Lista de productos</th>
@@ -583,7 +583,7 @@
 
             <ng-container *ngIf="lsser?.serviciosCotizacion?.length > 0">
                 <div class="row" style="border-radius: 10px; overflow-x: hidden;">
-                    <table class="table table-borderless table-striped table-responsive">
+                    <table class="table table-borderless table-striped table-responsive  box-shadow">
                         <thead>
                             <tr class="bg-primary bg-opacity-75 text-white">
                                 <th class="ps-2">General (cotización)</th>
@@ -644,7 +644,7 @@
 
             <ng-container *ngIf="lsser?.serviciosCotizacion?.length > 0">
                 <div class="row" style="border-radius: 10px; overflow-x: hidden;">
-                    <table class="table table-borderless table-striped table-responsive">
+                    <table class="table table-borderless table-striped table-responsive  box-shadow">
                         <thead>
                             <tr class="bg-primary bg-opacity-75 text-white">
                                 <th class="ps-2">Por directorio</th>
@@ -705,7 +705,7 @@
             <div>
                 <div class="row float-end">
                     <div>
-                        <button type="button" (click)="servicio(0)" class="btn btn-outline-primary float-end " id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar servicio</button>
+                        <button type="button" (click)="servicio(0)" class="btn btn-outline-primary float-end  box-shadow" id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar servicio</button>
                     </div>
                 </div>
             </div>
@@ -722,7 +722,7 @@
 <pues-widget (smEvent)="savePlan($event)"></pues-widget>
 <mate-widget (smEvent)="newMate($event)"></mate-widget>
 <mateadd-widget (smEvent)="saveMate($event)" (returnModal)="return($event)"></mateadd-widget>
-<servadd-widget (smEvent)="getServ($event)"></servadd-widget>
+<servadd-widget (smEvent)="getServ()"></servadd-widget>
 <actualizacotizacion-widget (valida)="actualizarIndirectoUtilidad()"></actualizacotizacion-widget>
 <elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
 <eliminadirectorio-widget [titulo]="" [mensaje]="" (EventDC)="eliminaDireccionCotizacion($event)"></eliminadirectorio-widget>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Catalogo } from 'src/app/models/catalogo';
 import { ProductoItem } from 'src/app/models/productoitem';
 import { ProductoWidget } from 'src/app/widgets/producto/producto.widget';
+import { AgregarServicioWidget  } from 'src/app/widgets/agregarservicio/agregarservicio.widget'
 
 import { PuestoTabulador } from 'src/app/models/puestotabulador';
 import { Subject } from 'rxjs';
@@ -12,15 +13,18 @@ import { Subject } from 'rxjs';
     templateUrl: './catalogo.component.html'
 })
 export class CatalogoComponent {
-    @ViewChild(ProductoWidget, { static: false }) prow: ProductoWidget;
+    @ViewChild(ProductoWidget,{ static: false }) prow: ProductoWidget;
+    @ViewChild(AgregarServicioWidget, { static: false }) addSer: AgregarServicioWidget;
     @ViewChild('salarioMixtotxt', { static: false }) salarioMixtotxt: ElementRef;
     @ViewChild('salarioMixtoFronteratxt', { static: false }) salarioMixtoFronteratxt: ElementRef;
     @ViewChild('salarioRealtxt', { static: false }) salarioRealtxt: ElementRef;
     @ViewChild('salarioRealFronteratxt', { static: false }) salarioRealFronteratxt: ElementRef;
     pues: Catalogo[] = [];
     selPuesto: number = 0;
+    tipoServicio: number = 2;
     mates: ProductoItem[] = [];
     sers: Catalogo[] = [];
+    tser: Catalogo[] = [];
     grupo: string = 'material';
 
     salarioMixto: number = 0;
@@ -40,14 +44,20 @@ export class CatalogoComponent {
             this.pues = response;
         }, err => console.log(err));
         http.get<Catalogo[]>(`${url}api/catalogo/getservicio`).subscribe(response => {
-            this.pues = response;
+            this.sers = response;
         }, err => console.log(err));
-        http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
-            this.pues = response;
+        //http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
+        //    this.pues = response;
+        //}, err => console.log(err));
+        //http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
+        //    this.pues = response;
+        //}, err => console.log(err));
+        http.get<Catalogo[]>(`${url}api/catalogo/gettiposervicio`).subscribe(response => {
+            this.tser = response;
         }, err => console.log(err));
-        http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
-            this.pues = response;
-        }, err => console.log(err));
+    }
+    chgServicio() {
+
     }
     chgPuesto() {
         this.getMaterial();
@@ -78,8 +88,21 @@ export class CatalogoComponent {
         this.grupo = 'uniforme';
         this.prow.inicio();
     }
+
+    openSer() {
+        this.addSer.open();
+    }
     closeMat($event) {
         this.getMaterial();
+    }
+    reloadServicios() {
+        this.getServicios();
+    }
+
+    getServicios() {
+        this.http.get<Catalogo[]>(`${this.url}api/catalogo/getservicio`).subscribe(response => {
+            this.sers = response;
+        }, err => console.log(err));
     }
 
     getMaterial() {
@@ -92,6 +115,12 @@ export class CatalogoComponent {
     deleteMat(id: number) {
         this.http.delete<boolean>(`${this.url}api/producto/del${this.grupo}/${id}`).subscribe(response => {
             this.getMaterial();
+        }, err => console.log(err));
+    }
+
+    deleteServ(id) {
+        this.http.delete(`${this.url}api/producto/EliminarServicio/${id}`).subscribe(response => {
+            this.getServicios();
         }, err => console.log(err));
     }
     limpiarngModel() {
