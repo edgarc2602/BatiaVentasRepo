@@ -383,6 +383,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.actCot.open();
     }
     descargarCotizacionComponent() {
+        this.existe(this.model.idCotizacion)
         this.iniciarAnimacion();
         this.http.post(`${this.url}api/report/DescargarReporteCotizacion`, this.model.idCotizacion, { responseType: 'arraybuffer' })
             .subscribe(
