@@ -26,7 +26,7 @@ namespace SistemaVentasBatia.Repositories
         Task<List<Direccion>> ObtenerCatalogoDireccionesCotizacion(int idCotizacion);
         Task<int> InsertaPuestoDireccionCotizacion(PuestoDireccionCotizacion operario);
         Task<ResumenCotizacionLimpieza> ObtenerResumenCotizacionLimpieza(int idCotizacion);
-        Task InsertarTotalCotizacion(decimal total, int idCotizacion);
+        Task InsertarTotalCotizacion(decimal total, int idCotizacion, string numerotxt);
         Task<Cotizacion> ObtenerNombreComercialCotizacion(int idCotizacion);
         Task<ResumenCotizacionLimpieza> ObtenerResumenCotizacionLimpieza2(int idCotizacion);
         Task<Cotizacion> ObtenerCotizacion(int id);
@@ -384,16 +384,16 @@ WHERE id_cotizacion = @idCotizacion";
         }
 
 
-        public async Task InsertarTotalCotizacion(decimal total, int idCotizacion)
+        public async Task InsertarTotalCotizacion(decimal total, int idCotizacion, string numerotxt)
         {
-            var query = @"UPDATE tb_cotizacion set total = @total where id_cotizacion = @idCotizacion";
+            var query = @"UPDATE tb_cotizacion set total = @total, total_letra = @numerotxt where id_cotizacion = @idCotizacion";
 
             try
             {
                 using (var connection = ctx.CreateConnection())
                 {
 
-                    await connection.ExecuteAsync(query, new { idCotizacion, total });
+                    await connection.ExecuteAsync(query, new { idCotizacion, total, numerotxt });
                 }
             }
             catch (Exception ex)

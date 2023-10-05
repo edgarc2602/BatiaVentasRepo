@@ -10,6 +10,7 @@ using SistemaVentasBatia.Enums;
 using System.Runtime.CompilerServices;
 using SistemaVentasBatia.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Xml.Schema;
 
 namespace SistemaVentasBatia.Services
 {
@@ -424,9 +425,20 @@ namespace SistemaVentasBatia.Services
                     resumenCotizacion.ComisionExtPor = obtenercot.ComisionExt.ToString();
                 }
                 decimal total = resumenCotizacion.SubTotal + resumenCotizacion.Indirecto + resumenCotizacion.Utilidad + resumenCotizacion.ComisionSV + resumenCotizacion.ComisionExt;
-                await cotizacionesRepo.InsertarTotalCotizacion(total, id);
-
-
+                string numerotxt = "";
+                if (total == 0)
+                {
+                    numerotxt = "cero";
+                }
+                else
+                {
+                    numerotxt = NumeroEnLetras.NumeroALetras(total);
+                    numerotxt = numerotxt.ToLower();
+                    numerotxt = char.ToUpper(numerotxt[0]) + numerotxt.Substring(1);
+                    numerotxt = "(" + numerotxt + " M.N.)";
+                   
+                }
+                await cotizacionesRepo.InsertarTotalCotizacion(total, id, numerotxt);
                 return resumenCotizacion;
             }
             catch
