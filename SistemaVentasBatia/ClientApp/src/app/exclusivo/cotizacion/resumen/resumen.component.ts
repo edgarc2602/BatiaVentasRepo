@@ -178,6 +178,9 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.http.get<ListaPuesto>(`${this.url}api/cotizacion/${this.model.idCotizacion}/0/0`).subscribe(response => {
             this.lspue = response;
         }, err => console.log(err));
+        this.http.get<CotizaResumenLim>(`${this.url}api/cotizacion/limpiezaresumen/${this.model.idCotizacion}`).subscribe(response => {
+            this.model = response;
+        }, err => console.log(err));
     }
 
     addPlan(id: number, tb: number) {
@@ -382,10 +385,10 @@ export class ResumenComponent implements OnInit, OnDestroy {
     validaActualizacionCotizacion() {
         this.actCot.open();
     }
-    descargarCotizacionComponent() {
+    descargarCotizacionComponent(tipo: number) {
         this.existe(this.model.idCotizacion)
         this.iniciarAnimacion();
-        this.http.post(`${this.url}api/report/DescargarReporteCotizacion`, this.model.idCotizacion, { responseType: 'arraybuffer' })
+        this.http.post(`${this.url}api/report/DescargarReporteCotizacion/${tipo}`, this.model.idCotizacion, { responseType: 'arraybuffer' })
             .subscribe(
                 (data: ArrayBuffer) => {
                     const pdfDataUrl = this.arrayBufferToDataUrl(data);

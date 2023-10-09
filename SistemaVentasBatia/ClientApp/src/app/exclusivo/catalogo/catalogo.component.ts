@@ -38,6 +38,9 @@ export class CatalogoComponent {
     validaMess: string = '';
     evenSub: Subject<void> = new Subject<void>();
 
+    selectedImage: string | ArrayBuffer | null = null;
+    idPersonal: number = 0;
+
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
@@ -162,4 +165,34 @@ export class CatalogoComponent {
             this.getTabulador();
         }, err => console.log(err));
     }
+
+
+
+
+
+
+
+    onFileSelected(event: any): void {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+                this.selectedImage = e.target.result as string | ArrayBuffer | null;
+            };
+
+            reader.readAsDataURL(selectedFile);
+        }
+    }
+
+    guardarImagen(): void {
+        if (this.selectedImage) {
+            // Enviar la imagen al controlador C# utilizando HttpClient
+            // Ajusta la URL del controlador y otros detalles según tus necesidades
+            this.http.post<boolean>(`${this.url}api/usuario/InsertarFirmaUsuario/${this.idPersonal}`, { imagenBase64: this.selectedImage }).subscribe(response => {
+                console.log('Imagen enviada exitosamente', response);
+                // Puedes realizar acciones adicionales después de enviar la imagen
+            });
+        }
+    }
+
 }

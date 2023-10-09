@@ -13,6 +13,8 @@ namespace SistemaVentasBatia.Services
     {
         Task<UsuarioDTO> Login(AccesoDTO dto);
         Task<bool> Existe(AccesoDTO dto);
+
+        Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal);
     }
     public class UsuarioService : IUsuarioService
     {
@@ -67,6 +69,11 @@ namespace SistemaVentasBatia.Services
             }
 
             return usu;
+        }
+
+        public async Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal)
+        {
+            await _repo.InsertarFirmaUsuario(imagenBase64, idPersonal);
         }
     }
 }

@@ -404,7 +404,75 @@
         </div>
 
     </div>
+
+    <!--Pestaña 3-->
+    <div class="accordion-item">
+        <h1 class="accordion-header" id="headingUsuario">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUsuario" aria-expanded="false" aria-controls="collapseUsuario">
+                Usuarios
+            </button>
+        </h1>
+        <div id="collapseUsuario" class="accordion-collapse collapse" aria-labelledby="headingUsuario">
+            <div class="accordion-body">
+                <h6>Agregar firma </h6>
+                <div class="row mb-3">
+                    <div class="col-2 col-md24 col-sm-2">
+                        <div class="form-floating box-shadow">
+                            <input type="number" class="form-control" [(ngModel)]="idPersonal">
+                            <label asp-for="Cantidad">Id Personal</label>
+                        </div>
+                    </div>
+                    <div class="col-2 col-md24 col-sm-2">
+                        <input type="file" (change)="onFileSelected($event)" #fileInput style="display:none" accept="image/*">
+                        <button class="btn btn-sm btn-outline-primary  box-shadow" (click)="fileInput.click()">Seleccionar Firma</button>
+                    </div>
+                    <br />
+                    <div class="image-container col-2 col-md24 col-sm-2">
+                        <img class="box-shadow" [src]="selectedImage" alt="Imagen seleccionada" *ngIf="selectedImage" width="150" height="150">
+                    </div>
+                </div>
+                <div class="align-content-end text-end">
+                    <button class="btn btn-lg btn-outline-success  box-shadow align-content-end" (click)="guardarImagen()">Agregar</button>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
 </div>
-<br />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <producto-widget [idP]="selPuesto" [grupo]="grupo" (saveEvent)="closeMat($event)"></producto-widget>
 <agregarservicio-widget (serEvent)="reloadServicios()"></agregarservicio-widget>

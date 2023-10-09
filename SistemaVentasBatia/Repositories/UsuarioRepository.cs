@@ -8,6 +8,7 @@ namespace SistemaVentasBatia.Repositories
     public interface IUsuarioRepository
     {
         Task<Usuario> Login(Acceso acceso);
+        Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal);
     }
 
     public class UsuarioRepository : IUsuarioRepository
@@ -31,6 +32,34 @@ namespace SistemaVentasBatia.Repositories
                 usu = (await connection.QueryFirstOrDefaultAsync<Usuario>(query, acceso));
             }
             return usu;
+        }
+
+        public async Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal)
+        {
+            var base64Data = imagenBase64.ImagenBase64;
+
+            if (base64Data.StartsWith("data:image/jpeg;base64,"))
+            {
+                base64Data = base64Data.Substring("data:image/jpeg;base64,".Length);
+            }
+            if (base64Data.StartsWith("data:image/png;base64,"))
+            {
+                base64Data = base64Data.Substring("data:image/png;base64,".Length);
+            }
+
+            var query = @"UPDATE Autorizacion_ventas SET per_firma = @base64Data WHERE IdPersonal = @idPersonal";
+
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    await connection.ExecuteAsync(query, new { base64Data, idPersonal });
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

@@ -28,18 +28,12 @@ namespace SistemaVentasBatia.Middleware
                 var response = context.Response;
                 response.ContentType = "application/json";
 
-                switch (ex)
+                response.StatusCode = ex switch
                 {
-                    case CustomException e:
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-                    case KeyNotFoundException e:
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        break;
-                    default:
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        break;
-                }
+                    CustomException _ => (int)HttpStatusCode.BadRequest,
+                    KeyNotFoundException _ => (int)HttpStatusCode.NotFound,
+                    _ => (int)HttpStatusCode.InternalServerError,
+                };
                 // var result = JsonSerializer.Create().Serialize(new { message = ex?.Message });
                 var result = JsonConvert.SerializeObject(new { message = ex?.Message });
                 await response.WriteAsync(result);
