@@ -46,7 +46,7 @@ namespace SistemaVentasBatia.Controllers
                     return StatusCode(500, "Error al obtener el archivo PDF");
                 }
             }
-            else
+            if (tipo == 2)
             {
                 try
                 {
@@ -69,7 +69,54 @@ namespace SistemaVentasBatia.Controllers
                     return StatusCode(500, "Error al obtener el archivo PDF");
                 }
             }
+            if (tipo == 3)
+            {
+                try
+                {
+                    var url = ("http://192.168.2.4/Reporte?%2freportecotizacion&rs:Format=DOCX&idCotizacion=" + idCotizacion.ToString()); // Cambia rs:Format a DOCX
+                    WebClient wc = new WebClient
+                    {
+                        Credentials = new NetworkCredential("Administrador", "GrupoBatia@")
+                    };
+                    byte[] myDataBuffer = wc.DownloadData(url.ToString());
 
+                    return new FileContentResult(myDataBuffer, "application/docx") // Cambia el tipo MIME a application/docx
+                    {
+                        FileDownloadName = "PropuestaTecnica.docx" // Cambia el nombre del archivo a .docx
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error al obtener el archivo DOCX: {ex.Message}");
+                    return StatusCode(500, "Error al obtener el archivo DOCX");
+                }
+            }
+            if (tipo == 4)
+            {
+                try
+                {
+                    var url = ("http://192.168.2.4/Reporte?%2freportecotizacion2&rs:Format=DOCX&idCotizacion=" + idCotizacion.ToString()); // Cambia rs:Format a DOCX
+                    WebClient wc = new WebClient
+                    {
+                        Credentials = new NetworkCredential("Administrador", "GrupoBatia@")
+                    };  
+                    byte[] myDataBuffer = wc.DownloadData(url.ToString());
+
+                    return new FileContentResult(myDataBuffer, "application/docx") // Cambia el tipo MIME a application/docx
+                    {
+                        FileDownloadName = "PropuestaEconomica.docx" // Cambia el nombre del archivo a .docx
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error al obtener el archivo DOCX: {ex.Message}");
+                    return StatusCode(500, "Error al obtener el archivo DOCX");
+                }
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
     }
