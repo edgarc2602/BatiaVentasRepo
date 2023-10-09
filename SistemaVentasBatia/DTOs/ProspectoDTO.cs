@@ -20,7 +20,7 @@ namespace SistemaVentasBatia.DTOs
         [StringLength(500, ErrorMessage = "Máximo 500 posiciones")]
         public string RazonSocial { get; set; }
 
-        [Required(ErrorMessage = "RFC es necesario")]
+        //[Required(ErrorMessage = "RFC es necesario")]
         [StringLength(13, ErrorMessage = "El RFC no puede contener más de 13 caracteres")]
         public string Rfc { get; set; }
 
