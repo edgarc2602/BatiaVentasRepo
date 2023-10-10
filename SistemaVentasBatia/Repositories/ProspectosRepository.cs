@@ -22,7 +22,7 @@ namespace SistemaVentasBatia.Repositories
         Task<int> ObtenerIdProspectoPorCotizacion(int idCotizacion);
         Task<Prospecto> ObtenerProspectoPorCotizacion(int idCotizacion);
         Task InactivarProspecto(int registroAEliminar);
-        Task<int> ContarProspectos(EstatusProspecto idEstatusProspecto, string keywords);
+        Task<int> ContarProspectos(EstatusProspecto idEstatusProspecto, string keywords, int idPersonal,int autorizacion);
         Task<List<Prospecto>> ObtenerCoincidenciasProspecto(string nombreComercial, string rfc);
         Task<Direccion> ObtenerDireccionPorId(int id);
         Task ActualizarDireccion(Direccion direccion);
@@ -60,9 +60,15 @@ namespace SistemaVentasBatia.Repositories
             }
         }
 
-        public async Task<int> ContarProspectos(EstatusProspecto idEstatusProspecto, string keywords)
+        public async Task<int> ContarProspectos(EstatusProspecto idEstatusProspecto, string keywords, int idPersonal, int autorizacion)
         {
-            var query = @"SELECT count(id_prospecto) Rows 
+            var queryuser = @"SELECT count(id_prospecto) Rows 
+                        FROM tb_prospecto
+                        WHERE
+                            id_personal = @idPersonal AND
+                            ISNULL(NULLIF(@idEstatusProspecto,0), id_estatus_prospecto) = id_estatus_prospecto
+                            AND nombre_comercial like '%' + @keywords + '%';";
+            var queryadmin = @"SELECT count(id_prospecto) Rows 
                         FROM tb_prospecto
                         WHERE
                             ISNULL(NULLIF(@idEstatusProspecto,0), id_estatus_prospecto) = id_estatus_prospecto
@@ -74,7 +80,15 @@ namespace SistemaVentasBatia.Repositories
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    numrows = await connection.QuerySingleAsync<int>(query, new { idEstatusProspecto, keywords = keywords ?? "" });
+                    if(autorizacion == 0)
+                    {
+                        numrows = await connection.QuerySingleAsync<int>(queryuser, new { idEstatusProspecto, keywords = keywords ?? "", idPersonal });
+                    }
+                    else
+                    {
+                        numrows = await connection.QuerySingleAsync<int>(queryadmin, new { idEstatusProspecto, keywords = keywords ?? "" });
+                    }
+                    
                 }
             }
             catch (Exception ex)

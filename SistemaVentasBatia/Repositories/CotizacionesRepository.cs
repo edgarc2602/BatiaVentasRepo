@@ -16,7 +16,7 @@ namespace SistemaVentasBatia.Repositories
     public interface ICotizacionesRepository
     {
         Task InsertaCotizacion(Cotizacion cotizacion);
-        Task<int> ContarCotizaciones(int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio);
+        Task<int> ContarCotizaciones(int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio,int idPersonal, int autorizacion);
         Task<List<Cotizacion>> ObtenerCotizaciones(int pagina, int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio, int admin, int idPersonal);
         Task<int> ObtenerAutorizacion(int idPersonal);
         Task<List<Direccion>> ObtenerDireccionesPorCotizacion(int idCotizacion, int pagina);
@@ -99,9 +99,17 @@ namespace SistemaVentasBatia.Repositories
             }
         }
 
-        public async Task<int> ContarCotizaciones(int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio)
+        public async Task<int> ContarCotizaciones(int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio, int idPersonal, int autorizacion)
         {
-            var query = @"SELECT count(*) Rows
+            var queryuser = @"SELECT count(*) Rows
+                                FROM tb_cotizacion c
+                                JOIN tb_prospecto p on c.id_prospecto = p.id_prospecto
+                                WHERE 
+                                    c.id_personal = @idPersonal AND
+                                    ISNULL(NULLIF(@idProspecto,0), c.id_prospecto) = c.id_prospecto AND
+                                    ISNULL(NULLIF(@idEstatusCotizacion,0), c.id_estatus_cotizacion) = c.id_estatus_cotizacion AND
+                                    ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio";
+            var queryadmin = @"SELECT count(*) Rows
                                 FROM tb_cotizacion c
                                 JOIN tb_prospecto p on c.id_prospecto = p.id_prospecto
                                 WHERE 
@@ -115,7 +123,15 @@ namespace SistemaVentasBatia.Repositories
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    rows = await connection.QuerySingleAsync<int>(query, new { idProspecto, idEstatusCotizacion, idServicio });
+                    if(autorizacion == 0)
+                    {
+                        rows = await connection.QuerySingleAsync<int>(queryuser, new { idProspecto, idEstatusCotizacion, idServicio, idPersonal });
+                    }
+                    else
+                    {
+                        rows = await connection.QuerySingleAsync<int>(queryadmin, new { idProspecto, idEstatusCotizacion, idServicio });
+                    }
+                    
                 }
             }
             catch (Exception ex)

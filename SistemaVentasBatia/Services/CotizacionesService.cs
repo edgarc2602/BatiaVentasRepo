@@ -76,7 +76,7 @@ namespace SistemaVentasBatia.Services
         
         public async Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM, int autorizacion, int idPersonal)
         {
-            listaCotizacionesVM.Rows = await cotizacionesRepo.ContarCotizaciones(listaCotizacionesVM.IdProspecto, listaCotizacionesVM.IdEstatusCotizacion, listaCotizacionesVM.IdServicio);
+            listaCotizacionesVM.Rows = await cotizacionesRepo.ContarCotizaciones(listaCotizacionesVM.IdProspecto, listaCotizacionesVM.IdEstatusCotizacion, listaCotizacionesVM.IdServicio, idPersonal, autorizacion);
 
             if (listaCotizacionesVM.Rows > 0)
             {

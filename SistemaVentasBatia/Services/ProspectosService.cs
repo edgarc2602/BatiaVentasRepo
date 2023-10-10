@@ -57,7 +57,7 @@ namespace SistemaVentasBatia.Services
 
         public async Task ObtenerListaProspectos(ListaProspectoDTO listaProspectosVM, int autorizacion, int idPersonal)
         {
-            listaProspectosVM.Rows = await prospectosRepo.ContarProspectos(listaProspectosVM.IdEstatusProspecto, listaProspectosVM.Keywords);
+            listaProspectosVM.Rows = await prospectosRepo.ContarProspectos(listaProspectosVM.IdEstatusProspecto, listaProspectosVM.Keywords, idPersonal, autorizacion);
 
             if (listaProspectosVM.Rows > 0)
             {
