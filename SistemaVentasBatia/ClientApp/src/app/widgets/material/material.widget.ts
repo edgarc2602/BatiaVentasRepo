@@ -78,6 +78,5 @@ export class MaterialWidget {
         this.model.materialesCotizacion.forEach((total) => {
             this.total = this.total + total.total;
         });
-        //this.total.toFixed(2);
     }
 }

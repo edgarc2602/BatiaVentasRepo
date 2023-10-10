@@ -104,14 +104,35 @@ export class DireccionWidget {
         let msg: string = fld.map((x: string) => "-" + x);
         return msg;
     }
+    existe() {  
+        this.http.get<Direccion>(`${this.url}api/direccion/obtenerdireccion/${this.idD}/${this.idP}`).subscribe(response => {
+            this.model = response;
+            this.loadMun();
+        }, err => {
+            console.log(err);
+            if (err.error) {
+                if (err.error.errors) {
+                    this.lerr = err.error.errors;
+                }
+            }
+        });
+        
+        let docModal = document.getElementById('modalAgregarDireccion');
+        let myModal = bootstrap.Modal.getOrCreateInstance(docModal);
+        myModal.show();
+    }
 
     open(pro: number, dir: number) {
         this.lerr = {};
         this.idP = pro;
         this.idD = dir;
-        if (dir == 0) {
+        if (dir != 0) {
+            this.existe();
+        }
+        else if (dir == 0) {
             this.nuevo();
-        } else {
+        }
+        else {
             this.refresh();
         }
         let docModal = document.getElementById('modalAgregarDireccion');

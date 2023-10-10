@@ -302,9 +302,15 @@
 
             </div>
         </div>
+
+
+
         <div class="tab-pane fade" id="prospecto" role="tabpanel" aria-labelledby="resumen-tab">
             <pros-widget [idP]="model.idProspecto" (smEvent)="savePros($event)"></pros-widget>
         </div>
+
+
+
         <div class="tab-pane fade" id="directorio" role="tabpanel" aria-labelledby="resumen-tab">
             <div class="row">
                 <div class="col-sm-12 col-md-8 text-black-50">
@@ -345,6 +351,9 @@
                                     {{ dr.domicilioCompleto }}
                                 </div>
                                 <div class="ms-auto bd-highlight">
+                                    <button type="button" class="btn btn-sm text-primary mb-1" (click)="getExistDir(dr.idDireccion)" data-bs-toggle="tooltip" title="Editar">
+                                        <i class="fa-solid fa-pencil fa-2x"></i>
+                                    </button>
                                     <button type="button" class="btn btn-sm text-danger mb-1" (click)="validaDireccionCotizacion(dr.idDireccionCotizacion)" data-bs-toggle="tooltip" title="Eliminar">
                                         <i class="fa-solid fa-times fa-2x"></i>
                                     </button>

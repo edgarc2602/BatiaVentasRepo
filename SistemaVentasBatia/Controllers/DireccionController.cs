@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SistemaVentasBatia.DTOs;
+using SistemaVentasBatia.Models;
 using SistemaVentasBatia.Services;
 
 namespace SistemaVentasBatia.Controllers
@@ -59,19 +60,19 @@ namespace SistemaVentasBatia.Controllers
             return direccionVM;
         }
 
-        [HttpGet("{id}/{idProspecto}")]
-        public async Task<IActionResult> EditarDireccion(int id, int idProspecto)
+        [HttpGet("[action]/{idD}/{idP}")]
+        public async Task<ActionResult<DireccionDTO>> ObtenerDireccion(int idD = 0, int idP = 0)
         {
-            var direccion = await _prospectosSvc.ObtenerDireccionPorId(id);
+            var direccion = await _prospectosSvc.ObtenerDireccionPorId(idD);
 
-            direccion.IdProspecto = idProspecto;
+            direccion.IdProspecto = idP;
 
             // ViewBag.Estados = new List<SelectListItem>((await catalogosSvc.ObtenerEstados()).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Descripcion }));
 
             // ViewBag.TiposInmueble = new List<SelectListItem>((await catalogosSvc.ObtenerTiposInmueble()).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Descripcion }));
 
             // return PartialView("_ModalEditarDireccion", direccion);
-            return Ok(direccion);
+            return direccion;
         }
 
         [HttpPut]

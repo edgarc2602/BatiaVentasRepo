@@ -220,6 +220,10 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.dirAdd.open(this.model.idProspecto, 0);
     }
 
+    getExistDir(idDireccionCotizacion: number) {
+        this.dirAdd.open(this.model.idProspecto, idDireccionCotizacion);
+    }
+
     getMatPues(id: number, dir: number, tp: string) {
         this.edit = 0;
 
