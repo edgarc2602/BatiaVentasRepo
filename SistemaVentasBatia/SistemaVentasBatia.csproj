@@ -20,10 +20,6 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
-
 	<ItemGroup>
 		<!-- Don't publish the SPA source files, but do show them in the project files list -->
 		<Content Remove="$(SpaRoot)**" />
@@ -36,6 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="ClientApp\src\app\colectivo\login\fondologinBatia.png" />
 	  <None Remove="ClientApp\src\app\models\acceso.ts" />
 	  <None Remove="ClientApp\src\app\models\listapuesto.ts" />
 	  <None Remove="ClientApp\src\app\models\productoitem.ts" />
@@ -44,6 +41,11 @@
 	  <None Remove="ClientApp\src\app\models\usuario.ts" />
 	  <None Remove="ClientApp\src\app\stores\StoreUser.ts" />
 	  <None Remove="ClientApp\src\app\widgets\puesto\puesto.widget.ts" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="ClientApp\fondologinBatia.png" />
+	  <Content Include="ClientApp\src\app\colectivo\login\fondologinBatia.png" />
 	</ItemGroup>
 
 	<ItemGroup>
