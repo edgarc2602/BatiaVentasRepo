@@ -32,7 +32,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="ClientApp\src\app\colectivo\login\fondologinBatia.png" />
 	  <None Remove="ClientApp\src\app\models\acceso.ts" />
 	  <None Remove="ClientApp\src\app\models\listapuesto.ts" />
 	  <None Remove="ClientApp\src\app\models\productoitem.ts" />
@@ -45,7 +44,6 @@
 
 	<ItemGroup>
 	  <Content Include="ClientApp\fondologinBatia.png" />
-	  <Content Include="ClientApp\src\app\colectivo\login\fondologinBatia.png" />
 	</ItemGroup>
 
 	<ItemGroup>

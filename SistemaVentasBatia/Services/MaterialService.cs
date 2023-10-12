@@ -68,6 +68,7 @@ namespace SistemaVentasBatia.Services
         }
         public async Task AgregarMaterialOperario(MaterialCotizacionDTO materialVM)
         {
+            int estado = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(materialVM.IdDireccionCotizacion);
             if (materialVM.edit == 1)
             {
                 decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(materialVM.ClaveProducto);

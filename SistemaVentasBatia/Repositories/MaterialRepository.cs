@@ -25,6 +25,7 @@ namespace SistemaVentasBatia.Repositories
         Task<List<MaterialCotizacion>> ObtenerUniformeCotizacionOperario(int id, int idCotizacion);
         Task<MaterialCotizacion> ObtenerMaterialCotizacionPorId(int id);
         Task<decimal> ObtenerPrecioProductoPorClave(string clave);
+        Task<int> ObtenerIdEstadoPorIdDireccionCotizacion(int idDireccionCotizacion);
         Task<MaterialCotizacion> ObtenerEquipoCotizacionPorId(int id);
         Task<MaterialCotizacion> ObtenerHerramientaCotizacionPorId(int id);
         Task<MaterialCotizacion> ObtenerUniformeCotizacionPorId(int id);
@@ -196,6 +197,29 @@ namespace SistemaVentasBatia.Repositories
 
             return precio;
         }
+
+        public async Task<int> ObtenerIdEstadoPorIdDireccionCotizacion(int idDireccionCotizacion)
+        {
+            var query = $@"SELECT d.id_estado FROM tb_direccion_cotizacion dc
+                        INNER JOIN tb_direccion d ON dc.id_direccion = d.id_direccion
+                        WHERE id_direccion_cotizacion = @idDireccionCotizacion";
+            int idEstado;
+            try
+            {
+                using (var connecion = _ctx.CreateConnection())
+                {
+                    idEstado = await connecion.QueryFirstAsync<int>(query, new { idDireccionCotizacion });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return idEstado;
+        }
+
+
+
         public async Task<int> ContarMaterialesCotizacion(int idCotizacion, int idDireccionCotizacion, int idPuestoDireccionCotizacion, string keywords)
         {
             var query = @"SELECT count(mc.id_material_cotizacion) Rows
@@ -780,10 +804,10 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
             {
                 using (var connection = _ctx.CreateConnection())
                 {
-                    await connection.ExecuteAsync(query,new {id});
+                    await connection.ExecuteAsync(query, new { id });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -1100,7 +1124,7 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
 
         public async Task<List<MaterialCotizacion>> ObtenerEquipoCotizacionOperario(int id, int idCotizacion)
         {
-            if(id != 0)
+            if (id != 0)
             {
                 string query = @"SELECT mc.id_equipo_cotizacion IdMaterialCotizacion, mc.clave_producto ClaveProducto, mc.id_cotizacion IdCotizacion, mc.id_direccion_cotizacion IdDireccionCotizacion,
                                 mc.id_puesto_direccioncotizacion IdPuestoDireccionCotizacion, mc.precio_unitario PrecioUnitario, id_frecuencia IdFrecuencia,
@@ -1150,7 +1174,7 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
 
                 return equipoCotizacion;
             }
-            
+
         }
         public async Task<List<MaterialCotizacion>> ObtenerHerramientaCotizacionOperario(int id, int idCotizacion)
         {
@@ -1437,10 +1461,10 @@ WHERE cse.id_servicioextra_cotizacion = @id";
             {
                 using (var connection = _ctx.CreateConnection())
                 {
-                    servicio = await connection.QueryFirstAsync<ServicioCotizacion>(query, new {id});
+                    servicio = await connection.QueryFirstAsync<ServicioCotizacion>(query, new { id });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
