@@ -8,11 +8,13 @@ import { ItemN } from '../../../models/item';
 import { ListaDireccion } from 'src/app/models/listadireccion';
 import { DireccionWidget } from 'src/app/widgets/direccion/direccion.widget';
 import { StoreUser } from 'src/app/stores/StoreUser';
+import { fadeInOut } from 'src/app/fade-in-out';
 
 @Component({
     selector: 'pros-nuevo',
     templateUrl: './nuevo.component.html',
-    providers: [DatePipe]
+    providers: [DatePipe],
+    animations: [fadeInOut],
 })
 export class ProsNuevoComponent implements OnInit, OnDestroy {
     @ViewChild(DireccionWidget, { static: false }) dirAdd: DireccionWidget;

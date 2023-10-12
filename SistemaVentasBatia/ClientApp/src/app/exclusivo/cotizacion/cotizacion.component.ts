@@ -14,9 +14,11 @@ import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
 import { EditarCotizacion } from 'src/app/widgets/editacotizacion/editacotizacion.widget';
 
 import { StoreUser } from 'src/app/stores/StoreUser';
+import { fadeInOut } from 'src/app/fade-in-out';
 @Component({
     selector: 'cotizacion',
-    templateUrl: './cotizacion.component.html'
+    templateUrl: './cotizacion.component.html',
+    animations: [fadeInOut],
     
 })
 export class CotizacionComponent implements OnInit, OnDestroy {

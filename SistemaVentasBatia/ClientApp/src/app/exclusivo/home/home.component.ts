@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import { fadeInOut } from 'src/app/fade-in-out';
 
 @Component({
     selector: 'home-comp',
-    templateUrl: './home.component.html'
+    templateUrl: './home.component.html',
+    animations: [fadeInOut],
 })
 export class HomeComponent implements OnInit {
     constructor() {}

@@ -1,109 +1,111 @@
-<br />
-<div class="row pt-1 mb-3">
+<div [@fadeInOut]>
+    <br />
+    <div class="row pt-1 mb-3">
+        <div>
+            <div class="btn-group float-end">
+                <a [routerLink]="['/exclusivo/nuevocot']" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nueva Cotización</a>
+            </div>
+            <h1 class="h2">Cotizaciones</h1>
+
+        </div>
+    </div>
+
     <div>
-        <div class="btn-group float-end">
-            <a [routerLink]="['/exclusivo/nuevocot']" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nueva Cotización</a>
-        </div>
-        <h1 class="h2">Cotizaciones</h1>
-
-    </div>
-</div>
-
-<div>
-    <div class="row mb-3">
-        <div class="col-md-3">
-            <div class="form-floating">
-                <select class="form-select" asp-for="IdProspecto" [(ngModel)]="lcots.idProspecto">
-                    <option value="0">Selecciona una opción...</option>
-                    <option *ngFor="let p of lpros" [ngValue]="p.idProspecto">{{ p.nombreComercial }}</option>
-                </select>
-                <label for="ddlProspecto">Prospecto</label>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <div class="form-floating">
+                    <select class="form-select" asp-for="IdProspecto" [(ngModel)]="lcots.idProspecto">
+                        <option value="0">Selecciona una opción...</option>
+                        <option *ngFor="let p of lpros" [ngValue]="p.idProspecto">{{ p.nombreComercial }}</option>
+                    </select>
+                    <label for="ddlProspecto">Prospecto</label>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="form-floating">
-                <select class="form-select" [(ngModel)]="lcots.idServicio">
-                    <option value="0">Selecciona una opción...</option>
-                    <option *ngFor="let s of lsers" [ngValue]="s.id">{{ s.nom }}</option>
-                </select>
-                <label for="ddlServicio">Servicio</label>
+            <div class="col-md-3 col-6">
+                <div class="form-floating">
+                    <select class="form-select" [(ngModel)]="lcots.idServicio">
+                        <option value="0">Selecciona una opción...</option>
+                        <option *ngFor="let s of lsers" [ngValue]="s.id">{{ s.nom }}</option>
+                    </select>
+                    <label for="ddlServicio">Servicio</label>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="form-floating">
-                <select class="form-select" [(ngModel)]="lcots.idEstatusCotizacion">
-                    <option value="0">Selecciona una opción...</option>
-                    <option *ngFor="let e of lests" [ngValue]="e.id">{{ e.nom }}</option>
-                </select>
-                <label for="ddlServicio">Estatus</label>
+            <div class="col-md-3 col-6">
+                <div class="form-floating">
+                    <select class="form-select" [(ngModel)]="lcots.idEstatusCotizacion">
+                        <option value="0">Selecciona una opción...</option>
+                        <option *ngFor="let e of lests" [ngValue]="e.id">{{ e.nom }}</option>
+                    </select>
+                    <label for="ddlServicio">Estatus</label>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-3">
-            <button type="button" (click)="busca()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+            <div class="col-md-3">
+                <button type="button" (click)="busca()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+            </div>
         </div>
     </div>
+
+
+    <div class="row" style="border-radius: 10px; overflow-x: hidden;">
+        <table class="table table-borderless table-striped table-responsive box-shadow">
+            <thead>
+                <tr class="bg-primary bg-opacity-75 text-white">
+                    <th class="ps-2">Lista de cotizaciones</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--
+                var action = cotizacion.IdServicio == Servicio.Limpieza ? "LimpiezaResumen" : (cotizacion.IdServicio == Servicio.Mantenimiento ? "MantenimientoResumen" : (cotizacion.IdServicio == Servicio.Sanitización ? "SanitizacionResumen" : ""));
+                -->
+                <tr *ngFor="let cot of lcots.cotizaciones">
+                    <td>
+                        <div class="row pb-4">
+                            <div class="col-md-1 col-sm-6 col-1 ">
+                                <span class="badge text-dark">ID:</span>
+                                <div class="ms-2">{{ cot.idCotizacion }}</div>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-5 text-center ">
+                                <span class="badge text-dark">Prospecto:</span>
+                                <div class="ms-2">{{ cot.nombreComercial }}</div>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-3 ">
+                                <span class="badge text-dark">Servicio:</span>
+                                <div class="ms-2">{{ cot.servicio }}</div>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-2 ">
+                                <span class="badge text-dark">Total:</span>
+                                <div class="ms-2">${{cot.total | number: '1.2'}}</div>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-6 ">
+                                <span class="badge text-dark">Fecha Alta:</span>
+                                <div class="ms-2">{{ cot.fechaAlta | date: 'dd-MM-yyyy' }}</div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-6">
+                                <span class="badge text-dark">Usuario Alta:</span>
+                                <div class="ms-2"> {{  cot.idAlta }}  </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="align-content-end w-auto">
+                        <button type="button" class="btn btn-sm text-primary mb-1" [routerLink]="['/exclusivo/resumen/' + cot.idCotizacion]" data-bs-toggle="tooltip" title="Detalle">
+                            <i class="fa-solid fa-search-dollar fa-2x"></i>
+                        </button>
+                        <!--<button type="button" (click)="removeCot(cot.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-delete-left"></i> Desactivar </button>-->
+                        <a class="btn btn-sm text-success mb-1" (click)="editar(cot.idCotizacion, cot.nombreComercial,cot.servicio)" data-bs-toggle="tooltip" title="Editar">
+                            <i class="fa-solid fa-pencil fa-2x"></i>
+                        </a>
+                        <a class="btn btn-sm text-danger mb-1 btnEliminarCotizacion" data-bs-toggle="tooltip" title="Descartar" (click)="elige(cot.idCotizacion)">
+                            <i class="fa-solid fa-times fa-2x"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <pagina-widget [pagina]="lcots.pagina" [numPaginas]="lcots.numPaginas" [rows]="lcots.rows" (chgEvent)="muevePagina($event)"></pagina-widget>
+    </div>
+
+    <elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
+    <editcot-widget (ansEvent)="elimina($event)"></editcot-widget>
 </div>
-
-
-<div class="row" style="border-radius: 10px; overflow-x: hidden;">
-    <table class="table table-borderless table-striped table-responsive box-shadow">
-        <thead>
-            <tr class="bg-primary bg-opacity-75 text-white">
-                <th class="ps-2">Lista de cotizaciones</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <!--
-            var action = cotizacion.IdServicio == Servicio.Limpieza ? "LimpiezaResumen" : (cotizacion.IdServicio == Servicio.Mantenimiento ? "MantenimientoResumen" : (cotizacion.IdServicio == Servicio.Sanitización ? "SanitizacionResumen" : ""));
-            -->
-            <tr *ngFor="let cot of lcots.cotizaciones">
-                <td>
-                    <div class="row pb-4">
-                        <div class="col-md-1 col-sm-6 col-1 ">
-                            <span class="badge text-dark">ID:</span>
-                            <div class="ms-2">{{ cot.idCotizacion }}</div>
-                        </div>
-                        <div class="col-md-2 col-sm-6 col-5 text-center ">
-                            <span class="badge text-dark">Prospecto:</span>
-                            <div class="ms-2">{{ cot.nombreComercial }}</div>
-                        </div>
-                        <div class="col-md-2 col-sm-6 col-3 ">
-                            <span class="badge text-dark">Servicio:</span>
-                            <div class="ms-2">{{ cot.servicio }}</div>
-                        </div>
-                        <div class="col-md-2 col-sm-6 col-2 ">
-                            <span class="badge text-dark">Total:</span>
-                            <div class="ms-2">${{cot.total | number: '1.2'}}</div>
-                        </div>
-                        <div class="col-md-2 col-sm-6 col-6 ">
-                            <span class="badge text-dark">Fecha Alta:</span>
-                            <div class="ms-2">{{ cot.fechaAlta | date: 'dd-MM-yyyy' }}</div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-6">
-                            <span class="badge text-dark">Usuario Alta:</span>
-                            <div class="ms-2"> {{  cot.idAlta }}  </div>
-                        </div>
-                    </div>
-                </td>
-                <td class="align-content-end w-auto">
-                    <button type="button" class="btn btn-sm text-primary mb-1" [routerLink]="['/exclusivo/resumen/' + cot.idCotizacion]" data-bs-toggle="tooltip" title="Detalle">
-                        <i class="fa-solid fa-search-dollar fa-2x"></i>
-                    </button>
-                    <!--<button type="button" (click)="removeCot(cot.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-delete-left"></i> Desactivar </button>-->
-                    <a class="btn btn-sm text-success mb-1" (click)="editar(cot.idCotizacion, cot.nombreComercial,cot.servicio)" data-bs-toggle="tooltip" title="Editar">
-                        <i class="fa-solid fa-pencil fa-2x"></i>
-                    </a>
-                    <a class="btn btn-sm text-danger mb-1 btnEliminarCotizacion" data-bs-toggle="tooltip" title="Descartar" (click)="elige(cot.idCotizacion)">
-                        <i class="fa-solid fa-times fa-2x"></i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <pagina-widget [pagina]="lcots.pagina" [numPaginas]="lcots.numPaginas" [rows]="lcots.rows" (chgEvent)="muevePagina($event)"></pagina-widget>
-</div>
-
-<elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
-<editcot-widget (ansEvent)="elimina($event)"></editcot-widget>

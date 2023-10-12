@@ -42,6 +42,9 @@ import { DescargarComponent } from './exclusivo/cotizacion/descargar/descargar.c
 
 import { CommonModule } from '@angular/common';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { fadeInOut } from './fade-in-out';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -83,6 +86,7 @@ import { CommonModule } from '@angular/common';
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,
+        BrowserAnimationsModule,
         FormsModule,
         CommonModule,
         RouterModule.forRoot([

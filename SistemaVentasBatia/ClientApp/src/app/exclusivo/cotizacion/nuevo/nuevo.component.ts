@@ -6,10 +6,12 @@ import { Cotizacion } from 'src/app/models/cotizacion';
 import { ItemN } from 'src/app/models/item';
 import { StoreUser } from 'src/app/stores/StoreUser';
 declare var bootstrap: any;
+import { fadeInOut } from 'src/app/fade-in-out';
 
 @Component({
     selector: 'cot-nuevo',
-    templateUrl: './nuevo.component.html'
+    templateUrl: './nuevo.component.html',
+    animations: [fadeInOut],
 })
 export class CotizaComponent {
     lpros: Prospecto[] = [];

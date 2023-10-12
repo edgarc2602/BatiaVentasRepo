@@ -7,10 +7,12 @@ import { AgregarServicioWidget  } from 'src/app/widgets/agregarservicio/agregars
 
 import { PuestoTabulador } from 'src/app/models/puestotabulador';
 import { Subject } from 'rxjs';
+import { fadeInOut } from 'src/app/fade-in-out';
 
 @Component({
     selector: 'catalogo-comp',
-    templateUrl: './catalogo.component.html'
+    templateUrl: './catalogo.component.html',
+    animations: [fadeInOut],
 })
 export class CatalogoComponent {
     @ViewChild(ProductoWidget,{ static: false }) prow: ProductoWidget;

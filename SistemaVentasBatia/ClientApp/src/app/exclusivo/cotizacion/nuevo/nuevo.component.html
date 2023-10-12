@@ -1,92 +1,34 @@
-<div class="pt-3 mb-2">
-    <h1 class="h2">Nueva Cotización</h1>
-</div>
+<div [@fadeInOut]>
+    <div class="pt-3 mb-2">
+        <h1 class="h2">Nueva Cotización</h1>
+    </div>
 
-<br />
+    <br />
 
-<div class="d-flex flex-column justify-content-center h-100">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 text-center mb-2">
-            <button type="button" (click)="openSel()" class="btn btn-lg btn-outline-primary" id="btnSeleccionarProspecto"><i class="fa-solid fa-list"></i> Elegir un prospecto existente</button>
-        </div>
-        <div class="col-sm-12 col-md-6 text-center">
-            <button type="button" (click)="openNew()" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Crear un nuevo prospecto</button>
+    <div class="d-flex flex-column justify-content-center h-100">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 text-center mb-2">
+                <button type="button" (click)="openSel()" class="btn btn-lg btn-outline-primary" id="btnSeleccionarProspecto"><i class="fa-solid fa-list"></i> Elegir un prospecto existente</button>
+            </div>
+            <div class="col-sm-12 col-md-6 text-center">
+                <button type="button" (click)="openNew()" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Crear un nuevo prospecto</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="modalCrearProspecto">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+    <div class="modal fade" id="modalCrearProspecto">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Nuevo Prospecto</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <pros-widget [idP]="model.idProspecto" (smEvent)="savePros($event)"></pros-widget>
-                <h5>Servicios</h5>
-                <br />
-
-                <div class="row">
-                    <div *ngFor="let s of sers" class="col-sm-6 col-md-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" [(ngModel)]="s.act" value="s.id">
-                            <label class="form-check-label">
-                                {{ s.nom }}
-                            </label>
-                        </div>
-                    </div>
-                    <span *ngIf="ferr('ListaServicio')" class="text-danger">{{ terr('ListaServicio') }}</span>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Nuevo Prospecto</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-            </div>
 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modalSeleccionarProspecto">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Seleccionar Prospecto</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div>
-                    <div class="row">
-                        <div>
-                            <div class="btn-group float-end">
-                                <button type="button" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-check"></i> Iniciar Cotización</button>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row mb-3">
-                        <div class="col-sm-12 col-md-8">
-                            <div class="form-floating">
-                                <select class="form-select" [(ngModel)]="model.idProspecto" name="IdProspecto">
-                                    <option value="0">Seleccione</option>
-                                    <option *ngFor="let p of lpros" [ngValue]="p.idProspecto">{{ p.nombreComercial }}</option>
-                                </select>
-                                <label for="IdProspecto">Prospecto</label>
-                            </div>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <pros-widget [idP]="model.idProspecto" (smEvent)="savePros($event)"></pros-widget>
                     <h5>Servicios</h5>
                     <br />
 
@@ -102,13 +44,73 @@
                         <span *ngIf="ferr('ListaServicio')" class="text-danger">{{ terr('ListaServicio') }}</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-            </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalSeleccionarProspecto">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Seleccionar Prospecto</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div>
+                        <div class="row">
+                            <div>
+                                <div class="btn-group float-end">
+                                    <button type="button" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-check"></i> Iniciar Cotización</button>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row mb-3">
+                            <div class="col-sm-12 col-md-8">
+                                <div class="form-floating">
+                                    <select class="form-select" [(ngModel)]="model.idProspecto" name="IdProspecto">
+                                        <option value="0">Seleccione</option>
+                                        <option *ngFor="let p of lpros" [ngValue]="p.idProspecto">{{ p.nombreComercial }}</option>
+                                    </select>
+                                    <label for="IdProspecto">Prospecto</label>
+                                </div>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <h5>Servicios</h5>
+                        <br />
+
+                        <div class="row">
+                            <div *ngFor="let s of sers" class="col-sm-6 col-md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [(ngModel)]="s.act" value="s.id">
+                                    <label class="form-check-label">
+                                        {{ s.nom }}
+                                    </label>
+                                </div>
+                            </div>
+                            <span *ngIf="ferr('ListaServicio')" class="text-danger">{{ terr('ListaServicio') }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

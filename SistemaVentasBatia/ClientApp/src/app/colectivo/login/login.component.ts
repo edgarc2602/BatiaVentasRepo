@@ -5,12 +5,14 @@ import { Acceso } from 'src/app/models/acceso';
 import { Usuario } from 'src/app/models/usuario';
 import { Subject } from 'rxjs';
 
+import { fadeInOut } from 'src/app/fade-in-out';
 
 
 
 @Component({
     selector: 'login-comp',
-    templateUrl: './login.component.html'
+    templateUrl: './login.component.html',
+    animations: [fadeInOut],
 })
 export class LoginComponent {
     model: Acceso = { usuario: '', contrasena: '' };

@@ -6,10 +6,12 @@ import { ItemN } from 'src/app/models/item';
 import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
 
 import { StoreUser } from 'src/app/stores/StoreUser';
+import { fadeInOut } from 'src/app/fade-in-out';
 
 @Component({
     selector: 'prospecto',
-    templateUrl: './prospecto.component.html'
+    templateUrl: './prospecto.component.html',
+    animations: [fadeInOut],
 })
 export class ProspectoComponent {
     lspro: ListaProspecto = {

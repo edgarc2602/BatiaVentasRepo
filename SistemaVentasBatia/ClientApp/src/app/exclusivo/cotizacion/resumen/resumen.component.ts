@@ -28,9 +28,12 @@ import { Cotizacionupd } from 'src/app/models/cotizacionupd';
 import { Router } from '@angular/router';
 import { ReportService } from 'src/app/report.service';
 
+import { fadeInOut } from 'src/app/fade-in-out';
+
 @Component({
     selector: 'resumen',
-    templateUrl: './resumen.component.html'
+    templateUrl: './resumen.component.html',
+    animations: [fadeInOut],
 })
 export class ResumenComponent implements OnInit, OnDestroy {
     @ViewChild(MaterialAddWidget, { static: false }) proAdd: MaterialAddWidget;

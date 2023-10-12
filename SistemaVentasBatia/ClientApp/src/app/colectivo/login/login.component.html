@@ -27,24 +27,22 @@
 
     .my-input-class {
         background-color: rgba(255, 255, 255, 0.2);
-        
         /*border: 1px solid black; */ /* Borde negro de 1 píxel sólido */
     }
 
     /*body .background-image {
         background-image: url('images/fondologinBatia.png');*/ /* Ruta de la imagen de fondo */
-        /*background-size: cover;*/ /* Ajusta la imagen para cubrir todo el contenedor */
-        /*background-position: center center;*/ /* Centra la imagen en el contenedor */
-        /*background-repeat: no-repeat;*/ /* Evita que la imagen se repita */
-        /*min-height: 100vh;*/ /* Establece la altura mínima al 100% del viewport */
-        /*background-attachment: fixed;
+    /*background-size: cover;*/ /* Ajusta la imagen para cubrir todo el contenedor */
+    /*background-position: center center;*/ /* Centra la imagen en el contenedor */
+    /*background-repeat: no-repeat;*/ /* Evita que la imagen se repita */
+    /*min-height: 100vh;*/ /* Establece la altura mínima al 100% del viewport */
+    /*background-attachment: fixed;
     }*/
 
     .bodycss {
         margin: 0;
         padding: 0;
         margin-bottom: 0px;
-
         border-bottom: 0px;
         background-image: url('images/FondoSinga3.png'); /* Ruta de la imagen de fondo */
         background-size: contain; /* Ajusta la imagen para cubrir todo el contenedor */
@@ -52,7 +50,6 @@
         background-repeat: no-repeat; /* Evita que la imagen se repita */
         min-height: 95vh; /* Establece la altura mínima al 100% del viewport */
         /*background-attachment: fixed;*/
-
     }
 
     .card {
@@ -79,6 +76,20 @@
     input:focus::placeholder,
     input:focus::-webkit-input-placeholder {
         color: rgba(0, 0, 0, 0.2); /* Cambia el color y la opacidad del texto cuando está enfocado */
+    }
+
+    .fadeIn {
+        animation: fadeInAnimation 0.5s ease-in-out forwards;
+    }
+
+    @keyframes fadeInAnimation {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
 
 </style>
@@ -144,10 +155,10 @@
 <!--</div>
 </div>-->
 
-<body class="bodycss">
+<body class="bodycss fadeIn">
+    <div [@fadeInOut]>
 
 
-    
         <br />
         <div class="row">
             <div class="col-mid">
@@ -177,7 +188,8 @@
                 </div>
             </div>
         </div>
-   
+    </div>
+
 
 
 </body>
