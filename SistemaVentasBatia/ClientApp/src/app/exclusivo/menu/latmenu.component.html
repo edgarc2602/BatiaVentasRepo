@@ -1,73 +1,74 @@
-<nav id="sidebarMenu" class="col-md-auto d-md-block bg-light sidebar collapse">
+<nav id="sidebarMenu" class="col-md-auto d-md-block bg-light sidebar collapse-horizontal collapse">
     <ul class="nav d-flex flex-column justify-content-center h-100 pt-2">
         <li class="nav-item mb-3 text-sm-start text-md-center">
             <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" [routerLink]="['/exclusivo']" [routerLinkActive]='["active"]' [routerLinkActiveOptions]="{ exact: true }" aria-current="page">
-                <div data-bs-toggle="tooltip" data-bs-placement="right" title="Home">
+                <div data-bs-toggle="tooltip" data-bs-placement="right">
                     <span> <i class="fa-solid fa-house fa-2x"></i></span>
-                    <div class="float-end d-block d-sm-none"><h6>HOME</h6></div>
-                    <hr class="d-block d-sm-none" />
+                    <div class="d-block d-md-none"><h6>HOME</h6></div>
+                    <hr class="d-block d-md-none" />
                 </div>
             </a>
         </li>
 
         <li class="nav-item mb-3 text-sm-start text-md-center">
             <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" [routerLink]="['/exclusivo/prospecto']" [routerLinkActive]='["active"]' aria-current="page">
-                <div data-bs-toggle="tooltip" data-bs-placement="right" title="Prospectos">
-                    <span> <i class="fa-solid fa-business-time fa-2x"></i></span>
-                    <div class="float-end d-block d-sm-none"><h6>PROSPECTOS</h6></div>
-                    <hr class="d-block d-sm-none" />
-                </div>
+                    <div data-bs-toggle="tooltip" data-bs-placement="right">
+                        <span> <i class="fa-solid fa-business-time fa-2x"></i></span>
+                        <div class=" d-block d-md-none"><h6>PROSPECTOS</h6></div>
+                        <hr class="d-block d-md-none" />
+                    </div>
             </a>
         </li>
 
         <!--<li class="nav-item mb-3 text-sm-start text-md-center">
-        <a class="nav-link" aria-current="page" href="#">
-            <div data-bs-toggle="tooltip" data-bs-placement="right" title="Clientes">
-                <span> <i class="fa-solid fa-users fa-2x"></i></span>
-                <div class="float-end d-block d-sm-none"><h6>CLIENTES</h6></div>
-                <hr class="d-block d-sm-none" />
+            <a class="nav-link" aria-current="page" href="#">
+                <div data-bs-toggle="tooltip" data-bs-placement="right" title="Clientes">
+                    <span> <i class="fa-solid fa-users fa-2x"></i></span>
+                    <div class="float-end d-block d-sm-none"><h6>CLIENTES</h6></div>
+                    <hr class="d-block d-sm-none" />
 
-            </div>
-        </a>
-    </li>-->
+                </div>
+            </a>
+        </li>-->
         <li class="nav-item mb-3 text-sm-start text-md-center">
             <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" [routerLink]="['/exclusivo/cotiza/0']" [routerLinkActive]='["active"]' aria-current="page">
-                <div data-bs-toggle="tooltip" data-bs-placement="right" title="Cotizaciones">
+                <div data-bs-toggle="tooltip" data-bs-placement="right">
                     <span> <i class="fa-solid fa-file-invoice-dollar fa-2x"></i></span>
-                    <div class="float-end d-block d-sm-none"><h6>COTIZACIONES</h6></div>
-                    <hr class="d-block d-sm-none" />
+                    <div class=" d-block d-md-none"><h6>COTIZACIONES</h6></div>
+                    <hr class="d-block d-md-none" />
                 </div>
             </a>
         </li>
         <li class="nav-item mb-3 text-sm-start text-md-center">
             <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" [routerLink]="['/exclusivo/catalogo']" [routerLinkActive]='["active"]' aria-current="page">
-                <div data-bs-toggle="tooltip" data-bs-placement="right" title="Ajustes">
+                <div data-bs-toggle="tooltip" data-bs-placement="right">
                     <span> <i class="fa-solid fa-gears fa-2x"></i></span>
-                    <div class="float-end d-block d-sm-none"><h6>CONFIGURACION</h6></div>
-                    <hr class="d-block d-sm-none" />
+                    <div class=" d-block d-md-none"><h6>CONFIGURACION</h6></div>
+                    <hr class="d-block d-md-none" />
                 </div>
             </a>
         </li>
         <!--<li class="nav-item mb-3 text-sm-start text-md-center">
-        <a class="nav-link" aria-current="page" href="#">
+            <a class="nav-link" aria-current="page" href="#">
 
-            <div data-bs-toggle="tooltip" data-bs-placement="right" title="Mi Cuenta">
-                <span> <i class="fa-solid fa-user-tie fa-2x"></i></span>
-                <div class="float-end d-block d-sm-none"><h6>MI CUENTA</h6></div>
-                <hr class="d-block d-sm-none" />
-            </div>
-        </a>
-    </li>-->
+                <div data-bs-toggle="tooltip" data-bs-placement="right" title="Mi Cuenta">
+                    <span> <i class="fa-solid fa-user-tie fa-2x"></i></span>
+                    <div class="float-end d-block d-sm-none"><h6>MI CUENTA</h6></div>
+                    <hr class="d-block d-sm-none" />
+                </div>
+            </a>
+        </li>-->
     </ul>
 </nav>
 
 
 
+<!--MENU ESTATICO FS-->
 
 <nav id="sidebarMenustatic" class="col-md-auto d-md-block bg-light sidebar collapse">
     <ul class="nav d-flex flex-column justify-content-center h-100 pt-2">
         <li class="nav-item mb-3 text-sm-start text-md-center">
-            <a class="nav-link"  [routerLink]="['/exclusivo']" [routerLinkActive]='["active"]' [routerLinkActiveOptions]="{ exact: true }" aria-current="page">
+            <a class="nav-link" [routerLink]="['/exclusivo']" [routerLinkActive]='["active"]' [routerLinkActiveOptions]="{ exact: true }" aria-current="page">
                 <div data-bs-toggle="tooltip" data-bs-placement="right" title="Home">
                     <span> <i class="fa-solid fa-house fa-2x"></i></span>
                     <div class="float-end d-block d-sm-none"><h6>HOME</h6></div>
@@ -97,7 +98,7 @@
             </a>
         </li>-->
         <li class="nav-item mb-3 text-sm-start text-md-center">
-            <a class="nav-link"  [routerLink]="['/exclusivo/cotiza/0']" [routerLinkActive]='["active"]' aria-current="page">
+            <a class="nav-link" [routerLink]="['/exclusivo/cotiza/0']" [routerLinkActive]='["active"]' aria-current="page">
                 <div data-bs-toggle="tooltip" data-bs-placement="right" title="Cotizaciones">
                     <span> <i class="fa-solid fa-file-invoice-dollar fa-2x"></i></span>
                     <div class="float-end d-block d-sm-none"><h6>COTIZACIONES</h6></div>
@@ -109,7 +110,7 @@
             <a class="nav-link" [routerLink]="['/exclusivo/catalogo']" [routerLinkActive]='["active"]' aria-current="page">
                 <div data-bs-toggle="tooltip" data-bs-placement="right" title="Ajustes">
                     <span> <i class="fa-solid fa-gears fa-2x"></i></span>
-                    <div class="float-end d-block d-sm-none"><h6>CONFIGURACION</h6></div>
+                    <div class="float-end d-block d-sm-none"><h6>CONFIGURACIÓN</h6></div>
                     <hr class="d-block d-sm-none" />
                 </div>
             </a>
