@@ -410,12 +410,15 @@ export class ResumenComponent implements OnInit, OnDestroy {
     }
 
     iniciarAnimacion() {
-        const boton = document.getElementById("miBoton") as HTMLButtonElement;
-        boton.disabled = true;
+        const boton1 = document.getElementById("miBoton1") as HTMLButtonElement;
+        const boton2 = document.getElementById("miBoton2") as HTMLButtonElement;
+        boton1.disabled = true;
+        boton2.disabled = true;
 
         setTimeout(function () {
-            boton.disabled = false;
-        }, 2000);
+            boton1.disabled = false;
+            boton2.disabled = false;
+        }, 3000);
     }
     getServ() {
         this.http.get<ListaServicio>(`${this.url}api/material/ObtenerListaServiciosCotizacion/${this.model.idCotizacion}/${this.selMatDir}`).subscribe(response => {
