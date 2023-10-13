@@ -1,5 +1,6 @@
 <div [@fadeInOut]>
-    <div class="pt-3 mb-2">
+    <br/>
+    <div class="row pt-1 mb-3">
         <h2>Prospecto</h2>
     </div>
 
@@ -19,22 +20,22 @@
     <div class="tab-content">
         <div class="tab-pane fade show active" role="tabpanel" id="general">
 
-            <div class="row mb-3">
-                <div class="col-sm-12 col-md-4">
+            <div class="row">
+                <div class="col-sm-12 col-md-4 mb-3">
                     <div class="form-floating">
                         <input type="text" class="form-control validacion-prospecto" [(ngModel)]="pro.nombreComercial" data-campo="nombreComercial">
                         <label asp-for="NombreComercial">Nombre Comercial</label>
                     </div>
                     <span *ngIf="ferr('NombreComercial')" class="text-danger">{{ terr('NombreComercial') }}</span>
                 </div>
-                <div class="col-sm-12 col-md-4">
+                <div class="col-sm-12 col-md-4 mb-3">
                     <div class="form-floating">
                         <input type="text" class="form-control" [(ngModel)]="pro.razonSocial">
                         <label asp-for="RazonSocial">Razón Social</label>
                     </div>
                     <span *ngIf="ferr('RazonSocial')" class="text-danger">{{ terr('RazonSocial') }}</span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 mb-3">
                     <div class="form-floating">
                         <input type="text" class="form-control validacion-prospecto" [(ngModel)]="pro.rfc" data-campo="rfc">
                         <label asp-for="Rfc">RFC</label>
@@ -42,34 +43,34 @@
                     <!--<span *ngIf="ferr('Rfc')" class="text-danger">{{ terr('Rfc') }}</span>-->
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-8 col-sm-12">
+            <div class="row">
+                <div class="col-md-8 col-sm-12 mb-3">
                     <div class="form-floating">
                         <input type="text" class="form-control" [(ngModel)]="pro.domicilioFiscal">
                         <label asp-for="DomicilioFiscal">Domicilio Fiscal</label>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12">
+                <div class="col-md-4 col-sm-12 mb-3">
                     <div class="form-floating">
                         <input type="text" class="form-control" [(ngModel)]="pro.nombreContacto">
                         <label asp-for="NombreContacto">Contacto</label>
                     </div>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-4 col-sm-12">
+            <div class="row">
+                <div class="col-md-4 col-sm-12 mb-3">
                     <div class="form-floating">
                         <input type="text" class="form-control" [(ngModel)]="pro.emailContacto">
                         <label asp-for="EmailContacto">Email Contacto</label>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12">
+                <div class="col-md-4 col-sm-12 mb-3">
                     <div class="form-floating">
                         <input type="text" class="form-control" [(ngModel)]="pro.numeroContacto">
                         <label asp-for="NumeroContacto">Tel. Contacto</label>
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-12">
+                <div class="col-md-2 col-sm-12 mb-3">
                     <div class="form-floating">
                         <input type="text" class="form-control" [(ngModel)]="pro.extContacto">
                         <label asp-for="ExtContacto">Extensión</label>
