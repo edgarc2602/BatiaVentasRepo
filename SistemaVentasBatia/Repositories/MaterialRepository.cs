@@ -26,6 +26,8 @@ namespace SistemaVentasBatia.Repositories
         Task<MaterialCotizacion> ObtenerMaterialCotizacionPorId(int id);
         Task<decimal> ObtenerPrecioProductoPorClave(string clave);
         Task<int> ObtenerIdEstadoPorIdDireccionCotizacion(int idDireccionCotizacion);
+        Task<int> ObtenerIdProveedorPorIdEstado(int idEstado);
+        Task<decimal> ObtenerCoincidenciaProductoPrecio(string claveproducto, int idProveedor);
         Task<MaterialCotizacion> ObtenerEquipoCotizacionPorId(int id);
         Task<MaterialCotizacion> ObtenerHerramientaCotizacionPorId(int id);
         Task<MaterialCotizacion> ObtenerUniformeCotizacionPorId(int id);
@@ -217,6 +219,49 @@ namespace SistemaVentasBatia.Repositories
             }
             return idEstado;
         }
+
+
+
+
+        public async Task<int> ObtenerIdProveedorPorIdEstado(int idEstado)
+        {
+            var query = $@"SELECT id_proveedor FROM tb_proveedorbase_estado 
+                        WHERE id_estado = @idEstado";
+            int idProveedor;
+            try
+            {
+                using (var connecion = _ctx.CreateConnection())
+                {
+                    idProveedor = await connecion.QueryFirstAsync<int>(query, new { idEstado });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return idProveedor;
+        }
+
+        public async Task<decimal> ObtenerCoincidenciaProductoPrecio(string claveproducto, int idProveedor)
+        {
+            var query = $@"SELECT precio FROM tb_productoprecio WHERE clave = @claveproducto AND id_proveedor = @idProveedor";
+            decimal precio = 0;
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    precio = await connection.QueryFirstAsync<decimal>(query, new { claveproducto, idProveedor });
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return precio;
+        }
+
+
+
 
 
 

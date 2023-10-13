@@ -68,7 +68,22 @@ namespace SistemaVentasBatia.Services
         }
         public async Task AgregarMaterialOperario(MaterialCotizacionDTO materialVM)
         {
-            int estado = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(materialVM.IdDireccionCotizacion);
+            ////buscar idEstado
+            //int idEstadonew = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(materialVM.IdDireccionCotizacion);
+            ////buscar proveedor_predeterminado
+            //int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
+            ////Obtener precio por proveedor
+            //decimal precionew = await _materialRepo.ObtenerCoincidenciaProductoPrecio(materialVM.ClaveProducto, idProveedornew);
+            ////Obtener precio base si es null
+            //decimal precio = 0;
+            //if (precionew == 0)
+            //{
+            //    precio = await _materialRepo.ObtenerPrecioProductoPorClave(materialVM.ClaveProducto);
+            //}
+            //else { 
+            //    precio = 0;
+                
+            //}
             if (materialVM.edit == 1)
             {
                 decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(materialVM.ClaveProducto);
@@ -366,6 +381,11 @@ namespace SistemaVentasBatia.Services
 
         public async Task AgregarEquipoOperario(MaterialCotizacionDTO dto)
         {
+            //int idEstadonew = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(dto.IdDireccionCotizacion);
+            ////buscar proveedor_predeterminado
+            //int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
+            ////Obtener precio por proveedor
+            //decimal precionew = await _materialRepo.ObtenerCoincidenciaProductoPrecio(dto.ClaveProducto, idProveedornew);
             if (dto.edit == 1)
             {
                 decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(dto.ClaveProducto);
@@ -439,6 +459,12 @@ namespace SistemaVentasBatia.Services
 
         public async Task AgregarUniformeOperario(MaterialCotizacionDTO dto)
         {
+            //buscar idEstado
+            //int idEstadonew = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(dto.IdDireccionCotizacion);
+            ////buscar proveedor_predeterminado
+            //int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
+            ////Obtener precio por proveedor
+            //decimal precionew = await _materialRepo.ObtenerCoincidenciaProductoPrecio(dto.ClaveProducto, idProveedornew);
             if (dto.edit == 1)
             {
                 decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(dto.ClaveProducto);
@@ -540,6 +566,12 @@ namespace SistemaVentasBatia.Services
 
         public async Task AgregarHerramientaOperario(MaterialCotizacionDTO dto)
         {
+            //buscar idEstado
+            //int idEstadonew = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(dto.IdDireccionCotizacion);
+            ////buscar proveedor_predeterminado
+            //int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
+            ////Obtener precio por proveedor
+            //decimal precionew = await _materialRepo.ObtenerCoincidenciaProductoPrecio(dto.ClaveProducto, idProveedornew);
             if (dto.edit == 1)
             {
                 decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(dto.ClaveProducto);

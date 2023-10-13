@@ -3,15 +3,7 @@
     <br />
     <link rel="stylesheet" type="text/css" href="/ClientApp/src/app/exclusivo/cotizacion/resumen/Effects.css">
     <div class="pt-1 mb-1">
-        <div class="float-end col-md-3 col-3">
-            <button type="button" id="miBoton1" (click)="descargarCotizacionComponent(2)" class="btn btn-outline-info box-shadow"><i class="fa-solid fa-download"></i> Propuesta Economica</button>
-            <span style="margin-left: 10px;"></span>
-            <script src="../../cotizacion/resumen/"></script>
-        </div>
-        <div class="float-end col-md-3 col-3">
-            <button type="button" id="miBoton2" (click)="descargarCotizacionComponent(1)" class="btn btn-outline-info box-shadow"><i class="fa-solid fa-download"></i> Propuesta Técnica</button>
-            <span style="margin-right: 10px;"></span>
-        </div>
+        
         <h2 class="text-black-90">Cotización {{model.nombreComercial}}</h2>
         <div class="row">
             <h6 class="text-black-50">Id: {{model.idCotizacion}}</h6>
@@ -28,7 +20,7 @@
             <h6 class="text-black-50">Id cotizacion original: {{model.idCotizacionOriginal}}</h6>
         </div>-->
     </div>
-    <br/>
+    
 
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
@@ -110,156 +102,184 @@
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Mano de obra</h5></div>
-                                    <div class="col-3 col-md-3 text-end"><h5>${{ model.salario | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start"><h5>Mano de obra</h5></div>
+                                    <div class="col-4 col-md-3 text-end"><h5>${{ model.salario | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Provisiones</h5></div>
-                                    <div class="col-3 col-md-3 text-end"><h5>${{ model.provisiones | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start"><h5>Provisiones</h5></div>
+                                    <div class="col-4 col-md-3 text-end"><h5>${{ model.provisiones | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Carga Social</h5></div>
-                                    <div class="col-3 col-md-3 text-end"><h5>${{ model.cargaSocial | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start"><h5>Carga Social</h5></div>
+                                    <div class="col-4 col-md-3 text-end"><h5>${{ model.cargaSocial | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Materiales</h5></div>
-                                    <div class="col-3 col-md-3 text-end"><h5>${{ model.material | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start"><h5>Materiales</h5></div>
+                                    <div class="col-4 col-md-3 text-end"><h5>${{ model.material | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Uniformes</h5></div>
-                                    <div class="col-3 col-md-3 text-end"><h5>${{ model.uniforme | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start"><h5>Uniformes</h5></div>
+                                    <div class="col-4 col-md-3 text-end"><h5>${{ model.uniforme | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Equipos</h5></div>
-                                    <div class="col-3 col-md-3 text-end"><h5>${{ model.equipo | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start"><h5>Equipos</h5></div>
+                                    <div class="col-4 col-md-3 text-end"><h5>${{ model.equipo | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Herramientas</h5></div>
-                                    <div class="col-3 col-md-3 text-end"><h5>${{ model.herramienta | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start"><h5>Herramientas</h5></div>
+                                    <div class="col-4 col-md-3 text-end"><h5>${{ model.herramienta | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom border-success">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Servicios</h5></div>
-                                    <div class="col-3 col-md-3  text-end"><h5>${{ model.servicio | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start"><h5>Servicios</h5></div>
+                                    <div class="col-4 col-md-3 text-end"><h5>${{ model.servicio | number: '1.2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-6  text-end text-success"><h5>${{ model.subTotal | number:'1.2-2' }}</h5></div>
-                                    <div class="col-3 col-md-3 text-start text-success"><h5>Total CD</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start text-success"><h5>Total CD</h5></div>
+                                    <div class="col-4 col-md-3 text-end text-success"><h5>${{ model.subTotal | number:'1.2-2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom border-success">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Costo Indirecto (%)</h5></div>
-                                    <div class="col-2 col-md-1 ">
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-4 col-md-3  text-start"><h5>Costo Indirecto (%)</h5></div>
+                                    <div class="col-2 col-md-1">
                                         <input #indirectotxt type="text" class="form-control aliggn-content-start box-shadow" id="indirectoPor" name="indirecto" [(ngModel)]="indirectoValue" value="{{model.indirectoPor}}" placeholder="{{model.indirectoPor}}" autocomplete="off" required>
                                     </div>
-                                    <div class="col-2 col-md-2 text-end"><h5>${{ model.indirecto | number:'1.2-2'}}</h5></div>
+                                    <div class="col-4 col-md-2 text-end"><h5>${{ model.indirecto | number:'1.2-2'}}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-6  text-end text-success"><h5>${{ model.subTotal + model.indirecto | number:'1.2-2' }}</h5></div>
-                                    <div class="col-3 col-md-3 text-start text-success"><h5>Total CI</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start text-success"><h5>Total CI</h5></div>
+                                    <div class="col-4 col-md-3 text-end text-success"><h5>${{ model.subTotal + model.indirecto | number:'1.2-2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom border-success">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Utilidad (%)</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-4 col-md-3 text-start"><h5>Utilidad (%)</h5></div>
                                     <div class="col-2 col-md-1">
                                         <input #utilidadtxt type="text" class="form-control box-shadow" id="utilidad" name="utilidadPor" [(ngModel)]="utilidadValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.utilidadPor}}" placeholder="{{model.utilidadPor}}" autocomplete="off" required>
                                     </div>
-                                    <div class="col-2 col-md-2  text-end"><h5>${{ model.utilidad | number:'1.2-2' }}</h5></div>
+                                    <div class="col-4 col-md-2  text-end"><h5>${{ model.utilidad | number:'1.2-2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-6  text-end text-success"><h5>${{ model.subTotal + model.indirecto + model.utilidad | number:'1.2-2' }}</h5></div>
-                                    <div class="col-3 col-md-3 text-start text-success"><h5>Total U</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start text-success"><h5>Total U</h5></div>
+                                    <div class="col-4 col-md-3 text-end text-success"><h5>${{ model.subTotal + model.indirecto + model.utilidad | number:'1.2-2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom border-success">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Comision Sobre Venta (%)</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-4 col-md-3 text-start"><h5>Comision Sobre Venta (%)</h5></div>
                                     <div class="col-2 col-md-1 ">
                                         <input #CSVtxt type="text" class="form-control box-shadow" id="CSV" name="CSV" [(ngModel)]="CSV" (input)="validarSoloNumeros(utilidadValue)" value="{{model.csvPor}}" placeholder="{{model.csvPor}}" autocomplete="off" required>
                                     </div>
-                                    <div class="col-2 col-md-2 text-end"><h5>${{ model.comisionSV | number:'1.2-2' }}</h5></div>
+                                    <div class="col-4 col-md-2 text-end"><h5>${{ model.comisionSV | number:'1.2-2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-6  text-end text-success"><h5>${{ (model.subTotal + model.indirecto + model.utilidad + model.comisionSV) | number:'1.2-2' }}</h5></div>
-                                    <div class="col-3 col-md-3 text-start text-success"><h5>Total CSV</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start text-success"><h5>Total CSV</h5></div>
+                                    <div class="col-4 col-md-3 text-end text-success"><h5>${{ (model.subTotal + model.indirecto + model.utilidad + model.comisionSV) | number:'1.2-2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
-
-
-
-
-
-
 
 
                         <tr>
                             <td class="border-bottom border-success">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-3 text-start"><h5>Comision Externa (%)</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-4 col-md-3 text-start"><h5>Comision Externa (%)</h5></div>
                                     <div class="col-2 col-md-1 ">
                                         <input #comisionExttxt type="text" class="form-control box-shadow" id="comisionExt" name="comisionExt" [(ngModel)]="ComisionExtValue" (input)="validarSoloNumeros(utilidadValue)" value="{{model.comisionExtPor}}" placeholder="{{model.comisionExtPor}}" autocomplete="off" required>
                                     </div>
-                                    <div class="col-2 col-md-2  text-end"><h5>${{ model.comisionExt | number:'1.2-2' }}</h5></div>
+                                    <div class="col-4 col-md-2  text-end"><h5>${{ model.comisionExt | number:'1.2-2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
-                                    <div class="col-3 col-md-3 offset-6 text-end text-success"><h5>${{ (model.subTotal + model.indirecto + model.utilidad + model.comisionSV + model.comisionExt) | number:'1.2-2' }}</h5></div>
-                                    <div class="col-3 col-md-3 text-start text-success"><h5>Total CE</h5></div>
+                                    <div class="col-1 col-md-3"></div>
+                                    <div class="col-6 col-md-3 text-start text-success"><h5>Total CE</h5></div>
+                                    <div class="col-4 col-md-3 text-end text-success"><h5>${{ (model.subTotal + model.indirecto + model.utilidad + model.comisionSV + model.comisionExt) | number:'1.2-2' }}</h5></div>
+                                    <div class="col-1 col-md-2"></div>
                                 </div>
                             </td>
                         </tr>
@@ -283,26 +303,43 @@
                     </tbody>
                 </table>
             </div>
-            <br />
+            
             <div>
                 <form id="forcotupd">
                     <div class="row">
                         <div class="col-3">
 
                         </div>
-                        <div class="col-3">
-                            <button type="submit" class="btn btn-outline-info box-shadow" (click)="actualizarIndirectoUtilidad()">Actualizar</button><br><br>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-outline-info box-shadow" (click)="actualizarIndirectoUtilidad()">Actualizar %</button><br><br>
                             <!--<button type="submit" class="btn btn-outline-success" (click)="validaActualizacionCotizacion()">Actualizar</button><br><br>-->
                         </div>
                         <div class="col-2">
 
                         </div>
-                        <div class="col-4">
-                            <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-success box-shadow"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
-                            <!--<button type="submit" class="btn btn-outline-info" (click)="descargarCotizacion()">Descargar cotización</button><br><br>-->
-                        </div>
+                        
                     </div>
                 </form>
+                <br/>
+                <div class="row">
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-4 col-md-3  col-3">
+                        <button type="button" id="miBoton1" (click)="descargarCotizacionComponent(2)" class="btn btn-outline-info box-shadow"><i class="fa-solid fa-download"></i> Propuesta Economica</button>
+                        <span style="margin-left: 10px;"></span>
+                        <script src="../../cotizacion/resumen/"></script>
+                    </div>
+                    <div class="col-4 float-end col-md-3">
+                        <button type="button" id="miBoton2" (click)="descargarCotizacionComponent(1)" class="btn btn-outline-info box-shadow"><i class="fa-solid fa-download"></i> Propuesta Técnica</button>
+                        <span style="margin-right: 10px;"></span>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-success box-shadow"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
+                        <!--<button type="submit" class="btn btn-outline-info" (click)="descargarCotizacion()">Descargar cotización</button><br><br>-->
+                    </div>
+                </div>
+
                 <br />
                 <script src="script.js"></script>
 
@@ -321,16 +358,19 @@
 
         <div class="tab-pane fade" id="directorio" role="tabpanel" aria-labelledby="resumen-tab">
             <div class="row">
-                <div class="col-sm-12 col-md-8 text-black-50">
+                <div class="col-5 col-sm-6 col-md-5 text-black-50 ">
                     Seleccionar una dirección existente
                 </div>
-                <div class="col-sm-12 col-md-4 text-black-50">
+                <div class="col-1 col-md-1">
+
+                </div>
+                <div class=" col-6 col-sm-12 col-md-4 text-black-50 text-start">
                     Agregar una nueva dirección
                 </div>
             </div>
             <br>
-            <div class="row">
-                <div class="col-sm-12 col-md-4">
+            <div class="row pb-3">
+                <div class="col-5 col-sm-12 col-md-4">
                     <div class="form-floating">
                         <select class="form-select" [(ngModel)]="modelDir.idDireccion" aria-label="IdTIpoInmueble" id="IdDireccion">
                             <option *ngFor="let d of dirs" [ngValue]="d.id">{{ d.nom }}</option>
@@ -339,15 +379,22 @@
                     </div>
                     <span asp-validation-for="IdDireccion" class="text-danger"></span>
                 </div>
-                <div class="col-sm-12 col-md-2">
-                    <button type="button" (click)="addDir()" class="btn btn-outline-success"><i class="fa-solid fa-plus"></i> Agregar</button>
+                <div class="col-md-1 col-1">
+
                 </div>
-                <div class="col-sm-12 col-md-3 offset-md-2">
+
+                <div class="col-6 col-sm-12 col-md-3 offset-md-1 text-center ">
                     <div class="btn-group">
                         <button type="button" (click)="getNewDir()" class="btn btn-outline-primary box-shadow" id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Nueva Dirección</button>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-4 col-sm-12 col-md-2">
+                    <button type="button" (click)="addDir()" class="btn btn-outline-success"><i class="fa-solid fa-plus"></i> Agregar</button>
+                </div>
+            </div>
+
             <br />
             <div class="row">
                 <div *ngFor="let dr of lsdir.direcciones" class="col-sm-12 col-md-6 mb-2">
@@ -371,6 +418,7 @@
                     </div>
                 </div>
             </div>
+            <br/>
         </div>
         <div class="tab-pane fade " id="plantilla" role="tabpanel" aria-labelledby="plantilla-tab">
             <div class="d-flex flex-row-reverse">
@@ -422,7 +470,7 @@
                                                     </div>
                                                     <div class="col-3 col-sm-2 ">
                                                         <span class="badge text-dark">Cantidad:</span>
-                                                        <div class="ms-4" >{{ pt.cantidad }}</div>
+                                                        <div class="ms-4">{{ pt.cantidad }}</div>
                                                     </div>
                                                     <div class="col-8 col-sm-4">
                                                         <span class="badge text-dark">Horario:</span>
