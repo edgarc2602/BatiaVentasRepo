@@ -17,8 +17,8 @@ export class ExMenuComponent {
 
     logout() {
         localStorage.removeItem('singaUser');
-        window.location.reload();
-        //this.rtr.navigate(['/']);
+        this.user = null;
+        this.rtr.navigate(['']);
     }
 
   collapse() {
