@@ -1,3 +1,10 @@
+<style>
+    .btn-bottom-right {
+        position: absolute;
+        bottom: 80px; /* Puedes ajustar la distancia desde la parte inferior */
+        right: 30px; /* Puedes ajustar la distancia desde la derecha */
+    }
+</style>
 <div [@fadeInOut]>
     <meta charset="UTF-8">
     <br />
@@ -314,7 +321,7 @@
                         <div class="col-3">
 
                         </div>
-                        <div class="col-4">
+                        <div *ngIf="autorizacion === 1" class="col-4">
                             <button type="submit" class="btn btn-outline-info box-shadow" (click)="actualizarIndirectoUtilidad()">Actualizar %</button><br><br>
                             <!--<button type="submit" class="btn btn-outline-success" (click)="validaActualizacionCotizacion()">Actualizar</button><br><br>-->
                         </div>
@@ -330,21 +337,26 @@
 
                     </div>
                     <div class="col-4 col-md-3  col-3">
-                        <button type="button" id="miBoton1" (click)="descargarCotizacionComponent(2)" class="btn btn-outline-info box-shadow"><i class="fa-solid fa-download"></i> Propuesta Economica</button>
+                        <button type="button" id="miBoton1" (click)="descargarCotizacionComponent(2)" class="btn btn-outline-info"><i class="fa-solid fa-download"></i> Propuesta Economica</button>
                         <span style="margin-left: 10px;"></span>
                         <script src="../../cotizacion/resumen/"></script>
                     </div>
                     <div class="col-4 float-end col-md-3">
-                        <button type="button" id="miBoton2" (click)="descargarCotizacionComponent(1)" class="btn btn-outline-info box-shadow"><i class="fa-solid fa-download"></i> Propuesta Técnica</button>
+                        <button type="button" id="miBoton2" (click)="descargarCotizacionComponent(1)" class="btn btn-outline-info "><i class="fa-solid fa-download"></i> Propuesta Técnica</button>
                         <span style="margin-right: 10px;"></span>
                     </div>
                     <div class="col-4">
-                        <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-success box-shadow"><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
+                        <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-success "><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
                         <!--<button type="submit" class="btn btn-outline-info" (click)="descargarCotizacion()">Descargar cotización</button><br><br>-->
                     </div>
                 </div>
 
+
                 <br />
+                <br />
+                
+                
+
                 <script src="script.js"></script>
 
 
@@ -356,6 +368,8 @@
 
         <div class="tab-pane fade" id="prospecto" role="tabpanel" aria-labelledby="resumen-tab">
             <pros-widget [idP]="model.idProspecto" (smEvent)="savePros($event)"></pros-widget>
+            <br />
+            <br />
         </div>
 
 
@@ -422,6 +436,8 @@
                     </div>
                 </div>
             </div>
+            <br />
+            <br />
             <br />
         </div>
         <div class="tab-pane fade " id="plantilla" role="tabpanel" aria-labelledby="plantilla-tab">
@@ -551,18 +567,20 @@
                 </div>
             </div>
             <br />
+            <br />
+            <br />
         </div>
         <div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="plantilla-tab">
             <div>
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col-md-3">
-                        <div class="form-floating">
+                        <div class="form-floating  mb-3">
                             <input type="text" class="form-control" [(ngModel)]="txtMatKey" asp-for="Keywords" placeholder="Escriba un nombre">
                             <label asp-for="Keywords">Producto</label>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-floating">
+                        <div class="form-floating mb-3">
                             <select class="form-select" [(ngModel)]="selMatDir" asp-for="IdDireccionCotizacion" aria-label="IdDireccionCotizacion">
                                 <option value="0" selected>Selecciona una opción...</option>
                                 <option *ngFor="let dm of cotdirs" [ngValue]="dm.id">{{ dm.descripcion }}</option>
@@ -580,9 +598,9 @@
                         </div>
                     </div>-->
 
-                    <div class="col-md-6">
-                        <button type="button" (click)="getMat(selTipo)" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
-                        <button type="button" (click)="getNewMat(selTipo)" class="btn btn-outline-primary float-end  box-shadow " id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar {{ selTipo }}</button>
+                    <div class="col-md-6 mb-3">
+                        <button type="button" (click)="getMat(selTipo)" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-search"></i> Buscar</button>
+                        <button type="button" (click)="getNewMat(selTipo)" class="btn btn-outline-primary float-end  box-shadow mb-3" id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar {{ selTipo }}</button>
                     </div>
                 </div>
             </div>
@@ -643,13 +661,10 @@
                 </table>
                 <pagina-widget [pagina]="lsmat.pagina" [numPaginas]="lsmat.numPaginas" [rows]="lsmat.rows" (chgEvent)="matPagina($event)"></pagina-widget>
             </div>
+            
+
         </div>
         <div class="tab-pane fade" id="servicio" role="tabpanel" aria-labelledby="plantilla-tab">
-
-
-
-
-
             <ng-container *ngIf="lsser?.serviciosCotizacion?.length > 0">
                 <div class="row" style="border-radius: 10px; overflow-x: hidden;">
                     <table class="table table-borderless table-striped table-responsive  box-shadow">
@@ -784,6 +799,10 @@
             <!--<pagina-widget [pagina]="lsser.pagina" [numPaginas]="lsser.numPaginas" [rows]="lsser?.serviciosCotizacion?.rows" (chgEvent)="matPagina($event)"></pagina-widget>-->
         </div>
     </div>
+    <br />
+    <br />
+    <br />
+    <button type="button" class="btn btn-primary btn-bottom-right box-shadow" (click)="goBack()">Volver</button>
 </div>
 
 

@@ -150,4 +150,7 @@ export class ProsNuevoComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
+    goBack() {
+        window.history.back();
+    }
 }

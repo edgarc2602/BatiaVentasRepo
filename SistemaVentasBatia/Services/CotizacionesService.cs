@@ -44,6 +44,9 @@ namespace SistemaVentasBatia.Services
         Task<int> ObtenerIdDireccionCotizacionPorMaterial(int registroAEliminar);
         Task<int> ObtenerIdCotizacionPorMaterial(int idDireccionCotizacion);
         //Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM, object admin, int idPersonal);
+
+        Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion();
+        Task<bool> ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes);
     }
 
     public class CotizacionesService : ICotizacionesService
@@ -759,6 +762,21 @@ namespace SistemaVentasBatia.Services
         {
             bool result =  await cotizacionesRepo.ActualizarSalarios(salarios);
             return result;
+        }
+
+
+        public async Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion()
+        {
+            CotizaPorcentajes porcentajes = new CotizaPorcentajes();
+
+            porcentajes = await cotizacionesRepo.ObtenerPorcentajesCotizacion();
+            return porcentajes;
+        }
+
+        public async Task<bool> ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes)
+        {
+            await cotizacionesRepo.ActualizarPorcentajesPredeterminadosCotizacion(porcentajes);
+            return true;
         }
     }
 }

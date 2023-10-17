@@ -43,6 +43,8 @@ export class CotizacionComponent implements OnInit, OnDestroy {
     @ViewChild(EliminaWidget, { static: false }) eliw: EliminaWidget;
     @ViewChild(EditarCotizacion, { static: false }) ediw: EditarCotizacion;
 
+    estatus: number = 1;
+    autorizacion: number = 0;
 
 
 
@@ -54,6 +56,9 @@ export class CotizacionComponent implements OnInit, OnDestroy {
         }, err => console.log(err));
         http.get<ItemN[]>(`${url}api/cotizacion/getestatus`).subscribe(response => {
             this.lests = response;
+        }, err => console.log(err));
+        http.get<number>(`${url}api/cotizacion/obtenerautorizacion/${user.idPersonal}`).subscribe(response => {
+            this.autorizacion = response;
         }, err => console.log(err));
 
 
@@ -149,5 +154,8 @@ export class CotizacionComponent implements OnInit, OnDestroy {
     }
     editar(idCotizacion: number, prospecto: string, servicio: string) {
         this.ediw.openSel(idCotizacion, prospecto, servicio);
+    }
+    goBack() {
+        window.history.back();
     }
 }

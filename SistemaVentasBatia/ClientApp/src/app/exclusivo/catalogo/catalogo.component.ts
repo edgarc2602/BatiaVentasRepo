@@ -8,6 +8,9 @@ import { AgregarServicioWidget  } from 'src/app/widgets/agregarservicio/agregars
 import { PuestoTabulador } from 'src/app/models/puestotabulador';
 import { Subject } from 'rxjs';
 import { fadeInOut } from 'src/app/fade-in-out';
+import { CotizaPorcentajes } from 'src/app/models/cotizaporcentajes';
+
+import { StoreUser } from 'src/app/stores/StoreUser';
 
 @Component({
     selector: 'catalogo-comp',
@@ -15,12 +18,19 @@ import { fadeInOut } from 'src/app/fade-in-out';
     animations: [fadeInOut],
 })
 export class CatalogoComponent {
-    @ViewChild(ProductoWidget,{ static: false }) prow: ProductoWidget;
+    @ViewChild(ProductoWidget, { static: false }) prow: ProductoWidget;
     @ViewChild(AgregarServicioWidget, { static: false }) addSer: AgregarServicioWidget;
     @ViewChild('salarioMixtotxt', { static: false }) salarioMixtotxt: ElementRef;
     @ViewChild('salarioMixtoFronteratxt', { static: false }) salarioMixtoFronteratxt: ElementRef;
     @ViewChild('salarioRealtxt', { static: false }) salarioRealtxt: ElementRef;
     @ViewChild('salarioRealFronteratxt', { static: false }) salarioRealFronteratxt: ElementRef;
+
+    @ViewChild('costoIndirectotxt', { static: false }) costoIndirectotxt: ElementRef;
+    @ViewChild('utilidadtxt', { static: false }) utilidadtxt: ElementRef;
+    @ViewChild('comisionSobreVentatxt', { static: false }) comisionSobreVentatxt: ElementRef;
+    @ViewChild('comisionExternatxt', { static: false }) comisionExternatxt: ElementRef;
+    @ViewChild('fechaAplicatxt', { static: false }) fechaAplicatxt: ElementRef;
+
     pues: Catalogo[] = [];
     selPuesto: number = 0;
     tipoServicio: number = 2;
@@ -34,6 +44,17 @@ export class CatalogoComponent {
     salarioReal: number = 0;
     salarioRealFrontera: number = 0;
 
+    costoIndirecto: number = 0;
+    utilidad: number = 0;
+    comisionSobreVenta: number = 0;
+    comisionExterna: number = 0;
+    fechaAplica: string = '';
+    
+
+    cotpor: CotizaPorcentajes = {
+        idPersonal: 0, costoIndirecto: 0, utilidad: 0, comisionSobreVenta: 0, comisionExterna: 0, fechaAlta: null, personal: '', fechaAplica: null
+    };
+
     sal: PuestoTabulador = {
         idPuesto: 0, idPuestoSalario: 0, salarioMixto: 0, salarioMixtoFrontera: 0, salarioReal: 0, salarioRealFrontera: 0
     };
@@ -42,9 +63,10 @@ export class CatalogoComponent {
 
     selectedImage: string | ArrayBuffer | null = null;
     idPersonal: number = 0;
+    autorizacion: number = 0;
 
 
-    constructor(@Inject('BASE_URL') private url: string, private http: HttpClient) {
+    constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, public user: StoreUser) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
             this.pues = response;
         }, err => console.log(err));
@@ -59,6 +81,9 @@ export class CatalogoComponent {
         //}, err => console.log(err));
         http.get<Catalogo[]>(`${url}api/catalogo/gettiposervicio`).subscribe(response => {
             this.tser = response;
+        }, err => console.log(err));
+        http.get<number>(`${url}api/cotizacion/obtenerautorizacion/${user.idPersonal}`).subscribe(response => {
+            this.autorizacion = response;
         }, err => console.log(err));
     }
     chgServicio() {
@@ -134,17 +159,39 @@ export class CatalogoComponent {
         this.salarioReal = 0;
         this.salarioRealFrontera = 0;
     }
+    limpiarPorcentajesNG() {
+        this.costoIndirecto = 0;
+        this.utilidad = 0;
+        this.comisionSobreVenta = 0;
+        this.comisionExterna = 0;
+        this.fechaAplica = '';
+    }
     limpiarObjeto() {
         this.sal.salarioMixto = 0;
         this.sal.salarioMixtoFrontera = 0;
         this.sal.salarioReal = 0;
         this.sal.salarioRealFrontera = 0;
     }
+    limpiarPorcentajes() {
+        this.cotpor.costoIndirecto = 0;
+        this.cotpor.utilidad = 0;
+        this.cotpor.comisionSobreVenta = 0;
+        this.cotpor.comisionExterna = 0;
+        this.cotpor.fechaAplica = '';
+    }
     obtenerValores() {
         this.sal.salarioMixto = parseFloat(this.salarioMixtotxt.nativeElement.value);
         this.sal.salarioMixtoFrontera = parseFloat(this.salarioMixtoFronteratxt.nativeElement.value);
         this.sal.salarioReal = parseFloat(this.salarioRealtxt.nativeElement.value);
         this.sal.salarioRealFrontera = parseFloat(this.salarioRealFronteratxt.nativeElement.value);
+    }
+    obtenerPorcentajesCotizacion() {
+        this.cotpor.costoIndirecto = parseFloat(this.costoIndirectotxt.nativeElement.value);
+        this.cotpor.utilidad = parseFloat(this.utilidadtxt.nativeElement.value);
+        this.cotpor.comisionSobreVenta = parseFloat(this.comisionSobreVentatxt.nativeElement.value);
+        this.cotpor.comisionExterna = parseFloat(this.comisionExternatxt.nativeElement.value);
+        this.cotpor.fechaAplica = this.fechaAplicatxt.nativeElement.value;
+        this.cotpor.idPersonal = this.user.idPersonal;
     }
     getTabulador() {
         this.limpiarObjeto();
@@ -158,16 +205,37 @@ export class CatalogoComponent {
             this.limpiarObjeto();
         }, err => console.log(err));
     }
+    getPorcentajes() {
+        this.limpiarPorcentajes();
+        this.limpiarPorcentajesNG();
+        this.http.get<CotizaPorcentajes>(`${this.url}api/cotizacion/obtenerporcentajescotizacion`).subscribe(response => { //falta
+            this.cotpor = response;
+            this.costoIndirecto = this.cotpor.costoIndirecto;
+            this.utilidad = this.cotpor.utilidad;
+            this.comisionSobreVenta = this.cotpor.comisionSobreVenta;
+            this.comisionExterna = this.cotpor.comisionExterna;
+            this.fechaAplica = this.cotpor.fechaAplica;
+            this.limpiarPorcentajesNG();
+        }, err => console.log(err));
+    }
     actualizarSalarios(id: number) {
         this.limpiarObjeto();
         this.obtenerValores();
-        this.http.post<PuestoTabulador>(`${this.url}api/cotizacion/actualizarsalarios`, this.sal).subscribe(response => {
+        this.http.post<PuestoTabulador>(`${this.url}api/cotizacion/actualizarsalarios`, this.sal).subscribe(response => { 
             this.limpiarngModel();
             this.limpiarObjeto();
             this.getTabulador();
         }, err => console.log(err));
     }
-
+    actualizarPorcentajesPredeterminadosCotizacion() {
+        this.limpiarPorcentajes();
+        this.obtenerPorcentajesCotizacion();
+        this.http.post<CotizaPorcentajes>(`${this.url}api/cotizacion/actualizarporcentajespredeterminadoscotizacion`, this.cotpor).subscribe(response => { 
+            this.limpiarPorcentajesNG();
+            this.limpiarPorcentajes();
+            this.getPorcentajes();
+        }, err => console.log(err));    
+    }
 
 
 
@@ -196,5 +264,7 @@ export class CatalogoComponent {
             });
         }
     }
-
+    goBack() {
+        window.history.back();
+    }
 }

@@ -29,6 +29,7 @@ import { Router } from '@angular/router';
 import { ReportService } from 'src/app/report.service';
 
 import { fadeInOut } from 'src/app/fade-in-out';
+import { StoreUser } from 'src/app/stores/StoreUser';
 
 @Component({
     selector: 'resumen',
@@ -55,6 +56,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
     @ViewChild('utilidadtxt', { static: false }) utilidadtxt: ElementRef;
     @ViewChild('CSVtxt', { static: false }) CSVtxt: ElementRef;
     @ViewChild('comisionExttxt', { static: false }) comisionExttxt: ElementRef;
+
 
 
 
@@ -100,22 +102,23 @@ export class ResumenComponent implements OnInit, OnDestroy {
 
     reportData: Blob;
     pdfUrl: string;
-
+    autorizacion: number = 0;
     constructor(
         @Inject('BASE_URL') private url: string,
         private http: HttpClient,
         private route: ActivatedRoute,
         private router: Router,
         private reportService: ReportService,
+         public user: StoreUser
     ) {
         this.nuevo();
         this.lsdir = {
             pagina: 1, idCotizacion: this.model.idProspecto, idProspecto: this.model.idProspecto,
             idDireccion: 0, direcciones: []
-
-
-
         };
+        http.get<number>(`${url}api/cotizacion/obtenerautorizacion/${user.idPersonal}`).subscribe(response => {
+            this.autorizacion = response;
+        }, err => console.log(err));
 
     }
 
@@ -433,5 +436,8 @@ export class ResumenComponent implements OnInit, OnDestroy {
         }, err => console.log(err));
 
         this.getServ();
+    }
+    goBack() {
+        window.history.back();
     }
 }   

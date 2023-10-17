@@ -162,7 +162,7 @@ namespace SistemaVentasBatia.Controllers
         }
 
 
-        
+
         [HttpPost("[action]")]
         public async Task<IActionResult> ActualizarIndirectoUtilidadService([FromBody] Cotizacionupd cotizacionupd)
         {
@@ -285,6 +285,28 @@ namespace SistemaVentasBatia.Controllers
             {
                 return false;
             }
+        }
+
+
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<CotizaPorcentajes>> ObtenerPorcentajesCotizacion()
+        {
+            CotizaPorcentajes porcentajes = new CotizaPorcentajes();
+            porcentajes = await cotizacionesSvc.ObtenerPorcentajesCotizacion();
+            return porcentajes;
+        }
+        [HttpPost("[action]")]
+        public async Task<ActionResult<bool>> ActualizarPorcentajesPredeterminadosCotizacion([FromBody]CotizaPorcentajes porcentajes)
+        {
+            await cotizacionesSvc.ActualizarPorcentajesPredeterminadosCotizacion(porcentajes);
+                return true;
+        }
+        [HttpGet("[action]/{idPersonal}")]
+        public async Task<ActionResult<int>> ObtenerAutorizacion(int idPersonal = 0)
+        {
+            int autorizacion = await cotizacionesSvc.ObtenerAutorizacion(idPersonal);
+            return autorizacion;
         }
     }
 }

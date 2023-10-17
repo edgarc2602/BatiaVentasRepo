@@ -1,3 +1,14 @@
+<style>
+    .transparent-background {
+        background-color: transparent;
+    }
+    .btn-bottom-right {
+        position: absolute;
+        bottom: 80px; /* Puedes ajustar la distancia desde la parte inferior */
+        right: 30px; /* Puedes ajustar la distancia desde la derecha */
+    }
+</style>
+
 <div [@fadeInOut]>
     <br />
     <div class="row pt-1 mb-3">
@@ -7,32 +18,107 @@
         </div>
     </div>
 
-    <!--<h3>Configuración de puesto</h3>
 
-    <div class="accordion col-md-6 aliggn-content-center" id="accordionExample">
-         Pestaña 1
-        <div class="accordion-item">
-            <h1 class="accordion-header" id="headingCatalogo">
-                <button class="accordion-button h1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCatalogo" aria-expanded="true" aria-controls="collapseCatalogo">
-                    Configuración de catalogos
+    <div class="accordion box-shadow" id="accordionExample">
+        <!--Pestaña 0-->
+        <div *ngIf="autorizacion === 1" class="accordion-item">
+            <h1 class="accordion-header" id="headingCotizacion">
+                <button class="accordion-button collapsed" (click)="getPorcentajes()" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCotizacion" aria-expanded="false" aria-controls="collapseCotizacion">
+                    Cotización
                 </button>
             </h1>
-            <div id="collapseCatalogo" class="accordion-collapse collapse" aria-labelledby="headingCatalogo">
+            <div id="collapseCotizacion" class="accordion-collapse collapse" aria-labelledby="headingCotizacion">
                 <div class="accordion-body">
 
+
+
+                    <ul class="nav nav-tabs" id="tabconfig" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link active" (click)="chgTab('porcentajespred')" id="porcentajespred-tab" data-bs-toggle="tab" data-bs-target="#porcentajespred"
+                                    role="tab" aria-controls="porcentajespred" aria-selected="true">
+                                Comisión
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link" (click)="chgTab('IMSS')" id="IMSS-tab" data-bs-toggle="tab" data-bs-target="#IMSS"
+                                    role="tab" aria-controls="IMSS" aria-selected="false">
+                                IMSS
+                            </button>
+                        </li>
+                    </ul>
+
+
+                    <div class="tab-content pt-2" id="tabcontent">
+                        <div class="tab-pane fade show active text-center " style="border-radius: 10px; overflow-x: hidden; " id="porcentajespred" role="tabpanel" aria-labelledby="tabulador-tab">
+                            <table class="table table-borderless   table-responsive">
+                                <thead>
+                                    <!--<tr class="bg-primary bg-opacity-75 text-white">
+                                        <th>Costo indirecto</th>
+                                        <th>Utilidad</th>
+                                        <th>Comisión sobre venta</th>
+                                        <th>Comisión externa    </th>
+                                        <th>Usuario alta</th>
+                                        <th>Fecha alta</th>
+                                        <th></th>
+                                    </tr>-->
+
+                                </thead>
+                                <tbody>
+                                    <!--<tr>
+                                        <td><input #costoIndirectotxt type="number" class="form-control aliggn-content-center" id="costoIndirecto" name="costoIndirecto" value="{{ cotpor.costoIndirecto }}" [(ngModel)]="costoIndirecto" placeholder="{{ cotpor.costoIndirecto }}" autocomplete="off" required></td>
+                                        <td><input #utilidadtxt type="number" class="form-control aliggn-content-center" id="utilidad" name="utilidad" value="{{ cotpor.utilidad }}" [(ngModel)]="utilidad" placeholder="{{ cotpor.utilidad }}" autocomplete="off" required></td>
+                                        <td><input #comisionSobreVentaltxt type="number" class="form-control aliggn-content-center" id="comisionSobreVental" name="comisionSobreVental" value="{{ cotpor.comisionSobreVenta }}" [(ngModel)]="comisionSobreVenta" placeholder="{{ cotpor.comisionSobreVenta }}" autocomplete="off" required></td>
+                                        <td><input #comisionExternatxt type="number" class="form-control aliggn-content-center" id="comisionExterna" name="comisionExterna" value="{{ cotpor.comisionExterna }}" [(ngModel)]="comisionExterna" placeholder="{{ cotpor.comisionExterna }}" autocomplete="off" required></td>
+                                        <td><button type="button" (click)="actualizarPorcentajesPredeterminadosCotizacion()" class="btn btn-lg btn-outline-success  box-shadow"><i class="fa-solid fa-save"></i></button></td>
+                                    </tr>-->
+                                    <tr>
+                                        <td>
+                                            <div class="row pb-2">
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge text-dark">Costo Indirecto:</span>
+                                                    <input #costoIndirectotxt class="form-control aliggn-content-center text-center transparent-background" id="costoIndirecto" name="costoIndirecto" value="{{ cotpor.costoIndirecto }}" [(ngModel)]="costoIndirecto" placeholder="{{ cotpor.costoIndirecto }}" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Utilidad:</span>
+                                                    <input #utilidadtxt class="form-control aliggn-content-center text-center transparent-background" id="utilidad" name="utilidad" value="{{ cotpor.utilidad }}" [(ngModel)]="utilidad" placeholder="{{ cotpor.utilidad }}" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Comision Venta:</span>
+                                                    <input #comisionSobreVentatxt class="form-control aliggn-content-center text-center transparent-background" id="comisionSobreVental" name="comisionSobreVental" value="{{ cotpor.comisionSobreVenta }}" [(ngModel)]="comisionSobreVenta" placeholder="{{ cotpor.comisionSobreVenta }}" autocomplete="off" required>
+                                                </div>
+                                                <div class=" col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark ">Comisión Externa:</span>
+                                                    <input #comisionExternatxt class="form-control aliggn-content-center text-center transparent-background" id="comisionExterna" name="comisionExterna" value="{{ cotpor.comisionExterna }}" [(ngModel)]="comisionExterna" placeholder="{{ cotpor.comisionExterna }}" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Fecha Aplica:</span>
+                                                    <input #fechaAplicatxt class="form-control aliggn-content-center text-center transparent-background" id="fechaAplica" name="fechaAplica" value="{{ cotpor.fechaAplica | date: 'dd-MM-yyyy'}}" [(ngModel)]="fechaAplica" placeholder="dd-MM-yyyy" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Fecha Alta:</span>
+                                                    <div class="ms-2">{{ cotpor.fechaAlta | date: 'dd-MM-yyyy' }}</div>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Usuario Alta:</span>
+                                                    <div class="ms-2">{{ cotpor.personal }}</div>
+                                                </div>
+
+
+                                                <div class="col-sm-3 col-3 pb-3 text-center">
+                                                    <span class="badge  text-dark"></span>
+                                                    <button type="button" (click)="actualizarPorcentajesPredeterminadosCotizacion()" class="btn btn-lg btn-outline-success  box-shadow"><i class="fa-solid fa-save"></i></button>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--<div class="row pt-1 mb-3">
-        <div>
-            <h1 class="h2">Configuración de puesto</h1>
-
-        </div>
-    </div>-->
-
-    
-    <div class="accordion box-shadow" id="accordionExample">
         <!--Pestaña 1-->
         <div class="accordion-item">
             <h1 class="accordion-header" id="headingCatalogo">
@@ -124,12 +210,8 @@
                 </div>
             </div>
         </div>
-
-
-
-
         <!-- Pestaña 2 -->
-        <div class="accordion-item">
+        <div *ngIf="autorizacion === 1" class="accordion-item">
             <h1 class="accordion-header" id="headingMaterial">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMaterial" aria-expanded="false" aria-controls="collapseMaterial">
                     Puestos
@@ -405,9 +487,8 @@
             </div>
 
         </div>
-
         <!--Pestaña 3-->
-        <div class="accordion-item">
+        <div *ngIf="autorizacion === 1" class="accordion-item">
             <h1 class="accordion-header" id="headingUsuario">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUsuario" aria-expanded="false" aria-controls="collapseUsuario">
                     Usuarios
@@ -454,6 +535,13 @@
             </div>
         </div>
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <button type="button" class="btn btn-primary btn-bottom-right box-shadow" (click)="goBack()">Volver</button>
+    <br />
 
 
 

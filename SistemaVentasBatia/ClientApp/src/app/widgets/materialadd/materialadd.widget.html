@@ -11,44 +11,44 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <div>
-                    <div class="row mb-3">
-                        <div class="col-md-4" [ngClass]="{'d-none': !showSuc}" id="dvSucursal">
+                    <div class="row">
+                        <div class="col-md-4 mb-3 col-12" id="dvSucursal">
                             <div class="form-floating">
-                                <select class="form-select box-shadow" [(ngModel)]="model.idDireccionCotizacion" aria-label="IdDireccionCotizacion">
+                                <select class="form-select" [(ngModel)]="model.idDireccionCotizacion" aria-label="IdDireccionCotizacion">
                                     <option value="0">Selecciona una opción...</option>
                                     <option *ngFor="let d of dirs" [ngValue]="d.id">{{ d.descripcion }}</option>
                                 </select>
                                 <label for="ddlServicio">Sucursal</label>
                             </div>
                         </div>
-                        <div class="col-md-4 d-none" id="dvPuesto">
+                        <div class="col-md-4 d-none mb-3 col-12" id="dvPuesto">
                             <div class="form-floating">
-                                <select class="form-select box-shadow" [(ngModel)]="model.idPuestoDireccionCotizacion" aria-label="IdEstatusCotizacion">
+                                <select class="form-select" [(ngModel)]="model.idPuestoDireccionCotizacion" aria-label="IdEstatusCotizacion">
                                     <option value="0">Selecciona una opción...</option>
                                     <option *ngFor="let p of pues" [ngValue]="p.id">{{ p.descripcion }}</option>
                                 </select>
                                 <label for="ddlServicio">Puesto</label>
                             </div>
                         </div>
-                        <div class="col-md-4 col-6">
+                        <div class="col-md-4 mb-3 col-12">
                             <div class="form-floating">
-                                <select class="form-select box-shadow" [(ngModel)]="model.claveProducto">
+                                <select class="form-select" [(ngModel)]="model.claveProducto">
                                     <option value="">Selecciona una opción...</option>
                                     <option *ngFor="let m of mats" [ngValue]="m.clave">{{ m.descripcion }}</option>
                                 </select>
                                 <label for="ClaveProducto">Producto</label>
                             </div>
                         </div>
-                        <div class="col-6 col-md-4 col-sm-4">
-                            <div class="form-floating box-shadow">
+                        <div class="col-6 col-md-4 col-sm-4 mb-3">
+                            <div class="form-floating">
                                 <input type="number" class="form-control" [(ngModel)]="model.cantidad">
                                 <label asp-for="Cantidad">Cantidad</label>
                             </div>
                             <span asp-validation-for="Cantidad" class="text-danger"></span>
                         </div>
-                        <div class="col-12 col-md-4 col-sm-4" [ngClass]="{'pt-3': showSuc}">
-                            <div class="form-floating box-shadow">
-                                <select class="form-select box-shadow" aria-label="IdFrecuencia" [(ngModel)]="model.idFrecuencia">
+                        <div class="col-6 col-md-4 col-sm-4 mb-3">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="IdFrecuencia" [(ngModel)]="model.idFrecuencia">
                                     <option value="0">Selecciona una opción...</option>
                                     <option *ngFor="let f of fres" [ngValue]="f.id">{{ f.nom }}</option>
                                 </select>

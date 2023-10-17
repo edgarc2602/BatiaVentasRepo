@@ -14,7 +14,7 @@
                     <div class="row md-4">
                         <div class="col-md-4 mb-3">
                             <div class="form-floating">
-                                <select class="form-select box-shadow" [(ngModel)]="model.idDireccionCotizacion">
+                                <select class="form-select" [(ngModel)]="model.idDireccionCotizacion">
                                     <option value="0">General</option>
                                     <option *ngFor="let d of dirs" [ngValue]="d.id">{{ d.descripcion }}</option>
                                 </select>
@@ -24,16 +24,16 @@
 
                         <div class="col-md-4 mb-3">
                             <div class="form-floating">
-                                <select class="form-select box-shadow" [(ngModel)]="model.idServicioExtra">
+                                <select class="form-select" [(ngModel)]="model.idServicioExtra">
                                     <option value="0">Selecciona una opción...</option>
                                     <option *ngFor="let s of sers" [ngValue]="s.id">{{ s.descripcion }}</option>
                                 </select>   
                                 <label for="ClaveProducto">Servicio</label>
                             </div>
                         </div>
-                        <div class="col-12 col-md-4 mb-3" [ngClass]="{'pt-3': showSuc}">
+                        <div class="col-12 col-md-4 mb-3">
                             <div class="form-floating">
-                                <select class="form-select box-shadow" aria-label="IdFrecuencia" [(ngModel)]="model.idFrecuencia">
+                                <select class="form-select" aria-label="IdFrecuencia" [(ngModel)]="model.idFrecuencia">
                                     <option value="0">Selecciona una opción...</option>
                                     <option *ngFor="let f of fres" [ngValue]="f.id">{{ f.nom }}</option>
                                 </select>
@@ -41,15 +41,15 @@
                             </div>
                             <span asp-validation-for="IdFrecuencia" class="text-danger"></span>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-floating box-shadow">
+                        <div class="col-md-4 mb-3 col-6">
+                            <div class="form-floating">
                                 <input type="number" class="form-control" [(ngModel)]="model.precioUnitario">
                                 <label asp-for="Cantidad">Costo</label>
                             </div>
                             <span asp-validation-for="Costo" class="text-danger"></span>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-floating box-shadow">
+                        <div class="col-md-4 mb-3 col-6">
+                            <div class="form-floating">
                                 <input type="number" class="form-control" [(ngModel)]="model.cantidad">
                                 <label asp-for="Cantidad">Cantidad</label>
                             </div>

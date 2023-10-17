@@ -64,6 +64,9 @@ namespace SistemaVentasBatia.Repositories
         Task CopiarHerramienta(HerramientaCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
 
         Task<bool> ActualizarSalarios(PuestoTabulador salarios);
+
+        Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion();
+        Task ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes);
     }
 
     public class CotizacionesRepository : ICotizacionesRepository
@@ -1501,6 +1504,72 @@ salarioreal_frontera = @SalarioRealFrontera
                 return false;
             }
             return true;
+        }
+
+        public async Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion()
+        {
+            var query = @"SELECT 
+cp.id_personal IdPersonal,
+cp.fechaaplica FechaAplica,
+p.Per_Nombre +' '+ p.Per_Paterno +' '+ p.Per_Materno Personal,
+cp.costoindirecto CostoIndirecto,
+cp.utilidad Utilidad,
+cp.comision_venta ComisionSobreVenta,
+cp.comision_externa ComisionExterna,
+cp.fechaalta FechaAlta
+FROM tb_cotiza_porcentaje cp
+INNER JOIN Personal p on cp.id_personal =  p.IdPersonal
+ORDER BY id_porcentaje desc";
+            CotizaPorcentajes porcentajes = new CotizaPorcentajes();
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    porcentajes = await connection.QueryFirstAsync<CotizaPorcentajes>(query);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return porcentajes;
+        }
+
+        public async Task ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes)
+        {
+            var query = @"INSERT INTO tb_cotiza_porcentaje
+(
+costoindirecto,
+utilidad,
+comision_venta,
+comision_externa,
+fechaaplica,
+fechaalta,
+id_personal,
+activo
+)
+VALUES
+(
+@CostoIndirecto,
+@Utilidad,
+@ComisionSobreVenta,
+@ComisionExterna,
+@FechaAplica,
+GetDate(),
+@IdPersonal,
+1
+)";
+            try
+            {
+                using (var connecion = ctx.CreateConnection())
+                {
+                    await connecion.ExecuteAsync(query, porcentajes);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

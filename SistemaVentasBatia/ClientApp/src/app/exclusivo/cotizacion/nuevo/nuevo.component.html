@@ -1,3 +1,10 @@
+<style>
+    .btn-bottom-right {
+        position: absolute;
+        bottom: 80px; /* Puedes ajustar la distancia desde la parte inferior */
+        right: 30px; /* Puedes ajustar la distancia desde la derecha */
+    }
+</style>
 <div [@fadeInOut]>
     <div class="pt-3 mb-2">
         <h1 class="h2">Nueva Cotización</h1>
@@ -16,8 +23,9 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalCrearProspecto">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="modalCrearProspecto" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+
             <div class="modal-content">
 
                 <!-- Modal Header -->
@@ -54,8 +62,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalSeleccionarProspecto">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="modalSeleccionarProspecto" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
 
                 <!-- Modal Header -->
@@ -115,4 +123,5 @@
             </div>
         </div>
     </div>
+            <button type="button" class="btn btn-primary btn-bottom-right box-shadow" (click)="goBack()">Volver</button>
 </div>

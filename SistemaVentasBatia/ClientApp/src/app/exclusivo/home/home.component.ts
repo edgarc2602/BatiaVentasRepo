@@ -133,5 +133,9 @@ export class HomeComponent implements OnInit {
         
             }] as Highcharts.SeriesColumnOptions[]
         });
+        
+    }
+    goBack() {
+        window.history.back();
     }
 }

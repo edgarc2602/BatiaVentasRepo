@@ -116,4 +116,7 @@ export class CotizaComponent {
         this.guarda();
         this.closeNew();
     }
+    goBack() {
+        window.history.back();
+    }
 }

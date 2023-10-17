@@ -8,6 +8,7 @@ import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
 import { StoreUser } from 'src/app/stores/StoreUser';
 import { fadeInOut } from 'src/app/fade-in-out';
 
+
 @Component({
     selector: 'prospecto',
     templateUrl: './prospecto.component.html',
@@ -21,10 +22,14 @@ export class ProspectoComponent {
     lests: ItemN[] = [];
     idpro: number = 0;
     @ViewChild(EliminaWidget, { static: false }) eliw: EliminaWidget;
+    autorizacion: number = 0;
     
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private rter: Router, public user: StoreUser) {
         http.get<ItemN[]>(`${url}api/prospecto/getestatus`).subscribe(response => {
             this.lests = response;
+        }, err => console.log(err));
+        http.get<number>(`${url}api/cotizacion/obtenerautorizacion/${user.idPersonal}`).subscribe(response => {
+            this.autorizacion = response;
         }, err => console.log(err));
         this.lista();
     }
@@ -58,5 +63,8 @@ export class ProspectoComponent {
                 console.log(response);
             }, err => console.log(err));
         }
+    }
+    goBack() {
+        window.history.back();
     }
 }
