@@ -1,83 +1,156 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { fadeInOut } from 'src/app/fade-in-out';
-
+import { HttpClient } from '@angular/common/http';
+import { UsuarioGrafica } from '../../models/usuariografica';
+import { UsuarioGraficaMensual } from '../../models/usuariograficamensual';
+interface DatosAgrupados {
+    nombre: string;
+    cotizacionMes: number[];
+}
 @Component({
     selector: 'home-comp',
     templateUrl: './home.component.html',
     animations: [fadeInOut],
 })
 export class HomeComponent implements OnInit {
-    constructor() {}
+    model: UsuarioGrafica = {
+        idPersonal: 0,
+        nombre: '',
+        cotizaciones: 0,
+        prospectos: 0
+    };
+    modelMensual: UsuarioGraficaMensual = {
+        idPersonal: 0,
+        nombre: '',
+        mes: 0,
+        cotizacionesPorMes: 0
+    }
 
+    usuarios: UsuarioGrafica[] = [];
+    usuariosMensual: UsuarioGraficaMensual[] = [];
+
+    datosAgrupadosMensuales: Record<number, UsuarioGraficaMensual[]> = {};
+    datosAgrupados: DatosAgrupados[] = [];
+
+
+    constructor(
+        @Inject('BASE_URL') private url: string,
+        private http: HttpClient
+    ) {
+        http.get<UsuarioGrafica[]>(`${url}api/usuario/obtenercotizacionesusuarios`).subscribe(response => {
+            this.usuarios = response;
+            this.getDonut();
+        }, err => console.log(err));
+
+        http.get<UsuarioGraficaMensual[]>(`${url}api/usuario/obtenercotizacionesmensuales`).subscribe(response => {
+            this.usuariosMensual = response;
+        }, err => console.log(err));
+    }
     ngOnInit(): void {
+        this.agruparDatosMensuales()
         this.getTop();
         this.getDonut();
     }
 
+    agruparDatosMensuales() {
+        this.http.get<UsuarioGraficaMensual[]>(`${this.url}api/usuario/obtenercotizacionesmensuales`).subscribe(response => {
+            const datosAgrupados: DatosAgrupados[] = [];    
+
+            response.forEach(dato => {
+                const { nombre, mes, cotizacionesPorMes } = dato;
+
+                const datosAgrupadosExistente = datosAgrupados.find(item => item.nombre === nombre);
+
+                if (datosAgrupadosExistente) {
+                    datosAgrupadosExistente.cotizacionMes[mes - 1] = cotizacionesPorMes;
+                } else {
+                    const nuevoDatoAgrupado: DatosAgrupados = {
+                        nombre: nombre,
+                        cotizacionMes: Array(12).fill(0)
+                    };
+
+                    nuevoDatoAgrupado.cotizacionMes[mes - 1] = cotizacionesPorMes;
+
+                    datosAgrupados.push(nuevoDatoAgrupado);
+                }
+            });
+            this.datosAgrupados = datosAgrupados;            
+            this.getTop();
+        }, err => console.log(err));
+
+    }
     getDonut() {
         let container: HTMLElement = document.getElementById('dvdonut');
+
+        const seriesOptions: Highcharts.SeriesColumnOptions[] = [];
+
+        this.usuarios.forEach(usuario => {
+            seriesOptions.push({
+                name: usuario.nombre,
+                data: [usuario.cotizaciones, usuario.prospectos],
+                type: 'column',
+            });
+        });
+
         Highcharts.chart(container, {
             chart: {
                 type: 'column'
             },
             title: {
-                text: 'Total fruit consumption, grouped by gender'
+                text: 'Total'
             },
             xAxis: {
-                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+                categories: ['Cotizaciones', 'Prospectos'],
+                crosshair: true
             },
             yAxis: {
                 allowDecimals: false,
                 min: 0,
                 title: {
-                    text: 'Number of fruits'
+                    text: ' '
                 }
             },
             tooltip: {
                 formatter: function () {
                     return '<b>' + this.x + '</b><br/>' +
-                        this.series.name + ': ' + this.y + '<br/>' +
-                        'Total: ' + this.point['stackTotal'];
+                        this.series.name + ': ' + this.y + '<br/>' ;
+                        //+'Total: ' + this.point['stackTotal'] 
                 }
             },
+            
             plotOptions: {
                 column: {
-                    stacking: 'normal'
+                    pointPadding: 0.2,
+                    borderWidth: 0
                 }
             },
-            series: [{
-                name: 'John',
-                data: [5, 3, 4, 7, 2],
-                stack: 'male'
-            }, {
-                name: 'Joe',
-                data: [3, 4, 4, 2, 5],
-                stack: 'male'
-            }, {
-                name: 'Jane',
-                data: [2, 5, 6, 2, 1],
-                stack: 'female'
-            }, {
-                name: 'Janet',
-                data: [3, 0, 4, 4, 3],
-                stack: 'female'
-            }] as Highcharts.SeriesColumnOptions[]
+            series: seriesOptions
         });
     }
 
     getTop() {
         let container: HTMLElement = document.getElementById('dvtop');
+        const seriesOptions: Highcharts.SeriesColumnOptions[] = [];
+
+        
+        this.datosAgrupados.forEach(dato => {
+            seriesOptions.push({
+                name: dato.nombre,
+                data: dato.cotizacionMes,
+                type: 'column',
+            });
+        });
+
+
         Highcharts.chart(container, {
             chart: {
                 type: 'column'
             },
             title: {
-                text: 'Monthly Average Rainfall'
+                text: 'Cotizaciones por mes'
             },
-            subtitle: {
-                text: 'Source: WorldClimate.com'
-            },
+            
             xAxis: {
                 categories: [
                     'Jan',
@@ -96,15 +169,18 @@ export class HomeComponent implements OnInit {
                 crosshair: true
             },
             yAxis: {
+                allowDecimals: false,
+                
                 min: 0,
                 title: {
-                    text: 'Rainfall (mm)'
+                    text: ''
                 }
             },
             tooltip: {
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -115,23 +191,7 @@ export class HomeComponent implements OnInit {
                     borderWidth: 0
                 }
             },
-            series: [{
-                name: 'Tokyo',
-                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-        
-            }, {
-                name: 'New York',
-                data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-        
-            }, {
-                name: 'London',
-                data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-        
-            }, {
-                name: 'Berlin',
-                data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-        
-            }] as Highcharts.SeriesColumnOptions[]
+            series: seriesOptions
         });
         
     }

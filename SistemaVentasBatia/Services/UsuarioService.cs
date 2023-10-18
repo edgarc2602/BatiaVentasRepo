@@ -5,6 +5,7 @@ using SistemaVentasBatia.DTOs;
 using SistemaVentasBatia.Models;
 using SistemaVentasBatia.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SistemaVentasBatia.Services
@@ -15,6 +16,8 @@ namespace SistemaVentasBatia.Services
         Task<bool> Existe(AccesoDTO dto);
 
         Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal);
+        Task<List<UsuarioGrafica>> ObtenerCotizacionesUsuarios();
+        Task<List<UsuarioGraficaMensual>> ObtenerCotizacionesMensuales();
     }
     public class UsuarioService : IUsuarioService
     {
@@ -74,6 +77,14 @@ namespace SistemaVentasBatia.Services
         public async Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal)
         {
             await _repo.InsertarFirmaUsuario(imagenBase64, idPersonal);
+        }
+        public async Task<List<UsuarioGrafica>> ObtenerCotizacionesUsuarios()
+        {
+            return await _repo.ObtenerCotizacionesUsuarios();
+        }
+        public async Task<List<UsuarioGraficaMensual>> ObtenerCotizacionesMensuales()
+        {
+            return await _repo.ObtenerCotizacionesMensuales();
         }
     }
 }
