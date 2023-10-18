@@ -9,9 +9,9 @@
     <br />
     <div class="row pt-1 mb-3">
         <div>
-            <div class="btn-group float-end">
+            <!--<div class="btn-group float-end">
                 <a (click)="nuevo()" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nuevo Prospecto</a>
-            </div>
+            </div>-->
             <h1 class="h2">Prospectos</h1>
         </div>
     </div>
@@ -19,22 +19,25 @@
         <div class="row">
             <div class="col-md-3 col-7 mb-3">
                 <div class="form-floating">
-                    <input type="text" class="form-control" [(ngModel)]="lspro.keywords" id="Keywords" placeholder="Escriba un nombre">
+                    <input type="text" class="form-control" [(ngModel)]="lspro.keywords" id="Keywords" placeholder="Escriba un nombre" (input)="lista()">
                     <label asp-for="Keywords">Nombre Comercial</label>
                 </div>
             </div>
             <div class="col-md-3 col-5 mb-3">
                 <div class="form-floating">
-                    <select class="form-select" [(ngModel)]="lspro.idEstatusProspecto" aria-label="IdEstatusProspecto">
+                    <select class="form-select" [(ngModel)]="lspro.idEstatusProspecto" aria-label="IdEstatusProspecto" (change)="lista()">
                         <option value="0">Seleccione ...</option>
                         <option *ngFor="let s of lests" [ngValue]="s.id">{{ s.nom }}</option>
                     </select>
                     <label for="ddlStatus">Estatus:</label>
                 </div>
             </div>
-            <div class="col-md-3 mb-3">
-                <button type="button" (click)="lista()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+            <div class="col-md-6 mb-3 text-end">
+                <a (click)="nuevo()" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nuevo Prospecto</a>
             </div>
+            <!--<div class="col-md-3 mb-3">
+        <button type="button" (click)="lista()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+    </div>-->
         </div>
     </div>
 

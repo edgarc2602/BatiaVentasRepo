@@ -9,9 +9,9 @@
     <br />
     <div class="row pt-1 mb-3">
         <div>
-            <div class="btn-group float-end">
+            <!--<div class="btn-group float-end">
                 <a [routerLink]="['/exclusivo/nuevocot']" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nueva Cotización</a>
-            </div>
+            </div>-->
             <h1 class="h2">Cotizaciones</h1>
 
         </div>
@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-md-3 mb-3">
                 <div class="form-floating">
-                    <select class="form-select" asp-for="IdProspecto" [(ngModel)]="lcots.idProspecto">
+                    <select class="form-select" asp-for="IdProspecto" [(ngModel)]="lcots.idProspecto" (change)="busca()">
                         <option value="0">Selecciona una opción...</option>
                         <option *ngFor="let p of lpros" [ngValue]="p.idProspecto">{{ p.nombreComercial }}</option>
                     </select>
@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-3 col-6 mb-3">
                 <div class="form-floating">
-                    <select class="form-select" [(ngModel)]="lcots.idServicio">
+                    <select class="form-select" [(ngModel)]="lcots.idServicio" (change)="busca()">
                         <option value="0">Selecciona una opción...</option>
                         <option *ngFor="let s of lsers" [ngValue]="s.id">{{ s.nom }}</option>
                     </select>
@@ -38,17 +38,20 @@
             </div>
             <div class="col-md-3 col-6 mb-3">
                 <div class="form-floating">
-                    <select class="form-select" [(ngModel)]="lcots.idEstatusCotizacion">
+                    <select class="form-select" [(ngModel)]="lcots.idEstatusCotizacion" (change)="busca()">
                         <option value="0">Selecciona una opción...</option>
                         <option *ngFor="let e of lests" [ngValue]="e.id">{{ e.nom }}</option>
                     </select>
                     <label for="ddlServicio">Estatus</label>
                 </div>
             </div>
-
-            <div class="col-md-3 mb-3">
-                <button type="button" (click)="busca()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+            <div class="col-md-3 mb-3 text-end">
+                <a [routerLink]="['/exclusivo/nuevocot']" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nueva Cotización</a>
             </div>
+
+            <!--<div class="col-md-3 mb-3">
+        <button type="button" (click)="busca()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+    </div>-->
         </div>
     </div>
 
