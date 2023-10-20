@@ -25,13 +25,19 @@ namespace SistemaVentasBatia.Controllers
             return await _logic.Login(dto);
         }
 
-        [HttpPost("[action]/{idPersonal}")]
-        public async Task<ActionResult<bool>> InsertarFirmaUsuario([FromBody] ImagenRequest imagenBase64, int idPersonal = 0)
-        {
-            await _logic.InsertarFirmaUsuario(imagenBase64, idPersonal);
 
+
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult<bool>> AgregarUsuario([FromBody] UsuarioRegistro usuario)
+        {
+            bool result = false;
+            result = await _logic.InsertarUsuario(usuario);
             return true;
         }
+
+
+
 
         [HttpGet("[action]")]
         public async Task<ActionResult<List<UsuarioGrafica>>> ObtenerCotizacionesUsuarios()

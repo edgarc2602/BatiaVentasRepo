@@ -2,10 +2,16 @@
     .transparent-background {
         background-color: transparent;
     }
+
     .btn-bottom-right {
         position: absolute;
-        bottom: 80px; /* Puedes ajustar la distancia desde la parte inferior */
-        right: 30px; /* Puedes ajustar la distancia desde la derecha */
+        bottom: 80px;
+        right: 30px;
+    }
+
+    .accordion-button:focus {
+        outline: none;
+        box-shadow: none;
     }
 </style>
 
@@ -34,13 +40,13 @@
 
                     <ul class="nav nav-tabs" id="tabconfig" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button type="button" class="nav-link active" (click)="chgTab('porcentajespred')" id="porcentajespred-tab" data-bs-toggle="tab" data-bs-target="#porcentajespred"
+                            <button type="button" class="nav-link active" id="porcentajespred-tab" data-bs-toggle="tab" data-bs-target="#porcentajespred"
                                     role="tab" aria-controls="porcentajespred" aria-selected="true">
                                 Comisión
                             </button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="nav-link" (click)="chgTab('IMSS')" id="IMSS-tab" data-bs-toggle="tab" data-bs-target="#IMSS"
+                            <button type="button" class="nav-link" id="IMSS-tab" data-bs-toggle="tab" data-bs-target="#IMSS"
                                     role="tab" aria-controls="IMSS" aria-selected="false">
                                 IMSS
                             </button>
@@ -71,6 +77,57 @@
                                         <td><input #comisionExternatxt type="number" class="form-control aliggn-content-center" id="comisionExterna" name="comisionExterna" value="{{ cotpor.comisionExterna }}" [(ngModel)]="comisionExterna" placeholder="{{ cotpor.comisionExterna }}" autocomplete="off" required></td>
                                         <td><button type="button" (click)="actualizarPorcentajesPredeterminadosCotizacion()" class="btn btn-lg btn-outline-success  box-shadow"><i class="fa-solid fa-save"></i></button></td>
                                     </tr>-->
+                                    <tr>
+                                        <td>
+                                            <div class="row pb-2">
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge text-dark">Costo Indirecto:</span>
+                                                    <input #costoIndirectotxt class="form-control aliggn-content-center text-center transparent-background" id="costoIndirecto" name="costoIndirecto" value="{{ cotpor.costoIndirecto }}" [(ngModel)]="costoIndirecto" placeholder="{{ cotpor.costoIndirecto }}" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Utilidad:</span>
+                                                    <input #utilidadtxt class="form-control aliggn-content-center text-center transparent-background" id="utilidad" name="utilidad" value="{{ cotpor.utilidad }}" [(ngModel)]="utilidad" placeholder="{{ cotpor.utilidad }}" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Comision Venta:</span>
+                                                    <input #comisionSobreVentatxt class="form-control aliggn-content-center text-center transparent-background" id="comisionSobreVental" name="comisionSobreVental" value="{{ cotpor.comisionSobreVenta }}" [(ngModel)]="comisionSobreVenta" placeholder="{{ cotpor.comisionSobreVenta }}" autocomplete="off" required>
+                                                </div>
+                                                <div class=" col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark ">Comisión Externa:</span>
+                                                    <input #comisionExternatxt class="form-control aliggn-content-center text-center transparent-background" id="comisionExterna" name="comisionExterna" value="{{ cotpor.comisionExterna }}" [(ngModel)]="comisionExterna" placeholder="{{ cotpor.comisionExterna }}" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Fecha Aplica:</span>
+                                                    <input #fechaAplicatxt class="form-control aliggn-content-center text-center transparent-background" id="fechaAplica" name="fechaAplica" value="{{ cotpor.fechaAplica | date: 'dd-MM-yyyy'}}" [(ngModel)]="fechaAplica" placeholder="dd-MM-yyyy" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Fecha Alta:</span>
+                                                    <div class="ms-2">{{ cotpor.fechaAlta | date: 'dd-MM-yyyy' }}</div>
+                                                </div>
+                                                <div class="col-sm-3 col-3 pb-3">
+                                                    <span class="badge  text-dark">Usuario Alta:</span>
+                                                    <div class="ms-2">{{ cotpor.personal }}</div>
+                                                </div>
+
+
+                                                <div class="col-sm-3 col-3 pb-3 text-center">
+                                                    <span class="badge  text-dark"></span>
+                                                    <button type="button" (click)="actualizarPorcentajesPredeterminadosCotizacion()" class="btn btn-lg btn-outline-success  box-shadow"><i class="fa-solid fa-save"></i></button>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-content pt-2" id="tabcontent">
+                        <div class="tab-pane fade text-center " style="border-radius: 10px; overflow-x: hidden; " id="IMSS" role="tabpanel" aria-labelledby="IMSS-tab">
+                            <table class="table table-borderless   table-responsive">
+                                <thead>
+                                </thead>
+                                <tbody>
                                     <tr>
                                         <td>
                                             <div class="row pb-2">
@@ -168,7 +225,7 @@
                             </button>
                         </li>-->
                         <li class="nav-item" role="presentation">
-                            <button type="button" class="nav-link active" (click)="chgTab('catservicio')" id="catservicio-tab" data-bs-toggle="tab" data-bs-target="#catservicio"
+                            <button type="button" class="nav-link active" id="catservicio-tab" data-bs-toggle="tab" data-bs-target="#catservicio"
                                     role="tab" aria-controls="servicio" aria-selected="true">
                                 Servicio
                             </button>
@@ -426,62 +483,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!--<div class="tab-pane fade show active text-center" style="border-radius: 10px; overflow-x: hidden;" id="servicio" role="tabpanel" aria-labelledby="servicio-tab">
-
-                            <table class="table table-borderless table-striped table-responsive">
-                                <thead>
-                                    <tr class="bg-primary bg-opacity-75 text-white">
-                                        <th>Clave</th>
-                                        <th>Descripción</th>
-                                        <th>Cantidad</th>
-                                        <th>Frecuencia</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let mt of mates">
-                                        <td>{{ mt.claveProducto }}</td>
-                                        <td>{{ mt.descripcion }}</td>
-                                        <td>{{ mt.cantidad }}</td>
-                                        <td>{{ mt.idFrecuencia }}</td>
-                                        <td>
-                                            <button type="button" (click)="deleteMat(mt.idMaterialPuesto)" class="btn btn-sm btn-outline-danger">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="row">
-                                <div class="col d-flex justify-content-end">
-                                    <button type="button" (click)="openMat()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar producto</button>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
-                        <!--<div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="tabulador" role="tabpanel" aria-labelledby="tabulador-tab">
-                            <table class="table table-borderless text-center table-striped table-responsive">
-                                <thead>
-                                    <tr class="bg-primary bg-opacity-75 text-white">
-                                        <th style="width: 5%;">Salario Mixto</th>
-                                        <th style="width: 5%;">Salario Mixto Frontera</th>
-                                        <th style="width: 5%;">Salario Real</th>
-                                        <th style="width: 5%;">Salario Real Frontera</th>
-                                        <th style="width: 5%;"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input #salarioMixtotxt type="number" class="form-control aliggn-content-center" id="salarioMixto" name="salarioMixto" value="{{ sal.salarioMixto }}" [(ngModel)]="salarioMixto" placeholder="{{ sal.salarioMixto }}" autocomplete="off" required></td>
-                                        <td><input #salarioMixtoFronteratxt type="number" class="form-control aliggn-content-center" id="salarioMixtoFrontera" name="salarioMixtoFrontera" value="{{ sal.salarioMixtoFrontera }}" [(ngModel)]="salarioMixtoFrontera" placeholder="{{ sal.salarioMixtoFrontera }}" autocomplete="off" required></td>
-                                        <td><input #salarioRealtxt type="number" class="form-control aliggn-content-center" id="salarioReal" name="salarioReal" value="{{ sal.salarioReal }}" [(ngModel)]="salarioReal" placeholder="{{ sal.salarioReal }}" autocomplete="off" required></td>
-                                        <td><input #salarioRealFronteratxt type="number" class="form-control aliggn-content-center" id="salarioRealFrontera" name="salarioRealFrontera" value="{{ sal.salarioRealFrontera }}" [(ngModel)]="salarioRealFrontera" placeholder="{{ sal.salarioRealFrontera }}" autocomplete="off" required></td>
-                                        <td><button type="button" (click)="actualizarSalarios(sal.idPuesto)" class="btn btn-sm btn-outline-info"><i class="fa-solid fa-save"></i> Guardar </button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>-->
+                        
                     </div>
                 </div>
             </div>
@@ -496,25 +498,101 @@
             </h1>
             <div id="collapseUsuario" class="accordion-collapse collapse" aria-labelledby="headingUsuario">
                 <div class="accordion-body">
-                    <h6>Agregar firma </h6>
-                    <div class="row mb-3">
-                        <div class="col-4 col-md-2 col-sm-2">
-                            <div class="form-floating box-shadow">
-                                <input type="number" class="form-control" [(ngModel)]="idPersonal">
+                    <h6>Registrar nuevo usuario</h6>
+                    <div class="row">
+                        <!--<div class="form-floating">
+        <input type="text" class="form-control" [(ngModel)]="lspro.keywords" id="Keywords" placeholder="Escriba un nombre" (input)="lista()">
+        <label asp-for="Keywords">Nombre Comercial</label>
+    </div>-->
+
+                        <div class="col-md-3 col-sm-3 col-6 ">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="usuario.nombres" placeholder="Nombres">
+                                <label asp-for="Nombres">Nombres</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-6 ">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="usuario.apellidos" placeholder="Apellidos">
+                                <label asp-for="Apellidos">Apellidos</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-4">
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" [(ngModel)]="idPersonal" placeholder="Id Personal">
                                 <label asp-for="Cantidad">Id Personal</label>
                             </div>
                         </div>
-                        <div class="col-2 col-md24 col-sm-2">
+                        <div class="col-md-4 col-sm-4 col-8">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="usuario.puesto" placeholder="Puesto">
+                                <label asp-for="Puesto">Puesto</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-4">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="usuario.telefono" placeholder="Tel. Fijo">
+                                <label asp-for="Teléfono">Tel. Fijo</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-2 ">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="usuario.telefonoExtension" placeholder="Ext.">
+                                <label asp-for="Ext.">Ext.</label>
+                            </div>
+                        </div>
+                        <div class="col-2 d-md-none d-sm-none">
+                            
+                        </div>
+
+
+                        <div class="col-md-2 col-sm-2 col-4 ">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="usuario.telefonoMovil" placeholder="Tel. Móvil">
+                                <label asp-for="Teléfono Móvil">Tel. Móvil</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-8 ">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="usuario.email" placeholder="Email">
+                                <label asp-for="Email">Email</label>
+                            </div>
+                        </div>
+                        <div class=" col-md-2 col-sm-2 col-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="usuario.autoriza" [value]="usuario.autoriza">
+                                <label class="form-check-label">
+                                    Autoriza
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="usuario.revisa" [value]="usuario.revisa">
+                                <label class="form-check-label">
+                                    Supervisa
+                                </label>
+                            </div>
+                        </div>
+                        <!--<div class=" col-md-1 col-sm-1 col-2">
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="usuario.revisa" [value]="usuario.revisa">
+            <label class="form-check-label">
+                Supervisa
+            </label>
+        </div>
+    </div>-->
+
+                        <div class="col-md-2 col-sm-2 col-4 ">
                             <input type="file" (change)="onFileSelected($event)" #fileInput style="display:none" accept="image/*">
                             <button class="btn btn-sm btn-outline-primary  box-shadow" (click)="fileInput.click()">Seleccionar Firma</button>
                         </div>
                         <br />
-                        <div class="image-container col-2 col-md24 col-sm-2">
-                            <img class="box-shadow" [src]="selectedImage" alt="Imagen seleccionada" *ngIf="selectedImage" width="150" height="150">
+                        <div class="image-container col-4 col-md-4 col-sm-4">
+                            <img class="box-shadow" [src]="selectedImage" alt="Imagen seleccionada" *ngIf="selectedImage" width="100" height="100">
                         </div>
                     </div>
                     <div class="align-content-end text-end">
-                        <button class="btn btn-lg btn-outline-success  box-shadow align-content-end" (click)="guardarImagen()">Agregar</button>
+                        <!--<button class="btn btn-lg btn-outline-success  box-shadow align-content-end" (click)="guardarImagen()">Agregar</button>-->
+                        <button class="btn btn-lg btn-outline-success  box-shadow align-content-end" (click)="openUsu()">Agregar</button>
                     </div>
 
 
@@ -565,4 +643,5 @@
 
     <producto-widget [idP]="selPuesto" [grupo]="grupo" (saveEvent)="closeMat($event)"></producto-widget>
     <agregarservicio-widget (serEvent)="reloadServicios()"></agregarservicio-widget>
+    <!--<usuadd-widget (serEvent)="reloadServicios()"></usuadd-widget>-->
 </div>

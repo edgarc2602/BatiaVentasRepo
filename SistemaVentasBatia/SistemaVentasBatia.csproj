@@ -38,6 +38,7 @@
 	  <None Remove="ClientApp\src\app\models\puestocotiza.ts" />
 	  <None Remove="ClientApp\src\app\models\puestocotizamin.ts" />
 	  <None Remove="ClientApp\src\app\models\usuario.ts" />
+	  <None Remove="ClientApp\src\app\models\usuarioregistro.ts" />
 	  <None Remove="ClientApp\src\app\stores\StoreUser.ts" />
 	  <None Remove="ClientApp\src\app\widgets\puesto\puesto.widget.ts" />
 	</ItemGroup>
@@ -52,6 +53,9 @@
 	  <TypeScriptCompile Include="ClientApp\src\app\models\productoitem.ts" />
 	  <TypeScriptCompile Include="ClientApp\src\app\models\puestocotiza.ts" />
 	  <TypeScriptCompile Include="ClientApp\src\app\models\puestocotizamin.ts" />
+	  <TypeScriptCompile Include="ClientApp\src\app\models\usuarioregistro.ts">
+	    <SubType>Code</SubType>
+	  </TypeScriptCompile>
 	  <TypeScriptCompile Include="ClientApp\src\app\models\usuario.ts" />
 	  <TypeScriptCompile Include="ClientApp\src\app\stores\StoreUser.ts" />
 	  <TypeScriptCompile Include="ClientApp\src\app\widgets\puesto\puesto.widget.ts" />

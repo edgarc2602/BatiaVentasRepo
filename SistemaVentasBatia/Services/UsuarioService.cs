@@ -6,6 +6,7 @@ using SistemaVentasBatia.Models;
 using SistemaVentasBatia.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace SistemaVentasBatia.Services
@@ -15,7 +16,7 @@ namespace SistemaVentasBatia.Services
         Task<UsuarioDTO> Login(AccesoDTO dto);
         Task<bool> Existe(AccesoDTO dto);
 
-        Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal);
+        Task<bool> InsertarUsuario(UsuarioRegistro usuario);
         Task<List<UsuarioGrafica>> ObtenerCotizacionesUsuarios();
         Task<List<UsuarioGraficaMensual>> ObtenerCotizacionesMensuales();
     }
@@ -74,10 +75,23 @@ namespace SistemaVentasBatia.Services
             return usu;
         }
 
-        public async Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal)
+        public async Task<bool> InsertarUsuario(UsuarioRegistro usuario)
         {
-            await _repo.InsertarFirmaUsuario(imagenBase64, idPersonal);
+            bool existe = false;
+            bool result = false;
+            existe = await _repo.ConsultarUsuario(usuario.IdPersonal, usuario.Nombres);
+            if ( existe == true)
+            {
+                result = await _repo.InsertarUsuario(usuario);
+
+            }
+            else
+            {
+                result = false;
+            }
+            return result;
         }
+
         public async Task<List<UsuarioGrafica>> ObtenerCotizacionesUsuarios()
         {
             return await _repo.ObtenerCotizacionesUsuarios();

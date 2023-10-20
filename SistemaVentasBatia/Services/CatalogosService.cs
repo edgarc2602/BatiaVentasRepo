@@ -129,6 +129,21 @@ namespace SistemaVentasBatia.Services
                 case "servicio":
                     fams = _option.Servicio;
                     break;
+                case "materialope":
+                    fams = _option.MaterialOpe;
+                    break;
+                case "uniformeope":
+                    fams = _option.UniformeOpe;
+                    break;
+                case "equipoope":
+                    fams = _option.EquipoOpe;
+                    break;
+                case "herramientaope":
+                    fams = _option.HerramientaOpe;
+                    break;
+                case "servicioope":
+                    fams = _option.ServicioOpe;
+                    break;
                 default:
                     fams = new int[] {};
                     break;

@@ -78,6 +78,9 @@ export class MaterialAddWidget {
         this.idP = pue;
         this.idS = ser;
         this.tipo = tp;
+        if (this.idP != 0) {
+            this.tipo = this.tipo.toString() + 'ope';
+        }
         this.showSuc = showS;
         this.lista();
         if (id == 0) {

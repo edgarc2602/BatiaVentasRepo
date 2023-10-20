@@ -44,7 +44,7 @@ import { CommonModule } from '@angular/common';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { fadeInOut } from './fade-in-out';
-
+import { UsuarioAddWidget } from './widgets/usuarioadd/usuarioadd.widget';
 @NgModule({
     declarations: [
         AppComponent,
@@ -81,6 +81,7 @@ import { fadeInOut } from './fade-in-out';
         EditarCotizacion,
         ServicioAddWidget,
         AgregarServicioWidget,
+        UsuarioAddWidget,
         
     ],
     imports: [

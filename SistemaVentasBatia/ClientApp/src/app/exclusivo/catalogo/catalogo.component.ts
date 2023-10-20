@@ -11,6 +11,9 @@ import { fadeInOut } from 'src/app/fade-in-out';
 import { CotizaPorcentajes } from 'src/app/models/cotizaporcentajes';
 
 import { StoreUser } from 'src/app/stores/StoreUser';
+import { UsuarioRegistro } from 'src/app/models/usuarioregistro';
+import { Usuario } from '../../models/usuario';
+import { UsuarioAddWidget } from 'src/app/widgets/usuarioadd/usuarioadd.widget';
 
 @Component({
     selector: 'catalogo-comp',
@@ -18,18 +21,20 @@ import { StoreUser } from 'src/app/stores/StoreUser';
     animations: [fadeInOut],
 })
 export class CatalogoComponent {
-    @ViewChild(ProductoWidget, { static: false }) prow: ProductoWidget;
+    @ViewChild(ProductoWidget,        { static: false }) prow:   ProductoWidget;
     @ViewChild(AgregarServicioWidget, { static: false }) addSer: AgregarServicioWidget;
-    @ViewChild('salarioMixtotxt', { static: false }) salarioMixtotxt: ElementRef;
-    @ViewChild('salarioMixtoFronteratxt', { static: false }) salarioMixtoFronteratxt: ElementRef;
-    @ViewChild('salarioRealtxt', { static: false }) salarioRealtxt: ElementRef;
-    @ViewChild('salarioRealFronteratxt', { static: false }) salarioRealFronteratxt: ElementRef;
+    @ViewChild(UsuarioAddWidget,      { static: false }) addUsu: UsuarioAddWidget;
 
-    @ViewChild('costoIndirectotxt', { static: false }) costoIndirectotxt: ElementRef;
-    @ViewChild('utilidadtxt', { static: false }) utilidadtxt: ElementRef;
+    @ViewChild('salarioMixtotxt',         { static: false }) salarioMixtotxt: ElementRef;
+    @ViewChild('salarioMixtoFronteratxt', { static: false }) salarioMixtoFronteratxt: ElementRef;
+    @ViewChild('salarioRealtxt',          { static: false }) salarioRealtxt: ElementRef;
+    @ViewChild('salarioRealFronteratxt',  { static: false }) salarioRealFronteratxt: ElementRef;
+
+    @ViewChild('costoIndirectotxt',     { static: false }) costoIndirectotxt: ElementRef;
+    @ViewChild('utilidadtxt',           { static: false }) utilidadtxt: ElementRef;
     @ViewChild('comisionSobreVentatxt', { static: false }) comisionSobreVentatxt: ElementRef;
-    @ViewChild('comisionExternatxt', { static: false }) comisionExternatxt: ElementRef;
-    @ViewChild('fechaAplicatxt', { static: false }) fechaAplicatxt: ElementRef;
+    @ViewChild('comisionExternatxt',    { static: false }) comisionExternatxt: ElementRef;
+    @ViewChild('fechaAplicatxt',        { static: false }) fechaAplicatxt: ElementRef;
 
     pues: Catalogo[] = [];
     selPuesto: number = 0;
@@ -65,6 +70,11 @@ export class CatalogoComponent {
     idPersonal: number = 0;
     autorizacion: number = 0;
 
+
+    usuario: UsuarioRegistro = {
+        idAutorizacionVentas: 0, idPersonal: 0, autoriza: 0, nombres: '', apellidos: '', puesto: '', telefono: '', telefonoExtension: '', telefonoMovil: '', email: '',
+        firma: '', revisa: 0
+    }
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, public user: StoreUser) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
@@ -112,6 +122,7 @@ export class CatalogoComponent {
     openHer() {
         this.grupo = 'herramienta';
         this.prow.inicio();
+        
     }
 
     openUni() {
@@ -256,15 +267,53 @@ export class CatalogoComponent {
 
     guardarImagen(): void {
         if (this.selectedImage) {
-            // Enviar la imagen al controlador C# utilizando HttpClient
-            // Ajusta la URL del controlador y otros detalles según tus necesidades
-            this.http.post<boolean>(`${this.url}api/usuario/InsertarFirmaUsuario/${this.idPersonal}`, { imagenBase64: this.selectedImage }).subscribe(response => {
-                console.log('Imagen enviada exitosamente', response);
-                // Puedes realizar acciones adicionales después de enviar la imagen
+            //aplicar modelo y enviar
+            //this.usuario.firma = this.selectedImage;
+
+            // Convierte el ArrayBuffer a Base64
+            if (this.selectedImage instanceof ArrayBuffer) {
+                const base64Firma = this.arrayBufferToBase64(this.selectedImage);
+                this.usuario.firma = base64Firma;
+            } else if (typeof this.selectedImage === 'string') {
+                // Si ya es una cadena, asigna directamente
+                this.usuario.firma = this.selectedImage;
+            } else {
+                console.error('Tipo no compatible para selectedImage');
+            }
+            if (this.usuario.autoriza == 1) {
+                this.usuario.autoriza = 1;
+            }
+            else {
+                this.usuario.autoriza = 0;
+            }
+            if (this.usuario.revisa == 1) {
+                this.usuario.revisa = 1;
+            }
+            else {
+                this.usuario.revisa = 0;
+            }
+
+            this.usuario.idPersonal = this.idPersonal;
+            this.http.post<boolean>(`${this.url}api/usuario/agregarusuario`, this.usuario).subscribe(response => {
+                this.nuevoUsuario();
             });
         }
     }
     goBack() {
         window.history.back();
     }
+    arrayBufferToBase64(arrayBuffer: ArrayBuffer): string {
+        const uint8Array = new Uint8Array(arrayBuffer);
+        return btoa(String.fromCharCode.apply(null, uint8Array));
+    }
+    nuevoUsuario() {
+        this.usuario = {
+            idAutorizacionVentas: 0, idPersonal: 0, autoriza: 0, nombres: '', apellidos: '', puesto: '', telefono: '', telefonoExtension: '', telefonoMovil: '', email: '',
+            firma: '', revisa: 0
+        }
+    }
+    openUsu() {
+        this.addUsu.open();
+    }
 }
+

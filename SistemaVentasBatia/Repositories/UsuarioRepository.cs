@@ -11,7 +11,9 @@ namespace SistemaVentasBatia.Repositories
     public interface IUsuarioRepository
     {
         Task<Usuario> Login(Acceso acceso);
-        Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal);
+        Task<bool> InsertarUsuario(UsuarioRegistro usuario);
+        Task<bool> ConsultarUsuario(int idPersonal, string Nombres);
+
         Task<List<UsuarioGrafica>> ObtenerCotizacionesUsuarios();
         Task<List<UsuarioGraficaMensual>> ObtenerCotizacionesMensuales();
     }
@@ -39,9 +41,9 @@ namespace SistemaVentasBatia.Repositories
             return usu;
         }
 
-        public async Task InsertarFirmaUsuario(ImagenRequest imagenBase64, int idPersonal)
+        public async Task<bool> InsertarUsuario(UsuarioRegistro usuario)
         {
-            var base64Data = imagenBase64.ImagenBase64;
+            var base64Data = usuario.Firma;
 
             if (base64Data.StartsWith("data:image/jpeg;base64,"))
             {
@@ -51,21 +53,86 @@ namespace SistemaVentasBatia.Repositories
             {
                 base64Data = base64Data.Substring("data:image/png;base64,".Length);
             }
+            usuario.Firma = base64Data;
 
-            var query = @"UPDATE Autorizacion_ventas SET per_firma = @base64Data WHERE IdPersonal = @idPersonal";
-
+            var query = @"
+INSERT INTO Autorizacion_ventas 
+(
+IdPersonal,
+per_autoriza,
+per_nombre,
+per_puesto,
+per_telefono,
+per_telefono_extension,
+per_telefonomovil,
+per_email,
+per_firma,
+per_revisa
+)
+VALUES
+(
+@IdPersonal,
+@Autoriza,
+@Nombres + ' ' + @Apellidos,
+@Puesto,
+@Telefono,
+@TelefonoExtension,
+@TelefonoMovil,
+@Email,
+@Firma,
+@Revisa
+)
+";
+            bool result = false;
+            int rowsAffected = 0;
             try
             {
                 using (var connection = _ctx.CreateConnection())
                 {
-                    await connection.ExecuteAsync(query, new { base64Data, idPersonal });
+                    rowsAffected = await connection.ExecuteAsync(query, usuario);
+                    if (rowsAffected > 0)
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;
+                    }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
+            return result;
         }
+
+        public async Task<bool> ConsultarUsuario(int idPersonal, string Nombres)
+        {
+            var query = @"
+SELECT CASE
+           WHEN COUNT(*) > 0 THEN 'true'
+           ELSE 'false'
+       END AS Resultado
+FROM Personal
+WHERE IdPersonal = @idPersonal AND Per_Nombre LIKE @Nombres;
+";
+            bool result = false;
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    // Nota que Nombres ya no tiene comillas y se pasa como un parámetro
+                    result = await connection.QueryFirstOrDefaultAsync<bool>(query, new { idPersonal, Nombres = "%" + Nombres + "%" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
 
         public async Task<List<UsuarioGrafica>> ObtenerCotizacionesUsuarios()
         {
@@ -87,10 +154,10 @@ WHERE
             {
                 using (var connection = _ctx.CreateConnection())
                 {
-                        usuarios = (await connection.QueryAsync<UsuarioGrafica>(query)).ToList();
+                    usuarios = (await connection.QueryAsync<UsuarioGrafica>(query)).ToList();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -146,7 +213,7 @@ ORDER BY
                     usuarios = (await connection.QueryAsync<UsuarioGraficaMensual>(query)).ToList();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
