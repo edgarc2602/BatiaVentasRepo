@@ -24,10 +24,10 @@ namespace SistemaVentasBatia.Repositories
         Task<List<MaterialCotizacion>> ObtenerHerramientaCotizacionOperario(int id, int idCotizacion);
         Task<List<MaterialCotizacion>> ObtenerUniformeCotizacionOperario(int id, int idCotizacion);
         Task<MaterialCotizacion> ObtenerMaterialCotizacionPorId(int id);
-        Task<decimal> ObtenerPrecioProductoPorClave(string clave);
+        Task<decimal> ObtenerPrecioProductoBase(string clave);
         Task<int> ObtenerIdEstadoPorIdDireccionCotizacion(int idDireccionCotizacion);
         Task<int> ObtenerIdProveedorPorIdEstado(int idEstado);
-        Task<decimal> ObtenerCoincidenciaProductoPrecio(string claveproducto, int idProveedor);
+        Task<decimal> ObtenerPrecioProductoProveedor(string claveproducto, int idProveedor);
         Task<MaterialCotizacion> ObtenerEquipoCotizacionPorId(int id);
         Task<MaterialCotizacion> ObtenerHerramientaCotizacionPorId(int id);
         Task<MaterialCotizacion> ObtenerUniformeCotizacionPorId(int id);
@@ -177,7 +177,7 @@ namespace SistemaVentasBatia.Repositories
             return naterialCotizacion;
         }
 
-        public async Task<decimal> ObtenerPrecioProductoPorClave(string clave)
+        public async Task<decimal> ObtenerPrecioProductoBase(string clave)
         {
             var query = $@"SELECT preciobase
                             FROM tb_producto
@@ -225,8 +225,8 @@ namespace SistemaVentasBatia.Repositories
 
         public async Task<int> ObtenerIdProveedorPorIdEstado(int idEstado)
         {
-            var query = $@"SELECT id_proveedor FROM tb_proveedorbase_estado 
-                        WHERE id_estado = @idEstado";
+            var query = $@"SELECT id_proveedor FROM tb_estado
+                           WHERE id_estado = @idEstado";
             int idProveedor;
             try
             {
@@ -242,7 +242,7 @@ namespace SistemaVentasBatia.Repositories
             return idProveedor;
         }
 
-        public async Task<decimal> ObtenerCoincidenciaProductoPrecio(string claveproducto, int idProveedor)
+        public async Task<decimal> ObtenerPrecioProductoProveedor(string claveproducto, int idProveedor)
         {
             var query = $@"SELECT precio FROM tb_productoprecio WHERE clave = @claveproducto AND id_proveedor = @idProveedor";
             decimal precio = 0;
@@ -250,7 +250,7 @@ namespace SistemaVentasBatia.Repositories
             {
                 using (var connection = _ctx.CreateConnection())
                 {
-                    precio = await connection.QueryFirstAsync<decimal>(query, new { claveproducto, idProveedor });
+                    precio = await connection.QueryFirstOrDefaultAsync<decimal>(query, new { claveproducto, idProveedor });
                 }
             }
             catch(Exception ex)

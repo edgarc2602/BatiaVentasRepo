@@ -68,78 +68,83 @@ namespace SistemaVentasBatia.Services
         }
         public async Task AgregarMaterialOperario(MaterialCotizacionDTO materialVM)
         {
-            ////buscar idEstado
-            //int idEstadonew = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(materialVM.IdDireccionCotizacion);
-            ////buscar proveedor_predeterminado
-            //int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
-            ////Obtener precio por proveedor
-            //decimal precionew = await _materialRepo.ObtenerCoincidenciaProductoPrecio(materialVM.ClaveProducto, idProveedornew);
-            ////Obtener precio base si es null
-            //decimal precio = 0;
-            //if (precionew == 0)
-            //{
-            //    precio = await _materialRepo.ObtenerPrecioProductoPorClave(materialVM.ClaveProducto);
-            //}
-            //else { 
-            //    precio = 0;
+            //buscar idEstado
+            int idEstadonew = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(materialVM.IdDireccionCotizacion);
+            //buscar proveedor_predeterminado
+            int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
+            //Obtener precio por proveedor
+            decimal precionew = await _materialRepo.ObtenerPrecioProductoProveedor(materialVM.ClaveProducto, idProveedornew);
+            //Obtener precio base si es null
+            //decimal preciobase = 0;
+            if (precionew == 0)
+            {
+                precionew = await _materialRepo.ObtenerPrecioProductoBase(materialVM.ClaveProducto);
                 
-            //}
+            }
+            
             if (materialVM.edit == 1)
             {
-                decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(materialVM.ClaveProducto);
                 var material = _mapper.Map<MaterialCotizacion>(materialVM);
-                material.PrecioUnitario = precio;
+                material.PrecioUnitario = precionew;
                 material.Cantidad = materialVM.Cantidad;
                 material.Total = material.PrecioUnitario * material.Cantidad;
                 material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
-
-
 
                 await _materialRepo.ActualizarMaterialCotizacion(material);
             }
             else
             {
-
                 var material = _mapper.Map<MaterialCotizacion>(materialVM);
+                material.PrecioUnitario = precionew;
+                material.Cantidad = materialVM.Cantidad;
+                material.Total = material.PrecioUnitario * material.Cantidad;
+                material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
 
-                var materialesOperario = await _materialRepo.ObtenerMaterialCotizacionOperario(materialVM.IdPuestoDireccionCotizacion, materialVM.IdCotizacion);
-
-                var materialOperario =
-                    materialesOperario.FirstOrDefault(x =>
-                    x.ClaveProducto == material.ClaveProducto && x.IdFrecuencia == material.IdFrecuencia && x.IdPuestoDireccionCotizacion == materialVM.IdPuestoDireccionCotizacion && x.IdDireccionCotizacion == materialVM.IdDireccionCotizacion);
-
-                if (materialOperario != null)
-                {
-                    materialOperario.Cantidad = materialVM.Cantidad;
-                    materialOperario.Total = materialOperario.PrecioUnitario * materialOperario.Cantidad;
-                    materialOperario.ImporteMensual = materialOperario.Total / (int)materialOperario.IdFrecuencia;
-
-                    await _materialRepo.ActualizarMaterialCotizacion(materialOperario);
-                }
-                else
-                {
-                    var preciosBaseProductos = await _materialRepo.ObtenerPreciosBaseProductos("'" + material.ClaveProducto + "'");
-
-                    var idEstado = await _cotizaRepo.ObtenerIdEstadoDeDireccionCotizacion(materialVM.IdDireccionCotizacion);
-
-                    var preciosProductoPorEstado = await _materialRepo.ObtenerPreciosProductosPorEstado("'" + material.ClaveProducto + "'", idEstado);
-
-                    if (preciosProductoPorEstado.Count() > 0)
-                    {
-                        material.PrecioUnitario = preciosProductoPorEstado.Min(x => x.Precio);
-                    }
-                    else
-                    {
-                        material.PrecioUnitario = preciosBaseProductos.FirstOrDefault().Precio;
-                    }
-
-                    material.Total = material.PrecioUnitario * material.Cantidad;
-                    material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
-                    material.FechaAlta = DateTime.Now;
-
-                    await _materialRepo.AgregarMaterialCotizacion(material);
-                }
+                await _materialRepo.AgregarMaterialCotizacion(material);
             }
+            //else
+            //{
+
+            //    var material = _mapper.Map<MaterialCotizacion>(materialVM);
+
+            //    var materialesOperario = await _materialRepo.ObtenerMaterialCotizacionOperario(materialVM.IdPuestoDireccionCotizacion, materialVM.IdCotizacion);
+
+            //    var materialOperario =
+            //        materialesOperario.FirstOrDefault(x =>
+            //        x.ClaveProducto == material.ClaveProducto && x.IdFrecuencia == material.IdFrecuencia && x.IdPuestoDireccionCotizacion == materialVM.IdPuestoDireccionCotizacion && x.IdDireccionCotizacion == materialVM.IdDireccionCotizacion);
+
+            //    if (materialOperario != null)
+            //    {
+            //        materialOperario.Cantidad = materialVM.Cantidad;
+            //        materialOperario.Total = materialOperario.PrecioUnitario * materialOperario.Cantidad;
+            //        materialOperario.ImporteMensual = materialOperario.Total / (int)materialOperario.IdFrecuencia;
+
+            //        await _materialRepo.ActualizarMaterialCotizacion(materialOperario);
+            //    }
+            //    else
+            //    {
+            //        var preciosBaseProductos = await _materialRepo.ObtenerPreciosBaseProductos("'" + material.ClaveProducto + "'");
+
+            //        var idEstado = await _cotizaRepo.ObtenerIdEstadoDeDireccionCotizacion(materialVM.IdDireccionCotizacion);
+
+            //        var preciosProductoPorEstado = await _materialRepo.ObtenerPreciosProductosPorEstado("'" + material.ClaveProducto + "'", idEstado);
+
+            //        if (preciosProductoPorEstado.Count() > 0)
+            //        {
+            //            material.PrecioUnitario = preciosProductoPorEstado.Min(x => x.Precio);
+            //        }
+            //        else
+            //        {
+            //            material.PrecioUnitario = preciosBaseProductos.FirstOrDefault().Precio;
+            //        }
+
+            //        material.Total = material.PrecioUnitario * material.Cantidad;
+            //        material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
+            //        material.FechaAlta = DateTime.Now;
+
+            //        await _materialRepo.AgregarMaterialCotizacion(material);
+            //    }
+            //}
         }
 
         public async Task ActualizarMaterialCotizacion(MaterialCotizacionDTO materialVM)
@@ -386,12 +391,22 @@ namespace SistemaVentasBatia.Services
             //int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
             ////Obtener precio por proveedor
             //decimal precionew = await _materialRepo.ObtenerCoincidenciaProductoPrecio(dto.ClaveProducto, idProveedornew);
+            int idEstadonew = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(dto.IdDireccionCotizacion);
+            //buscar proveedor_predeterminado
+            int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
+            //Obtener precio por proveedor
+            decimal precionew = await _materialRepo.ObtenerPrecioProductoProveedor(dto.ClaveProducto, idProveedornew);
+            //Obtener precio base si es null
+            //decimal preciobase = 0;
+            if (precionew == 0)
+            {
+                precionew = await _materialRepo.ObtenerPrecioProductoBase(dto.ClaveProducto);
+
+            }
             if (dto.edit == 1)
             {
-                decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(dto.ClaveProducto);
-
                 var material = _mapper.Map<MaterialCotizacion>(dto);
-                material.PrecioUnitario = precio;
+                material.PrecioUnitario = precionew;
                 material.Cantidad = dto.Cantidad;
                 material.Total = material.PrecioUnitario * material.Cantidad;
                 material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
@@ -400,46 +415,73 @@ namespace SistemaVentasBatia.Services
             }
             else
             {
-                var equipo = _mapper.Map<MaterialCotizacion>(dto);
+                var material = _mapper.Map<MaterialCotizacion>(dto);
+                material.PrecioUnitario = precionew;
+                material.Cantidad = dto.Cantidad;
+                material.Total = material.PrecioUnitario * material.Cantidad;
+                material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
 
-                var materialesOperario = await _materialRepo.ObtenerEquipoCotizacionOperario(equipo.IdPuestoDireccionCotizacion, equipo.IdCotizacion);
-
-                var materialOperario =
-                    materialesOperario.FirstOrDefault(x =>
-                    x.ClaveProducto == equipo.ClaveProducto && x.IdFrecuencia == equipo.IdFrecuencia && x.IdPuestoDireccionCotizacion == equipo.IdPuestoDireccionCotizacion && x.IdDireccionCotizacion == equipo.IdDireccionCotizacion);
-
-                if (materialOperario != null)
-                {
-                    materialOperario.Cantidad = equipo.Cantidad;
-                    materialOperario.Total = materialOperario.PrecioUnitario * materialOperario.Cantidad;
-                    materialOperario.ImporteMensual = materialOperario.Total / (decimal)materialOperario.IdFrecuencia;
-
-                    await _materialRepo.ActualizarEquipoCotizacion(materialOperario);
-                }
-                else
-                {
-                    var preciosBaseProductos = await _materialRepo.ObtenerPreciosBaseProductos("'" + equipo.ClaveProducto + "'");
-
-                    var idEstado = await _cotizaRepo.ObtenerIdEstadoDeDireccionCotizacion(equipo.IdDireccionCotizacion);
-
-                    var preciosProductoPorEstado = await _materialRepo.ObtenerPreciosProductosPorEstado("'" + equipo.ClaveProducto + "'", idEstado);
-
-                    if (preciosProductoPorEstado.Count() > 0)
-                    {
-                        equipo.PrecioUnitario = preciosProductoPorEstado.Min(x => x.Precio);
-                    }
-                    else
-                    {
-                        equipo.PrecioUnitario = preciosBaseProductos.FirstOrDefault().Precio;
-                    }
-
-                    equipo.Total = equipo.PrecioUnitario * equipo.Cantidad;
-                    equipo.ImporteMensual = equipo.Total / (decimal)equipo.IdFrecuencia;
-                    equipo.FechaAlta = DateTime.Now;
-
-                    await _materialRepo.AgregarEquipoCotizacion(equipo);
-                }
+                await _materialRepo.AgregarEquipoCotizacion(material);
             }
+            //else
+            //{
+            //    precionew = 0;
+
+            //}
+            //if (dto.edit == 1)
+            //{
+            //    //decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(dto.ClaveProducto);
+
+            //    var material = _mapper.Map<MaterialCotizacion>(dto);
+            //    material.PrecioUnitario = precionew;
+            //    material.Cantidad = dto.Cantidad;
+            //    material.Total = material.PrecioUnitario * material.Cantidad;
+            //    material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
+
+            //    await _materialRepo.ActualizarEquipoCotizacion(material);
+            //}
+            //else
+            //{
+            //    var equipo = _mapper.Map<MaterialCotizacion>(dto);
+
+            //    var materialesOperario = await _materialRepo.ObtenerEquipoCotizacionOperario(equipo.IdPuestoDireccionCotizacion, equipo.IdCotizacion);
+
+            //    var materialOperario =
+            //        materialesOperario.FirstOrDefault(x =>
+            //        x.ClaveProducto == equipo.ClaveProducto && x.IdFrecuencia == equipo.IdFrecuencia && x.IdPuestoDireccionCotizacion == equipo.IdPuestoDireccionCotizacion && x.IdDireccionCotizacion == equipo.IdDireccionCotizacion);
+
+            //    if (materialOperario != null)
+            //    {
+            //        materialOperario.Cantidad = equipo.Cantidad;
+            //        materialOperario.Total = materialOperario.PrecioUnitario * materialOperario.Cantidad;
+            //        materialOperario.ImporteMensual = materialOperario.Total / (decimal)materialOperario.IdFrecuencia;
+
+            //        await _materialRepo.ActualizarEquipoCotizacion(materialOperario);
+            //    }
+            //    else
+            //    {
+            //        var preciosBaseProductos = await _materialRepo.ObtenerPreciosBaseProductos("'" + equipo.ClaveProducto + "'");
+
+            //        var idEstado = await _cotizaRepo.ObtenerIdEstadoDeDireccionCotizacion(equipo.IdDireccionCotizacion);
+
+            //        var preciosProductoPorEstado = await _materialRepo.ObtenerPreciosProductosPorEstado("'" + equipo.ClaveProducto + "'", idEstado);
+
+            //        if (preciosProductoPorEstado.Count() > 0)
+            //        {
+            //            equipo.PrecioUnitario = preciosProductoPorEstado.Min(x => x.Precio);
+            //        }
+            //        else
+            //        {
+            //            equipo.PrecioUnitario = preciosBaseProductos.FirstOrDefault().Precio;
+            //        }
+
+            //        equipo.Total = equipo.PrecioUnitario * equipo.Cantidad;
+            //        equipo.ImporteMensual = equipo.Total / (decimal)equipo.IdFrecuencia;
+            //        equipo.FechaAlta = DateTime.Now;
+
+            //        await _materialRepo.AgregarEquipoCotizacion(equipo);
+            //    }
+            //}
         }
 
         public async Task ActualizarEquipoCotizacion(MaterialCotizacionDTO dto)
@@ -465,12 +507,22 @@ namespace SistemaVentasBatia.Services
             //int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
             ////Obtener precio por proveedor
             //decimal precionew = await _materialRepo.ObtenerCoincidenciaProductoPrecio(dto.ClaveProducto, idProveedornew);
+            int idEstadonew = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(dto.IdDireccionCotizacion);
+            //buscar proveedor_predeterminado
+            int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
+            //Obtener precio por proveedor
+            decimal precionew = await _materialRepo.ObtenerPrecioProductoProveedor(dto.ClaveProducto, idProveedornew);
+            //Obtener precio base si es null
+            //decimal preciobase = 0;
+            if (precionew == 0)
+            {
+                precionew = await _materialRepo.ObtenerPrecioProductoBase(dto.ClaveProducto);
+
+            }
             if (dto.edit == 1)
             {
-                decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(dto.ClaveProducto);
-
                 var material = _mapper.Map<MaterialCotizacion>(dto);
-                material.PrecioUnitario = precio;
+                material.PrecioUnitario = precionew;
                 material.Cantidad = dto.Cantidad;
                 material.Total = material.PrecioUnitario * material.Cantidad;
                 material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
@@ -479,46 +531,73 @@ namespace SistemaVentasBatia.Services
             }
             else
             {
-                var uniforme = _mapper.Map<MaterialCotizacion>(dto);
+                var material = _mapper.Map<MaterialCotizacion>(dto);
+                material.PrecioUnitario = precionew;
+                material.Cantidad = dto.Cantidad;
+                material.Total = material.PrecioUnitario * material.Cantidad;
+                material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
 
-                var materialesOperario = await _materialRepo.ObtenerUniformeCotizacionOperario(uniforme.IdPuestoDireccionCotizacion, uniforme.IdCotizacion);
-
-                var materialOperario =
-                materialesOperario.FirstOrDefault(x =>
-                x.ClaveProducto == uniforme.ClaveProducto && x.IdFrecuencia == uniforme.IdFrecuencia && x.IdPuestoDireccionCotizacion == uniforme.IdPuestoDireccionCotizacion && x.IdDireccionCotizacion == uniforme.IdDireccionCotizacion);
-
-                if (materialOperario != null)
-                {
-                    materialOperario.Cantidad = uniforme.Cantidad;
-                    materialOperario.Total = materialOperario.PrecioUnitario * materialOperario.Cantidad;
-                    materialOperario.ImporteMensual = materialOperario.Total / (decimal)materialOperario.IdFrecuencia;
-
-                    await _materialRepo.ActualizarUniformeCotizacion(materialOperario);
-                }
-                else
-                {
-                    var preciosBaseProductos = await _materialRepo.ObtenerPreciosBaseProductos("'" + uniforme.ClaveProducto + "'");
-
-                    var idEstado = await _cotizaRepo.ObtenerIdEstadoDeDireccionCotizacion(uniforme.IdDireccionCotizacion);
-
-                    var preciosProductoPorEstado = await _materialRepo.ObtenerPreciosProductosPorEstado("'" + uniforme.ClaveProducto + "'", idEstado);
-
-                    if (preciosProductoPorEstado.Count() > 0)
-                    {
-                        uniforme.PrecioUnitario = preciosProductoPorEstado.Min(x => x.Precio);
-                    }
-                    else
-                    {
-                        uniforme.PrecioUnitario = preciosBaseProductos.FirstOrDefault().Precio;
-                    }
-
-                    uniforme.Total = uniforme.PrecioUnitario * uniforme.Cantidad;
-                    uniforme.ImporteMensual = uniforme.Total / (decimal)uniforme.IdFrecuencia;
-                    uniforme.FechaAlta = DateTime.Now;
-
-                    await _materialRepo.AgregarUniformeCotizacion(uniforme);
-                }
+                await _materialRepo.AgregarUniformeCotizacion(material);
             }
+            //else
+            //{
+            //    precionew = 0;
+
+            //}
+            //if (dto.edit == 1)
+            //{
+            //    //decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(dto.ClaveProducto);
+
+            //    var material = _mapper.Map<MaterialCotizacion>(dto);
+            //    material.PrecioUnitario = precionew;
+            //    material.Cantidad = dto.Cantidad;
+            //    material.Total = material.PrecioUnitario * material.Cantidad;
+            //    material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
+
+            //    await _materialRepo.ActualizarUniformeCotizacion(material);
+            //}
+            //else
+            //{
+            //    var uniforme = _mapper.Map<MaterialCotizacion>(dto);
+
+            //    var materialesOperario = await _materialRepo.ObtenerUniformeCotizacionOperario(uniforme.IdPuestoDireccionCotizacion, uniforme.IdCotizacion);
+
+            //    var materialOperario =
+            //    materialesOperario.FirstOrDefault(x =>
+            //    x.ClaveProducto == uniforme.ClaveProducto && x.IdFrecuencia == uniforme.IdFrecuencia && x.IdPuestoDireccionCotizacion == uniforme.IdPuestoDireccionCotizacion && x.IdDireccionCotizacion == uniforme.IdDireccionCotizacion);
+
+            //    if (materialOperario != null)
+            //    {
+            //        materialOperario.Cantidad = uniforme.Cantidad;
+            //        materialOperario.Total = materialOperario.PrecioUnitario * materialOperario.Cantidad;
+            //        materialOperario.ImporteMensual = materialOperario.Total / (decimal)materialOperario.IdFrecuencia;
+
+            //        await _materialRepo.ActualizarUniformeCotizacion(materialOperario);
+            //    }
+            //    else
+            //    {
+            //        var preciosBaseProductos = await _materialRepo.ObtenerPreciosBaseProductos("'" + uniforme.ClaveProducto + "'");
+
+            //        var idEstado = await _cotizaRepo.ObtenerIdEstadoDeDireccionCotizacion(uniforme.IdDireccionCotizacion);
+
+            //        var preciosProductoPorEstado = await _materialRepo.ObtenerPreciosProductosPorEstado("'" + uniforme.ClaveProducto + "'", idEstado);
+
+            //        if (preciosProductoPorEstado.Count() > 0)
+            //        {
+            //            uniforme.PrecioUnitario = preciosProductoPorEstado.Min(x => x.Precio);
+            //        }
+            //        else
+            //        {
+            //            uniforme.PrecioUnitario = preciosBaseProductos.FirstOrDefault().Precio;
+            //        }
+
+            //        uniforme.Total = uniforme.PrecioUnitario * uniforme.Cantidad;
+            //        uniforme.ImporteMensual = uniforme.Total / (decimal)uniforme.IdFrecuencia;
+            //        uniforme.FechaAlta = DateTime.Now;
+
+            //        await _materialRepo.AgregarUniformeCotizacion(uniforme);
+            //    }
+            //}
         }
 
         public async Task InsertarServicioCotizacion(ServicioCotizacion servicio)
@@ -541,14 +620,6 @@ namespace SistemaVentasBatia.Services
         {
             await _materialRepo.EliminarServicioCotizacion(id);
         }
-
-
-
-
-
-
-
-
         public async Task ActualizarUniformeCotizacion(MaterialCotizacionDTO dto)
         {
             var uniforme = _mapper.Map<MaterialCotizacion>(dto);
@@ -572,12 +643,22 @@ namespace SistemaVentasBatia.Services
             //int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
             ////Obtener precio por proveedor
             //decimal precionew = await _materialRepo.ObtenerCoincidenciaProductoPrecio(dto.ClaveProducto, idProveedornew);
+            int idEstadonew = await _materialRepo.ObtenerIdEstadoPorIdDireccionCotizacion(dto.IdDireccionCotizacion);
+            //buscar proveedor_predeterminado
+            int idProveedornew = await _materialRepo.ObtenerIdProveedorPorIdEstado(idEstadonew);
+            //Obtener precio por proveedor
+            decimal precionew = await _materialRepo.ObtenerPrecioProductoProveedor(dto.ClaveProducto, idProveedornew);
+            //Obtener precio base si es null
+            //decimal preciobase = 0;
+            if (precionew == 0)
+            {
+                precionew = await _materialRepo.ObtenerPrecioProductoBase(dto.ClaveProducto);
+
+            }
             if (dto.edit == 1)
             {
-                decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(dto.ClaveProducto);
-
                 var material = _mapper.Map<MaterialCotizacion>(dto);
-                material.PrecioUnitario = precio;
+                material.PrecioUnitario = precionew;
                 material.Cantidad = dto.Cantidad;
                 material.Total = material.PrecioUnitario * material.Cantidad;
                 material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
@@ -586,46 +667,73 @@ namespace SistemaVentasBatia.Services
             }
             else
             {
-                var herramienta = _mapper.Map<MaterialCotizacion>(dto);
+                var material = _mapper.Map<MaterialCotizacion>(dto);
+                material.PrecioUnitario = precionew;
+                material.Cantidad = dto.Cantidad;
+                material.Total = material.PrecioUnitario * material.Cantidad;
+                material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
 
-                var materialesOperario = await _materialRepo.ObtenerHerramientaCotizacionOperario(herramienta.IdPuestoDireccionCotizacion, herramienta.IdCotizacion);
-
-                var materialOperario =
-                    materialesOperario.FirstOrDefault(x =>
-                    x.ClaveProducto == herramienta.ClaveProducto && x.IdFrecuencia == herramienta.IdFrecuencia && x.IdPuestoDireccionCotizacion == herramienta.IdPuestoDireccionCotizacion && x.IdDireccionCotizacion == herramienta.IdDireccionCotizacion);
-
-                if (materialOperario != null)
-                {
-                    materialOperario.Cantidad = herramienta.Cantidad;
-                    materialOperario.Total = materialOperario.PrecioUnitario * materialOperario.Cantidad;
-                    materialOperario.ImporteMensual = materialOperario.Total / (decimal)materialOperario.IdFrecuencia;
-
-                    await _materialRepo.ActualizarHerramientaCotizacion(materialOperario);
-                }
-                else
-                {
-                    var preciosBaseProductos = await _materialRepo.ObtenerPreciosBaseProductos("'" + herramienta.ClaveProducto + "'");
-
-                    var idEstado = await _cotizaRepo.ObtenerIdEstadoDeDireccionCotizacion(herramienta.IdDireccionCotizacion);
-
-                    var preciosProductoPorEstado = await _materialRepo.ObtenerPreciosProductosPorEstado("'" + herramienta.ClaveProducto + "'", idEstado);
-
-                    if (preciosProductoPorEstado.Count() > 0)
-                    {
-                        herramienta.PrecioUnitario = preciosProductoPorEstado.Min(x => x.Precio);
-                    }
-                    else
-                    {
-                        herramienta.PrecioUnitario = preciosBaseProductos.FirstOrDefault().Precio;
-                    }
-
-                    herramienta.Total = herramienta.PrecioUnitario * herramienta.Cantidad;
-                    herramienta.ImporteMensual = herramienta.Total / (decimal)herramienta.IdFrecuencia;
-                    herramienta.FechaAlta = DateTime.Now;
-
-                    await _materialRepo.AgregarHerramientaCotizacion(herramienta);
-                }
+                await _materialRepo.AgregarHerramientaCotizacion(material);
             }
+            //else
+            //{
+            //    precionew = 0;
+
+            //}
+            //if (dto.edit == 1)
+            //{
+            //    //decimal precio = await _materialRepo.ObtenerPrecioProductoPorClave(dto.ClaveProducto);
+
+            //    var material = _mapper.Map<MaterialCotizacion>(dto);
+            //    material.PrecioUnitario = precionew;
+            //    material.Cantidad = dto.Cantidad;
+            //    material.Total = material.PrecioUnitario * material.Cantidad;
+            //    material.ImporteMensual = material.Total / (int)material.IdFrecuencia;
+
+            //    await _materialRepo.ActualizarHerramientaCotizacion(material);
+            //}
+            //else
+            //{
+            //    var herramienta = _mapper.Map<MaterialCotizacion>(dto);
+
+            //    var materialesOperario = await _materialRepo.ObtenerHerramientaCotizacionOperario(herramienta.IdPuestoDireccionCotizacion, herramienta.IdCotizacion);
+
+            //    var materialOperario =
+            //        materialesOperario.FirstOrDefault(x =>
+            //        x.ClaveProducto == herramienta.ClaveProducto && x.IdFrecuencia == herramienta.IdFrecuencia && x.IdPuestoDireccionCotizacion == herramienta.IdPuestoDireccionCotizacion && x.IdDireccionCotizacion == herramienta.IdDireccionCotizacion);
+
+            //    if (materialOperario != null)
+            //    {
+            //        materialOperario.Cantidad = herramienta.Cantidad;
+            //        materialOperario.Total = materialOperario.PrecioUnitario * materialOperario.Cantidad;
+            //        materialOperario.ImporteMensual = materialOperario.Total / (decimal)materialOperario.IdFrecuencia;
+
+            //        await _materialRepo.ActualizarHerramientaCotizacion(materialOperario);
+            //    }
+            //    else
+            //    {
+            //        var preciosBaseProductos = await _materialRepo.ObtenerPreciosBaseProductos("'" + herramienta.ClaveProducto + "'");
+
+            //        var idEstado = await _cotizaRepo.ObtenerIdEstadoDeDireccionCotizacion(herramienta.IdDireccionCotizacion);
+
+            //        var preciosProductoPorEstado = await _materialRepo.ObtenerPreciosProductosPorEstado("'" + herramienta.ClaveProducto + "'", idEstado);
+
+            //        if (preciosProductoPorEstado.Count() > 0)
+            //        {
+            //            herramienta.PrecioUnitario = preciosProductoPorEstado.Min(x => x.Precio);
+            //        }
+            //        else
+            //        {
+            //            herramienta.PrecioUnitario = preciosBaseProductos.FirstOrDefault().Precio;
+            //        }
+
+            //        herramienta.Total = herramienta.PrecioUnitario * herramienta.Cantidad;
+            //        herramienta.ImporteMensual = herramienta.Total / (decimal)herramienta.IdFrecuencia;
+            //        herramienta.FechaAlta = DateTime.Now;
+
+            //        await _materialRepo.AgregarHerramientaCotizacion(herramienta);
+            //    }
+            //}
         }
 
         public async Task ActualizarHerramientaOperario(MaterialCotizacionDTO dto)
