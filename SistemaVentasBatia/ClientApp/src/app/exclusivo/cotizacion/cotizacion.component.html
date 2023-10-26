@@ -102,8 +102,11 @@
                             <i class="fa-solid fa-search-dollar fa-2x"></i>
                         </button>
                         <!--<button type="button" (click)="removeCot(cot.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-delete-left"></i> Desactivar </button>-->
-                        <a class="btn btn-sm text-success mb-1" (click)="editar(cot.idCotizacion, cot.nombreComercial,cot.servicio)" data-bs-toggle="tooltip" title="Editar">
+                        <a *ngIf="cot.total == 0" class="btn btn-sm text-success mb-1" (click)="editar(cot.idCotizacion, cot.nombreComercial,cot.servicio)" data-bs-toggle="tooltip" title="Editar">
                             <i class="fa-solid fa-pencil fa-2x"></i>
+                        </a>
+                        <a *ngIf="cot.total !== 0" class="btn btn-sm text-white mb-1" data-bs-toggle="tooltip" title="Editar" disabled>
+                            <i class="fa-solid fa-pencil fa-2x" style="color: #ccc;"></i>
                         </a>
                         <a class="btn btn-sm text-danger mb-1 btnEliminarCotizacion" data-bs-toggle="tooltip" title="Descartar" (click)="elige(cot.idCotizacion)">
                             <i class="fa-solid fa-times fa-2x"></i>
