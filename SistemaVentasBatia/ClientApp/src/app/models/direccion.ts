@@ -5,7 +5,7 @@ export interface Direccion {
     nombreSucursal: string;
     idTipoInmueble: number;
     idEstado: number;
-    idTabulador: number;
+    
     municipio: string;
     ciudad: string;
     colonia: string;

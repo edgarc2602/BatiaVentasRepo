@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Prospecto } from 'src/app/models/prospecto';
 import { ItemN } from 'src/app/models/item';
 import { StoreUser } from '../../stores/StoreUser';
+import { Subject } from 'rxjs';
+import { ToastWidget } from '../toast/toast.widget';
 
 @Component({
     selector: 'pros-widget',
@@ -16,6 +18,10 @@ export class ProspectoWidget implements OnChanges {
     model: Prospecto = {} as Prospecto;
     docs: ItemN[] = [];
     lerr: any = {};
+
+    evenSub: Subject<void> = new Subject<void>();
+    isErr: boolean = false;
+    validaMess: string = '';
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private dtpipe: DatePipe, private sinU: StoreUser) {
         http.get<ItemN[]>(`${url}api/prospecto/getdocumento`).subscribe(response => {
@@ -47,8 +53,14 @@ export class ProspectoWidget implements OnChanges {
                 this.http.post<Prospecto>(`${this.url}api/prospecto`, this.model).subscribe(response => {
                     console.log(response);
                     this.sendEvent.emit(response.idProspecto);
+                    this.isErr = false;
+                    this.validaMess = 'Prospecto guardado';
+                    this.evenSub.next();
                 }, err => {
                     console.log(err);
+                    this.isErr = true;
+                    this.validaMess = 'Ocurrio un error';
+                    this.evenSub.next();
                     if (err.error) {
                         if (err.error.errors) {
                             this.lerr = err.error.errors;
@@ -59,8 +71,14 @@ export class ProspectoWidget implements OnChanges {
                 this.http.put<Prospecto>(`${this.url}api/prospecto`, this.model).subscribe(response => {
                     console.log(response);
                     this.sendEvent.emit(response.idProspecto);
+                    this.isErr = false;
+                    this.validaMess = 'Prospecto actualizado';
+                    this.evenSub.next();
                 }, err => {
                     console.log(err);
+                    this.isErr = true;
+                    this.validaMess = 'Ocurrio un error';
+                    this.evenSub.next();
                     if (err.error) {
                         if (err.error.errors) {
                             this.lerr = err.error.errors;

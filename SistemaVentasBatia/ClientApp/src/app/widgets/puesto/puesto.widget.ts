@@ -1,10 +1,12 @@
-﻿import { Component, Inject, Output, EventEmitter } from '@angular/core';
+﻿import { Component, Inject, Output, EventEmitter, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PuestoCotiza } from 'src/app/models/puestocotiza';
 import { Catalogo } from 'src/app/models/catalogo';
 import { ItemN } from 'src/app/models/item';
 import { SalarioMin } from 'src/app/models/salariomin';
 import { StoreUser } from 'src/app/stores/StoreUser';
+import { Subject } from 'rxjs';
+import { ToastWidget } from '../toast/toast.widget';
 declare var bootstrap: any;
 
 @Component({
@@ -24,6 +26,13 @@ export class PuestoWidget {
     hors: string[] = [];
     suel: SalarioMin = {} as SalarioMin;
     lerr: any = {};
+    tabs: Catalogo[] = [];
+    ljor: Catalogo[] = [];
+    lclas: Catalogo[] = [];
+
+    evenSub: Subject<void> = new Subject<void>();
+    isErr: boolean = false;
+    validaMess: string = '';
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private sinU: StoreUser) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
@@ -38,6 +47,16 @@ export class PuestoWidget {
         http.get<string[]>(`${url}api/catalogo/gethorario`).subscribe(response => {
             this.hors = response;
         }, err => console.log(err));
+        http.get<Catalogo[]>(`${this.url}api/tabulador/getbyedo/${1}`).subscribe(response => {
+            this.tabs = response;
+        }, err => console.log(err));
+
+        http.get<Catalogo[]>(`${url}api/catalogo/getjornada`).subscribe(response => {
+            this.ljor = response;
+        }, err => console.log(err));
+        http.get<Catalogo[]>(`${url}api/catalogo/getclase`).subscribe(response => {
+            this.lclas = response;
+        }, err => console.log(err));
     }
 
     nuevo() {
@@ -47,7 +66,7 @@ export class PuestoWidget {
             jornada: 0, idTurno: 0, hrInicio: '', hrFin: '', diaInicio: 0, diaFin: 0,
             fechaAlta: dt.toISOString(), sueldo: 0, vacaciones: 0, primaVacacional: 0, imss: 0,
             isn: 0, aguinaldo: 0, total: 0, idCotizacion: this.idC, idPersonal: this.sinU.idPersonal,
-            idSalario: 0
+            idSalario: 0, idClase: 0, idTabulador: 0, jornadadesc: ''
         };
     }
 
@@ -75,8 +94,15 @@ export class PuestoWidget {
                 this.http.post<PuestoCotiza>(`${this.url}api/puesto`, this.model).subscribe(response => {
                     this.sendEvent.emit(0);
                     this.close();
+                    this.isErr = false;
+                    //this.validaMess = 'Guardado correctamente';
+                    this.evenSub.next();
+                    
                 }, err => {
                     console.log(err);
+                    this.isErr = true;
+                    //this.validaMess = '¡Ha ocurrido un error!';
+                    this.evenSub.next();
                     if (err.error) {
                         if (err.error.errors) {
                             this.lerr = err.error.errors;
@@ -87,8 +113,14 @@ export class PuestoWidget {
                 this.http.put<boolean>(`${this.url}api/puesto`, this.model).subscribe(response => {
                     this.sendEvent.emit(0);
                     this.close();
+                    this.isErr = false;
+                    this.validaMess = 'Guardado correctamente';
+                    this.evenSub.next();
                 }, err => {
                     console.log(err);
+                    this.isErr = true;
+                    this.validaMess = '¡Ha ocurrido un error!';
+                    this.evenSub.next();
                     if (err.error) {
                         if (err.error.errors) {
                             this.lerr = err.error.errors;

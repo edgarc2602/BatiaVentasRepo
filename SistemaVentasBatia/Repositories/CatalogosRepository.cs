@@ -22,6 +22,8 @@ namespace SistemaVentasBatia.Repositories
         Task<List<Catalogo>> ObtenerCatalogoPuestos();
         Task<List<Catalogo>> ObtenerCatalogoServicios();
         Task<List<Catalogo>> ObtenerCatalogoTurnos();
+        Task<List<Catalogo>> ObtenerCatalogoJornada();
+        Task<List<Catalogo>> ObtenerCatalogoClase();
         Task<List<Catalogo>> ObtenerCatalogoDireccionesCotizacion(int idCotizacion);
         Task<List<Catalogo>> ObtenerCatalogoPuestosCotizacion(int idCotizacion);
         Task<List<Catalogo>> ObtenerCatalogoProductos(Servicio idServicio);
@@ -39,7 +41,7 @@ namespace SistemaVentasBatia.Repositories
 
         public async Task<List<Catalogo>> ObtenerEstados()
         {
-            var query = @"SELECT id_Estado Id, Estado Descripcion from tb_estados";
+            var query = @"SELECT id_Estado Id, descripcion Descripcion from tb_estado";
 
             var estados = new List<Catalogo>();
 
@@ -86,7 +88,7 @@ namespace SistemaVentasBatia.Repositories
         {
             var query = @"
 SELECT es.id_municipio Id,
-m.Municipio Descripcion FROM tb_estados_municipios es
+m.Municipio Descripcion FROM tb_estado_municipio es
 INNER JOIN dbo.Municipios m ON m.Id_Municipio = es.id_municipio
 WHERE es.id_estado = @idEstado ORDER BY m.Municipio";
 
@@ -131,10 +133,10 @@ WHERE es.id_estado = @idEstado ORDER BY m.Municipio";
         {
             var query = @"SELECT id_puesto Id, descripcion Descripcion
                           FROM tb_puesto d
-                          WHERE id_status = 1 ORDER BY Descripcion";
+                          WHERE id_status = 1 AND cotizador = 1 ORDER BY Descripcion";
 
             var puestos = new List<Catalogo>();
-
+                
             try
             {
                 using (var connection = ctx.CreateConnection())
@@ -175,7 +177,55 @@ WHERE es.id_estado = @idEstado ORDER BY m.Municipio";
         {
             var query = @"SELECT id_turno Id, descripcion Descripcion
                           FROM tb_turno 
-                          WHERE id_status = 1 ORDER BY Descripcion";
+                          WHERE id_status = 1 AND cotizador = 1 ORDER BY Descripcion";
+
+            var direcciones = new List<Catalogo>();
+
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    direcciones = (await connection.QueryAsync<Catalogo>(query)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return direcciones;
+        }
+
+        public async Task<List<Catalogo>> ObtenerCatalogoJornada()
+        {
+            var query = @"SELECT 
+id_jornada Id,
+descripcion Descripcion
+FROM tb_jornada";
+
+            var direcciones = new List<Catalogo>();
+
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    direcciones = (await connection.QueryAsync<Catalogo>(query)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return direcciones;
+        }
+
+        public async Task<List<Catalogo>> ObtenerCatalogoClase()
+        {
+            var query = @"SELECT 
+id_clase Id,
+descripcion Descripcion
+FROM tb_clase";
 
             var direcciones = new List<Catalogo>();
 

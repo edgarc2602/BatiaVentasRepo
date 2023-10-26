@@ -354,8 +354,8 @@
 
                 <br />
                 <br />
-                
-                
+
+
 
                 <script src="script.js"></script>
 
@@ -470,7 +470,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="badge bg-primary ms-2 ">{{ dir.ciudad }}, {{ dir.estado }}</span>
+                                <span class="badge bg-primary ms-2 ">{{ dir.ciudad }}, {{ dir.estado }}</span> 
                             </div>
                         </div>
                     </div>
@@ -498,7 +498,7 @@
                                                     </div>
                                                     <div class="col-3 col-sm-2">
                                                         <span class="badge text-dark">Jornada:</span>
-                                                        <div class="ms-3">{{ pt.jornada }} hrs</div>
+                                                        <div class="ms-3">{{ pt.jornadaDesc }}</div>
                                                     </div>
                                                     <div class="col-4 col-sm-2">
                                                         <span class="badge text-dark">Turno:</span>
@@ -661,7 +661,7 @@
                 </table>
                 <pagina-widget [pagina]="lsmat.pagina" [numPaginas]="lsmat.numPaginas" [rows]="lsmat.rows" (chgEvent)="matPagina($event)"></pagina-widget>
             </div>
-            
+
 
         </div>
         <div class="tab-pane fade" id="servicio" role="tabpanel" aria-labelledby="plantilla-tab">
@@ -815,5 +815,8 @@
 <elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
 <eliminadirectorio-widget [titulo]="" [mensaje]="" (EventDC)="eliminaDireccionCotizacion($event)"></eliminadirectorio-widget>
 <eliminaOperario-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></eliminaOperario-widget>
+
+
+
 <!--<mateoperarioadd-widget (m2Event)="opeMat($event)"></mateoperarioadd-widget>-->
 <!--<servadd-widget (servEvent)="guardar($event)"></servadd-widget>-->

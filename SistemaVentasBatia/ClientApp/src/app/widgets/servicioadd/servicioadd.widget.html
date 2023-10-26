@@ -27,7 +27,7 @@
                                 <select class="form-select" [(ngModel)]="model.idServicioExtra">
                                     <option value="0">Selecciona una opción...</option>
                                     <option *ngFor="let s of sers" [ngValue]="s.id">{{ s.descripcion }}</option>
-                                </select>   
+                                </select>
                                 <label for="ClaveProducto">Servicio</label>
                             </div>
                         </div>
@@ -66,7 +66,8 @@
                 <!--(click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'material')"-->
                 <button type="button" class="btn btn-outline-secondary" (click)="close()" data-bs-dismiss="modal">Cancelar</button>
             </div>
-
         </div>
     </div>
 </div>
+<toast-widget [events]="evenSub.asObservable()" [isError]="isErr" [message]="validaMess"></toast-widget>
+

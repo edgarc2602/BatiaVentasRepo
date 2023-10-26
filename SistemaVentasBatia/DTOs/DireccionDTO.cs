@@ -23,7 +23,7 @@ namespace SistemaVentasBatia.DTOs
 
         [Range(1, 50, ErrorMessage = "Estado es necesario")]
         public int IdEstado { get; set; }
-        public int IdTabulador { get; set; }
+        //public int IdTabulador { get; set; }
 
         [Required(ErrorMessage = "Municipio es necesario")]
         [StringLength(200, ErrorMessage = "Máximo 200 posiciones")]

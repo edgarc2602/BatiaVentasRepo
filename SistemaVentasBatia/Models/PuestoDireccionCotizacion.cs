@@ -10,6 +10,7 @@ namespace SistemaVentasBatia.Models
         public int IdDireccionCotizacion { get; set; }
         public int Cantidad { get; set; }
         public decimal Jornada { get; set; }
+        public string JornadaDesc { get; set; }
         public int IdTurno { get; set; }
         public int IdSalario { get; set; }
         public TimeSpan HrInicio { get; set; }
@@ -29,5 +30,8 @@ namespace SistemaVentasBatia.Models
         public string Turno { get; set; }
         public string Puesto { get; set; }
         public int IdCotizacion { get; set; }
+
+        public int IdTabulador { get; set; }
+        public int IdClase { get; set; }
     }
 }

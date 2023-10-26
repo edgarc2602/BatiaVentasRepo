@@ -21,6 +21,7 @@ namespace SistemaVentasBatia.DTOs
         [Required(ErrorMessage = "Jornada es obligatorio")]
         [Range(1, 50, ErrorMessage = "Jornada es obligatorio")]
         public decimal? Jornada { get; set; }
+        public string JornadaDesc { get; set; }
         [Required(ErrorMessage = "Turno es obligatorio")]
         public Turno IdTurno { get; set; }
         public int IdSalario { get; set; }
@@ -33,8 +34,8 @@ namespace SistemaVentasBatia.DTOs
         [Required(ErrorMessage = "Día fin es obligatorio")]
         public DiaSemana? DiaFin { get; set; }
 
-        [Required(ErrorMessage = "Este campo es obligatorio")]
-        [Range(1, double.MaxValue, ErrorMessage = "Sueldo es obligatorio")]
+        //[Required(ErrorMessage = "Este campo es obligatorio")]
+        //[Range(1, double.MaxValue, ErrorMessage = "Sueldo es obligatorio")]
         public decimal Sueldo { get; set; }
         public DateTime FechaAlta { get; set; }
         public int IdPersonal { get; set; }
@@ -49,5 +50,7 @@ namespace SistemaVentasBatia.DTOs
         public string DescripcionTurno { get; set; }
         public string DescripcionPuesto { get; set; }
         public int IdCotizacion { get; set; }
+        public int IdTabulador { get; set; }
+        public int IdClase { get; set; }
     }
 }

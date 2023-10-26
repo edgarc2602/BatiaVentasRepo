@@ -6,6 +6,7 @@ import { Servicio } from 'src/app/models/servicio';
 import { StoreUser } from 'src/app/stores/StoreUser';
 import { numberFormat } from 'highcharts';
 declare var bootstrap: any;
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'servadd-widget',
@@ -27,6 +28,11 @@ export class ServicioAddWidget {
     mats: Catalogo[] = [];
     sers: Catalogo[] = [];
     fres: ItemN[] = [];
+    lerr: any = {};
+    evenSub: Subject<void> = new Subject<void>();
+    isErr: boolean = false;
+    validaMess: string = '';
+    
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private sinU: StoreUser) {}
         
     lista() {
@@ -75,6 +81,7 @@ export class ServicioAddWidget {
         }, err => console.log(err));
     }
     guarda() {
+        this.lerr = {};
         if (this.model.idDireccionCotizacion == 0) {
             this.model.idDireccionCotizacion = 0
         }
@@ -82,25 +89,48 @@ export class ServicioAddWidget {
             this.http.post<Servicio>(`${this.url}api/material/insertarserviciocotizacion`, this.model).subscribe(response => {
                 this.close();
                 this.sendEvent.emit(2);
-            }, err => console.log(err));
+                this.isErr = false;
+                this.validaMess = 'Guardado correctamente';
+                this.evenSub.next();
+            }, err => {
+                console.log(err);
+                this.isErr = true;
+                this.validaMess = 'Ocurrio un error';
+                this.evenSub.next();
+                if (err.error) {
+                    if (err.error.errors) {
+                        this.lerr = err.error.errors;
+                    }
+                }
+            });
+            
         }
         if (this.edit == 1) {
             this.http.post<Servicio>(`${this.url}api/material/actualizarserviciocotizacion`, this.model).subscribe(response => {
+                
                 this.close();
                 this.sendEvent.emit(2);
-            }, err => console.log(err));
+                console.log(response);
+                this.isErr = false;
+                this.validaMess = 'Prospecto guardado';
+                this.evenSub.next();
+            }, err => {
+                console.log(err);
+                this.isErr = true;
+                this.validaMess = 'Ocurrio un error';
+                this.evenSub.next();
+                if (err.error) {
+                    if (err.error.errors) {
+                        this.lerr = err.error.errors;
+                    }
+                }
+            });
+            
         }
     }
 
     open(id: number, idCotizacion) {
         this.idC = idCotizacion;
-        //this.edit = edit;
-        //this.idC = cot;
-        //this.idD = dir;
-        //this.idP = pue;
-        //this.idS = ser;
-        //this.tipo = tp;w
-        //this.showSuc = showS;
         this.lista();
         if (id == 0) {
             this.nuevo(this.idP);
@@ -116,9 +146,11 @@ export class ServicioAddWidget {
         let docModal = document.getElementById('modalLimpiezaAgregarServicioCotizacion');
         let myModal = bootstrap.Modal.getOrCreateInstance(docModal);
         myModal.hide();
-
-        //if (this.model.idPuestoDireccionCotizacion != 0) {
-        //    this.returnModal.emit(true);
-        //}
     }
+    ok() {
+        this.isErr = false;
+        this.validaMess = 'Actualizado correctamente';
+        this.evenSub.next();
+    }
+
 }

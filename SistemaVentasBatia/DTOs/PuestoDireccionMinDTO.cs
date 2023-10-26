@@ -8,6 +8,7 @@ namespace SistemaVentasBatia.DTOs
         public int IdPuestoDireccionCotizacion { get; set; }
         public int IdDireccionCotizacion { get; set; }
         public decimal Jornada { get; set; }
+        public string JornadaDesc { get; set; }
         public TimeSpan HrInicio { get; set; }
         public TimeSpan HrFin { get; set; }
         public string DiaInicio { get; set; }

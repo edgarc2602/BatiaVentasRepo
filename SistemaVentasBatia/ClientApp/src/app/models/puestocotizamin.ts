@@ -1,6 +1,7 @@
 ﻿export interface PuestoCotizaMin {
     idPuestoDireccionCotizacion: number;
     idDireccionCotizacion: number;
+    jornadaDesc: string;
     jornada : number;
     hrInicio: object;
     hrFin: object;

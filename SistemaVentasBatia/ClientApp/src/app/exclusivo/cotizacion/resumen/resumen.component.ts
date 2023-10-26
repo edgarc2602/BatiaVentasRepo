@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 //import { HttpClientModule } from '@angular/common/http';
+import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CotizaResumenLim } from 'src/app/models/cotizaresumenlim';
 import { ItemN } from 'src/app/models/item';
@@ -103,6 +104,11 @@ export class ResumenComponent implements OnInit, OnDestroy {
     reportData: Blob;
     pdfUrl: string;
     autorizacion: number = 0;
+
+    evenSub: Subject<void> = new Subject<void>();
+    isErr: boolean = false;
+    validaMess: string = '';
+
     constructor(
         @Inject('BASE_URL') private url: string,
         private http: HttpClient,

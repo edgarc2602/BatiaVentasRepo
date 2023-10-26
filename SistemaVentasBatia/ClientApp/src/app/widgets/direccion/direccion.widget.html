@@ -77,7 +77,7 @@
                         </div>
 
 
-                        <div class="col-sm-12 col-md-4 mb-3">
+                        <!--<div class="col-sm-12 col-md-4 mb-3">
                             <div class="form-floating">
                                 <select class="form-select" aria-label="IdTabulador" [(ngModel)]="model.idTabulador">
                                     <option *ngFor="let t of tabs" [ngValue]="t.id">{{ t.descripcion }}</option>
@@ -85,12 +85,12 @@
                                 <label asp-for="IdTabulador">Tabulador</label>
                             </div>
                             <span *ngIf="ferr('IdTabulador')" class="text-danger">{{ terr('IdTabulador') }}</span>
-                        </div>
+                        </div>-->
 
 
-                    </div>
+                    <!--</div>
 
-                    <div class="row">
+                    <div class="row">-->
                         <div class="col-sm-12 col-md-4 mb-3">
                             <div class="form-floating">
                                 <input type="text" class="form-control" [(ngModel)]="model.colonia">
@@ -128,3 +128,4 @@
         </div>
     </div>
 </div>
+<toast-widget [events]="evenSub.asObservable()" [isError]="isErr" [message]="validaMess"></toast-widget>

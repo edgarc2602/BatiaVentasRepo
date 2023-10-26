@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Direccion } from '../../models/direccion';
 import { Catalogo } from '../../models/catalogo';
 declare var bootstrap: any;
+import { Subject } from 'rxjs';
+import { ToastWidget } from '../toast/toast.widget';
 
 @Component({
     selector: 'direc-widget',
@@ -19,6 +21,10 @@ export class DireccionWidget {
     lerr: any = {};
     muns: Catalogo[] = [];
 
+    evenSub: Subject<void> = new Subject<void>();
+    isErr: boolean = false;
+    validaMess: string = '';
+
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient) {
         http.get<Catalogo[]>(`${url}api/catalogo/getestado`).subscribe(response => {
             this.edos = response;
@@ -31,7 +37,7 @@ export class DireccionWidget {
     nuevo() {
         this.model = {
             idDireccion: 0, idProspecto: this.idP, idCotizacion: 0, nombreSucursal: '',
-            idTipoInmueble: 0, idEstado: 0, idTabulador: 0, municipio: '', ciudad: '', colonia: '',
+            idTipoInmueble: 0, idEstado: 0, municipio: '', ciudad: '', colonia: '',
             domicilio: '', referencia: '', codigoPostal: '', idDireccionCotizacion: 0
         };
     }
@@ -50,8 +56,14 @@ export class DireccionWidget {
                 this.http.post<Direccion>(`${this.url}api/direccion`, this.model).subscribe(response => {
                     this.sendEvent.emit(response.idDireccion);
                     this.close();
+                    this.isErr = false;
+                    this.validaMess = 'Direccion agregada';
+                    this.evenSub.next();
                 }, err => {
                     console.log(err);
+                    this.isErr = true;
+                    this.validaMess = 'Ocurrio un error';
+                    this.evenSub.next();
                     if (err.error) {
                         if (err.error.errors) {
                             this.lerr = err.error.errors;
@@ -62,8 +74,14 @@ export class DireccionWidget {
                 this.http.put<Direccion>(`${this.url}api/direccion`, this.model).subscribe(response => {
                     this.sendEvent.emit(response.idDireccion);
                     this.close();
+                    this.isErr = false;
+                    this.validaMess = 'Dirección actualizada';
+                    this.evenSub.next();
                 }, err => {
                     console.log(err);
+                    this.isErr = true;
+                    this.validaMess = 'Ocurrio un error';
+                    this.evenSub.next();
                     if (err.error) {
                         if (err.error.errors) {
                             this.lerr = err.error.errors;

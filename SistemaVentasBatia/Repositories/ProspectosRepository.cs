@@ -229,6 +229,7 @@ namespace SistemaVentasBatia.Repositories
 
         public async Task InsertarDireccion(Direccion direccion)
         {
+            direccion.IdTabulador = 1;
             var query = @"insert into tb_direccion (id_prospecto, nombre_sucursal, id_tipo_inmueble, id_estado, id_tabulador, municipio, ciudad, colonia,
                             domicilio, referencia, codigo_postal, contacto, telefono_contacto, id_estatus_direccion, fecha_alta)
                         values(@IdProspecto, @NombreSucursal, @IdTipoInmueble, @IdEstado, @IdTabulador, @Municipio, @Ciudad, @Colonia, 
@@ -422,9 +423,10 @@ namespace SistemaVentasBatia.Repositories
         public async Task<PuestoDireccionCotizacion> ObtenerPuestoDireccionCotizacionPorId(int id)
         {
             var query = $@"SELECT id_puesto_direccioncotizacion IdPuestoDireccionCotizacion, id_puesto IdPuesto, id_direccion_cotizacion IdDireccionCotizacion,
-                            jornada Jornada, id_turno IdTurno, cantidad Cantidad, hr_inicio HrInicio, hr_fin HrFin, dia_inicio DiaInicio, dia_Fin DiaFin,
-                            fecha_alta FechaAlta, sueldo Sueldo
+                            jornada Jornada,j.descripcion JornadaDesc, id_turno IdTurno, cantidad Cantidad, hr_inicio HrInicio, hr_fin HrFin, dia_inicio DiaInicio, dia_Fin DiaFin,
+                            fecha_alta FechaAlta, sueldo Sueldo , id_tabulador IdTabulador, id_clase IdClase
                         FROM tb_puesto_direccion_cotizacion
+						INNER JOIN tb_jornada j ON jornada = j.id_jornada
                         WHERE id_puesto_direccioncotizacion = @id";
 
             var puestoDireccionCotizacion = new PuestoDireccionCotizacion();

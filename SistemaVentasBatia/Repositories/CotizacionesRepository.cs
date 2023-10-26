@@ -10,6 +10,7 @@ using SistemaVentasBatia.Controllers;
 using System.Reflection;
 using Microsoft.AspNetCore.Connections;
 using System.Reflection.Metadata.Ecma335;
+using SistemaVentasBatia.DTOs;
 
 namespace SistemaVentasBatia.Repositories
 {
@@ -25,6 +26,8 @@ namespace SistemaVentasBatia.Repositories
         Task<List<PuestoDireccionCotizacion>> ObtienePuestosPorCotizacion(int idCotizacion);
         Task<List<Direccion>> ObtenerCatalogoDireccionesCotizacion(int idCotizacion);
         Task<int> InsertaPuestoDireccionCotizacion(PuestoDireccionCotizacion operario);
+        Task<decimal> ObtenerSueldoPorIdTabuladorIdClase(int idPuesto, int idClase, int idZona);
+        Task<int> ObtenerIdZona(int idPuestoDireccion);
         Task<ResumenCotizacionLimpieza> ObtenerResumenCotizacionLimpieza(int idCotizacion);
         Task InsertarTotalCotizacion(decimal total, int idCotizacion, string numerotxt);
         Task<Cotizacion> ObtenerNombreComercialCotizacion(int idCotizacion);
@@ -302,13 +305,14 @@ namespace SistemaVentasBatia.Repositories
 
         public async Task<List<PuestoDireccionCotizacion>> ObtienePuestosPorCotizacion(int idCotizacion)
         {
-            var query = @"select pdc.cantidad Cantidad, p.descripcion Puesto, jornada Jornada, t.descripcion Turno, hr_inicio HrInicio, hr_fin HrFin, dia_inicio DiaInicio, dia_fin DiaFin,
+            var query = @"select pdc.cantidad Cantidad, p.descripcion Puesto, jornada Jornada,j.descripcion JornadaDesc, t.descripcion Turno, hr_inicio HrInicio, hr_fin HrFin, dia_inicio DiaInicio, dia_fin DiaFin,
 	                               sueldo Sueldo, dc.id_cotizacion IdCotizacion, pdc.id_direccion_cotizacion IdDireccionCotizacion, id_puesto_direccioncotizacion IdPuestoDireccionCotizacion,
                                    aguinaldo Aguinaldo, vacaciones Vacaciones, prima_vacacional PrimaVacacional, isn ISN, imss IMSS, total Total
                             from tb_puesto_direccion_cotizacion pdc
                             join tb_puesto p on p.id_puesto = pdc.id_puesto
                             join tb_turno t on t.id_turno = pdc.id_turno
                             join tb_direccion_cotizacion dc on dc.id_direccion_cotizacion = pdc.id_direccion_cotizacion
+							join tb_jornada j on jornada = j.id_jornada
                             where dc.id_cotizacion = @idCotizacion order by pdc.id_puesto_direccioncotizacion desc";
 
             var puestosDirecciones = new List<PuestoDireccionCotizacion>();
@@ -357,9 +361,9 @@ namespace SistemaVentasBatia.Repositories
         {
             int ids = 0;
             string query = @$"INSERT INTO tb_puesto_direccion_cotizacion (id_puesto, id_direccion_cotizacion, jornada, id_turno, id_salario, cantidad, hr_inicio, hr_fin,
-                            dia_inicio, dia_fin, fecha_alta, sueldo, aguinaldo, vacaciones, prima_vacacional, isn, imss, total)
+                            dia_inicio, dia_fin, fecha_alta, sueldo, aguinaldo, vacaciones, prima_vacacional, isn, imss, total, id_tabulador, id_clase)
                         VALUES(@IdPuesto, @IdDireccionCotizacion, @Jornada, @IdTurno, @IdSalario, @Cantidad, @HrInicio, @HrFin,
-                            @DiaInicio, @DiaFin, getdate(), @Sueldo, @Aguinaldo, @Vacaciones, @PrimaVacacional, @ISN, @IMSS, @Total);
+                            @DiaInicio, @DiaFin, getdate(), @Sueldo, @Aguinaldo, @Vacaciones, @PrimaVacacional, @ISN, @IMSS, @Total, @IdTabulador, @IdClase);
                         select SCOPE_IDENTITY() as ID;";
 
             try
@@ -1163,7 +1167,7 @@ VALUES(
             var query = @"UPDATE tb_puesto_direccion_cotizacion 
                         SET id_puesto = @IdPuesto, jornada = @Jornada, id_turno = @IdTurno, cantidad = @Cantidad, hr_inicio = @HrInicio, hr_fin = @HrFin, 
                             dia_inicio = @DiaInicio, dia_fin = @DiaFin, sueldo = @Sueldo, aguinaldo = @Aguinaldo,
-                            vacaciones = @Vacaciones, prima_vacacional = @PrimaVacacional, isn= @ISN, imss = @IMSS, total = @Total
+                            vacaciones = @Vacaciones, prima_vacacional = @PrimaVacacional, isn= @ISN, imss = @IMSS, total = @Total, id_tabulador = @IdTabulador, id_clase = @IdClase
                         WHERE id_puesto_direccioncotizacion = @IdPuestoDireccionCotizacion";
 
             try
@@ -1570,6 +1574,51 @@ GetDate(),
             {
                 throw ex;
             }
+        }
+
+        public async Task<decimal> ObtenerSueldoPorIdTabuladorIdClase(int idPuesto, int idClase, int idZona)
+        {
+            var query = @"
+SELECT ISNULL(sueldo,0) Sueldo
+FROM tb_sueldozonaclase
+WHERE id_puesto = @idPuesto AND id_clase = @idClase AND id_zona = @idZona
+";
+            decimal result;
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    result = await connection.QueryFirstOrDefaultAsync<decimal>(query, new {idPuesto, idClase, idZona});
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task <int> ObtenerIdZona(int idPuestoDireccion)
+        {
+            var query = @"
+SELECT e.id_zona FROM tb_direccion_cotizacion dc
+INNER JOIN tb_direccion d ON d.id_direccion = dc.id_direccion
+INNER JOIN tb_estado e ON e.id_estado = d.id_estado
+WHERE dc.id_direccion_cotizacion = @idPuestoDireccion
+";
+            int result;
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    result = await connection.QueryFirstAsync<int>(query, new { idPuestoDireccion });
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
         }
     }
 }

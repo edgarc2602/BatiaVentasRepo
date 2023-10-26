@@ -9,10 +9,10 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-floating">
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-12">
+                            <div class="form-floating mb-3">
                                 <select class="form-select" aria-label="IdPuesto" [(ngModel)]="model.idPuesto" (change)="chgSalario()">
                                     <option value="0">Seleccione</option>
                                     <option *ngFor="let p of pues" [ngValue]="p.id">{{ p.descripcion }}</option>
@@ -21,8 +21,8 @@
                             </div>
                             <span *ngIf="ferr('IdPuesto')" class="text-danger">{{ terr('IdPuesto') }}</span>
                         </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-floating">
+                        <div class="col-sm-12 col-md-6 col-4">
+                            <div class="form-floating mb-3">
                                 <select class="form-select" aria-label="IdTurno" [(ngModel)]="model.idTurno" (change)="chgSalario()">
                                     <option value="0">Seleccione</option>
                                     <option *ngFor="let t of turs" [ngValue]="t.id">{{ t.descripcion }}</option>
@@ -31,10 +31,10 @@
                             </div>
                             <span *ngIf="ferr('IdTurno')" class="text-danger">{{ terr('IdTurno') }}</span>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-12 col-md-3">
-                            <div class="form-floating">
+                        <!--</div>
+                        <div class="row">-->
+                        <div class="col-sm-12 col-md-3 col-4">
+                            <div class="form-floating mb-3">
                                 <select class="form-select" aria-label="DiaInicio" [(ngModel)]="model.diaInicio">
                                     <option value="0">Seleccione</option>
                                     <option *ngFor="let d of dias" [ngValue]="d.id">{{ d.nom }}</option>
@@ -43,8 +43,8 @@
                             </div>
                             <span *ngIf="ferr('DiaInicio')" class="text-danger">{{ terr('DiaInicio') }}</span>
                         </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="form-floating">
+                        <div class="col-sm-12 col-md-3 col-4">
+                            <div class="form-floating mb-3">
                                 <select class="form-select" aria-label="DiaFin" [(ngModel)]="model.diaFin">
                                     <option value="0">Seleccione</option>
                                     <option *ngFor="let d of dias" [ngValue]="d.id">{{ d.nom }}</option>
@@ -53,43 +53,87 @@
                             </div>
                             <span *ngIf="ferr('DiaFin')" class="text-danger">{{ terr('DiaFin') }}</span>
                         </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="form-floating">
-                                <select type="text" class="form-control" [(ngModel)]="model.hrInicio">
+                        <div class="col-sm-12 col-md-3 col-4">
+                            <div class="form-floating mb-3">
+                                <select type="text" class="form-select" [(ngModel)]="model.hrInicio">
                                     <option *ngFor="let h of hors" [ngValue]="h">{{ h }}</option>
                                 </select>
                                 <label asp-for="HrInicio">De</label>
                             </div>
                             <span *ngIf="ferr('HrInicio')" class="text-danger">{{ terr('HrInicio') }}</span>
                         </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="form-floating">
-                                <select type="text" class="form-control" [(ngModel)]="model.hrFin">
+                        <div class="col-sm-12 col-md-3 col-4">
+                            <div class="form-floating mb-3">
+                                <select type="text" class="form-select" [(ngModel)]="model.hrFin">
                                     <option *ngFor="let h of hors" [ngValue]="h">{{ h }}</option>
                                 </select>
                                 <label asp-for="HrFin">A</label>
                             </div>
                             <span *ngIf="ferr('HrFin')" class="text-danger">{{ terr('HrFin') }}</span>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-12 col-md-3">
+                        <!--</div>
+                        <div class="row">-->
+                        <!--<div class="col-sm-12 col-md-3">
                             <div class="form-floating">
                                 <input type="number" class="form-control" [(ngModel)]="model.jornada">
                                 <label asp-for="Jornada">Jornada</label>
                             </div>
                             <span *ngIf="ferr('Jornada')" class="text-danger">{{ terr('Jornada') }}</span>
+                        </div>-->
+                        <!--<div class="col-sm-12 col-md-3">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="DiaFin" [(ngModel)]="model.diaFin">
+                                    <option value="0">Seleccione</option>
+                                    <option *ngFor="let d of dias" [ngValue]="d.id">{{ d.nom }}</option>
+                                </select>
+                                <label asp-for="DiaFin">Dia Fin</label>
+                            </div>
+                            <span *ngIf="ferr('DiaFin')" class="text-danger">{{ terr('DiaFin') }}</span>
+                        </div>-->
+
+
+
+                        <div class="col-sm-12 col-md-2 col-4">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" [(ngModel)]="model.jornada">
+                                    <option *ngFor="let j of ljor" [ngValue]="j.id">{{ j.descripcion }}</option>
+                                </select>
+                                <label asp-for="Jornada">Jornada</label>
+                            </div>
                         </div>
-                        <div class="col-sm-12 col-md-3">
+                        <!--<div class="col-sm-12 col-md-4 col-4">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" aria-label="IdTabulador" [(ngModel)]="model.idTabulador">
+                                    <option *ngFor="let t of tabs" [ngValue]="t.id">{{ t.descripcion }}</option>
+                                </select>
+                                <label asp-for="IdTabulador">Tabulador</label>
+                            </div>
+                            <span *ngIf="ferr('IdTabulador')" class="text-danger">{{ terr('IdTabulador') }}</span>
+                        </div>-->
+                        <div class="col-sm-12 col-md-2 col-4">
+                            <div class="form-floating mb-3">
+                                <select type="text" class="form-select" [(ngModel)]="model.idClase">
+                                    <option *ngFor="let c of lclas" [ngValue]="c.id">{{ c.descripcion }}</option>
+                                </select>
+                                <label asp-for="Clase">Clase</label>
+                            </div>
+                            <!--<span *ngIf="ferr('HrFin')" class="text-danger">{{ terr('HrFin') }}</span>-->
+                        </div>
+
+
+
+
+
+                        <!--<div class="col-sm-12 col-md-3">
                             <div class="form-floating">
                                 <input type="number" class="form-control" [(ngModel)]="model.sueldo">
-                                <!--disabled-->
+                                disabled
                                 <label asp-for="Sueldo">Sueldo</label>
                             </div>
                             <span *ngIf="ferr('Sueldo')" class="text-danger">{{ terr('Sueldo') }}</span>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="form-floating">
+                        </div>-->
+                        <div class="col-sm-12 col-md-2 col-4">
+                            <div class="form-floating mb-3">
                                 <input type="number" class="form-control" [(ngModel)]="model.cantidad">
                                 <label asp-for="Cantidad">Cantidad</label>
                             </div>
@@ -107,3 +151,4 @@
         </div>
     </div>
 </div>
+<toast-widget [events]="evenSub.asObservable()" [isError]="isErr" [message]="validaMess"></toast-widget>

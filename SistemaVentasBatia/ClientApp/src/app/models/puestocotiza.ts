@@ -4,7 +4,6 @@
     idDireccionCotizacion: number;
     idCotizacion: number;
     cantidad?: number;
-    jornada: number;
     idTurno: number;
     idSalario: number;
     hrInicio: string;
@@ -20,4 +19,9 @@
     isn: number;
     aguinaldo: number;
     total: number;
+
+    jornada: number;
+    jornadadesc: string;
+    idTabulador: number;
+    idClase: number;
 }

@@ -76,7 +76,7 @@ export class ProsNuevoComponent implements OnInit, OnDestroy {
                 this.http.post<Prospecto>(`${this.url}api/prospecto`, this.pro).subscribe(response => {
                     this.pro.idProspecto = response.idProspecto;
                     this.isErr = false;
-                    this.validaMess = 'Prospecto guardado';
+                    this.validaMess = 'Guardado correctamente';
                     this.evenSub.next();
                     console.log(response);
                 }, err => {
@@ -94,7 +94,7 @@ export class ProsNuevoComponent implements OnInit, OnDestroy {
                 this.http.put<Prospecto>(`${this.url}api/prospecto`, this.pro).subscribe(response => {
                     console.log(response);
                     this.isErr = false;
-                    this.validaMess = 'Prospecto guardado';
+                    this.validaMess = 'Guardado correctamente';
                     this.evenSub.next();
                 }, err => {
                     console.log(err);

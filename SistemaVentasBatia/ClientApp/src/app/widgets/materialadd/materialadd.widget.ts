@@ -7,6 +7,9 @@ import { StoreUser } from 'src/app/stores/StoreUser';
 import { numberFormat } from 'highcharts';
 declare var bootstrap: any;
 
+import { Subject } from 'rxjs';
+import { ToastWidget } from '../toast/toast.widget';
+
 @Component({
     selector: 'mateadd-widget',
     templateUrl: './materialadd.widget.html'
@@ -26,8 +29,12 @@ export class MaterialAddWidget {
     pues: Catalogo[] = [];
     mats: Catalogo[] = [];
     fres: ItemN[] = [];
-    constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private sinU: StoreUser) {}
-        
+
+    evenSub: Subject<void> = new Subject<void>();
+    isErr: boolean = false;
+    validaMess: string = '';
+    constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private sinU: StoreUser) { }
+
     lista() {
         this.http.get<Catalogo[]>(`${this.url}api/catalogo/getproductobygrupo/${this.idS}/${this.tipo}`).subscribe(response => {
             this.mats = response;
@@ -52,7 +59,7 @@ export class MaterialAddWidget {
             total: 0, fechaAlta: fec.toISOString(), idDireccionCotizacion: this.idD, idPersonal: this.sinU.idPersonal, edit: this.edit
         };
     }
-        
+
     existe(id: number) {
         this.edit = 1;
         this.model.edit = this.edit;
@@ -65,7 +72,15 @@ export class MaterialAddWidget {
         this.http.post<Material>(`${this.url}api/${this.tipo}`, this.model).subscribe(response => {
             this.close();
             this.sendEvent.emit(2);
-        }, err => console.log(err));
+            this.isErr = false;
+            this.validaMess = 'Material agregado';
+            this.evenSub.next();
+        }, err => {
+            console.log(err);
+            this.isErr = true;
+            this.validaMess = 'Ocurrio un error';
+            this.evenSub.next();
+        });
         if (this.model.idPuestoDireccionCotizacion != 0) {
             this.returnModal.emit(true);
         }
@@ -78,9 +93,6 @@ export class MaterialAddWidget {
         this.idP = pue;
         this.idS = ser;
         this.tipo = tp;
-        if (this.idP != 0) {
-            this.tipo = this.tipo.toString() + 'ope';
-        }
         this.showSuc = showS;
         this.lista();
         if (id == 0) {
