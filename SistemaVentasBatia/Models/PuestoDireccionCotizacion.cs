@@ -33,5 +33,6 @@ namespace SistemaVentasBatia.Models
 
         public int IdTabulador { get; set; }
         public int IdClase { get; set; }
+        public int IdZona { get; set; }
     }
 }

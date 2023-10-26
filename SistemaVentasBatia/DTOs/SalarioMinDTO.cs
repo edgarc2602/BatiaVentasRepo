@@ -6,6 +6,7 @@ namespace SistemaVentasBatia.DTOs
         public int IdTabulador { get; set; }
         public int IdPuesto { get; set; }
         public int IdTurno { get; set; }
+        public int IdClase { get; set; }
         public decimal SalarioI { get; set; }
     }
 }

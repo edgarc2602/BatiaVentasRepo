@@ -158,9 +158,9 @@ namespace SistemaVentasBatia.Services
 
         public async Task CrearPuestoDireccionCotizacion(PuestoDireccionCotizacionDTO operariosVM)
         {
-            int idZona = await cotizacionesRepo.ObtenerIdZona(operariosVM.IdDireccionCotizacion);
-            decimal sueldo = await cotizacionesRepo.ObtenerSueldoPorIdTabuladorIdClase(operariosVM.IdPuesto, operariosVM.IdClase,idZona);
-            operariosVM.Sueldo = sueldo;
+            //int idZona = await cotizacionesRepo.ObtenerIdZona(operariosVM.IdDireccionCotizacion);
+            //decimal sueldo = await cotizacionesRepo.ObtenerSueldoPorIdTabuladorIdClase(operariosVM.IdPuesto, operariosVM.IdClase,idZona);
+            //operariosVM.Sueldo = sueldo;
             if(((int)operariosVM.IdTurno) == 3 )
             {
                 operariosVM.Sueldo = operariosVM.Sueldo + 300;

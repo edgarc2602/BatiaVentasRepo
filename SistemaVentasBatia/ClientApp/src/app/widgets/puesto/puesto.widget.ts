@@ -66,7 +66,7 @@ export class PuestoWidget {
             jornada: 0, idTurno: 0, hrInicio: '', hrFin: '', diaInicio: 0, diaFin: 0,
             fechaAlta: dt.toISOString(), sueldo: 0, vacaciones: 0, primaVacacional: 0, imss: 0,
             isn: 0, aguinaldo: 0, total: 0, idCotizacion: this.idC, idPersonal: this.sinU.idPersonal,
-            idSalario: 0, idClase: 0, idTabulador: 0, jornadadesc: ''
+            idSalario: 0, idClase: 0, idTabulador: 0, jornadadesc: '', idZona: 0
         };
     }
 
@@ -138,6 +138,13 @@ export class PuestoWidget {
             this.model.sueldo = response.salarioI;
         }, err => console.log(err));
     }
+    chgSalariodos() {
+        this.http.get<number>(`${this.url}api/salario/${this.model.idPuesto}/${this.model.idClase}/${this.model.idTabulador}/${this.model.idTurno}`).subscribe(response => {
+            this.model.sueldo = response;
+            //this.model.idSalario = response.idSalario;
+            //this.model.sueldo = response.salarioI;
+        }, err => console.log(err));
+    }
 
     valida() {
         if (this.model.idTurno == 0) {
@@ -185,6 +192,7 @@ export class PuestoWidget {
         this.idT = tab;
         if (pue == 0) {
             this.nuevo();
+            this.getZonaDefault(this.idD);
         } else {
             this.existe(this.idP);
         }
@@ -197,5 +205,12 @@ export class PuestoWidget {
         let docModal = document.getElementById('modalAgregarOperario');
         let myModal = bootstrap.Modal.getOrCreateInstance(docModal);
         myModal.hide();
+    }
+
+    getZonaDefault(idDireccionCotizacion: number) {
+        this.http.get<number>(`${this.url}api/salario/getzonadefault/${idDireccionCotizacion}`).subscribe(response => {
+        //this.http.get<number>(`${this.url}api/salario/${this.model.idPuesto}/${this.model.idClase}/${this.model.idTabulador}/${this.model.idTurno}`).subscribe(response => {
+            this.model.idTabulador = response;
+        }, err => console.log(err));
     }
 }

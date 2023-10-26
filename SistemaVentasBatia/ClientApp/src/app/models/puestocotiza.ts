@@ -24,4 +24,5 @@
     jornadadesc: string;
     idTabulador: number;
     idClase: number;
+    idZona: number;
 }

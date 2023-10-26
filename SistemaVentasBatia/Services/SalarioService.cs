@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SistemaVentasBatia.DTOs;
+using SistemaVentasBatia.Enums;
 using SistemaVentasBatia.Models;
 using SistemaVentasBatia.Repositories;
 using System;
@@ -15,6 +16,8 @@ namespace SistemaVentasBatia.Services
         Task<int> Create(SalarioDTO dto);
         Task<SalarioDTO> Get(int id);
         Task<SalarioMinDTO> GetFind(int idTabulador, int idPuesto, int idTurno);
+        Task<decimal> GetSueldo(int? idPuesto, int? idClase, int? idTabulador, int? idTurno);
+        Task<int> GetZonaDefault(int idDireccionCotizacion);
         Task<bool> Update(SalarioDTO dto);
         Task<bool> Delete(int id);
     }
@@ -86,6 +89,22 @@ namespace SistemaVentasBatia.Services
         public Task<bool> Update(SalarioDTO dto)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<decimal> GetSueldo(int? idPuesto, int? idClase, int? idTabulador, int? idTurno)
+        {
+            decimal result;
+            result =  await _repo.GetSueldo(idPuesto, idClase, idTabulador, idTurno);
+            if (idTurno == 3)
+            {
+                result = result + 300;
+            }
+            return result;
+        }
+
+        public async Task<int> GetZonaDefault(int idDireccionCotizacion)
+        {
+            return await _repo.GetZonaDefault(idDireccionCotizacion);
         }
     }
 }

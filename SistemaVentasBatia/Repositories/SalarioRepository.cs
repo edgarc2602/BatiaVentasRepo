@@ -25,6 +25,10 @@ namespace SistemaVentasBatia.Repositories
 
         Task<IEnumerable<Salario>> Busqueda(int idTabulador, int idPuesto, int idTurno);
         Task<SalarioMinimo> ObtenerMinimo(int year);
+
+        Task<decimal> GetSueldo(int? idPuesto, int? idClase, int? idTabulador, int? idTurno);
+
+        Task<int> GetZonaDefault(int idDireccionCotizacion);
     }
     public class SalarioRepository : ISalarioRepository
     {
@@ -171,5 +175,53 @@ namespace SistemaVentasBatia.Repositories
             }
             return sm;
         }
+        public async Task<decimal> GetSueldo(int? IdPuesto, int? IdClase, int? IdTabulador, int ?IdTurno)
+        {
+            var query = @"
+SELECT sueldo
+FROM tb_sueldozonaclase
+WHERE
+  ((@IdPuesto IS NULL AND id_puesto = 0) OR id_puesto = @IdPuesto)
+  AND ((@IdClase IS NULL AND id_clase = 0) OR id_clase = @IdClase)
+  AND ((@IdTabulador IS NULL AND id_zona = 0) OR id_zona = @IdTabulador)
+";
+            decimal result;
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    result = await connection.QueryFirstOrDefaultAsync<decimal>(query, new { IdPuesto, IdClase, IdTabulador });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<int> GetZonaDefault(int idDireccionCotizacion)
+        {
+            var query = @"
+SELECT e.id_zona FROM tb_direccion_cotizacion dc
+INNER JOIN tb_direccion d ON d.id_direccion = dc.id_direccion
+INNER JOIN tb_estado e ON e.id_estado = d.id_estado
+WHERE dc.id_direccion_cotizacion = @idDireccionCotizacion
+";
+            int result;
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    result = await connection.QueryFirstAsync<int>(query, new { idDireccionCotizacion });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
     }
 }

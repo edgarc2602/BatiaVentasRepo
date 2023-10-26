@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-12">
                             <div class="form-floating mb-3">
-                                <select class="form-select" aria-label="IdPuesto" [(ngModel)]="model.idPuesto" (change)="chgSalario()">
+                                <select class="form-select" aria-label="IdPuesto" [(ngModel)]="model.idPuesto" (change)="chgSalariodos()">
                                     <option value="0">Seleccione</option>
                                     <option *ngFor="let p of pues" [ngValue]="p.id">{{ p.descripcion }}</option>
                                 </select>
@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-sm-12 col-md-6 col-4">
                             <div class="form-floating mb-3">
-                                <select class="form-select" aria-label="IdTurno" [(ngModel)]="model.idTurno" (change)="chgSalario()">
+                                <select class="form-select" aria-label="IdTurno" [(ngModel)]="model.idTurno" (change)="chgSalariodos()">
                                     <option value="0">Seleccione</option>
                                     <option *ngFor="let t of turs" [ngValue]="t.id">{{ t.descripcion }}</option>
                                 </select>
@@ -101,18 +101,18 @@
                                 <label asp-for="Jornada">Jornada</label>
                             </div>
                         </div>
-                        <!--<div class="col-sm-12 col-md-4 col-4">
-                            <div class="form-floating mb-3">
-                                <select class="form-select" aria-label="IdTabulador" [(ngModel)]="model.idTabulador">
-                                    <option *ngFor="let t of tabs" [ngValue]="t.id">{{ t.descripcion }}</option>
-                                </select>
-                                <label asp-for="IdTabulador">Tabulador</label>
-                            </div>
-                            <span *ngIf="ferr('IdTabulador')" class="text-danger">{{ terr('IdTabulador') }}</span>
-                        </div>-->
                         <div class="col-sm-12 col-md-2 col-4">
                             <div class="form-floating mb-3">
-                                <select type="text" class="form-select" [(ngModel)]="model.idClase">
+                                <select class="form-select" aria-label="IdTabulador" [(ngModel)]="model.idTabulador" (change)="chgSalariodos()">
+                                    <option *ngFor="let t of tabs" [ngValue]="t.id">{{ t.descripcion }}</option>
+                                </select>
+                                <label asp-for="IdZona">Zona</label>
+                            </div>
+                            <span *ngIf="ferr('IdTabulador')" class="text-danger">{{ terr('IdTabulador') }}</span>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-4">
+                            <div class="form-floating mb-3">
+                                <select type="text" class="form-select" [(ngModel)]="model.idClase" (change)="chgSalariodos()">
                                     <option *ngFor="let c of lclas" [ngValue]="c.id">{{ c.descripcion }}</option>
                                 </select>
                                 <label asp-for="Clase">Clase</label>
@@ -124,14 +124,13 @@
 
 
 
-                        <!--<div class="col-sm-12 col-md-3">
+                        <div class="col-sm-12 col-md-3">
                             <div class="form-floating">
-                                <input type="number" class="form-control" [(ngModel)]="model.sueldo">
-                                disabled
+                                <input type="number" class="form-control" [(ngModel)]="model.sueldo" disabled>
                                 <label asp-for="Sueldo">Sueldo</label>
                             </div>
                             <span *ngIf="ferr('Sueldo')" class="text-danger">{{ terr('Sueldo') }}</span>
-                        </div>-->
+                        </div>
                         <div class="col-sm-12 col-md-2 col-4">
                             <div class="form-floating mb-3">
                                 <input type="number" class="form-control" [(ngModel)]="model.cantidad">

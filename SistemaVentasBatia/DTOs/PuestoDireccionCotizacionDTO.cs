@@ -52,5 +52,7 @@ namespace SistemaVentasBatia.DTOs
         public int IdCotizacion { get; set; }
         public int IdTabulador { get; set; }
         public int IdClase { get; set; }
+
+        public int IdZona { get; set; }
     }
 }
