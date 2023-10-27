@@ -12,7 +12,7 @@
             <div class="modal-body">
                 <div>
                     <div class="row">
-                        <div class="col-md-4 mb-3 col-12" id="dvSucursal">
+                        <div *ngIf="hidedir == 0" class="col-md-4 mb-3 col-12" id="dvSucursal">
                             <div class="form-floating">
                                 <select class="form-select" [(ngModel)]="model.idDireccionCotizacion" aria-label="IdDireccionCotizacion">
                                     <option value="0">Selecciona una opción...</option>

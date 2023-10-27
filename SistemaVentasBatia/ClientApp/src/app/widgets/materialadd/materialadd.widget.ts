@@ -29,6 +29,7 @@ export class MaterialAddWidget {
     pues: Catalogo[] = [];
     mats: Catalogo[] = [];
     fres: ItemN[] = [];
+    hidedir: number = 0;
 
     evenSub: Subject<void> = new Subject<void>();
     isErr: boolean = false;
@@ -91,6 +92,12 @@ export class MaterialAddWidget {
         this.idC = cot;
         this.idD = dir;
         this.idP = pue;
+        if (this.idP != 0) {
+            this.hidedir = 1;
+        }
+        else {
+            this.hidedir = 0;
+        }
         this.idS = ser;
         this.tipo = tp;
         this.showSuc = showS;
