@@ -109,7 +109,7 @@ namespace SistemaVentasBatia.Repositories
                         WHERE
                             ISNULL(NULLIF(@idEstatusProspecto,0), id_estatus_prospecto) = id_estatus_prospecto AND
                             nombre_comercial like '%' + @keywords + '%' 
-                        ORDER BY id_prospecto
+                        ORDER BY nombre_comercial
                         OFFSET ((@pagina - 1) * 10) ROWS
                         FETCH NEXT 10 ROWS ONLY;";
             var queryuser = @"SELECT ROW_NUMBER() OVER ( ORDER BY id_prospecto desc ) AS RowNum, id_prospecto IdProspecto, nombre_comercial NombreComercial , razon_social RazonSocial, rfc Rfc, 
@@ -252,9 +252,9 @@ namespace SistemaVentasBatia.Repositories
         public async Task<List<Prospecto>> ObtenerCatalogoProspectos(int autorizacion, int idPersonal)
         {
             var queryadmin = @"SELECT id_prospecto IdProspecto, nombre_comercial NombreComercial
-                          FROM tb_prospecto WHERE id_estatus_prospecto = 1";
+                          FROM tb_prospecto WHERE id_estatus_prospecto = 1 ORDER BY nombre_comercial";
             var queryuser = @"SELECT id_prospecto IdProspecto, nombre_comercial NombreComercial
-                          FROM tb_prospecto WHERE id_estatus_prospecto = 1 AND id_personal = @idPersonal";
+                          FROM tb_prospecto WHERE id_estatus_prospecto = 1 AND id_personal = @idPersonal ORDER BY nombre_comercial";
 
             var prospectos = new List<Prospecto>();
 
