@@ -376,7 +376,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
     validaDireccionCotizacion(idDireccionCotizacion) {
         this.idDC = idDireccionCotizacion;
         this.elidir.titulo = 'Eliminar directorio';
-        this.elidir.mensaje = 'Nota: Eliminar el directorio tambien afectara a los items relacionados a el, ¿Está seguro de que desea eliminar el directorio seleccionado?';
+        this.elidir.mensaje = 'Eliminar el directorio tambien afectará a los items relacionados a el?¿';
         this.elidir.open();
     }
     eliminaDireccionCotizacion($event) {
