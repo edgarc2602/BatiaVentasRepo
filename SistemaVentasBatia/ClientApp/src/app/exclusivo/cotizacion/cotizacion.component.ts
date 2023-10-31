@@ -25,7 +25,7 @@ export class CotizacionComponent implements OnInit, OnDestroy {
     sub: any;
     lcots: ListaCotizacion = {
         idProspecto: 0, idServicio: 0, pagina: 1, numPaginas: 0,
-        rows: 0, cotizaciones: [], idEstatusCotizacion: 0, idAlta: '', total: 0
+        rows: 0, cotizaciones: [], idEstatusCotizacion: 1, idAlta: '', total: 0
     };
     lsers: ItemN[] = [];
     lests: ItemN[] = [];
@@ -69,7 +69,7 @@ export class CotizacionComponent implements OnInit, OnDestroy {
     nuevo() {
         this.lcots = {
             idProspecto: 0, idServicio: 0, pagina: 1, numPaginas: 0,
-            rows: 0, cotizaciones: [], idEstatusCotizacion: 0, idAlta: '', total: 0
+            rows: 0, cotizaciones: [], idEstatusCotizacion: 1, idAlta: '', total: 0
         };
     }
     init() {

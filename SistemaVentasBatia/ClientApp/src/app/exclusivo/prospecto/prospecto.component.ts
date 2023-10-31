@@ -16,7 +16,7 @@ import { fadeInOut } from 'src/app/fade-in-out';
 })
 export class ProspectoComponent {
     lspro: ListaProspecto = {
-        idEstatusProspecto: 0, keywords: '', numPaginas: 0,
+        idEstatusProspecto: 1, keywords: '', numPaginas: 0,
         pagina: 1, prospectos: [], rows: 0       
     };
     lests: ItemN[] = [];

@@ -461,7 +461,16 @@
                             </div>
                             <br>
                         </div>
+                        <br>
                         <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden; " id="tabulador" role="tabpanel" aria-labelledby="tabulador-tab">
+                            <div class="col-sm-12 col-md-2 col-4">
+                                <div class="form-floating mb-3">
+                                    <select type="text" class="form-select" [(ngModel)]="idClase" (change)="getTabulador()">
+                                        <option *ngFor="let c of lclas" [ngValue]="c.id">{{ c.descripcion }}</option>
+                                    </select>
+                                    <label asp-for="Clase">Clase</label>
+                                </div>
+                            </div>
                             <table class="table table-borderless text-center table-striped table-responsive  box-shadow">
                                 <thead>
                                     <tr class="bg-primary bg-opacity-75 text-white">
@@ -469,21 +478,23 @@
                                         <th>Zona 2</th>
                                         <th>Zona 3</th>
                                         <th>Zona 4</th>
+                                        <th>Zona 5</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input #salarioMixtotxt type="number" class="form-control aliggn-content-center" id="salarioMixto" name="salarioMixto" value="{{ sal.salarioMixto }}" [(ngModel)]="salarioMixto" placeholder="{{ sal.salarioMixto }}" autocomplete="off" required></td>
-                                        <td><input #salarioMixtoFronteratxt type="number" class="form-control aliggn-content-center" id="salarioMixtoFrontera" name="salarioMixtoFrontera" value="{{ sal.salarioMixtoFrontera }}" [(ngModel)]="salarioMixtoFrontera" placeholder="{{ sal.salarioMixtoFrontera }}" autocomplete="off" required></td>
-                                        <td><input #salarioRealtxt type="number" class="form-control aliggn-content-center" id="salarioReal" name="salarioReal" value="{{ sal.salarioReal }}" [(ngModel)]="salarioReal" placeholder="{{ sal.salarioReal }}" autocomplete="off" required></td>
-                                        <td><input #salarioRealFronteratxt type="number" class="form-control aliggn-content-center" id="salarioRealFrontera" name="salarioRealFrontera" value="{{ sal.salarioRealFrontera }}" [(ngModel)]="salarioRealFrontera" placeholder="{{ sal.salarioRealFrontera }}" autocomplete="off" required></td>
+                                        <td><input #zona1txt type="number" class="form-control aliggn-content-center" id="zona1" name="zona1" value="{{ sal.zona1 }}" [(ngModel)]="sal.zona1" placeholder="{{ sal.zona1 }}" autocomplete="off" required></td>
+                                        <td><input #zona2txt type="number" class="form-control aliggn-content-center" id="zona2" name="zona2" value="{{ sal.zona2 }}" [(ngModel)]="sal.zona2" placeholder="{{ sal.zona2 }}" autocomplete="off" required></td>
+                                        <td><input #zona3txt type="number" class="form-control aliggn-content-center" id="zona3" name="zona3" value="{{ sal.zona3 }}" [(ngModel)]="sal.zona3" placeholder="{{ sal.zona3 }}" autocomplete="off" required></td>
+                                        <td><input #zona4txt type="number" class="form-control aliggn-content-center" id="zona4" name="zona4" value="{{ sal.zona4 }}" [(ngModel)]="sal.zona4" placeholder="{{ sal.zona4 }}" autocomplete="off" required></td>
+                                        <td><input #zona5txt type="number" class="form-control aliggn-content-center" [(ngModel)]="sal.zona5" value="{{ sal.zona5 }}" placeholder="{{ sal.zona5 }}" autocomplete="off" required></td>
                                         <td><button type="button" (click)="actualizarSalarios(sal.idPuesto)" class="btn btn-lg btn-outline-success  box-shadow"><i class="fa-solid fa-save"></i></button></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -501,9 +512,9 @@
                     <h6>Registrar nuevo usuario</h6>
                     <div class="row">
                         <!--<div class="form-floating">
-        <input type="text" class="form-control" [(ngModel)]="lspro.keywords" id="Keywords" placeholder="Escriba un nombre" (input)="lista()">
-        <label asp-for="Keywords">Nombre Comercial</label>
-    </div>-->
+                            <input type="text" class="form-control" [(ngModel)]="lspro.keywords" id="Keywords" placeholder="Escriba un nombre" (input)="lista()">
+                            <label asp-for="Keywords">Nombre Comercial</label>
+                        </div>-->
 
                         <div class="col-md-3 col-sm-3 col-6 ">
                             <div class="form-floating mb-3">
@@ -542,7 +553,7 @@
                             </div>
                         </div>
                         <div class="col-2 d-md-none d-sm-none">
-                            
+
                         </div>
 
 
@@ -573,13 +584,13 @@
                             </div>
                         </div>
                         <!--<div class=" col-md-1 col-sm-1 col-2">
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="usuario.revisa" [value]="usuario.revisa">
-            <label class="form-check-label">
-                Supervisa
-            </label>
-        </div>
-    </div>-->
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="usuario.revisa" [value]="usuario.revisa">
+                                <label class="form-check-label">
+                                    Supervisa
+                                </label>
+                            </div>
+                        </div>-->
 
                         <div class="col-md-2 col-sm-2 col-4 ">
                             <input type="file" (change)="onFileSelected($event)" #fileInput style="display:none" accept="image/*">
@@ -594,7 +605,7 @@
                         <!--<button class="btn btn-lg btn-outline-success  box-shadow align-content-end" (click)="guardarImagen()">Agregar</button>-->
                         <button class="btn btn-lg btn-outline-success  box-shadow align-content-end" (click)="openUsu()">Agregar</button>
                     </div>
-
+                    
 
 
 

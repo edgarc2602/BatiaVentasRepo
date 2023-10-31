@@ -25,10 +25,11 @@ export class CatalogoComponent {
     @ViewChild(AgregarServicioWidget, { static: false }) addSer: AgregarServicioWidget;
     @ViewChild(UsuarioAddWidget,      { static: false }) addUsu: UsuarioAddWidget;
 
-    @ViewChild('salarioMixtotxt',         { static: false }) salarioMixtotxt: ElementRef;
-    @ViewChild('salarioMixtoFronteratxt', { static: false }) salarioMixtoFronteratxt: ElementRef;
-    @ViewChild('salarioRealtxt',          { static: false }) salarioRealtxt: ElementRef;
-    @ViewChild('salarioRealFronteratxt',  { static: false }) salarioRealFronteratxt: ElementRef;
+    @ViewChild('zona1txt',{ static: false }) zona1txt: ElementRef;
+    @ViewChild('zona2txt',{ static: false }) zona2txt: ElementRef;
+    @ViewChild('zona3txt',{ static: false }) zona3txt: ElementRef;
+    @ViewChild('zona4txt',{ static: false }) zona4txt: ElementRef;
+    @ViewChild('zona5txt',{ static: false }) zona5txt: ElementRef;
 
     @ViewChild('costoIndirectotxt',     { static: false }) costoIndirectotxt: ElementRef;
     @ViewChild('utilidadtxt',           { static: false }) utilidadtxt: ElementRef;
@@ -44,10 +45,11 @@ export class CatalogoComponent {
     tser: Catalogo[] = [];
     grupo: string = 'material';
 
-    salarioMixto: number = 0;
-    salarioMixtoFrontera: number = 0;
-    salarioReal: number = 0;
-    salarioRealFrontera: number = 0;
+    zona1: number = 0;
+    zona2: number = 0;
+    zona3: number = 0;
+    zona4: number = 0;
+    zona5: number = 0;
 
     costoIndirecto: number = 0;
     utilidad: number = 0;
@@ -61,7 +63,7 @@ export class CatalogoComponent {
     };
 
     sal: PuestoTabulador = {
-        idPuesto: 0, idPuestoSalario: 0, salarioMixto: 0, salarioMixtoFrontera: 0, salarioReal: 0, salarioRealFrontera: 0
+       idSueldoZonaClase: 0,  idPuesto: 0, idClase: 0, zona1: 0, zona2: 0, zona3: 0, zona4: 0, zona5: 0
     };
     validaMess: string = '';
     evenSub: Subject<void> = new Subject<void>();
@@ -75,6 +77,11 @@ export class CatalogoComponent {
         idAutorizacionVentas: 0, idPersonal: 0, autoriza: 0, nombres: '', apellidos: '', puesto: '', telefono: '', telefonoExtension: '', telefonoMovil: '', email: '',
         firma: '', revisa: 0
     }
+
+
+    lclas: Catalogo[] = [];
+    idClase: number = 1;
+
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, public user: StoreUser) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
@@ -94,6 +101,9 @@ export class CatalogoComponent {
         }, err => console.log(err));
         http.get<number>(`${url}api/cotizacion/obtenerautorizacion/${user.idPersonal}`).subscribe(response => {
             this.autorizacion = response;
+        }, err => console.log(err));
+        http.get<Catalogo[]>(`${url}api/catalogo/getclase`).subscribe(response => {
+            this.lclas = response;
         }, err => console.log(err));
     }
     chgServicio() {
@@ -164,12 +174,7 @@ export class CatalogoComponent {
             this.getServicios();
         }, err => console.log(err));
     }
-    limpiarngModel() {
-        this.salarioMixto = 0;
-        this.salarioMixtoFrontera = 0;
-        this.salarioReal = 0;
-        this.salarioRealFrontera = 0;
-    }
+    
     limpiarPorcentajesNG() {
         this.costoIndirecto = 0;
         this.utilidad = 0;
@@ -177,12 +182,7 @@ export class CatalogoComponent {
         this.comisionExterna = 0;
         this.fechaAplica = '';
     }
-    limpiarObjeto() {
-        this.sal.salarioMixto = 0;
-        this.sal.salarioMixtoFrontera = 0;
-        this.sal.salarioReal = 0;
-        this.sal.salarioRealFrontera = 0;
-    }
+    
     limpiarPorcentajes() {
         this.cotpor.costoIndirecto = 0;
         this.cotpor.utilidad = 0;
@@ -190,12 +190,7 @@ export class CatalogoComponent {
         this.cotpor.comisionExterna = 0;
         this.cotpor.fechaAplica = '';
     }
-    obtenerValores() {
-        this.sal.salarioMixto = parseFloat(this.salarioMixtotxt.nativeElement.value);
-        this.sal.salarioMixtoFrontera = parseFloat(this.salarioMixtoFronteratxt.nativeElement.value);
-        this.sal.salarioReal = parseFloat(this.salarioRealtxt.nativeElement.value);
-        this.sal.salarioRealFrontera = parseFloat(this.salarioRealFronteratxt.nativeElement.value);
-    }
+    
     obtenerPorcentajesCotizacion() {
         this.cotpor.costoIndirecto = parseFloat(this.costoIndirectotxt.nativeElement.value);
         this.cotpor.utilidad = parseFloat(this.utilidadtxt.nativeElement.value);
@@ -204,18 +199,7 @@ export class CatalogoComponent {
         this.cotpor.fechaAplica = this.fechaAplicatxt.nativeElement.value;
         this.cotpor.idPersonal = this.user.idPersonal;
     }
-    getTabulador() {
-        this.limpiarObjeto();
-        this.limpiarngModel();
-        this.http.get<PuestoTabulador>(`${this.url}api/tabulador/ObtenerTabuladorPuesto/${this.selPuesto}`).subscribe(response => {
-            this.sal = response;
-            this.salarioMixto = this.sal.salarioMixto;
-            this.salarioMixtoFrontera = this.sal.salarioMixtoFrontera;
-            this.salarioReal = this.sal.salarioReal;
-            this.salarioRealFrontera = this.sal.salarioRealFrontera;
-            this.limpiarObjeto();
-        }, err => console.log(err));
-    }
+    
     getPorcentajes() {
         this.limpiarPorcentajes();
         this.limpiarPorcentajesNG();
@@ -229,15 +213,7 @@ export class CatalogoComponent {
             this.limpiarPorcentajesNG();
         }, err => console.log(err));
     }
-    actualizarSalarios(id: number) {
-        this.limpiarObjeto();
-        this.obtenerValores();
-        this.http.post<PuestoTabulador>(`${this.url}api/cotizacion/actualizarsalarios`, this.sal).subscribe(response => { 
-            this.limpiarngModel();
-            this.limpiarObjeto();
-            this.getTabulador();
-        }, err => console.log(err));
-    }
+    
     actualizarPorcentajesPredeterminadosCotizacion() {
         this.limpiarPorcentajes();
         this.obtenerPorcentajesCotizacion();
@@ -315,5 +291,61 @@ export class CatalogoComponent {
     openUsu() {
         this.addUsu.open();
     }
+
+    getTabulador() {
+        //this.limpiarObjeto();
+        //this.limpiarngModel();
+        this.http.get<PuestoTabulador>(`${this.url}api/tabulador/ObtenerTabuladorPuesto/${this.selPuesto}/${this.idClase}`).subscribe(response => {
+            this.sal = response;
+            //this.zona1 = this.sal.zona1;
+            //this.zona2 = this.sal.zona2;
+            //this.zona3 = this.sal.zona3;
+            //this.zona4 = this.sal.zona4;
+            //this.zona5 = this.sal.zona5;
+            /*this.limpiarObjeto();*/
+        }, err => console.log(err));
+    }
+    actualizarSalarios(id: number) {
+        /*this.limpiarObjeto();*/
+        this.obtenerValores();
+        this.http.post<PuestoTabulador>(`${this.url}api/cotizacion/actualizarsalarios`, this.sal).subscribe(response => {
+            /*this.limpiarngModel();*/
+            /*this.limpiarObjeto();*/
+            this.getTabulador();
+        }, err => console.log(err));
+    }
+    //limpiarngModel() {
+    //    this.zona1 = 0;
+    //    this.zona2 = 0;
+    //    this.zona3 = 0;
+    //    this.zona4 = 0;
+    //    this.zona5 = 0;
+    //}
+    limpiarObjeto() {
+        this.sal.zona1 = 0;
+        this.sal.zona2 = 0;
+        this.sal.zona3 = 0;
+        this.sal.zona4 = 0;
+        this.sal.zona5 = 0;
+    }
+    obtenerValores() {
+        this.sal.zona1 = parseFloat(this.zona1txt.nativeElement.value);
+        this.sal.zona2 = parseFloat(this.zona2txt.nativeElement.value);
+        this.sal.zona3 = parseFloat(this.zona3txt.nativeElement.value);
+        this.sal.zona4 = parseFloat(this.zona4txt.nativeElement.value);
+        this.sal.zona5 = parseFloat(this.zona5txt.nativeElement.value);
+        this.sal.idClase = this.idClase;
+        this.sal.idPuesto = this.selPuesto;
+    }
+
+
+
+
+
+
+
+
+
+
 }
 

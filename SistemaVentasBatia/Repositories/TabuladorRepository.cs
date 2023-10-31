@@ -15,7 +15,7 @@ namespace SistemaVentasBatia.Repositories
         Task<bool> Eliminar(int id);
         Task<Tabulador> Obtener(int id);
         Task<IEnumerable<Tabulador>> ObtenerPorEstado(int id);
-        Task<PuestoTabulador> ObtenerTabuladorPuesto(int id);
+        Task<PuestoTabulador> ObtenerTabuladorPuesto(int idPuesto, int idClase);
     }
 
     public class TabuladorRepository : ITabuladorRepository
@@ -101,23 +101,26 @@ namespace SistemaVentasBatia.Repositories
         //}
 
 
-        public async Task<PuestoTabulador> ObtenerTabuladorPuesto(int id)
+        public async Task<PuestoTabulador> ObtenerTabuladorPuesto(int idPuesto, int idClase)
         {
             PuestoTabulador result = new PuestoTabulador();
-            var query = @"SELECT 
-id_puestosalario IdPuestoSalario,
-id_puesto IdPuesto,
-salariomixto SalarioMixto,
-salariomixto_frontera SalarioMixtoFrontera,
-salarioreal SalarioReal,
-salarioreal_frontera SalarioRealFrontera
-FROM tb_puesto_salario 
-WHERE id_puesto = @id";
+            var query = @"
+
+SELECT
+  ISNULL(MAX(CASE WHEN id_zona = 1 THEN sueldo END), 0) AS Zona1,
+  ISNULL(MAX(CASE WHEN id_zona = 2 THEN sueldo END), 0) AS Zona2,
+  ISNULL(MAX(CASE WHEN id_zona = 3 THEN sueldo END), 0) AS Zona3,
+  ISNULL(MAX(CASE WHEN id_zona = 4 THEN sueldo END), 0) AS Zona4,
+  ISNULL(MAX(CASE WHEN id_zona = 5 THEN sueldo END), 0) AS Zona5
+FROM tb_sueldozonaclase
+WHERE id_puesto = @idPuesto AND id_clase = @idClase
+
+";
             try
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    result = await connection.QueryFirstAsync<PuestoTabulador>(query, new { id });
+                    result = await connection.QueryFirstAsync<PuestoTabulador>(query, new { idPuesto, idClase });
                 }
             }
             catch (Exception ex)

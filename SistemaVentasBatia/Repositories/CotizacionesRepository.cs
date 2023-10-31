@@ -108,7 +108,7 @@ namespace SistemaVentasBatia.Repositories
         public async Task<int> ContarCotizaciones(int idProspecto, EstatusCotizacion idEstatusCotizacion, int idServicio, int idPersonal, int autorizacion)
         {
             var queryuser = @"SELECT count(*) Rows
-                                FROM tb_cotizacion c
+                                FROM tb_cotizacion c 
                                 JOIN tb_prospecto p on c.id_prospecto = p.id_prospecto
                                 WHERE 
                                     c.id_personal = @idPersonal AND
@@ -1488,13 +1488,18 @@ WHERE id_cotizacion = @idCotizacion";
         }
         public async Task<bool> ActualizarSalarios(PuestoTabulador salarios)
         {
-            var query = @"UPDATE tb_puesto_salario
-                        SET 
-salariomixto = @SalarioMixto, 
-salariomixto_frontera = @SalarioMixtoFrontera,
-salarioreal = @SalarioReal, 
-salarioreal_frontera = @SalarioRealFrontera
-                        WHERE id_puesto = @IdPuesto";
+            var query = @"
+UPDATE tb_sueldozonaclase
+SET sueldo = 
+    CASE
+        WHEN id_zona = 1 THEN @Zona1
+        WHEN id_zona = 2 THEN @Zona2
+        WHEN id_zona = 3 THEN @Zona3
+        WHEN id_zona = 4 THEN @Zona4
+        WHEN id_zona = 5 THEN @Zona5
+    END
+WHERE id_puesto = @IdPuesto AND id_clase = @IdClase
+";
             try
             {
                 using (var connectiom = ctx.CreateConnection())

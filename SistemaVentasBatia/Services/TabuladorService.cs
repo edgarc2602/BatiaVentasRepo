@@ -15,7 +15,7 @@ namespace SistemaVentasBatia.Services
         Task<IEnumerable<CatalogoDTO>> GetPorEstado(int id);
         Task<bool> Update(TabuladorDTO dto);
         Task<bool> Delete(int id);
-        Task<PuestoTabulador> ObtenerTabuladorPuesto(int id);
+        Task<PuestoTabulador> ObtenerTabuladorPuesto(int id, int idClase);
     }
 
     public class TabuladorService : ITabuladorService
@@ -61,11 +61,11 @@ namespace SistemaVentasBatia.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<PuestoTabulador> ObtenerTabuladorPuesto(int id)
+        public async Task<PuestoTabulador> ObtenerTabuladorPuesto(int id, int idClase)
         {
             PuestoTabulador result = new PuestoTabulador();
 
-            result = await _repo.ObtenerTabuladorPuesto(id);
+            result = await _repo.ObtenerTabuladorPuesto(id, idClase);
             
             return result;
         }

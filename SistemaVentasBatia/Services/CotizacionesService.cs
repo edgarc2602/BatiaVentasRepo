@@ -161,10 +161,10 @@ namespace SistemaVentasBatia.Services
             //int idZona = await cotizacionesRepo.ObtenerIdZona(operariosVM.IdDireccionCotizacion);
             //decimal sueldo = await cotizacionesRepo.ObtenerSueldoPorIdTabuladorIdClase(operariosVM.IdPuesto, operariosVM.IdClase,idZona);
             //operariosVM.Sueldo = sueldo;
-            if(((int)operariosVM.IdTurno) == 3 )
-            {
-                operariosVM.Sueldo = operariosVM.Sueldo + 300;
-            }
+            //if(((int)operariosVM.IdTurno) == 3 )
+            //{
+            //    operariosVM.Sueldo = operariosVM.Sueldo + 300;
+            //}
 
             var operariosModel = mapper.Map<PuestoDireccionCotizacion>(operariosVM);
 
@@ -223,7 +223,7 @@ namespace SistemaVentasBatia.Services
             {
 
             }
-            operariosModel.IMSS = operariosModel.Sueldo * .139M;
+            operariosModel.IMSS = 1834;/*operariosModel.Sueldo * .139M;*/
 
             operariosModel.ISN = operariosModel.Sueldo * .03M;
 
