@@ -575,13 +575,13 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-floating  mb-3">
-                            <input type="text" class="form-control" [(ngModel)]="txtMatKey" asp-for="Keywords" placeholder="Escriba un nombre">
+                            <input type="text" class="form-control" [(ngModel)]="txtMatKey" asp-for="Keywords" placeholder="Escriba un nombre" (input)="getMat(selTipo)">
                             <label asp-for="Keywords">Producto</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-floating mb-3">
-                            <select class="form-select" [(ngModel)]="selMatDir" asp-for="IdDireccionCotizacion" aria-label="IdDireccionCotizacion">
+                            <select class="form-select" [(ngModel)]="selMatDir" asp-for="IdDireccionCotizacion" aria-label="IdDireccionCotizacion" (change)="getMat(selTipo)">
                                 <option value="0" selected>Selecciona una opción...</option>
                                 <option *ngFor="let dm of cotdirs" [ngValue]="dm.id">{{ dm.descripcion }}</option>
                             </select>
@@ -599,7 +599,7 @@
                     </div>-->
 
                     <div class="col-md-6 mb-3">
-                        <button type="button" (click)="getMat(selTipo)" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-search"></i> Buscar</button>
+                        <!--<button type="button" (click)="getMat(selTipo)" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-search"></i> Buscar</button>-->
                         <button type="button" (click)="getNewMat(selTipo)" class="btn btn-outline-primary float-end  box-shadow mb-3" id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar {{ selTipo }}</button>
                     </div>
                 </div>
