@@ -89,7 +89,7 @@ namespace SistemaVentasBatia.Repositories
             var query = @"
 SELECT es.id_municipio Id,
 m.Municipio Descripcion FROM tb_estado_municipio es
-INNER JOIN dbo.Municipios m ON m.Id_Municipio = es.id_municipio
+INNER JOIN tb_municipio m ON m.Id_Municipio = es.id_municipio
 WHERE es.id_estado = @idEstado ORDER BY m.Municipio";
 
             var municipios = new List<Catalogo>();

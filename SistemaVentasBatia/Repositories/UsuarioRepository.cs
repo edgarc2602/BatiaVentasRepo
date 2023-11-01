@@ -56,7 +56,7 @@ namespace SistemaVentasBatia.Repositories
             usuario.Firma = base64Data;
 
             var query = @"
-INSERT INTO Autorizacion_ventas 
+INSERT INTO  tb_autorizacion_ventas 
 (
 IdPersonal,
 per_autoriza,
@@ -143,7 +143,7 @@ SELECT
     (SELECT COUNT(id_personal) FROM tb_cotizacion c WHERE c.id_personal = av.IdPersonal) AS Cotizaciones,
     (SELECT COUNT(id_personal) FROM tb_prospecto pros WHERE pros.id_personal = av.IdPersonal) AS Prospectos
 FROM
-    Autorizacion_ventas av
+     tb_autorizacion_ventas av
 INNER JOIN
     Personal p ON av.IdPersonal = p.IdPersonal
 WHERE
@@ -185,8 +185,7 @@ SELECT
     av.IdPersonal AS IdPersonal,
     m.Mes AS Mes,
     COALESCE(SUM(CASE WHEN MONTH(c.fecha_alta) = m.Mes THEN 1 ELSE 0 END), 0) AS CotizacionesPorMes
-FROM
-    Autorizacion_ventas av
+FROM tb_autorizacion_ventas av
 INNER JOIN
     Personal p ON av.IdPersonal = p.IdPersonal
 CROSS JOIN
