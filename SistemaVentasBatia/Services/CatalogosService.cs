@@ -41,7 +41,6 @@ namespace SistemaVentasBatia.Services
             this.mapper = mapper;
             _option = options.Value;
         }
-
         public async Task<List<CatalogoDTO>> ObtenerEstados()
         {
             var estados = mapper.Map<List<CatalogoDTO>>(await catalogosRepo.ObtenerEstados());
@@ -101,7 +100,6 @@ namespace SistemaVentasBatia.Services
 
             return turnos;
         }
-
         public async Task<List<CatalogoDTO>> ObtenerCatalogoSucursalesCotizacion(int idCotizacion)
         {
             var sucursales = mapper.Map<List<CatalogoDTO>>(await catalogosRepo.ObtenerCatalogoDireccionesCotizacion(idCotizacion));
@@ -115,7 +113,6 @@ namespace SistemaVentasBatia.Services
 
             return puestos;
         }
-
         public async Task<List<CatalogoDTO>> ObtenerCatalogoProductos(Servicio servicio)
         {
             var productos = mapper.Map<List<CatalogoDTO>>(await catalogosRepo.ObtenerCatalogoProductos(servicio));

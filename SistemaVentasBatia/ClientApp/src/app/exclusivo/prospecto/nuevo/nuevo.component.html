@@ -1,8 +1,8 @@
 <style>
     .btn-bottom-right {
         position: absolute;
-        bottom: 80px; /* Puedes ajustar la distancia desde la parte inferior */
-        right: 30px; /* Puedes ajustar la distancia desde la derecha */
+        bottom: 80px;
+        right: 30px;
     }
 </style>
 <div [@fadeInOut]>
@@ -10,20 +10,7 @@
     <div class="row pt-1 mb-3">
         <h2>Prospecto</h2>
     </div>
-
     <div id="dvCoincidenciasProspectos"></div>
-
-    <!--<ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab"
-                aria-controls="general" aria-selected="true">General</button>
-        </li>-->
-    <!--<li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#direccion" type="button" role="tab"
-            [disabled]="pro.idProspecto < 1" aria-controls="direccion" aria-selected="false">Directorio</button>
-    </li>-->
-    <!--</ul>-->
-    <!--<br />-->
     <div class="tab-content">
         <div class="tab-pane fade show active" role="tabpanel" id="general">
 
@@ -47,7 +34,6 @@
                         <input type="text" class="form-control validacion-prospecto" [(ngModel)]="pro.rfc" data-campo="rfc">
                         <label asp-for="Rfc">RFC</label>
                     </div>
-                    <!--<span *ngIf="ferr('Rfc')" class="text-danger">{{ terr('Rfc') }}</span>-->
                 </div>
             </div>
             <div class="row">
@@ -84,12 +70,9 @@
                     </div>
                 </div>
             </div>
-
             <br />
-
             <h5>Documentación</h5>
             <br />
-
             <div class="row">
                 <div class="col-sm-6 col-md-3" *ngFor="let d of docs">
                     <div class="form-check">
@@ -119,9 +102,7 @@
                     </div>
                 </div>
             </div>
-
             <br />
-
             <div class="row">
                 <div *ngFor="let direccion of direcs.direcciones" class="col-sm-12 col-md-6 mb-2">
                     <div class="card">
@@ -141,7 +122,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <br/>

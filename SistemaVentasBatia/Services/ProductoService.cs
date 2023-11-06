@@ -22,7 +22,6 @@ namespace SistemaVentasBatia.Services
         Task<bool> AgregarServicio(string servicio, int idPersonal);
         Task<bool> DeleteHerramienta(int id);
         Task<bool> DeleteEquipo(int id);
-
         Task<IEnumerable<ProductoItemDTO>> GetMaterialPuesto(int idPuesto);
         Task<IEnumerable<ProductoItemDTO>> GetHerramientaPuesto(int idPuesto);
         Task<IEnumerable<ProductoItemDTO>> GetUniformePuesto(int idPuesto);

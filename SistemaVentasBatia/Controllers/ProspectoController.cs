@@ -109,7 +109,6 @@ namespace SistemaVentasBatia.Controllers
         {
             var coincidenciasProspecto = await prospectosSvc.ObtenerCoincidenciasProspecto(nombreComercial, rfc);
 
-            // return PartialView("_ModalCoincidenciasProspecto", coincidenciasProspecto);
             return Ok(coincidenciasProspecto);
         }
 

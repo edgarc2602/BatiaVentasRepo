@@ -79,23 +79,6 @@ namespace SistemaVentasBatia.Controllers
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [HttpGet("[action]/{idPuestoDireccionCotizacion}")]
         public async Task<ActionResult<ListaMaterialesCotizacionLimpiezaDTO>> GetByPuesto(int idPuestoDireccionCotizacion)
         {
@@ -129,12 +112,6 @@ namespace SistemaVentasBatia.Controllers
         [HttpDelete("{registroAEliminar}")]
         public async Task<ActionResult<bool>> EliminarMaterialOperario(int registroAEliminar)
         {
-            //var idPuestoDireccionCotizacion = await _logic.ObtenerIdPuestoDireccionCotizacionPorMaterial(registroAEliminar);
-         
-            //var idDireccionCotizacion = await _logic.ObtenerIdDireccionCotizacionPorMaterial(registroAEliminar);
-
-            //var idCotizacion = await _logic.ObtenerIdCotizacionPorMaterial(registroAEliminar);
-
             await _logic.EliminarMaterialDeCotizacion(registroAEliminar);
 
             return true;

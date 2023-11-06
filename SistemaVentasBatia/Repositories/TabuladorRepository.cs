@@ -80,26 +80,6 @@ namespace SistemaVentasBatia.Repositories
             }
             return ls;
         }
-        //public async Task<IEnumerable<Tabulador>> ObtenerPorEstado(int id)
-        //{
-        //    IEnumerable<Tabulador> ls;
-        //    var query = @"SELECT id_tabulador as IdTabulador, nombre as Nombre, id_estado as IdEstado
-        //                FROM tb_cotiza_tabulador a
-        //                WHERE a.id_estado = isnull(nullif(@id, 0), a.id_estado);";
-        //    try
-        //    {
-        //        using (var connection = ctx.CreateConnection())
-        //        {
-        //            ls = (await connection.QueryAsync<Tabulador>(query, new { id })).ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //    return ls;
-        //}
-
 
         public async Task<PuestoTabulador> ObtenerTabuladorPuesto(int idPuesto, int idClase)
         {
@@ -129,6 +109,5 @@ WHERE id_puesto = @idPuesto AND id_clase = @idClase
             }
             return result;
         }
-
     }
 }

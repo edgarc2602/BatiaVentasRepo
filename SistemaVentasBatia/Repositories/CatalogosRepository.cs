@@ -82,8 +82,6 @@ namespace SistemaVentasBatia.Repositories
             return servicios;
         }
 
-
-
         public async Task<List<Catalogo>> ObtenerMunicipios(int idEstado)
         {
             var query = @"
@@ -125,7 +123,6 @@ WHERE es.id_estado = @idEstado ORDER BY m.Municipio";
             {
                 throw ex;
             }
-
             return tiposInmueble;
         }
 
@@ -148,7 +145,6 @@ WHERE es.id_estado = @idEstado ORDER BY m.Municipio";
             {
                 throw ex;
             }
-
             return puestos;
         }
 
@@ -169,7 +165,6 @@ WHERE es.id_estado = @idEstado ORDER BY m.Municipio";
             {
                 throw ex;
             }
-
             return servicios;
         }
 
@@ -216,7 +211,6 @@ FROM tb_jornada";
             {
                 throw ex;
             }
-
             return direcciones;
         }
 
@@ -240,7 +234,6 @@ FROM tb_clase";
             {
                 throw ex;
             }
-
             return direcciones;
         }
         public async Task<List<MaterialPuesto>> ObtenerMaterialDefaultPorPuesto(int idPuesto)
@@ -262,7 +255,6 @@ FROM tb_clase";
             {
                 throw ex;
             }
-
             return materialPuesto;
         }
 
@@ -286,7 +278,6 @@ FROM tb_clase";
             {
                 throw ex;
             }
-
             return direccionesCotizacion;
         }
 
@@ -311,7 +302,6 @@ FROM tb_clase";
             {
                 throw ex;
             }
-
             return puestosCotizacion;
         }
 
@@ -334,7 +324,6 @@ FROM tb_clase";
             {
                 throw ex;
             }
-
             return puestosCotizacion;
         }
 
@@ -358,7 +347,6 @@ FROM tb_clase";
             {
                 throw ex;
             }
-
             return puestosCotizacion;
         }
 
@@ -404,7 +392,6 @@ FROM tb_clase";
             {
                 throw ex;
             }
-
             return materialPuesto;
         }
 
@@ -427,7 +414,6 @@ FROM tb_clase";
             {
                 throw ex;
             }
-
             return materialPuesto;
         }
     }

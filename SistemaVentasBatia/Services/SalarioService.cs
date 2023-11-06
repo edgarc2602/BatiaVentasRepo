@@ -49,18 +49,6 @@ namespace SistemaVentasBatia.Services
 
         public async Task<SalarioMinDTO> GetFind(int idTabulador, int idPuesto, int idTurno)
         {
-
-            //IEnumerable<SalarioMinDTO> lf = _mapper.Map<IEnumerable<SalarioMinDTO>>(
-            // await _repo.Busqueda(idTabulador, idPuesto, idTurno)).ToList
-            // //reg = lf.FirstOrDefault();
-            //if (reg == null)
-            //{
-            //    SalarioMinimo sm = await _repo.ObtenerMinimo(DateTime.Today.Year);
-            //    reg = new SalarioMinDTO
-            //    {
-            //        SalarioI = sm.SalarioBase * 30.4167m
-            //    };
-            //}
             decimal result = 0;
             SalarioMinDTO reg = new SalarioMinDTO();
             if (idTabulador == 1)

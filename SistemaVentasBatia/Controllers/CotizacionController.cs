@@ -38,16 +38,6 @@ namespace SistemaVentasBatia.Controllers
             this.catalogosSvc = catalogosSvc;
         }
 
-        //private readonly IConfiguration _configuration;
-
-        //public CotizacionController(IConfiguration configuration)
-        //{
-        //    _configuration = configuration;
-        //}
-
-        ///{idPersonal}
-
-
         [HttpGet("{idPersonal}/{pagina}")]
         public async Task<ActionResult<ListaCotizacionDTO>> Index(int idProspecto, EstatusCotizacion estatus, int servicio, int idPersonal = 0, int pagina = 1)
         {
@@ -56,10 +46,8 @@ namespace SistemaVentasBatia.Controllers
             listaCotizacionesVM.IdEstatusCotizacion = estatus;
             listaCotizacionesVM.IdServicio = servicio;
             listaCotizacionesVM.IdProspecto = idProspecto;
-
             int autorizacion = await cotizacionesSvc.ObtenerAutorizacion(idPersonal);
             await cotizacionesSvc.ObtenerListaCotizaciones(listaCotizacionesVM, autorizacion, idPersonal);
-
             return listaCotizacionesVM;
         }
 
@@ -67,16 +55,7 @@ namespace SistemaVentasBatia.Controllers
         public async Task<ActionResult<CotizacionDTO>> NuevoProspecto([FromBody] ProspectoDTO prospectoVM)
         {
             await prospectosSvc.CrearProspecto(prospectoVM);
-
             var cotizacionVM = new CotizacionDTO { IdProspecto = prospectoVM.IdProspecto };
-            /*
-            foreach(var servicio in prospectoVM.ListaServicios)
-            {
-                cotizacionVM.IdServicio = (Servicio)servicio.Id;
-                await cotizacionesSvc.CrearCotizacion(cotizacionVM);
-            }
-            */
-
             return cotizacionVM;
         }
 

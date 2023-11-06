@@ -1,17 +1,15 @@
 <style>
     .btn-bottom-right {
         position: absolute;
-        bottom: 80px; /* Puedes ajustar la distancia desde la parte inferior */
-        right: 30px; /* Puedes ajustar la distancia desde la derecha */
+        bottom: 80px;
+        right: 30px;
     }
 </style>
 <div [@fadeInOut]>
     <div class="pt-3 mb-2">
         <h1 class="h2">Nueva Cotización</h1>
     </div>
-
     <br />
-
     <div class="d-flex flex-column justify-content-center h-100">
         <div class="row">
             <div class="col-sm-12 col-md-6 text-center mb-2">
@@ -22,24 +20,19 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="modalCrearProspecto" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-
             <div class="modal-content">
-
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Nuevo Prospecto</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-
                 <!-- Modal body -->
                 <div class="modal-body">
                     <pros-widget [idP]="model.idProspecto" (smEvent)="savePros($event)"></pros-widget>
                     <h5>Servicios</h5>
                     <br />
-
                     <div class="row">
                         <div *ngFor="let s of sers" class="col-sm-6 col-md-3">
                             <div class="form-check">
@@ -52,26 +45,21 @@
                         <span *ngIf="ferr('ListaServicio')" class="text-danger">{{ terr('ListaServicio') }}</span>
                     </div>
                 </div>
-
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
-
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="modalSeleccionarProspecto" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Seleccionar Prospecto</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div>
@@ -95,10 +83,8 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-
                         <h5>Servicios</h5>
                         <br />
-
                         <div class="row">
                             <div *ngFor="let s of sers" class="col-sm-6 col-md-3">
                                 <div class="form-check">
@@ -112,14 +98,11 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-check"></i> Iniciar Cotización</button>
-
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
-
             </div>
         </div>
     </div>

@@ -9,7 +9,6 @@ export class LatMenuComponent implements OnInit {
 
     constructor() {
     }
-
     ngOnInit(): void {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

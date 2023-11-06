@@ -16,7 +16,6 @@ import { Cotizacionupd } from 'src/app/models/cotizacionupd';
 export class ActualizaCotizacionWidget {
 
     model: Material = {} as Material;
-
     modelcot: Cotizacionupd = {
         idCotizacion: 0, indirecto: '', utilidad: '', comisionSV: '',comisionExt: ''
     };

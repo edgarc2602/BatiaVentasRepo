@@ -1,19 +1,15 @@
 <style>
     .btn-bottom-right {
         position: absolute;
-        bottom: 80px; /* Puedes ajustar la distancia desde la parte inferior */
-        right: 30px; /* Puedes ajustar la distancia desde la derecha */
+        bottom: 80px; 
+        right: 30px; 
     }
 </style>
 <div [@fadeInOut]>
     <br />
     <div class="row pt-1 mb-3">
         <div>
-            <!--<div class="btn-group float-end">
-                <a [routerLink]="['/exclusivo/nuevocot']" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nueva Cotización</a>
-            </div>-->
             <h1 class="h2">Cotizaciones</h1>
-
         </div>
     </div>
     <div>
@@ -48,14 +44,8 @@
             <div class="col-md-3 mb-3 text-end">
                 <a [routerLink]="['/exclusivo/nuevocot']" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nueva Cotización</a>
             </div>
-
-            <!--<div class="col-md-3 mb-3">
-        <button type="button" (click)="busca()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
-    </div>-->
         </div>
     </div>
-
-
     <div class="row" style="border-radius: 10px; overflow-x: hidden;">
         <table class="table table-borderless table-striped table-responsive box-shadow">
             <thead>
@@ -65,9 +55,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!--
-                var action = cotizacion.IdServicio == Servicio.Limpieza ? "LimpiezaResumen" : (cotizacion.IdServicio == Servicio.Mantenimiento ? "MantenimientoResumen" : (cotizacion.IdServicio == Servicio.Sanitización ? "SanitizacionResumen" : ""));
-                -->
                 <tr *ngFor="let cot of lcots.cotizaciones">
                     <td>
                         <div class="row pb-4">
@@ -101,7 +88,6 @@
                         <button type="button" class="btn btn-sm text-primary mb-1" [routerLink]="['/exclusivo/resumen/' + cot.idCotizacion]" data-bs-toggle="tooltip" title="Detalle">
                             <i class="fa-solid fa-search-dollar fa-2x"></i>
                         </button>
-                        <!--<button type="button" (click)="removeCot(cot.idCotizacion)" class="btn btn-outline-secondary"><i class="fa-solid fa-delete-left"></i> Desactivar </button>-->
                         <a *ngIf="cot.total == 0" class="btn btn-sm text-success mb-1" (click)="editar(cot.idCotizacion, cot.nombreComercial,cot.servicio)" data-bs-toggle="tooltip" title="Editar">
                             <i class="fa-solid fa-pencil fa-2x"></i>
                         </a>
@@ -120,9 +106,7 @@
     <br />
     <br />
     <br />
-    
     <button type="button" class="btn btn-primary btn-bottom-right box-shadow" (click)="goBack()">Volver</button>
-
     <elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
     <editcot-widget (ansEvent)="elimina($event)"></editcot-widget>
 </div>

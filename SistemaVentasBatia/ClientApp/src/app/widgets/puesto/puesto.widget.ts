@@ -29,7 +29,6 @@ export class PuestoWidget {
     tabs: Catalogo[] = [];
     ljor: Catalogo[] = [];
     lclas: Catalogo[] = [];
-
     evenSub: Subject<void> = new Subject<void>();
     isErr: boolean = false;
     validaMess: string = '';
@@ -95,13 +94,10 @@ export class PuestoWidget {
                     this.sendEvent.emit(0);
                     this.close();
                     this.isErr = false;
-                    //this.validaMess = 'Guardado correctamente';
                     this.evenSub.next();
-                    
                 }, err => {
                     console.log(err);
                     this.isErr = true;
-                    //this.validaMess = '¡Ha ocurrido un error!';
                     this.evenSub.next();
                     if (err.error) {
                         if (err.error.errors) {
@@ -141,8 +137,6 @@ export class PuestoWidget {
     chgSalariodos() {
         this.http.get<number>(`${this.url}api/salario/${this.model.idPuesto}/${this.model.idClase}/${this.model.idTabulador}/${this.model.idTurno}`).subscribe(response => {
             this.model.sueldo = response;
-            //this.model.idSalario = response.idSalario;
-            //this.model.sueldo = response.salarioI;
         }, err => console.log(err));
     }
 
@@ -209,7 +203,6 @@ export class PuestoWidget {
 
     getZonaDefault(idDireccionCotizacion: number) {
         this.http.get<number>(`${this.url}api/salario/getzonadefault/${idDireccionCotizacion}`).subscribe(response => {
-        //this.http.get<number>(`${this.url}api/salario/${this.model.idPuesto}/${this.model.idClase}/${this.model.idTabulador}/${this.model.idTurno}`).subscribe(response => {
             this.model.idTabulador = response;
         }, err => console.log(err));
     }

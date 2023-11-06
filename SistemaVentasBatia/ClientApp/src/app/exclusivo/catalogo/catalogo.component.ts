@@ -44,44 +44,33 @@ export class CatalogoComponent {
     sers: Catalogo[] = [];
     tser: Catalogo[] = [];
     grupo: string = 'material';
-
     zona1: number = 0;
     zona2: number = 0;
     zona3: number = 0;
     zona4: number = 0;
     zona5: number = 0;
-
     costoIndirecto: number = 0;
     utilidad: number = 0;
     comisionSobreVenta: number = 0;
     comisionExterna: number = 0;
     fechaAplica: string = '';
-    
-
     cotpor: CotizaPorcentajes = {
         idPersonal: 0, costoIndirecto: 0, utilidad: 0, comisionSobreVenta: 0, comisionExterna: 0, fechaAlta: null, personal: '', fechaAplica: null
     };
-
     sal: PuestoTabulador = {
        idSueldoZonaClase: 0,  idPuesto: 0, idClase: 0, zona1: 0, zona2: 0, zona3: 0, zona4: 0, zona5: 0
     };
     validaMess: string = '';
     evenSub: Subject<void> = new Subject<void>();
-
     selectedImage: string | ArrayBuffer | null = null;
     idPersonal: number = 0;
     autorizacion: number = 0;
-
-
     usuario: UsuarioRegistro = {
         idAutorizacionVentas: 0, idPersonal: 0, autoriza: 0, nombres: '', apellidos: '', puesto: '', telefono: '', telefonoExtension: '', telefonoMovil: '', email: '',
         firma: '', revisa: 0
     }
-
-
     lclas: Catalogo[] = [];
     idClase: number = 1;
-
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, public user: StoreUser) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
@@ -90,12 +79,6 @@ export class CatalogoComponent {
         http.get<Catalogo[]>(`${url}api/catalogo/getservicio`).subscribe(response => {
             this.sers = response;
         }, err => console.log(err));
-        //http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
-        //    this.pues = response;
-        //}, err => console.log(err));
-        //http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
-        //    this.pues = response;
-        //}, err => console.log(err));
         http.get<Catalogo[]>(`${url}api/catalogo/gettiposervicio`).subscribe(response => {
             this.tser = response;
         }, err => console.log(err));
@@ -224,11 +207,6 @@ export class CatalogoComponent {
         }, err => console.log(err));    
     }
 
-
-
-
-
-
     onFileSelected(event: any): void {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
@@ -236,22 +214,16 @@ export class CatalogoComponent {
             reader.onload = (e: any) => {
                 this.selectedImage = e.target.result as string | ArrayBuffer | null;
             };
-
             reader.readAsDataURL(selectedFile);
         }
     }
 
     guardarImagen(): void {
         if (this.selectedImage) {
-            //aplicar modelo y enviar
-            //this.usuario.firma = this.selectedImage;
-
-            // Convierte el ArrayBuffer a Base64
             if (this.selectedImage instanceof ArrayBuffer) {
                 const base64Firma = this.arrayBufferToBase64(this.selectedImage);
                 this.usuario.firma = base64Firma;
             } else if (typeof this.selectedImage === 'string') {
-                // Si ya es una cadena, asigna directamente
                 this.usuario.firma = this.selectedImage;
             } else {
                 console.error('Tipo no compatible para selectedImage');
@@ -268,7 +240,6 @@ export class CatalogoComponent {
             else {
                 this.usuario.revisa = 0;
             }
-
             this.usuario.idPersonal = this.idPersonal;
             this.http.post<boolean>(`${this.url}api/usuario/agregarusuario`, this.usuario).subscribe(response => {
                 this.nuevoUsuario();
@@ -293,34 +264,16 @@ export class CatalogoComponent {
     }
 
     getTabulador() {
-        //this.limpiarObjeto();
-        //this.limpiarngModel();
         this.http.get<PuestoTabulador>(`${this.url}api/tabulador/ObtenerTabuladorPuesto/${this.selPuesto}/${this.idClase}`).subscribe(response => {
             this.sal = response;
-            //this.zona1 = this.sal.zona1;
-            //this.zona2 = this.sal.zona2;
-            //this.zona3 = this.sal.zona3;
-            //this.zona4 = this.sal.zona4;
-            //this.zona5 = this.sal.zona5;
-            /*this.limpiarObjeto();*/
         }, err => console.log(err));
     }
     actualizarSalarios(id: number) {
-        /*this.limpiarObjeto();*/
         this.obtenerValores();
         this.http.post<PuestoTabulador>(`${this.url}api/cotizacion/actualizarsalarios`, this.sal).subscribe(response => {
-            /*this.limpiarngModel();*/
-            /*this.limpiarObjeto();*/
             this.getTabulador();
         }, err => console.log(err));
     }
-    //limpiarngModel() {
-    //    this.zona1 = 0;
-    //    this.zona2 = 0;
-    //    this.zona3 = 0;
-    //    this.zona4 = 0;
-    //    this.zona5 = 0;
-    //}
     limpiarObjeto() {
         this.sal.zona1 = 0;
         this.sal.zona2 = 0;
@@ -337,15 +290,4 @@ export class CatalogoComponent {
         this.sal.idClase = this.idClase;
         this.sal.idPuesto = this.selPuesto;
     }
-
-
-
-
-
-
-
-
-
-
 }
-

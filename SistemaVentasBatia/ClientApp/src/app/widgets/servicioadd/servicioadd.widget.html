@@ -7,7 +7,6 @@
                 <h4 *ngIf="edit > 0" class="modal-title">Modificar servicio</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
             <!-- Modal body -->
             <div class="modal-body">
                 <div>
@@ -21,7 +20,6 @@
                                 <label for="ddlServicio">Directorio</label>
                             </div>
                         </div>
-
                         <div class="col-md-4 mb-3">
                             <div class="form-floating">
                                 <select class="form-select" [(ngModel)]="model.idServicioExtra">
@@ -58,12 +56,9 @@
                     </div>
                 </div>
             </div>
-
             <!-- Modal footer -->
             <div class="modal-footer">
-
                 <button type="button" id="btnGuardarMaterial" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-save"></i> Guardar</button>
-                <!--(click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'material')"-->
                 <button type="button" class="btn btn-outline-secondary" (click)="close()" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>

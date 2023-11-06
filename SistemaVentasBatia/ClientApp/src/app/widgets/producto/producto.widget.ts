@@ -104,6 +104,5 @@ export class ProductoWidget implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        //this.model.idPuesto = this.idP;
     }
 }

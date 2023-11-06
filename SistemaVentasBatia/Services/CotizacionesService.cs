@@ -34,7 +34,6 @@ namespace SistemaVentasBatia.Services
         Task<int> DuplicarCotizacion(int idCotizacion);
         Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV, string comisionExt);
         Task <bool>ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio);
-        
         Task<ListaMaterialesCotizacionLimpiezaDTO> ObtenerMaterialCotizacionLimpieza(int id);
         Task ActualizarPuestoDireccionCotizacion(PuestoDireccionCotizacionDTO operarioVM);
         Task <Boolean>ActualizarSalarios(PuestoTabulador salarios);
@@ -43,8 +42,6 @@ namespace SistemaVentasBatia.Services
         Task<int> ObtenerIdPuestoDireccionCotizacionPorMaterial(int registroAEliminar);
         Task<int> ObtenerIdDireccionCotizacionPorMaterial(int registroAEliminar);
         Task<int> ObtenerIdCotizacionPorMaterial(int idDireccionCotizacion);
-        //Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM, object admin, int idPersonal);
-
         Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion();
         Task<bool> ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes);
     }
@@ -75,7 +72,6 @@ namespace SistemaVentasBatia.Services
 
             cotizacionVM.IdCotizacion = cotizacion.IdCotizacion;
         }
-
         
         public async Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM, int autorizacion, int idPersonal)
         {
@@ -158,14 +154,6 @@ namespace SistemaVentasBatia.Services
 
         public async Task CrearPuestoDireccionCotizacion(PuestoDireccionCotizacionDTO operariosVM)
         {
-            //int idZona = await cotizacionesRepo.ObtenerIdZona(operariosVM.IdDireccionCotizacion);
-            //decimal sueldo = await cotizacionesRepo.ObtenerSueldoPorIdTabuladorIdClase(operariosVM.IdPuesto, operariosVM.IdClase,idZona);
-            //operariosVM.Sueldo = sueldo;
-            //if(((int)operariosVM.IdTurno) == 3 )
-            //{
-            //    operariosVM.Sueldo = operariosVM.Sueldo + 300;
-            //}
-
             var operariosModel = mapper.Map<PuestoDireccionCotizacion>(operariosVM);
 
             CalcularCostosOperario(operariosModel);
@@ -201,20 +189,13 @@ namespace SistemaVentasBatia.Services
 
         private void CalcularCostosOperario(PuestoDireccionCotizacion operariosModel)
         {
-
-
             //operariosModel.Aguinaldo = operariosModel.Vacaciones =
             //    Math.Round((operariosModel.Sueldo / 30m) * (15m / 365m) * 30m, 2);
-                    
             //operariosModel.PrimaVacacional =
             //    Math.Round((operariosModel.Vacaciones / 30m) * (15m / 365m) * 30m, 2);
-
             operariosModel.Aguinaldo =(((operariosModel.Sueldo / 30.4167m) * 15m) / 12m);
             //operariosModel.Vacaciones = Math.Round((((operariosModel.Sueldo / 30.4167m) * 12m)* .25m) / 12m, 2);
-
             operariosModel.PrimaVacacional =((((operariosModel.Sueldo / 30.4167m) * 12m) * .25m) / 12m);
-
-
             if (operariosModel.Sueldo > (207.44m * 30.4167m))
             {
 
@@ -224,16 +205,10 @@ namespace SistemaVentasBatia.Services
 
             }
             operariosModel.IMSS = 1834;/*operariosModel.Sueldo * .139M;*/
-
             operariosModel.ISN = operariosModel.Sueldo * .03M;
-
-
-
-
             operariosModel.Total = Math.Round(operariosModel.Sueldo + operariosModel.Aguinaldo + operariosModel.PrimaVacacional
                 + operariosModel.IMSS + operariosModel.ISN, 2); //+ operariosModel.Vacaciones 
         }
-
 
         private async Task InsertarMaterialesDefaultOperarios(List<MaterialPuesto> materialPuesto, List<MaterialPuesto> uniformePuesto, List<MaterialPuesto> equipoPuesto, List<MaterialPuesto> herramientaPuesto, int idOperario, int idCotizacion, int idDireccionCotizacion, Enums.Turno idTurno, int idPersonal)
         {
@@ -354,27 +329,17 @@ namespace SistemaVentasBatia.Services
 
         public async Task<ResumenCotizacionLimpiezaDTO> ObtenerResumenCotizacionLimpieza(int id)
         {
-            
-
             var resumenCotizacion = mapper.Map<ResumenCotizacionLimpiezaDTO>(await cotizacionesRepo.ObtenerResumenCotizacionLimpieza(id));
             var obtenercot = mapper.Map<Cotizacion>(await cotizacionesRepo.ObtenerCotizacion(id));
             var obtenernombre = mapper.Map<Cotizacion>(await cotizacionesRepo.ObtenerNombreComercialCotizacion(id));
-            
-
-            
-
             try
             {
-                //resumenCotizacion.SubTotal = resumenCotizacion.SubTotal + resumenCotizacion.Servicio;
                 resumenCotizacion.SubTotal = resumenCotizacion.Salario + resumenCotizacion.Provisiones + resumenCotizacion.CargaSocial + resumenCotizacion.Material + resumenCotizacion.Uniforme + resumenCotizacion.Equipo + resumenCotizacion.Herramienta + resumenCotizacion.Servicio;
                 resumenCotizacion.Indirecto = resumenCotizacion.SubTotal * obtenercot.CostoIndirecto;
                 resumenCotizacion.Utilidad = (resumenCotizacion.SubTotal + resumenCotizacion.Indirecto) * obtenercot.Utilidad;
                 resumenCotizacion.ComisionSV = (resumenCotizacion.SubTotal + resumenCotizacion.Indirecto + resumenCotizacion.Utilidad) * (obtenercot.ComisionSV);
                 resumenCotizacion.ComisionExt = (resumenCotizacion.SubTotal + resumenCotizacion.Indirecto + resumenCotizacion.Utilidad + resumenCotizacion.ComisionSV) * (obtenercot.ComisionExt);
                 resumenCotizacion.NombreComercial = obtenernombre.NombreComercial;
-
-                
-
                 decimal indirecto;
                 if (resumenCotizacion.SubTotal != 0)
                 {
@@ -414,20 +379,14 @@ namespace SistemaVentasBatia.Services
                 {
                     ComisionExt = 0;
                 }
-
-
-
                 int indirectoint = Convert.ToInt32(indirecto);
                 int utilidadint = Convert.ToInt32(utilidad);
                 int comisionsvint = Convert.ToInt32(ComisionSV);
                 int comisionExtint = Convert.ToInt32(ComisionExt);
-
                 resumenCotizacion.IndirectoPor = indirectoint.ToString();
                 resumenCotizacion.UtilidadPor = utilidadint.ToString();
                 resumenCotizacion.CsvPor = comisionsvint.ToString();
                 resumenCotizacion.ComisionExtPor = comisionExtint.ToString();
-
-
                if (resumenCotizacion.SubTotal == 0)
                 {
                     resumenCotizacion.IndirectoPor = obtenercot.CostoIndirecto.ToString();
@@ -487,111 +446,17 @@ namespace SistemaVentasBatia.Services
             await cotizacionesRepo.EliminarOperario(registroAEliminar);
         }
 
-        //public async Task<int> DuplicarCotizacion(int idCotizacion)
-        //{
-        //    var idCotizacionNueva = await cotizacionesRepo.CopiarCotizacion(idCotizacion);
-
-        //    await cotizacionesRepo.CopiarDirectorioCotizacion(idCotizacion, idCotizacionNueva);
-
-        //    var direccionesCotizacion = await cotizacionesRepo.ObtieneDireccionesCotizacion(idCotizacion);
-
-        //    var direccionesCotizacionNueva = await cotizacionesRepo.ObtieneDireccionesCotizacion(idCotizacionNueva);
-
-        //    var productoscotizacion = await materialRepo.ObtieneMaterialesPorIdCotizacion( idCotizacion);
-
-        //    var uniformescotizacion = await materialRepo.ObtieneUniformesPorIdCotizacion( idCotizacion);
-
-        //    var equiposcotizacion = await materialRepo.ObtieneEquiposPorIdCotizacion( idCotizacion);
-
-        //    var herramientascotizacion = await materialRepo.ObtieneHerramientasPorIdCotizacion( idCotizacion);
-
-        //    foreach (var (direccionesNuevas, direccionesNUEVAS) in direccionesCotizacion.Zip(direccionesCotizacionNueva)) 
-
-        //    {
-        //        var direccionCotizacionNueva = direccionesCotizacionNueva.FirstOrDefault(x => x.IdDireccion == direccionesNuevas.IdDireccion);
-
-        //        var idPuestoDireccionCotizacionNuevo = await cotizacionesRepo.CopiarPlantillaDireccionCotizacion(direccionesNuevas.IdDireccionCotizacion, direccionCotizacionNueva.IdDireccionCotizacion);
-
-        //        foreach (var producto in productoscotizacion)
-        //        {
-        //            if (direccionesNuevas.IdDireccion == producto.IdDireccionCotizacionDireccion)
-        //            {
-        //                if (producto.IdPuestoDireccionCotizacion == 0)
-        //                {
-        //                    int idDirecCotNuevo = producto.IdPuestoDireccionCotizacion;
-        //                    await cotizacionesRepo.CopiarMaterial(producto, idCotizacionNueva, direccionesNUEVAS.IdDireccionCotizacion, idDirecCotNuevo);
-        //                }
-        //                else
-        //                {
-        //                    await cotizacionesRepo.CopiarMaterial(producto, idCotizacionNueva, direccionesNUEVAS.IdDireccionCotizacion, idPuestoDireccionCotizacionNuevo);
-        //                }
-        //            }
-        //        }
-        //        foreach (var producto in uniformescotizacion)
-        //        {
-        //            if (direccionesNuevas.IdDireccion == producto.IdDireccionCotizacionDireccion)
-        //            {
-        //                if (producto.IdPuestoDireccionCotizacion == 0)
-        //                {
-        //                    int idDirecCotNuevo = producto.IdPuestoDireccionCotizacion;
-        //                    await cotizacionesRepo.CopiarUniforme(producto, idCotizacionNueva, direccionesNUEVAS.IdDireccionCotizacion, idDirecCotNuevo);
-        //                }
-        //                else
-        //                {
-        //                    await cotizacionesRepo.CopiarUniforme(producto, idCotizacionNueva, direccionesNUEVAS.IdDireccionCotizacion, idPuestoDireccionCotizacionNuevo);
-        //                }
-        //            }
-        //        }
-        //        foreach (var producto in equiposcotizacion)
-        //        {
-        //            if (direccionesNuevas.IdDireccion == producto.IdDireccionCotizacionDireccion)
-        //            {
-        //                if (producto.IdPuestoDireccionCotizacion == 0)
-        //                {
-        //                    int idDirecCotNuevo = producto.IdPuestoDireccionCotizacion;
-        //                    await cotizacionesRepo.CopiarEquipo(producto, idCotizacionNueva, direccionesNUEVAS.IdDireccionCotizacion, idDirecCotNuevo);
-        //                }
-        //                else
-        //                {
-        //                    await cotizacionesRepo.CopiarEquipo(producto, idCotizacionNueva, direccionesNUEVAS.IdDireccionCotizacion, idPuestoDireccionCotizacionNuevo);
-        //                }
-
-        //            }
-        //        }
-        //        foreach (var producto in herramientascotizacion)
-        //        {
-        //            if (direccionesNuevas.IdDireccion == producto.IdDireccionCotizacionDireccion)
-        //            {
-        //                if (producto.IdPuestoDireccionCotizacion == 0)
-        //                {
-        //                    int idDirecCotNuevo = producto.IdPuestoDireccionCotizacion;
-        //                    await cotizacionesRepo.CopiarHerramienta(producto, idCotizacionNueva, direccionesNUEVAS.IdDireccionCotizacion, idDirecCotNuevo);
-        //                }
-        //                else
-        //                {
-        //                    await cotizacionesRepo.CopiarHerramienta(producto, idCotizacionNueva, direccionesNUEVAS.IdDireccionCotizacion, idPuestoDireccionCotizacionNuevo);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return idCotizacionNueva;
-        //}
-
-        
-
         public async Task<int> DuplicarCotizacion(int idCotizacion)
         {
             var idCotizacionNueva = await cotizacionesRepo.CopiarCotizacion(idCotizacion);
 
             await cotizacionesRepo.CopiarDirectorioCotizacion(idCotizacion, idCotizacionNueva);
 
-
             var direccionesCotizacion = await cotizacionesRepo.ObtieneDireccionesCotizacion(idCotizacion);
 
             var direccionesCotizacionNueva = await cotizacionesRepo.ObtieneDireccionesCotizacion(idCotizacionNueva);
 
-
-                var productoscotizacion = await materialRepo.ObtieneMaterialesPorIdCotizacion(idCotizacion);
+            var productoscotizacion = await materialRepo.ObtieneMaterialesPorIdCotizacion(idCotizacion);
 
             var uniformescotizacion = await materialRepo.ObtieneUniformesPorIdCotizacion(idCotizacion);
 
@@ -605,13 +470,10 @@ namespace SistemaVentasBatia.Services
 
                 var idPuestoDireccionCotizacionNuevo = await cotizacionesRepo.CopiarPlantillaDireccionCotizacion(direccionesNuevas.IdDireccionCotizacion, direccionCotizacionNueva.IdDireccionCotizacion);
             }
-
             var operariosCotizacion = await cotizacionesRepo.ObtieneOperariosCotizacion(idCotizacionNueva);
 
             var operariosCotizacionAnteriores = await cotizacionesRepo.ObtieneOperariosCotizacion(idCotizacion);
 
-
-            //Agrega elementos de operarios --OK
             foreach (var (dir, dirnueva) in direccionesCotizacion.Zip(direccionesCotizacionNueva))
             {
                 foreach (var (operario, operarioant) in operariosCotizacion.Zip(operariosCotizacionAnteriores))
@@ -628,7 +490,6 @@ namespace SistemaVentasBatia.Services
                     }
                     foreach (var uni in uniformescotizacion)
                     {
-                        //if (uni.IdPuesto == operario.IdPuesto && operario.IdDireccionCotizacion == dirnueva.IdDireccionCotizacion && uni.IdDireccionCotizacion == dir.IdDireccionCotizacion)
                         if (
                             uni.IdPuestoDireccionCotizacion == operarioant.IdPuestoDireccionCotizacion &&
                             uni.IdDireccionCotizacion == dir.IdDireccionCotizacion
@@ -639,7 +500,6 @@ namespace SistemaVentasBatia.Services
                     }
                     foreach (var equipo in equiposcotizacion)
                     {
-                        //if (equipo.IdPuesto == operario.IdPuesto && operario.IdDireccionCotizacion == dirnueva.IdDireccionCotizacion && equipo.IdDireccionCotizacion == dir.IdDireccionCotizacion)
                         if (
                             equipo.IdPuestoDireccionCotizacion == operarioant.IdPuestoDireccionCotizacion &&
                             equipo.IdDireccionCotizacion == dir.IdDireccionCotizacion
@@ -650,7 +510,6 @@ namespace SistemaVentasBatia.Services
                     }
                     foreach (var herr in herramientascotizacion)
                     {
-                        //if (herr.IdPuesto == operario.IdPuesto && operario.IdDireccionCotizacion == dirnueva.IdDireccionCotizacion && herr.IdDireccionCotizacion == dir.IdDireccionCotizacion)
                         if (
                             herr.IdPuestoDireccionCotizacion == operarioant.IdPuestoDireccionCotizacion &&
                             herr.IdDireccionCotizacion == dir.IdDireccionCotizacion
@@ -703,7 +562,6 @@ namespace SistemaVentasBatia.Services
 
         public async Task <bool>ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio)
         {
-
             bool result = await cotizacionesRepo.ValidarDirecciones(idCotizacion);
 
             if (result == true)
@@ -714,7 +572,6 @@ namespace SistemaVentasBatia.Services
             {
                 result = false;
             }
-
             return result;
         }
 
@@ -771,7 +628,6 @@ namespace SistemaVentasBatia.Services
             bool result =  await cotizacionesRepo.ActualizarSalarios(salarios);
             return result;
         }
-
 
         public async Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion()
         {

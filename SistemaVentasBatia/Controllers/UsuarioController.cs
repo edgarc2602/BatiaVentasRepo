@@ -25,9 +25,6 @@ namespace SistemaVentasBatia.Controllers
             return await _logic.Login(dto);
         }
 
-
-
-
         [HttpPost("[action]")]
         public async Task<ActionResult<bool>> AgregarUsuario([FromBody] UsuarioRegistro usuario)
         {
@@ -35,9 +32,6 @@ namespace SistemaVentasBatia.Controllers
             result = await _logic.InsertarUsuario(usuario);
             return true;
         }
-
-
-
 
         [HttpGet("[action]")]
         public async Task<ActionResult<List<UsuarioGrafica>>> ObtenerCotizacionesUsuarios()

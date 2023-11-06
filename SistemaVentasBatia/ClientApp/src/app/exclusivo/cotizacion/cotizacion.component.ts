@@ -30,24 +30,17 @@ export class CotizacionComponent implements OnInit, OnDestroy {
     lsers: ItemN[] = [];
     lests: ItemN[] = [];
     lpros: Prospecto[] = [];
-
     model: CotizaResumenLim = {
         idCotizacion: 0, idProspecto: 0, salario: 0, cargaSocial: 0, provisiones: 0,
         material: 0, uniforme: 0, equipo: 0, herramienta: 0, servicio: 0,
         subTotal: 0, indirecto: 0, utilidad: 0, total: 0, idCotizacionOriginal: 0, idServicio: 0, nombreComercial: '', indirectoPor: '', utilidadPor: '', csvPor: '', comisionSV: 0, comisionExtPor: '', comisionExt:0
     };
-
     lsdir: ListaDireccion = {} as ListaDireccion;
-
     idpro: number = 0;
     @ViewChild(EliminaWidget, { static: false }) eliw: EliminaWidget;
     @ViewChild(EditarCotizacion, { static: false }) ediw: EditarCotizacion;
-
     estatus: number = 1;
     autorizacion: number = 0;
-
-
-
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private route: ActivatedRoute, public user: StoreUser) {
        
@@ -60,10 +53,6 @@ export class CotizacionComponent implements OnInit, OnDestroy {
         http.get<number>(`${url}api/cotizacion/obtenerautorizacion/${user.idPersonal}`).subscribe(response => {
             this.autorizacion = response;
         }, err => console.log(err));
-
-
-
-
     }
 
     nuevo() {

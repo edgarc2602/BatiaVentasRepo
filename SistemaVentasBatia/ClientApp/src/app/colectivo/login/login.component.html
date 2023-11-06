@@ -1,129 +1,68 @@
 <style>
     .background-image {
-        background-image: url('images/fondologinBatia.png'); /* Ruta de la imagen de fondo */
-        background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
-        background-position: center center; /* Centra la imagen en el contenedor */
-        background-repeat: no-repeat; /* Evita que la imagen se repita */
-        min-height: 95vh; /* Establece la altura mínima al 100% del viewport */
+        background-image: url('images/fondologinBatia.png');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        min-height: 95vh;
         background-attachment: fixed;
-        margin: 0; /* Anula los márgenes definidos en styles.css */
+        margin: 0;
         padding: 0;
         margin-bottom: 0px;
     }
-
     .login-card {
         background-color: rgba(255, 255, 255, 0.00);
-        /*padding: 30px;*/ /* Espaciado interior para la tarjeta */
-        /*border-radius: 10px;*/ /* Bordes redondeados */
-        /*margin: 0 auto;*/ /* Centra la tarjeta horizontalmente */
-        /*max-width: 600px;*/ /* Ancho máximo de la tarjeta */
-        /*box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);*/
     }
-
     .input {
-        background-color: rgba(255, 255, 255, 0.5); /* Fondo semi-transparente */
-        border: 1px solid black; /* Borde negro de 1 píxel sólido */
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 1px solid black;
     }
-
     .my-input-class {
         background-color: rgba(255, 255, 255, 0.2);
-        /*border: 1px solid black; */ /* Borde negro de 1 píxel sólido */
     }
-
-    /*body .background-image {
-        background-image: url('images/fondologinBatia.png');*/ /* Ruta de la imagen de fondo */
-    /*background-size: cover;*/ /* Ajusta la imagen para cubrir todo el contenedor */
-    /*background-position: center center;*/ /* Centra la imagen en el contenedor */
-    /*background-repeat: no-repeat;*/ /* Evita que la imagen se repita */
-    /*min-height: 100vh;*/ /* Establece la altura mínima al 100% del viewport */
-    /*background-attachment: fixed;
-    }*/
-
     .bodycss {
         margin: 0;
         padding: 0;
         margin-bottom: 0px;
         border-bottom: 0px;
-        background-image: url('images/FondoSinga3.png'); /* Ruta de la imagen de fondo */
-        background-size: contain; /* Ajusta la imagen para cubrir todo el contenedor */
-        background-position: center center; /* Centra la imagen en el contenedor */
-        background-repeat: no-repeat; /* Evita que la imagen se repita */
-        min-height: 95vh; /* Establece la altura mínima al 100% del viewport */
-        /*background-attachment: fixed;*/
+        background-image: url('images/FondoSinga3.png');
+        background-size: contain;
+        background-position: center center;
+        background-repeat: no-repeat;
+        min-height: 95vh;
     }
-
     .card {
         border: none;
     }
-
     .card-headercss,
     .card-footercss {
-        background: none; /* Otra opción es 'background: transparent;' */
-        border: none; /* Opcional: Elimina el borde del header y del footer */
+        background: none;
+        border: none;
     }
-
     .col-mid {
-        flex: 0 0 4.166%; /* Establece el ancho deseado (4.166% en este caso) */
+        flex: 0 0 4.166%;
         max-width: 4.166%;
     }
-
     ::placeholder,
     ::-webkit-input-placeholder {
-        color: rgba(0, 0, 0, 0.2); /* Cambia el color y la opacidad del texto */
+        color: rgba(0, 0, 0, 0.2);
     }
-
-    /* Estilo para el texto cuando está enfocado (opcional) */
     input:focus::placeholder,
     input:focus::-webkit-input-placeholder {
-        color: rgba(0, 0, 0, 0.2); /* Cambia el color y la opacidad del texto cuando está enfocado */
+        color: rgba(0, 0, 0, 0.2);
     }
-
     .fadeIn {
         animation: fadeInAnimation 0.5s ease-in-out forwards;
     }
-
     @keyframes fadeInAnimation {
         from {
             opacity: 0;
         }
-
         to {
             opacity: 1;
         }
     }
-
 </style>
-<!--<div class="background-image">
-    <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="col">
-            <div class="card login-card">
-                <div class="card-body text-center mb-0">
-                    <h2 class="card-body text-center">Sistema Integral de Gestion Administrativa (CRM)</h2>
-                </div>
-
-                <div class="card-body mb-0">
-                    <div class="mb-3">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" [(ngModel)]="model.usuario" id="txusuario" placeholder="Usuario">
-                            <label for="txusuario">Usuario</label>
-                        </div>
-                        <span *ngIf="ferr('Usuario')" class="text-danger">{{ terr('Usuario') }}</span>
-                    </div>
-                    <div>
-                        <div class="form-floating">
-                            <input type="password" class="form-control" [(ngModel)]="model.contrasena" id="txpassword" placeholder="Contraseña">
-                            <label for="txpassword">Contraseña</label>
-                        </div>
-                        <span *ngIf="ferr('Contrasena')" class="text-danger">{{ terr('Contrasena') }}</span>
-                    </div>
-                </div>
-                <div class="card-body text-center mb-0">
-                    <button type="button" (click)="onLogin()" class="btn btn-primary" isDefault="true">Entrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>-->
 <!--<div class="row">                      BASE
     <div class="col-6">
         <div class="card" (keydown)="review($event)">
@@ -154,11 +93,8 @@
 <!--<img src="images/pexels-01.jpg" alt="" class="img-fluid">-->
 <!--</div>
 </div>-->
-
 <body class="bodycss fadeIn">
     <div [@fadeInOut]>
-
-
         <br />
         <div class="row">
             <div class="col-mid">
@@ -189,9 +125,6 @@
             </div>
         </div>
     </div>
-
-
-
 </body>
 
 

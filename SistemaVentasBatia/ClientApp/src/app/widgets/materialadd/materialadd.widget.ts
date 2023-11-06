@@ -6,7 +6,6 @@ import { Material } from 'src/app/models/material';
 import { StoreUser } from 'src/app/stores/StoreUser';
 import { numberFormat } from 'highcharts';
 declare var bootstrap: any;
-
 import { Subject } from 'rxjs';
 import { ToastWidget } from '../toast/toast.widget';
 
@@ -30,7 +29,6 @@ export class MaterialAddWidget {
     mats: Catalogo[] = [];
     fres: ItemN[] = [];
     hidedir: number = 0;
-
     evenSub: Subject<void> = new Subject<void>();
     isErr: boolean = false;
     validaMess: string = '';

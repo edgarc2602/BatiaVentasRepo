@@ -1,8 +1,8 @@
 <style>
     .btn-bottom-right {
         position: absolute;
-        bottom: 80px; /* Puedes ajustar la distancia desde la parte inferior */
-        right: 30px; /* Puedes ajustar la distancia desde la derecha */
+        bottom: 80px; 
+        right: 30px;
     }
 </style>
 <div [@fadeInOut]>
@@ -10,7 +10,6 @@
     <br />
     <link rel="stylesheet" type="text/css" href="/ClientApp/src/app/exclusivo/cotizacion/resumen/Effects.css">
     <div class="pt-1 mb-1">
-
         <h2 class="text-black-90">Cotización {{model.nombreComercial}}</h2>
         <div class="row">
             <div class="col-6 col-md-6">
@@ -20,19 +19,7 @@
                 <h6 class="text-black-50 float-end">Id original: {{model.idCotizacionOriginal}}</h6>
             </div>
         </div>
-
-
-
-
-
-
-
-        <!--<div class="float-end">
-            <h6 class="text-black-50">Id cotizacion original: {{model.idCotizacionOriginal}}</h6>
-        </div>-->
     </div>
-
-
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
             <button type="button" (click)="existe(model.idCotizacion)" class="nav-link active" data-bs-toggle="tab"
@@ -99,7 +86,6 @@
         </li>
     </ul>
     <br />
-
     <div class="tab-content">
         <div class="tab-pane fade show active" id="resumen" role="tabpanel" aria-labelledby="resumen-tab">
             <div class="row" style="border-radius: 10px; overflow-x: hidden;">
@@ -269,8 +255,6 @@
                                 </div>
                             </td>
                         </tr>
-
-
                         <tr>
                             <td class="border-bottom border-success">
                                 <div class="row">
@@ -294,19 +278,10 @@
                                 </div>
                             </td>
                         </tr>
-
-
-
-
-
-
-
-
                         <tr>
                             <td class="border-bottom">
                                 <div class="row">
                                     <div class="col-3 col-md-3 offset-3 text-start"><h4>Total</h4></div>
-                                    <!--<div class="col-3  text-end"><h5>   { model.total | number: '1.2' }   </h5></div>-->
                                     <div class="col-3 col-md-3 text-end"><h4>${{ model.subTotal + model.indirecto + model.utilidad + model.comisionSV + model.comisionExt | number:'1.2-2' }}</h4></div>
                                 </div>
                             </td>
@@ -314,7 +289,6 @@
                     </tbody>
                 </table>
             </div>
-
             <div>
                 <form id="forcotupd">
                     <div class="row">
@@ -323,18 +297,15 @@
                         </div>
                         <div *ngIf="autorizacion === 1" class="col-4">
                             <button type="submit" class="btn btn-outline-info box-shadow" (click)="actualizarIndirectoUtilidad()">Actualizar %</button><br><br>
-                            <!--<button type="submit" class="btn btn-outline-success" (click)="validaActualizacionCotizacion()">Actualizar</button><br><br>-->
                         </div>
                         <div class="col-2">
 
                         </div>
-
                     </div>
                 </form>
                 <br />
                 <div class="row">
                     <div class="col-md-2">
-
                     </div>
                     <div class="col-4 col-md-3  col-3">
                         <button type="button" id="miBoton1" (click)="descargarCotizacionComponent(2)" class="btn btn-outline-info"><i class="fa-solid fa-download"></i> Propuesta Economica</button>
@@ -347,33 +318,18 @@
                     </div>
                     <div class="col-4">
                         <button type="button" (click)="elige(model.idCotizacion)" class="btn btn-outline-success "><i class="fa-solid fa-copy"></i> Duplicar Cotización</button>
-                        <!--<button type="submit" class="btn btn-outline-info" (click)="descargarCotizacion()">Descargar cotización</button><br><br>-->
                     </div>
                 </div>
-
-
                 <br />
                 <br />
-
-
-
                 <script src="script.js"></script>
-
-
-
             </div>
         </div>
-
-
-
         <div class="tab-pane fade" id="prospecto" role="tabpanel" aria-labelledby="resumen-tab">
             <pros-widget [idP]="model.idProspecto" (smEvent)="savePros($event)"></pros-widget>
             <br />
             <br />
         </div>
-
-
-
         <div class="tab-pane fade" id="directorio" role="tabpanel" aria-labelledby="resumen-tab">
             <div class="row">
                 <div class="col-5 col-sm-6 col-md-5 text-black-50 ">
@@ -400,7 +356,6 @@
                 <div class="col-md-1 col-1">
 
                 </div>
-
                 <div class="col-6 col-sm-12 col-md-3 offset-md-1 text-center ">
                     <div class="btn-group">
                         <button type="button" (click)="getNewDir()" class="btn btn-outline-primary box-shadow" id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Nueva Dirección</button>
@@ -412,7 +367,6 @@
                     <button type="button" (click)="addDir()" class="btn btn-outline-success"><i class="fa-solid fa-plus"></i> Agregar</button>
                 </div>
             </div>
-
             <br />
             <div class="row">
                 <div *ngFor="let dr of lsdir.direcciones" class="col-sm-12 col-md-6 mb-2">
@@ -475,9 +429,7 @@
                         </div>
                     </div>
                     <div id="dvPuestosDireccion{{ dir.idDireccionCotizacion }}" class="collapse show" data-bs-parent="#accordion">
-
                         <div class="card-body">
-
                             <div style="border-radius: 10px; overflow-x: hidden;">
                                 <table class="table table-borderless table-responsive" id="tbOperarios">
                                     <tbody>
@@ -534,27 +486,21 @@
                                                 <div class="float-end">
                                                     <a class="btn btn-sm text-secondary mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'material')" data-bs-toggle="tooltip" title="Material">
                                                         <i class="fa-solid fa-pump-soap fa-2x"></i>
-                                                        <!--<i class="fa-solid fa-pump-soap fa-2x" style="color: darkseagreen; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-info mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'uniforme')" data-bs-toggle="tooltip" title="Uniforme">
                                                         <i class="fa-solid fa-shirt fa-2x"></i>
-                                                        <!--<i class="fa-solid fa-shirt fa-2x" style="color: deepskyblue; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-success mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'equipo')" data-bs-toggle="tooltip" title="Equipo">
                                                         <i class="fa-solid fa-helmet-safety fa-2x"></i>
-                                                        <!--<i class="fa-solid fa-helmet-safety fa-2x" style="color: darkgreen; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-danger mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'herramienta')" data-bs-toggle="tooltip" title="Herramienta">
                                                         <i class="fa-solid fa-hammer fa-2x"></i>
-                                                        <!--<i class="fa-solid fa-hammer fa-2x" style="color: yellowgreen; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-danger mb-1" (click)="eligeOperario(pt.idPuestoDireccionCotizacion)" title="Descartar">
                                                         <i class="fa-solid fa-times fa-2x"></i>
-                                                        <!--<i class="fa-solid fa-times fa-2x" style="color: red; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                     <a class="btn btn-sm text-primary mb-1" (click)="updPlan(pt.idPuestoDireccionCotizacion, dir.idTabulador)" data-bs-toggle="tooltip" title="Editar">
                                                         <i class="fa-solid fa-pencil fa-2x"></i>
-                                                        <!--<i class="fa-solid fa-pencil fa-2x" style="color: blue; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></i>-->
                                                     </a>
                                                 </div>
                                             </td>
@@ -588,18 +534,7 @@
                             <label for="ddlServicio">Sucursal</label>
                         </div>
                     </div>
-                    <!--<div class="col-md-3">
-                        <div class="form-floating">
-                            <select class="form-select" [(ngModel)]="selMatPue" asp-for="IdPuestoDireccionCotizacion" aria-label="IdEstatusCotizacion">
-                                <option value="0" selected>Selecciona una opción...</option>
-                                <option *ngFor="let pm of lspue.puestosDireccionesCotizacion" [ngValue]="pm.idPuestoDireccionCotizacion">{{ pm.puesto }}</option>
-                            </select>
-                            <label for="ddlServicio">Puesto</label>
-                        </div>
-                    </div>-->
-
                     <div class="col-md-6 mb-3">
-                        <!--<button type="button" (click)="getMat(selTipo)" class="btn btn-outline-primary mb-3"><i class="fa-solid fa-search"></i> Buscar</button>-->
                         <button type="button" (click)="getNewMat(selTipo)" class="btn btn-outline-primary float-end  box-shadow mb-3" id="btnAgregarDireccion"><i class="fa-solid fa-plus"></i> Agregar {{ selTipo }}</button>
                     </div>
                 </div>
@@ -661,8 +596,6 @@
                 </table>
                 <pagina-widget [pagina]="lsmat.pagina" [numPaginas]="lsmat.numPaginas" [rows]="lsmat.rows" (chgEvent)="matPagina($event)"></pagina-widget>
             </div>
-
-
         </div>
         <div class="tab-pane fade" id="servicio" role="tabpanel" aria-labelledby="plantilla-tab">
             <ng-container *ngIf="lsser?.serviciosCotizacion?.length > 0">
@@ -725,7 +658,6 @@
                 </div>
             </ng-container>
             <br />
-
             <ng-container *ngIf="lsser?.serviciosCotizacion?.length > 0">
                 <div class="row" style="border-radius: 10px; overflow-x: hidden;">
                     <table class="table table-borderless table-striped table-responsive  box-shadow">
@@ -785,7 +717,6 @@
                     </table>
                 </div>
             </ng-container>
-
             <div>
                 <div class="row float-end">
                     <div>
@@ -804,8 +735,6 @@
     <br />
     <button type="button" class="btn btn-primary btn-bottom-right box-shadow" (click)="goBack()">Volver</button>
 </div>
-
-
 <direc-widget (smEvent)="saveDir($event)"></direc-widget>
 <pues-widget (smEvent)="savePlan($event)"></pues-widget>
 <mate-widget (smEvent)="newMate($event)"></mate-widget>
@@ -815,8 +744,3 @@
 <elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
 <eliminadirectorio-widget [titulo]="" [mensaje]="" (EventDC)="eliminaDireccionCotizacion($event)"></eliminadirectorio-widget>
 <eliminaOperario-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></eliminaOperario-widget>
-
-
-
-<!--<mateoperarioadd-widget (m2Event)="opeMat($event)"></mateoperarioadd-widget>-->
-<!--<servadd-widget (servEvent)="guardar($event)"></servadd-widget>-->

@@ -161,7 +161,6 @@ namespace SistemaVentasBatia.Services
 
         public async Task<List<ProspectoDTO>> ObtenerCatalogoProspectos(int autorizacion, int idPersonal)
             {
-            //TODO Agregar Filtro por usuario
             var prospectos = mapper.Map<List<ProspectoDTO>>(await prospectosRepo.ObtenerCatalogoProspectos(autorizacion, idPersonal));
 
             return prospectos;

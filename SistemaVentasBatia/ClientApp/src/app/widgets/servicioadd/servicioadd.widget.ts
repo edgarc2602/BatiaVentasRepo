@@ -36,9 +36,6 @@ export class ServicioAddWidget {
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private sinU: StoreUser) {}
         
     lista() {
-        //this.http.get<Catalogo[]>(`${this.url}api/catalogo/getproductobygrupo/${this.idS}/${this.tipo}`).subscribe(response => {
-        //    this.mats = response;
-        //}, err => console.log(err));
         this.http.get<Catalogo[]>(`${this.url}api/catalogo/getservicio`).subscribe(response => {
             this.sers = response;
         }, err => console.log(err));
@@ -103,7 +100,6 @@ export class ServicioAddWidget {
                     }
                 }
             });
-            
         }
         if (this.edit == 1) {
             this.http.post<Servicio>(`${this.url}api/material/actualizarserviciocotizacion`, this.model).subscribe(response => {
@@ -125,7 +121,6 @@ export class ServicioAddWidget {
                     }
                 }
             });
-            
         }
     }
 
@@ -152,5 +147,4 @@ export class ServicioAddWidget {
         this.validaMess = 'Actualizado correctamente';
         this.evenSub.next();
     }
-
 }

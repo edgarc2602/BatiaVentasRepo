@@ -14,17 +14,13 @@
         box-shadow: none;
     }
 </style>
-
 <div [@fadeInOut]>
     <br />
     <div class="row pt-1 mb-3">
         <div>
             <h1 class="h2">Configuración</h1>
-
         </div>
     </div>
-
-
     <div class="accordion box-shadow" id="accordionExample">
         <!--Pestaña 0-->
         <div *ngIf="autorizacion === 1" class="accordion-item">
@@ -35,9 +31,6 @@
             </h1>
             <div id="collapseCotizacion" class="accordion-collapse collapse" aria-labelledby="headingCotizacion">
                 <div class="accordion-body">
-
-
-
                     <ul class="nav nav-tabs" id="tabconfig" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button type="button" class="nav-link active" id="porcentajespred-tab" data-bs-toggle="tab" data-bs-target="#porcentajespred"
@@ -52,8 +45,6 @@
                             </button>
                         </li>
                     </ul>
-
-
                     <div class="tab-content pt-2" id="tabcontent">
                         <div class="tab-pane fade show active text-center " style="border-radius: 10px; overflow-x: hidden; " id="porcentajespred" role="tabpanel" aria-labelledby="tabulador-tab">
                             <table class="table table-borderless   table-responsive">
@@ -200,30 +191,6 @@
 
 
                     <ul class="nav nav-tabs" id="tabconfig" role="tablist">
-                        <!--<li class="nav-item" role="presentation">
-                            <button type="button" class="nav-link active" (click)="chgTab('catmaterial')" id="catmaterial-tab" data-bs-toggle="tab" data-bs-target="#catmaterial"
-                                    role="tab" aria-controls="material" aria-selected="true">
-                                Material
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" (click)="chgTab('catuniforme')" id="catuniforme-tab" data-bs-toggle="tab" data-bs-target="#catuniforme"
-                                    role="tab" aria-controls="uniforme" aria-selected="false">
-                                Uniforme
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" (click)="chgTab('catequipo')" id="catequipo-tab" data-bs-toggle="tab" data-bs-target="#catequipo"
-                                    role="tab" aria-controls="equipo" aria-selected="false">
-                                Equipo de seguridad
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" (click)="chgTab('catherramienta')" id="catherramienta-tab" data-bs-toggle="tab" data-bs-target="#catherramienta"
-                                    role="tab" aria-controls="herramienta" aria-selected="false">
-                                Herramienta
-                            </button>
-                        </li>-->
                         <li class="nav-item" role="presentation">
                             <button type="button" class="nav-link active" id="catservicio-tab" data-bs-toggle="tab" data-bs-target="#catservicio"
                                     role="tab" aria-controls="servicio" aria-selected="true">
@@ -231,10 +198,8 @@
                             </button>
                         </li>
                     </ul>
-
                     <div class="tab-content pt-2" id="tabcontent">
                         <div class="tab-pane fade show active text-center" style="border-radius: 10px; overflow-x: hidden;" id="servicio" role="tabpanel" aria-labelledby="material-tab">
-
                             <table class="table table-borderless table-striped table-responsive  box-shadow">
                                 <thead>
                                     <tr class="bg-primary bg-opacity-75 text-white">
@@ -255,7 +220,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-
                             <div class="row">
                                 <div class="col d-flex justify-content-end">
                                     <button type="button" (click)="openSer()" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar servicio</button>
@@ -276,9 +240,6 @@
             </h1>
             <div id="collapseMaterial" class="accordion-collapse collapse" aria-labelledby="headingMaterial">
                 <div class="accordion-body">
-
-
-
                     <div class="row mb-3">
                         <div class="col-sm-12 col-md-6">
                             <div class="form-floating">
@@ -290,7 +251,6 @@
                             </div>
                         </div>
                     </div>
-
                     <ul class="nav nav-tabs" id="tabconfig" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button type="button" class="nav-link active" (click)="chgTab('material')" id="material-tab" data-bs-toggle="tab" data-bs-target="#material"
@@ -323,10 +283,8 @@
                             </button>
                         </li>
                     </ul>
-
                     <div class="tab-content pt-2" id="tabcontent">
                         <div class="tab-pane fade show active text-center" style="border-radius: 10px; overflow-x: hidden;" id="material" role="tabpanel" aria-labelledby="material-tab">
-
                             <table class="table table-borderless table-striped table-responsive  box-shadow">
                                 <thead>
                                     <tr class="bg-primary bg-opacity-75 text-white">
@@ -351,7 +309,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-
                             <div class="row">
                                 <div class="col d-flex justify-content-end">
                                     <button type="button" (click)="openMat()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar producto</button>
@@ -360,7 +317,6 @@
                             <br>
                         </div>
                         <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="uniforme" role="tabpanel" aria-labelledby="uniforme-tab">
-
                             <table class="table table-borderless table-striped table-responsive  box-shadow">
                                 <thead>
                                     <tr class="bg-primary bg-opacity-75 text-white">
@@ -385,7 +341,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-
                             <div class="row">
                                 <div class="col d-flex justify-content-end">
                                     <button type="button" (click)="openUni()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar uniforme</button>
@@ -394,7 +349,6 @@
                             <br>
                         </div>
                         <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">
-
                             <table class="table table-borderless table-striped table-responsive  box-shadow">
                                 <thead>
                                     <tr class="bg-primary bg-opacity-75 text-white">
@@ -419,7 +373,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-
                             <div class="row">
                                 <div class="col d-flex justify-content-end">
                                     <button type="button" (click)="openEqui()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar equipo</button>
@@ -428,7 +381,6 @@
                             <br>
                         </div>
                         <div class="tab-pane fade text-center" style="border-radius: 10px; overflow-x: hidden;" id="herramienta" role="tabpanel" aria-labelledby="herramienta-tab">
-
                             <table class="table table-borderless table-striped table-responsive  box-shadow">
                                 <thead>
                                     <tr class="bg-primary bg-opacity-75 text-white">
@@ -453,7 +405,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-
                             <div class="row">
                                 <div class="col d-flex justify-content-end">
                                     <button type="button" (click)="openHer()" [disabled]="selPuesto == 0" class="btn btn-lg btn-outline-primary  box-shadow" id="btnCrearProspecto"><i class="fa-solid fa-plus"></i> Agregar herramienta</button>
@@ -494,11 +445,9 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
         <!--Pestaña 3-->
         <div *ngIf="autorizacion === 1" class="accordion-item">
@@ -511,11 +460,6 @@
                 <div class="accordion-body">
                     <h6>Registrar nuevo usuario</h6>
                     <div class="row">
-                        <!--<div class="form-floating">
-                            <input type="text" class="form-control" [(ngModel)]="lspro.keywords" id="Keywords" placeholder="Escriba un nombre" (input)="lista()">
-                            <label asp-for="Keywords">Nombre Comercial</label>
-                        </div>-->
-
                         <div class="col-md-3 col-sm-3 col-6 ">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" [(ngModel)]="usuario.nombres" placeholder="Nombres">
@@ -553,10 +497,7 @@
                             </div>
                         </div>
                         <div class="col-2 d-md-none d-sm-none">
-
                         </div>
-
-
                         <div class="col-md-2 col-sm-2 col-4 ">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" [(ngModel)]="usuario.telefonoMovil" placeholder="Tel. Móvil">
@@ -583,15 +524,6 @@
                                 </label>
                             </div>
                         </div>
-                        <!--<div class=" col-md-1 col-sm-1 col-2">
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" [(ngModel)]="usuario.revisa" [value]="usuario.revisa">
-                                <label class="form-check-label">
-                                    Supervisa
-                                </label>
-                            </div>
-                        </div>-->
-
                         <div class="col-md-2 col-sm-2 col-4 ">
                             <input type="file" (change)="onFileSelected($event)" #fileInput style="display:none" accept="image/*">
                             <button class="btn btn-sm btn-outline-primary  box-shadow" (click)="fileInput.click()">Seleccionar Firma</button>
@@ -605,21 +537,6 @@
                         <!--<button class="btn btn-lg btn-outline-success  box-shadow align-content-end" (click)="guardarImagen()">Agregar</button>-->
                         <button class="btn btn-lg btn-outline-success  box-shadow align-content-end" (click)="openUsu()">Agregar</button>
                     </div>
-                    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </div>
             </div>
         </div>
@@ -628,30 +545,8 @@
     <br />
     <br />
     <br />
-
     <button type="button" class="btn btn-primary btn-bottom-right box-shadow" (click)="goBack()">Volver</button>
     <br />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <producto-widget [idP]="selPuesto" [grupo]="grupo" (saveEvent)="closeMat($event)"></producto-widget>
     <agregarservicio-widget (serEvent)="reloadServicios()"></agregarservicio-widget>
     <!--<usuadd-widget (serEvent)="reloadServicios()"></usuadd-widget>-->

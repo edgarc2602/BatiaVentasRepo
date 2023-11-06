@@ -15,19 +15,13 @@ namespace SistemaVentasBatia.Repositories
         Task<bool> Actualizar(Salario model);
         Task<bool> Eliminar(int id);
         Task<Salario> Obtener(int id);
-
         Task<decimal> ObtenerSalarioMixto(int idPuesto);
         Task<decimal> ObtenerSalarioMixtoFrontera(int idPuesto);
         Task<decimal> ObtenerSalarioReal(int idPuesto);
         Task<decimal> ObtenerSalarioRealFrontera(int idPuesto);
-
-
-
         Task<IEnumerable<Salario>> Busqueda(int idTabulador, int idPuesto, int idTurno);
         Task<SalarioMinimo> ObtenerMinimo(int year);
-
         Task<decimal> GetSueldo(int? idPuesto, int? idClase, int? idTabulador, int? idTurno);
-
         Task<int> GetZonaDefault(int idDireccionCotizacion);
     }
     public class SalarioRepository : ISalarioRepository
@@ -67,9 +61,9 @@ namespace SistemaVentasBatia.Repositories
             }
             return result;
         }
+        
         public async Task<decimal> ObtenerSalarioMixtoFrontera(int idPuesto)
         {
-            //var query = @"SELECT pa.id_puesto idPuesto, salariomixto_frontera salarioMixtoFrontera FROM tb_puesto_salario pa WHERE id_puesto = @idPuesto  ";
             var query = @"SELECT salariomixto_frontera FROM tb_puesto_salario pa WHERE id_puesto = @idPuesto";
             decimal result;
             try
@@ -86,6 +80,7 @@ namespace SistemaVentasBatia.Repositories
             }
             return result;
         }
+        
         public async Task<decimal> ObtenerSalarioReal(int idPuesto)
         {
             var query = @"SELECT salarioreal FROM tb_puesto_salario pa WHERE id_puesto = @idPuesto ";
@@ -104,6 +99,7 @@ namespace SistemaVentasBatia.Repositories
             }
             return result;
         }
+        
         public async Task<decimal> ObtenerSalarioRealFrontera(int idPuesto)
         {
             var query = @"SELECT salarioreal_frontera FROM tb_puesto_salario pa WHERE id_puesto = @idPuesto";
@@ -122,7 +118,7 @@ namespace SistemaVentasBatia.Repositories
             }
             return result;
         }
-
+        
         public async Task<IEnumerable<Salario>> Busqueda(int idTabulador, int idPuesto, int idTurno)
         {
             IEnumerable<Salario> ls;
@@ -144,7 +140,7 @@ namespace SistemaVentasBatia.Repositories
             }
             return ls;
         }
-
+        
         public Task<bool> Eliminar(int id)
         {
             throw new System.NotImplementedException();
@@ -175,6 +171,7 @@ namespace SistemaVentasBatia.Repositories
             }
             return sm;
         }
+        
         public async Task<decimal> GetSueldo(int? IdPuesto, int? IdClase, int? IdTabulador, int ?IdTurno)
         {
             var query = @"
@@ -222,6 +219,5 @@ WHERE dc.id_direccion_cotizacion = @idDireccionCotizacion
             }
             return result;
         }
-
     }
 }

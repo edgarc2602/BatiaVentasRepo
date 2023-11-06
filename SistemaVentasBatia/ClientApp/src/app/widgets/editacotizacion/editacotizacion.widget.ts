@@ -17,8 +17,6 @@ export class EditarCotizacion {
     model: Cotizacion = {} as Cotizacion;
     sers: ItemN[] = [];
     lerr: any = {};
-
-
     idCotizacion: number = 0;
     prospecto: number = 0;
     servicio: number = 0;
@@ -30,9 +28,6 @@ export class EditarCotizacion {
         private rtr: Router, private sinU: StoreUser
     ) {
         this.nuevo();
-        //http.get<Prospecto[]>(`${url}api/prospecto/getcatalogo/${this.sinU.idPersonal}`).subscribe(response => {
-        //    this.lpros = response;
-        //}, err => console.log(err));
         this.http.post<Prospecto[]>(`${this.url}api/prospecto/getcatalogo`, this.sinU.idPersonal).subscribe(response => {
             this.lpros = response;
         }, err => console.log(err));
@@ -65,24 +60,18 @@ export class EditarCotizacion {
         }
     }
 
-
     guarda() {
 
         this.model.idProspecto = this.prospecto;
         this.model.idServicio = this.servicio;
         this.http.post<boolean>(`${this.url}api/cotizacion/actualizarcotizacion`, this.model).subscribe(response => {
-            console.log(response); // Verifica lo que se muestra en la consola
+            console.log(response);
             if (response) {
-                // Realiza acciones si la respuesta es verdadera
                 console.log('La respuesta es verdadera');
             } else {
-                // Realiza acciones si la respuesta es falsa
                 console.log('La respuesta es falsa');
             }
         }, err => console.error(err));
-
-
-
         this.close();
         location.reload();
     }

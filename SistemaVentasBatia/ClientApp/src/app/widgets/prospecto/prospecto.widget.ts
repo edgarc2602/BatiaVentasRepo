@@ -18,7 +18,6 @@ export class ProspectoWidget implements OnChanges {
     model: Prospecto = {} as Prospecto;
     docs: ItemN[] = [];
     lerr: any = {};
-
     evenSub: Subject<void> = new Subject<void>();
     isErr: boolean = false;
     validaMess: string = '';

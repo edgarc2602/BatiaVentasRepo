@@ -26,10 +26,8 @@ export class HomeComponent implements OnInit {
         mes: 0,
         cotizacionesPorMes: 0
     }
-
     usuarios: UsuarioGrafica[] = [];
     usuariosMensual: UsuarioGraficaMensual[] = [];
-
     datosAgrupadosMensuales: Record<number, UsuarioGraficaMensual[]> = {};
     datosAgrupados: DatosAgrupados[] = [];
 
@@ -56,12 +54,9 @@ export class HomeComponent implements OnInit {
     agruparDatosMensuales() {
         this.http.get<UsuarioGraficaMensual[]>(`${this.url}api/usuario/obtenercotizacionesmensuales`).subscribe(response => {
             const datosAgrupados: DatosAgrupados[] = [];    
-
             response.forEach(dato => {
                 const { nombre, mes, cotizacionesPorMes } = dato;
-
                 const datosAgrupadosExistente = datosAgrupados.find(item => item.nombre === nombre);
-
                 if (datosAgrupadosExistente) {
                     datosAgrupadosExistente.cotizacionMes[mes - 1] = cotizacionesPorMes;
                 } else {
@@ -69,7 +64,6 @@ export class HomeComponent implements OnInit {
                         nombre: nombre,
                         cotizacionMes: Array(12).fill(0)
                     };
-
                     nuevoDatoAgrupado.cotizacionMes[mes - 1] = cotizacionesPorMes;
 
                     datosAgrupados.push(nuevoDatoAgrupado);
@@ -82,9 +76,7 @@ export class HomeComponent implements OnInit {
     }
     getDonut() {
         let container: HTMLElement = document.getElementById('dvdonut');
-
         const seriesOptions: Highcharts.SeriesColumnOptions[] = [];
-
         this.usuarios.forEach(usuario => {
             seriesOptions.push({
                 name: usuario.nombre,
@@ -115,10 +107,8 @@ export class HomeComponent implements OnInit {
                 formatter: function () {
                     return '<b>' + this.x + '</b><br/>' +
                         this.series.name + ': ' + this.y + '<br/>' ;
-                        //+'Total: ' + this.point['stackTotal'] 
                 }
             },
-            
             plotOptions: {
                 column: {
                     pointPadding: 0.2,
@@ -132,8 +122,6 @@ export class HomeComponent implements OnInit {
     getTop() {
         let container: HTMLElement = document.getElementById('dvtop');
         const seriesOptions: Highcharts.SeriesColumnOptions[] = [];
-
-        
         this.datosAgrupados.forEach(dato => {
             seriesOptions.push({
                 name: dato.nombre,
@@ -141,8 +129,6 @@ export class HomeComponent implements OnInit {
                 type: 'column',
             });
         });
-
-
         Highcharts.chart(container, {
             chart: {
                 type: 'column'
@@ -193,7 +179,6 @@ export class HomeComponent implements OnInit {
             },
             series: seriesOptions
         });
-        
     }
     goBack() {
         window.history.back();

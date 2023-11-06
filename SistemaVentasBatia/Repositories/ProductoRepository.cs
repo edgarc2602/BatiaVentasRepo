@@ -319,8 +319,6 @@ GETDATE(),
             return reg;
         }
 
-
-
         public async Task<IEnumerable<ProductoItem>> ObtenerEquipoPuesto(int id)
         {
             IEnumerable<ProductoItem> ls;

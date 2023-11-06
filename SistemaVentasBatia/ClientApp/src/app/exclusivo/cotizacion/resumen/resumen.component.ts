@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-//import { HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CotizaResumenLim } from 'src/app/models/cotizaresumenlim';
@@ -15,20 +14,15 @@ import { MaterialAddWidget } from 'src/app/widgets/materialadd/materialadd.widge
 import { MaterialWidget } from 'src/app/widgets/material/material.widget';
 import { DireccionWidget } from 'src/app/widgets/direccion/direccion.widget';
 import { PuestoWidget } from 'src/app/widgets/puesto/puesto.widget';
-
 import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
 import { EliminaOperarioWidget } from 'src/app/widgets/eliminaOperario/eliminaOperario.widget';
 import { MaterialOperarioAddWidget } from 'src/app/widgets/materialoperarioadd/materialoperarioadd.widget';
 import { EliminaDirectorioWidget } from 'src/app/widgets/eliminadirectorio/eliminadirectorio.widget';
 import { ActualizaCotizacionWidget } from 'src/app/widgets/actualizacotizacion/actualizacotizacion.widget';
 import { ServicioAddWidget } from 'src/app/widgets/servicioadd/servicioadd.widget';
-
-
 import { Cotizacionupd } from 'src/app/models/cotizacionupd';
-
 import { Router } from '@angular/router';
 import { ReportService } from 'src/app/report.service';
-
 import { fadeInOut } from 'src/app/fade-in-out';
 import { StoreUser } from 'src/app/stores/StoreUser';
 
@@ -47,19 +41,13 @@ export class ResumenComponent implements OnInit, OnDestroy {
     @ViewChild(ActualizaCotizacionWidget, { static: false }) actCot: ActualizaCotizacionWidget;
     @ViewChild(EliminaOperarioWidget, { static: false }) eliope: EliminaOperarioWidget;
     @ViewChild(EliminaDirectorioWidget, { static: false }) elidir: EliminaDirectorioWidget;
-
     @ViewChild(ServicioAddWidget, { static: false }) serAdd: ServicioAddWidget;
-
     @ViewChild('resumen', { static: false }) resumen: ElementRef;
     @ViewChild('pdfCanvas', { static: true }) pdfCanvas: ElementRef;
-
     @ViewChild('indirectotxt', { static: false }) indirectotxt: ElementRef;
     @ViewChild('utilidadtxt', { static: false }) utilidadtxt: ElementRef;
     @ViewChild('CSVtxt', { static: false }) CSVtxt: ElementRef;
     @ViewChild('comisionExttxt', { static: false }) comisionExttxt: ElementRef;
-
-
-
 
     sub: any;
     model: CotizaResumenLim = {
@@ -76,11 +64,9 @@ export class ResumenComponent implements OnInit, OnDestroy {
     lsser: ListaServicio = {} as ListaServicio;
     selDireccion: number = 0;
     selPuesto: number = 0;
-    selMatDir: number = 0;
+    selMatDir: number = 0;  
     selMatPue: number = 0;
-
     edit: number = 0;
-
     selTipo: string = 'material';
     txtMatKey: string = '';
     sDir: boolean = false;
@@ -91,8 +77,6 @@ export class ResumenComponent implements OnInit, OnDestroy {
     utilidadValue: string = this.model.indirectoPor;
     CSV: string = this.model.csvPor;
     ComisionExtValue: string = this.model.comisionExtPor;
-
-
     modelDir: DireccionCotizacion = {
         idCotizacion: 0, idDireccionCotizacion: 0, idDireccion: 0, nombreSucursal: ''
     };
@@ -100,11 +84,9 @@ export class ResumenComponent implements OnInit, OnDestroy {
     idope: number = 0;
     idDC: number = 0;
     urlF: string = '';
-
     reportData: Blob;
     pdfUrl: string;
     autorizacion: number = 0;
-
     evenSub: Subject<void> = new Subject<void>();
     isErr: boolean = false;
     validaMess: string = '';
@@ -127,7 +109,6 @@ export class ResumenComponent implements OnInit, OnDestroy {
         }, err => console.log(err));
 
     }
-
 
     nuevo() {
         this.model = {
@@ -245,17 +226,6 @@ export class ResumenComponent implements OnInit, OnDestroy {
         this.proPue.open(this.model.idCotizacion, dir, id, tp, this.edit);
     }
 
-    //opeMate(event) {
-    //    this.cloMate();
-    //    this.sDir = false;
-    //    this.opeMat.open(this.model.idCotizacion, this.selDireccion, this.selPuesto, event, this.model.idServicio, this.selTipo, false);
-    //}
-    //opeMate(event) {
-    //    this.cloMate();
-    //    this.sDir = false;
-    //    this.opeMat.open(this.model.idCotizacion, this.selDireccion, this.selPuesto, event, this.model.idServicio, this.selTipo, false);
-    //}
-
     newMate(event) {
         this.cloMate();
         this.sDir = false;
@@ -303,7 +273,6 @@ export class ResumenComponent implements OnInit, OnDestroy {
             let idcot: number = +params['id'];
             this.existe(idcot);
         });
-
     }
 
     ngOnDestroy(): void {
@@ -349,17 +318,10 @@ export class ResumenComponent implements OnInit, OnDestroy {
     }
     actualizarIndirectoUtilidad() {
         this.modelcot.idCotizacion = this.model.idCotizacion;
-        //this.modelcot.indirecto = this.indirectoValue;
-        //this.modelcot.utilidad = this.utilidadValue;
-        //this.modelcot.comisionSV = this.CSV;
-
-
         this.modelcot.indirecto = this.indirectotxt.nativeElement.value;
         this.modelcot.utilidad = this.utilidadtxt.nativeElement.value;
         this.modelcot.comisionSV = this.CSVtxt.nativeElement.value;
         this.modelcot.comisionExt = this.comisionExttxt.nativeElement.value;
-
-
         if (this.model.idCotizacion != 0) {
             this.http.post<Cotizacionupd>(`${this.url}api/cotizacion/ActualizarIndirectoUtilidadService`, this.modelcot).subscribe(response => {
                 this.getDirs();
@@ -390,8 +352,6 @@ export class ResumenComponent implements OnInit, OnDestroy {
     servicio(id: number) {
         this.serAdd.open(id, this.model.idCotizacion);
     }
-
-
 
     return($event) {
         if ($event = true) {
@@ -426,7 +386,6 @@ export class ResumenComponent implements OnInit, OnDestroy {
         const boton2 = document.getElementById("miBoton2") as HTMLButtonElement;
         boton1.disabled = true;
         boton2.disabled = true;
-
         setTimeout(function () {
             boton1.disabled = false;
             boton2.disabled = false;

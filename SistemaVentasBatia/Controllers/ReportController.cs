@@ -13,12 +13,6 @@ namespace SistemaVentasBatia.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
-        //private readonly IHttpClientFactory _httpClientFactory;
-
-        //public ReportController(IHttpClientFactory httpClientFactory)
-        //{
-        //    _httpClientFactory = httpClientFactory;
-        //}
 
         [HttpPost("[action]/{tipo}")]
         public IActionResult DescargarReporteCotizacion([FromBody] int idCotizacion, int tipo = 0)

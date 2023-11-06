@@ -39,7 +39,6 @@ namespace SistemaVentasBatia.Repositories
         Task<int> ObtenerIdDireccionCotizacionPorOperario(int registroAEliminar);
         Task EliminarOperario(int registroAEliminar);
         Task<int> CopiarCotizacion(int idCotizacion);
-
         Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV, string comisionExt);
         Task ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio);
         Task<bool> ValidarDirecciones(int idCotizacion);
@@ -52,22 +51,17 @@ namespace SistemaVentasBatia.Repositories
         Task ActualizarPuestoDireccionCotizacion(PuestoDireccionCotizacion operario);
         Task<int> ObtieneIdCotizacionPorOperario(int idPuestoDireccionCotizacion);
         Task<int> ObtieneIdDireccionCotizacionPorOperario(int idPuestoDireccionCotizacion);
-
         Task CopiarMaterialCotizacion(int idCotizacionNueva, int idCotizacion);
         Task CopiarHerramientaCotizacion(int idCotizacionNueva, int idDireccionCotizacionNueva, int idCotizacion);
         Task CopiarEquipoCotizacion(int idCotizacionNueva, int idDireccionCotizacionNueva, int idCotizacion);
         Task CopiarUniformeCotizacion(int idCotizacionNueva, int idDireccionCotizacionNueva, int idCotizacion);
-
         Task<List<MaterialCotizacion>> ObtieneMaterialesCotizacion(int idCotizacion);
         Task<List<PuestoDireccionCotizacion>> ObtieneOperariosCotizacion(int idCotizacion);
-
         Task CopiarMaterial(MaterialCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
         Task CopiarUniforme(UniformeCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
         Task CopiarEquipo(EquipoCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
         Task CopiarHerramienta(HerramientaCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
-
         Task<bool> ActualizarSalarios(PuestoTabulador salarios);
-
         Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion();
         Task ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes);
     }
@@ -405,8 +399,6 @@ WHERE id_cotizacion = @idCotizacion";
             }
             return resumen;
         }
-
-
         public async Task InsertarTotalCotizacion(decimal total, int idCotizacion, string numerotxt)
         {
             var query = @"UPDATE tb_cotizacion set total = @total, total_letra = @numerotxt where id_cotizacion = @idCotizacion";
@@ -424,8 +416,6 @@ WHERE id_cotizacion = @idCotizacion";
                 throw ex;
             }
         }
-
-
 
         public async Task<Cotizacion> ObtenerNombreComercialCotizacion(int idCotizacion)
         {
@@ -447,7 +437,6 @@ WHERE id_cotizacion = @idCotizacion";
             return cot;
         }
 
-
         public async Task<ResumenCotizacionLimpieza> ObtenerResumenCotizacionLimpieza2(int idCotizacion)
         {
             var query = @"SELECT * FROM fn_resumencotizacion(@idCotizacion)";
@@ -468,8 +457,6 @@ WHERE id_cotizacion = @idCotizacion";
 
             return resumen;
         }
-
-
 
         public async Task<Cotizacion> ObtenerCotizacion(int id)
         {
@@ -494,23 +481,6 @@ FROM tb_cotizacion  WHERE id_cotizacion = @id ";
             }
             return cotizacion;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public async Task InactivarCotizacion(int idCotizacion)
         {
@@ -695,7 +665,6 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             decimal comisionSVdec = decimal.Parse(comisionSVfin);
             decimal comisionExtdec = decimal.Parse(comisionExtfin);
 
-
             var query = @"UPDATE tb_cotizacion set 
 costo_indirecto = @indirectodec, 
 utilidad = @utilidaddec,
@@ -757,8 +726,6 @@ where id_cotizacion = @idCotizacion";
             }
 
         }
-
-
 
         public async Task CopiarDirectorioCotizacion(int idCotizacion, int idCotizacionNueva)
         {
@@ -831,7 +798,6 @@ select scope_identity()";
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    //idPuestoDireccionCotizacionNuevo = await connection.ExecuteAsync(query, new { idDireccionCotizacion, idDireccionCotizacionNueva });
                     idPuestoDireccionCotizacionNuevo = await connection.ExecuteScalarAsync<int>(query, new { idDireccionCotizacion, idDireccionCotizacionNueva });
                 }
             }
@@ -841,9 +807,6 @@ select scope_identity()";
             }
             return idPuestoDireccionCotizacionNuevo;
         }
-
-
-
 
         public async Task CopiarMaterial(MaterialCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo)
         {
@@ -1057,13 +1020,6 @@ VALUES(
                 throw ex;
             }
         }
-
-
-
-
-
-
-
 
         public async Task<List<DireccionCotizacion>> ObtieneDireccionesCotizacion(int idCotizacion)
         {
@@ -1345,12 +1301,6 @@ SELECT
 
             return operarios;
         }
-
-
-
-
-
-
 
         public async Task CopiarEquipoCotizacion(int idCotizacionNueva, int idDireccionCotizacionNueva, int idCotizacion)
         {

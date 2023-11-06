@@ -1,18 +1,13 @@
 <div class="modal fade" id="modalLimpiezaMaterialOperario" data-bs-backdrop="static">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
-
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title text-capitalize">{{ tipo }}</h4>
-                <!--<h6 class="modal-title text-black-50 ms-2 mt-1"> @Model.NombreSucursal - @Model.DescripcionPuesto</h6>-->
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
             <!-- Modal body -->
             <div class="modal-body">
-                <!--<mateadd-widget (sendEvent)="open()"></mateadd-widget>-->
-                
                 <div style="border-radius: 10px; overflow-x: hidden;">
                     <table class="table table-borderless table-striped table-responsive">
                         <tbody>
@@ -55,14 +50,12 @@
                                         </button>
                                     </div>
                                 </td>
-
                             </tr>
                         </tbody>
                     </table>
                         <div class="col-7 offset-3 text-end"><h4>Total: ${{total | number:'1.2-2'}}</h4></div>
                 </div>
             </div>
-
             <!-- Modal footer -->
             <div class="modal-footer">
                 <a id="btnAgregarMaterial" (click)="agregarMaterial()" class="btn btn-outline-primary">
@@ -70,7 +63,6 @@
                 </a>
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
-
         </div>
     </div>
 </div>

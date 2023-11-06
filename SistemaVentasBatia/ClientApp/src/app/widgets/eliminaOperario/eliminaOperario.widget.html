@@ -2,24 +2,20 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <meta charset="UTF-8">
-
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">{{ titulo }}</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
             <!-- Modal body -->
             <div class="modal-body">
                  {{ mensaje }}
             </div>
-
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" (click)="acepta()" id="btnEliminarSbmt">Aceptar</button>
                 <button type="button" class="btn btn-outline-secondary" (click)="cancela()" data-bs-dismiss="modal">Cancelar</button>
             </div>
-
         </div>
     </div>
 </div>

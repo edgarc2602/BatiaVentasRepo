@@ -13,7 +13,6 @@ namespace SistemaVentasBatia.Repositories
         Task<Usuario> Login(Acceso acceso);
         Task<bool> InsertarUsuario(UsuarioRegistro usuario);
         Task<bool> ConsultarUsuario(int idPersonal, string Nombres);
-
         Task<List<UsuarioGrafica>> ObtenerCotizacionesUsuarios();
         Task<List<UsuarioGraficaMensual>> ObtenerCotizacionesMensuales();
     }
@@ -122,7 +121,6 @@ WHERE IdPersonal = @idPersonal AND Per_Nombre LIKE @Nombres;
             {
                 using (var connection = _ctx.CreateConnection())
                 {
-                    // Nota que Nombres ya no tiene comillas y se pasa como un parámetro
                     result = await connection.QueryFirstOrDefaultAsync<bool>(query, new { idPersonal, Nombres = "%" + Nombres + "%" });
                 }
             }

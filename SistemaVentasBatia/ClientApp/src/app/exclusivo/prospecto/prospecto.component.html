@@ -1,17 +1,14 @@
 <style>
     .btn-bottom-right {
         position: absolute;
-        bottom: 80px; /* Puedes ajustar la distancia desde la parte inferior */
-        right: 30px; /* Puedes ajustar la distancia desde la derecha */
+        bottom: 80px;
+        right: 30px;
     }
 </style>
 <div [@fadeInOut]>
     <br />
     <div class="row pt-1 mb-3">
         <div>
-            <!--<div class="btn-group float-end">
-                <a (click)="nuevo()" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nuevo Prospecto</a>
-            </div>-->
             <h1 class="h2">Prospectos</h1>
         </div>
     </div>
@@ -35,12 +32,8 @@
             <div class="col-md-6 mb-3 text-end">
                 <a (click)="nuevo()" class="btn btn-outline-primary box-shadow"><i class="fa-solid fa-plus"></i> Nuevo Prospecto</a>
             </div>
-            <!--<div class="col-md-3 mb-3">
-        <button type="button" (click)="lista()" class="btn btn-outline-primary"><i class="fa-solid fa-search"></i> Buscar</button>
-    </div>-->
         </div>
     </div>
-
     <div class="row" style="border-radius: 10px; overflow-x: hidden;">
         <table class="table table-borderless table-striped table-responsive box-shadow">
             <thead>
@@ -69,11 +62,6 @@
                                 <span class="badge  text-dark">Razón Social:</span>
                                 <div class="ms-2">{{ prospecto.razonSocial }}</div>
                             </div>
-
-                            <!--<div class="col-6 col-sm-3">
-                            <span class="badge  text-dark">Representante Legal:</span>-->
-                            <!--<div class="ms-2">{prospecto.representanteLegal /div>-->
-                            <!--</div>-->
                             <div class="col-sm-5 col-7 ">
                                 <span class="badge  text-dark">Domicilio Fiscal:</span>
                                 <div class="ms-2">{{ prospecto.domicilioFiscal }}</div>
@@ -109,6 +97,5 @@
     <br/>
     <br/>
     <button type="button" class="btn btn-primary btn-bottom-right box-shadow" (click)="goBack()">Volver</button>
-
     <elimina-widget [titulo]="" [mensaje]="" (ansEvent)="elimina($event)"></elimina-widget>
 </div>
