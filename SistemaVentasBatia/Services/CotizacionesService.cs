@@ -379,21 +379,27 @@ namespace SistemaVentasBatia.Services
                 {
                     ComisionExt = 0;
                 }
-                int indirectoint = Convert.ToInt32(indirecto);
-                int utilidadint = Convert.ToInt32(utilidad);
-                int comisionsvint = Convert.ToInt32(ComisionSV);
-                int comisionExtint = Convert.ToInt32(ComisionExt);
-                resumenCotizacion.IndirectoPor = indirectoint.ToString();
-                resumenCotizacion.UtilidadPor = utilidadint.ToString();
-                resumenCotizacion.CsvPor = comisionsvint.ToString();
-                resumenCotizacion.ComisionExtPor = comisionExtint.ToString();
-               if (resumenCotizacion.SubTotal == 0)
-                {
-                    resumenCotizacion.IndirectoPor = obtenercot.CostoIndirecto.ToString();
-                    resumenCotizacion.UtilidadPor = obtenercot.Utilidad.ToString();
-                    resumenCotizacion.CsvPor = obtenercot.ComisionSV.ToString();
-                    resumenCotizacion.ComisionExtPor = obtenercot.ComisionExt.ToString();
-                }
+                // int indirectoint = Convert.ToInt32(indirecto);
+                // int utilidadint = Convert.ToInt32(utilidad);
+                // int comisionsvint = Convert.ToInt32(ComisionSV);
+                // int comisionExtint = Convert.ToInt32(ComisionExt);
+                // resumenCotizacion.IndirectoPor = indirectoint.ToString();
+                // resumenCotizacion.UtilidadPor = utilidadint.ToString();
+                // resumenCotizacion.CsvPor = comisionsvint.ToString();
+                // resumenCotizacion.ComisionExtPor = comisionExtint.ToString();
+                //if (resumenCotizacion.SubTotal == 0)
+                // {
+                //     resumenCotizacion.IndirectoPor = obtenercot.CostoIndirecto.ToString();
+                //     resumenCotizacion.UtilidadPor = obtenercot.Utilidad.ToString();
+                //     resumenCotizacion.CsvPor = obtenercot.ComisionSV.ToString();
+                //     resumenCotizacion.ComisionExtPor = obtenercot.ComisionExt.ToString();
+                // }
+
+                resumenCotizacion.IndirectoPor = obtenercot.CostoIndirecto;
+                resumenCotizacion.CsvPor = obtenercot.ComisionSV;
+                resumenCotizacion.UtilidadPor = obtenercot.Utilidad;
+                resumenCotizacion.ComisionExtPor = obtenercot.ComisionExt;
+
                 decimal total = resumenCotizacion.SubTotal + resumenCotizacion.Indirecto + resumenCotizacion.Utilidad + resumenCotizacion.ComisionSV + resumenCotizacion.ComisionExt;
                 string numerotxt = "";
                 if (total == 0)
@@ -408,6 +414,7 @@ namespace SistemaVentasBatia.Services
                     numerotxt = "(" + numerotxt + " M.N.)";
                    
                 }
+               
                 await cotizacionesRepo.InsertarTotalCotizacion(total, id, numerotxt);
                 return resumenCotizacion;
             }

@@ -618,65 +618,64 @@ DELETE FROM tb_cotiza_herramienta WHERE id_puesto_direccioncotizacion = @registr
             decimal comisionSVval = decimal.Parse(comisionSV);
             decimal comisionExtval = decimal.Parse(comisionExt);
 
-            string basemenor = ".0";
-            string basemayor = ".";
+            //string basemenor = ".0";
+            //string basemayor = ".";
 
-            string indirectofin = "";
-            string utilidadfin = "";
-            string comisionSVfin = "";
-            string comisionExtfin = "";
+            //string indirectofin = "";
+            //string utilidadfin = "";
+            //string comisionSVfin = "";
+            //string comisionExtfin = "";
 
-            if (indirectoval < 10)
-            {
-                indirectofin = basemenor + indirecto;
-            }
-            else
-            {
-                indirectofin = basemayor + indirecto;
-            }
-            if (utilidadval < 10)
-            {
-                utilidadfin = basemenor + utilidad;
-            }
-            else
-            {
-                utilidadfin = basemayor + utilidad;
-            }
+            //if (indirectoval < 10)
+            //{
+            //    indirectofin = basemenor + indirecto;
+            //}
+            //else
+            //{
+            //    indirectofin = basemayor + indirecto;
+            //}
+            //if (utilidadval < 10)
+            //{
+            //    utilidadfin = basemenor + utilidad;
+            //}
+            //else
+            //{
+            //    utilidadfin = basemayor + utilidad;
+            //}
+            //if (comisionSVval < 10)
+            //{
+            //    comisionSVfin = basemenor + comisionSV;
+            //}
+            //else
+            //{
+            //    comisionSVfin = basemayor + comisionSV;
+            //}
+            //if (comisionExtval < 10)
+            //{
+            //    comisionExtfin = basemenor + comisionExt;
+            //}
+            //else
+            //{
+            //    comisionExtfin = basemayor + comisionExt;
+            //}
 
-            if (comisionSVval < 10)
-            {
-                comisionSVfin = basemenor + comisionSV;
-            }
-            else
-            {
-                comisionSVfin = basemayor + comisionSV;
-            }
-            if (comisionExtval < 10)
-            {
-                comisionExtfin = basemenor + comisionExt;
-            }
-            else
-            {
-                comisionExtfin = basemayor + comisionExt;
-            }
-
-            decimal indirectodec = decimal.Parse(indirectofin);
-            decimal utilidaddec = decimal.Parse(utilidadfin);
-            decimal comisionSVdec = decimal.Parse(comisionSVfin);
-            decimal comisionExtdec = decimal.Parse(comisionExtfin);
+            //decimal indirectodec = decimal.Parse(indirectofin);
+            //decimal utilidaddec = decimal.Parse(utilidadfin);
+            //decimal comisionSVdec = decimal.Parse(comisionSVfin);
+            //decimal comisionExtdec = decimal.Parse(comisionExtfin);
 
             var query = @"UPDATE tb_cotizacion set 
-costo_indirecto = @indirectodec, 
-utilidad = @utilidaddec,
-comision_venta = @comisionSVdec,
-comision_externa = @comisionExtdec
+costo_indirecto = @indirectoval, 
+utilidad = @utilidadval,
+comision_venta = @comisionSVval,
+comision_externa = @comisionExtval
 where id_cotizacion = @idCotizacion";
 
             try
             {
                 using (var connection = ctx.CreateConnection())
                 {
-                    await connection.ExecuteAsync(query, new { idCotizacion, indirectodec, utilidaddec, comisionSVdec, comisionExtdec });
+                    await connection.ExecuteAsync(query, new { idCotizacion, indirectoval, utilidadval, comisionSVval, comisionExtval });
                 }
             }
             catch (Exception ex)

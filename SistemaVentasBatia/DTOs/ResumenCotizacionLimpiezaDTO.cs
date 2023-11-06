@@ -29,9 +29,9 @@ namespace SistemaVentasBatia.DTOs
 
 
         public string NombreComercial { get; set; }
-        public string UtilidadPor { get; set; }
-        public string IndirectoPor { get; set; }
-        public string CsvPor { get; set; }
-        public string ComisionExtPor { get; set; }
+        public decimal UtilidadPor { get; set; }
+        public decimal IndirectoPor { get; set; }
+        public decimal CsvPor { get; set; }
+        public decimal ComisionExtPor { get; set; }
     }
 }
