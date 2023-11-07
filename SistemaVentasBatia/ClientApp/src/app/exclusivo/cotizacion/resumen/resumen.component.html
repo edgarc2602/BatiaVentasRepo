@@ -497,11 +497,11 @@
                                                     <a class="btn btn-sm text-danger mb-1" (click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'herramienta')" data-bs-toggle="tooltip" title="Herramienta">
                                                         <i class="fa-solid fa-hammer fa-2x"></i>
                                                     </a>
-                                                    <a class="btn btn-sm text-danger mb-1" (click)="eligeOperario(pt.idPuestoDireccionCotizacion)" title="Descartar">
-                                                        <i class="fa-solid fa-times fa-2x"></i>
-                                                    </a>
                                                     <a class="btn btn-sm text-primary mb-1" (click)="updPlan(pt.idPuestoDireccionCotizacion, dir.idTabulador)" data-bs-toggle="tooltip" title="Editar">
                                                         <i class="fa-solid fa-pencil fa-2x"></i>
+                                                    </a>
+                                                    <a class="btn btn-sm text-danger mb-1" (click)="eligeOperario(pt.idPuestoDireccionCotizacion)" title="Descartar">
+                                                        <i class="fa-solid fa-times fa-2x"></i>
                                                     </a>
                                                 </div>
                                             </td>
@@ -520,13 +520,13 @@
         <div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="plantilla-tab">
             <div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3  col-6">
                         <div class="form-floating  mb-3">
                             <input type="text" class="form-control" [(ngModel)]="txtMatKey" asp-for="Keywords" placeholder="Escriba un nombre" (input)="getMat(selTipo)">
                             <label asp-for="Keywords">Producto</label>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-6">
                         <div class="form-floating mb-3">
                             <select class="form-select" [(ngModel)]="selMatDir" asp-for="IdDireccionCotizacion" aria-label="IdDireccionCotizacion" (change)="getMat(selTipo)">
                                 <option value="0" selected>Selecciona una opción...</option>
