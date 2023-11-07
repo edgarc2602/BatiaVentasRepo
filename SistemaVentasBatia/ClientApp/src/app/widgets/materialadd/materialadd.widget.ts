@@ -93,12 +93,12 @@ export class MaterialAddWidget {
         this.idC = cot;
         this.idD = dir;
         this.idP = pue;
-        //if (this.idP != 0) {
-        //    this.hidedir = 1;
-        //}
-        //else {
-        //    this.hidedir = 0;
-        //}
+        if (this.idP != 0) {
+            this.hidedir = 1;
+        }
+        else {
+            this.hidedir = 0;
+        }
         this.idS = ser;
         this.tipo = tp;
         this.showSuc = showS;
