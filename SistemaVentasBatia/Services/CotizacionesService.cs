@@ -33,10 +33,10 @@ namespace SistemaVentasBatia.Services
         Task EliminarOperario(int registroAEliminar);
         Task<int> DuplicarCotizacion(int idCotizacion);
         Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV, string comisionExt);
-        Task <bool>ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio);
+        Task<bool> ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio);
         Task<ListaMaterialesCotizacionLimpiezaDTO> ObtenerMaterialCotizacionLimpieza(int id);
         Task ActualizarPuestoDireccionCotizacion(PuestoDireccionCotizacionDTO operarioVM);
-        Task <Boolean>ActualizarSalarios(PuestoTabulador salarios);
+        Task<Boolean> ActualizarSalarios(PuestoTabulador salarios);
         Task<int> ObtieneIdCotizacionPorOperario(int idPuestoDireccionCotizacion);
         Task<int> ObtieneIdDireccionCotizacionPorOperario(int idPuestoDireccionCotizacion);
         Task<int> ObtenerIdPuestoDireccionCotizacionPorMaterial(int registroAEliminar);
@@ -72,7 +72,7 @@ namespace SistemaVentasBatia.Services
 
             cotizacionVM.IdCotizacion = cotizacion.IdCotizacion;
         }
-        
+
         public async Task ObtenerListaCotizaciones(ListaCotizacionDTO listaCotizacionesVM, int autorizacion, int idPersonal)
         {
             listaCotizacionesVM.Rows = await cotizacionesRepo.ContarCotizaciones(listaCotizacionesVM.IdProspecto, listaCotizacionesVM.IdEstatusCotizacion, listaCotizacionesVM.IdServicio, idPersonal, autorizacion);
@@ -146,7 +146,7 @@ namespace SistemaVentasBatia.Services
         {
             listaPuestosDireccionCotizacionVM.PuestosDireccionesCotizacion = mapper.Map<List<PuestoDireccionMinDTO>>(await cotizacionesRepo.ObtienePuestosPorCotizacion(listaPuestosDireccionCotizacionVM.IdCotizacion));
         }
-        
+
         public async Task ObtenerCatalogoDireccionesPorCotizacion(ListaPuestosDireccionCotizacionDTO listaPuestosDireccionCotizacionVM)
         {
             listaPuestosDireccionCotizacionVM.DireccionesCotizacion = mapper.Map<List<DireccionDTO>>(await cotizacionesRepo.ObtenerCatalogoDireccionesCotizacion(listaPuestosDireccionCotizacionVM.IdCotizacion));
@@ -193,9 +193,9 @@ namespace SistemaVentasBatia.Services
             //    Math.Round((operariosModel.Sueldo / 30m) * (15m / 365m) * 30m, 2);
             //operariosModel.PrimaVacacional =
             //    Math.Round((operariosModel.Vacaciones / 30m) * (15m / 365m) * 30m, 2);
-            operariosModel.Aguinaldo =(((operariosModel.Sueldo / 30.4167m) * 15m) / 12m);
+            operariosModel.Aguinaldo = (((operariosModel.Sueldo / 30.4167m) * 15m) / 12m);
             //operariosModel.Vacaciones = Math.Round((((operariosModel.Sueldo / 30.4167m) * 12m)* .25m) / 12m, 2);
-            operariosModel.PrimaVacacional =((((operariosModel.Sueldo / 30.4167m) * 12m) * .25m) / 12m);
+            operariosModel.PrimaVacacional = ((((operariosModel.Sueldo / 30.4167m) * 12m) * .25m) / 12m);
             if (operariosModel.Sueldo > (207.44m * 30.4167m))
             {
 
@@ -357,11 +357,11 @@ namespace SistemaVentasBatia.Services
                 }
                 else
                 {
-                    utilidad = 0; 
+                    utilidad = 0;
                 }
 
                 decimal ComisionSV;
-                if((resumenCotizacion.Indirecto + resumenCotizacion.Utilidad + resumenCotizacion.SubTotal) != 0)
+                if ((resumenCotizacion.Indirecto + resumenCotizacion.Utilidad + resumenCotizacion.SubTotal) != 0)
                 {
                     ComisionSV = (resumenCotizacion.ComisionSV / (resumenCotizacion.Utilidad + resumenCotizacion.Indirecto + resumenCotizacion.SubTotal)) * 100;
                 }
@@ -412,9 +412,9 @@ namespace SistemaVentasBatia.Services
                     numerotxt = numerotxt.ToLower();
                     numerotxt = char.ToUpper(numerotxt[0]) + numerotxt.Substring(1);
                     numerotxt = "(" + numerotxt + " M.N.)";
-                   
+
                 }
-               
+
                 await cotizacionesRepo.InsertarTotalCotizacion(total, id, numerotxt);
                 return resumenCotizacion;
             }
@@ -439,7 +439,7 @@ namespace SistemaVentasBatia.Services
             var idCotizacion = await cotizacionesRepo.ObtenerIdCotizacionPorDireccion(registroAEliminar);
 
             return idCotizacion;
-            }
+        }
 
         public async Task<int> ObtenerIdDireccionCotizacionPorOperario(int registroAEliminar)
         {
@@ -471,6 +471,8 @@ namespace SistemaVentasBatia.Services
 
             var herramientascotizacion = await materialRepo.ObtieneHerramientasPorIdCotizacion(idCotizacion);
 
+            var servicioscotizacion = await materialRepo.ObtieneServiciosPorIdCotizacion(idCotizacion);
+
             foreach (var (direccionesNuevas, direccionesNUEVAS) in direccionesCotizacion.Zip(direccionesCotizacionNueva))
             {
                 var direccionCotizacionNueva = direccionesCotizacionNueva.FirstOrDefault(x => x.IdDireccion == direccionesNuevas.IdDireccion);
@@ -487,7 +489,7 @@ namespace SistemaVentasBatia.Services
                 {
                     foreach (var producto in productoscotizacion)
                     {
-                        if(
+                        if (
                             producto.IdPuestoDireccionCotizacion == operarioant.IdPuestoDireccionCotizacion &&
                             producto.IdDireccionCotizacion == dir.IdDireccionCotizacion
                         )
@@ -528,7 +530,8 @@ namespace SistemaVentasBatia.Services
                 }
             }
             //Agrega extra de la cotizacion --OK
-            foreach (var (direcNuevas, direcAnteriores) in direccionesCotizacionNueva.Zip(direccionesCotizacion))
+            //foreach (var (direcNuevas, direcAnteriores) in direccionesCotizacionNueva.Zip(direccionesCotizacion))
+            foreach (var (direcAnteriores, direcNuevas) in direccionesCotizacion.Zip(direccionesCotizacionNueva))
             {
                 foreach (var prod in productoscotizacion)
                 {
@@ -558,16 +561,30 @@ namespace SistemaVentasBatia.Services
                         await cotizacionesRepo.CopiarHerramienta(herr, idCotizacionNueva, direcNuevas.IdDireccionCotizacion, 0);
                     }
                 }
+                foreach (var ser in servicioscotizacion)
+                {
+                    if (ser.IdDireccionCotizacion == direcAnteriores.IdDireccionCotizacion)
+                    {
+                        await cotizacionesRepo.CopiarServicio(ser, idCotizacionNueva, direcNuevas.IdDireccionCotizacion);
+                    }
+                }
+            }
+            foreach (var ser in servicioscotizacion)
+            {
+                if (ser.IdDireccionCotizacion == 0)
+                {
+                    await cotizacionesRepo.CopiarServicio(ser, idCotizacionNueva, 0);
+                }
             }
             return idCotizacionNueva;
         }
 
         public async Task ActualizarIndirectoUtilidad(int idCotizacion, string indirecto, string utilidad, string comisionSV, string comisionExt)
         {
-            await cotizacionesRepo.ActualizarIndirectoUtilidad(idCotizacion, indirecto, utilidad,comisionSV,comisionExt);
+            await cotizacionesRepo.ActualizarIndirectoUtilidad(idCotizacion, indirecto, utilidad, comisionSV, comisionExt);
         }
 
-        public async Task <bool>ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio)
+        public async Task<bool> ActualizarCotizacion(int idCotizacion, int idProspecto, Servicio idServicio)
         {
             bool result = await cotizacionesRepo.ValidarDirecciones(idCotizacion);
 
@@ -632,7 +649,7 @@ namespace SistemaVentasBatia.Services
 
         public async Task<bool> ActualizarSalarios(PuestoTabulador salarios)
         {
-            bool result =  await cotizacionesRepo.ActualizarSalarios(salarios);
+            bool result = await cotizacionesRepo.ActualizarSalarios(salarios);
             return result;
         }
 

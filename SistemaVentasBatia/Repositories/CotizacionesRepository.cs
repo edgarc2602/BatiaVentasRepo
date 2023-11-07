@@ -61,6 +61,7 @@ namespace SistemaVentasBatia.Repositories
         Task CopiarUniforme(UniformeCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
         Task CopiarEquipo(EquipoCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
         Task CopiarHerramienta(HerramientaCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion, int idPuestoDireccionCotizacionNuevo);
+        Task CopiarServicio(ServicioCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion);
         Task<bool> ActualizarSalarios(PuestoTabulador salarios);
         Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion();
         Task ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes);
@@ -307,7 +308,7 @@ namespace SistemaVentasBatia.Repositories
                             join tb_turno t on t.id_turno = pdc.id_turno
                             join tb_direccion_cotizacion dc on dc.id_direccion_cotizacion = pdc.id_direccion_cotizacion
 							join tb_jornada j on jornada = j.id_jornada
-                            where dc.id_cotizacion = @idCotizacion order by pdc.id_puesto_direccioncotizacion desc";
+                            where dc.id_cotizacion = @idCotizacion order by p.descripcion";
 
             var puestosDirecciones = new List<PuestoDireccionCotizacion>();
 
@@ -1004,6 +1005,57 @@ VALUES(
                         id_cotizacion = idCotizacionNueva,
                         id_direccion_cotizacion = idDireccionCotizacion,
                         id_puesto_direccioncotizacion = idPuestoDireccionCotizacionNuevo,
+                        precio_unitario = producto.PrecioUnitario,
+                        cantidad = producto.Cantidad,
+                        total = producto.Total,
+                        importemensual = producto.ImporteMensual,
+                        id_frecuencia = producto.IdFrecuencia,
+                        fecha_alta = producto.FechaAlta,
+                        id_personal = producto.IdPersonal,
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task CopiarServicio(ServicioCotizacion producto, int idCotizacionNueva, int idDireccionCotizacion)
+        {
+            var query = @"INSERT INTO tb_cotiza_servicioextra(
+id_servicioextra,
+id_cotizacion,
+id_direccion_cotizacion,
+precio_unitario,
+cantidad,
+total,
+importemensual,
+id_frecuencia,
+fecha_alta,
+id_personal)
+VALUES(
+@id_servicioextra,
+@id_cotizacion,
+@id_direccion_cotizacion,
+@precio_unitario,
+@cantidad,
+@total,
+@importemensual,
+@id_frecuencia,
+@fecha_alta,
+@id_personal
+)";
+
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    var res = await connection.ExecuteScalarAsync<int>(query, new
+                    {
+                        id_servicioextra = producto.IdServicioExtra,
+                        id_cotizacion = idCotizacionNueva,
+                        id_direccion_cotizacion = idDireccionCotizacion,
                         precio_unitario = producto.PrecioUnitario,
                         cantidad = producto.Cantidad,
                         total = producto.Total,

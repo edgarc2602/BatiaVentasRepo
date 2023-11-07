@@ -198,8 +198,9 @@ export class ResumenComponent implements OnInit, OnDestroy {
         let list = this.lspue.puestosDireccionesCotizacion.filter(p => p.idDireccionCotizacion == id);
         return list;
     }
-
+        
     getMat(tb: string) {
+        this.selPuesto = 0;
         this.selTipo = tb;
         let fil: string = (this.txtMatKey != '' ? 'keywords=' + this.txtMatKey : '');
         if (fil.length > 0) fil += '&';

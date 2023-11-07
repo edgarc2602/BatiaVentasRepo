@@ -60,6 +60,7 @@ namespace SistemaVentasBatia.Repositories
         Task<List<UniformeCotizacion>> ObtieneUniformesPorIdCotizacion(int idCotizacion);
         Task<List<EquipoCotizacion>> ObtieneEquiposPorIdCotizacion(int idCotizacion);
         Task<List<HerramientaCotizacion>> ObtieneHerramientasPorIdCotizacion(int idCotizacion);
+        Task<List<ServicioCotizacion>> ObtieneServiciosPorIdCotizacion(int idCotizacion);
 
 
         Task InsertarServicioCotizacion(ServicioCotizacion servicio);
@@ -311,7 +312,7 @@ namespace SistemaVentasBatia.Repositories
 						ISNULL(NULLIF(@idDireccionCotizacion, 0), dc.id_direccion_cotizacion) = dc.id_direccion_cotizacion AND
 						mc.id_puesto_direccioncotizacion = @idPuestoDireccionCotizacion AND
 						p.descripcion LIKE '%' + ISNULL(@keywords, '') + '%'
-                        order by mc.id_material_cotizacion
+                        order by p.descripcion
                         OFFSET ((@pagina - 1) * 10) rows
                         fetch next 10 rows only;";
 
@@ -361,7 +362,8 @@ mc.id_personal IdPersonal
 FROM tb_cotiza_material mc
 INNER JOIN tb_direccion_cotizacion dc on dc.id_direccion_cotizacion = mc.id_direccion_cotizacion
 LEFT JOIN tb_puesto_direccion_cotizacion pdc on pdc.id_puesto_direccioncotizacion = mc.id_puesto_direccioncotizacion
-WHERE mc.id_cotizacion = @idCotizacion";
+WHERE mc.id_cotizacion = @idCotizacion
+ORDER BY mc.fecha_alta";
 
             var materialesCotizacion = new List<MaterialCotizacion>();
 
@@ -400,7 +402,8 @@ uc.id_personal IdPersonal
 FROM tb_cotiza_uniforme uc
 INNER JOIN tb_direccion_cotizacion dc on dc.id_direccion_cotizacion = uc.id_direccion_cotizacion
 LEFT JOIN tb_puesto_direccion_cotizacion pdc on pdc.id_puesto_direccioncotizacion = uc.id_puesto_direccioncotizacion
-WHERE uc.id_cotizacion = @idCotizacion";
+WHERE uc.id_cotizacion = @idCotizacion
+ORDER BY uc.fecha_alta";
 
             var uniformesCotizacion = new List<UniformeCotizacion>();
 
@@ -439,7 +442,8 @@ ec.id_personal IdPersonal
 FROM tb_cotiza_equipo ec
 INNER JOIN tb_direccion_cotizacion dc on dc.id_direccion_cotizacion = ec.id_direccion_cotizacion
 LEFT JOIN tb_puesto_direccion_cotizacion pdc on pdc.id_puesto_direccioncotizacion = ec.id_puesto_direccioncotizacion
-WHERE ec.id_cotizacion = @idCotizacion";
+WHERE ec.id_cotizacion = @idCotizacion
+ORDER BY ec.fecha_alta";
 
             var equiposCotizacion = new List<EquipoCotizacion>();
 
@@ -478,7 +482,8 @@ hc.id_personal IdPersonal
 FROM tb_cotiza_herramienta hc
 INNER JOIN tb_direccion_cotizacion dc on dc.id_direccion_cotizacion = hc.id_direccion_cotizacion
 LEFT JOIN tb_puesto_direccion_cotizacion pdc on pdc.id_puesto_direccioncotizacion = hc.id_puesto_direccioncotizacion
-WHERE hc.id_cotizacion = @idCotizacion";
+WHERE hc.id_cotizacion = @idCotizacion
+ORDER BY hc.fecha_alta";
 
             var herramientasCotizacion = new List<HerramientaCotizacion>();
 
@@ -497,10 +502,40 @@ WHERE hc.id_cotizacion = @idCotizacion";
             return herramientasCotizacion;
 
         }
-
-
-
-
+        public async Task<List<ServicioCotizacion>> ObtieneServiciosPorIdCotizacion (int idCotizacion)
+        {
+            var query = @"
+SELECT
+cs.id_servicioextra_cotizacion IdServicioCotizacion, 
+cs.id_servicioextra IdServicioExtra, 
+cs.id_cotizacion IdCotizacion, 
+ISNULL(dc.id_direccion,0)  IdDireccionCotizacion,
+cs.precio_unitario PrecioUnitario, 
+cs.id_frecuencia IdFrecuencia,
+cs.cantidad Cantidad, 
+cs.total Total, 
+cs.importemensual ImporteMensual,
+cs.fecha_alta FechaAlta, 
+cs.id_personal IdPersonal
+FROM tb_cotiza_servicioextra cs
+LEFT OUTER JOIN tb_direccion_cotizacion dc on dc.id_direccion_cotizacion = cs.id_direccion_cotizacion
+WHERE cs.id_cotizacion = @idCotizacion
+ORDER BY cs.fecha_alta
+";
+            var serviciosCotizacion = new List<ServicioCotizacion> ();
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    serviciosCotizacion = (await connection.QueryAsync<ServicioCotizacion>(query, new { idCotizacion, })).ToList();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return serviciosCotizacion;
+        }
 
         public async Task AgregarHerramientaCotizacion(MaterialCotizacion herramienta)
         {
@@ -1046,7 +1081,7 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
 						ISNULL(NULLIF(@idDireccionCotizacion, 0), dc.id_direccion_cotizacion) = dc.id_direccion_cotizacion AND
 						mc.id_puesto_direccioncotizacion = @idPuestoDireccionCotizacion AND
 						p.descripcion LIKE '%' + ISNULL(@keywords, '') + '%'
-                        order by mc.id_equipo_cotizacion
+                        order by p.descripcion
                         OFFSET ((@pagina - 1) * 10) rows
                         fetch next 10 rows only;";
 
@@ -1090,7 +1125,7 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
 						ISNULL(NULLIF(@idDireccionCotizacion, 0), dc.id_direccion_cotizacion) = dc.id_direccion_cotizacion AND
 						mc.id_puesto_direccioncotizacion = @idPuestoDireccionCotizacion AND
 						p.descripcion LIKE '%' + ISNULL(@keywords, '') + '%'
-                        order by mc.id_herramienta_cotizacion
+                        order by p.descripcion
                         OFFSET ((@pagina - 1) * 10) rows
                         fetch next 10 rows only;";
 
@@ -1134,7 +1169,7 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
 						ISNULL(NULLIF(@idDireccionCotizacion, 0), dc.id_direccion_cotizacion) = dc.id_direccion_cotizacion AND
 						mc.id_puesto_direccioncotizacion = @idPuestoDireccionCotizacion AND
 						p.descripcion LIKE '%' + ISNULL(@keywords, '') + '%'
-                        order by mc.id_uniforme_cotizacion
+                        order by p.descripcion
                         OFFSET ((@pagina - 1) * 10) rows
                         fetch next 10 rows only;";
 
@@ -1176,7 +1211,8 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
                                 mc.cantidad Cantidad, mc.total Total, mc.fecha_alta FechaAlta, mc.id_personal IdPersonal, p.descripcion DescripcionMaterial
                             FROM tb_cotiza_equipo mc
                             JOIN tb_producto p on p.clave = mc.clave_producto
-                            WHERE id_puesto_direccioncotizacion = @id";
+                            WHERE id_puesto_direccioncotizacion = @id
+ORDER BY p.descripcion";
 
                 var equipoCotizacion = new List<MaterialCotizacion>();
 
@@ -1201,7 +1237,8 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
                                 mc.cantidad Cantidad, mc.total Total, mc.fecha_alta FechaAlta, mc.id_personal IdPersonal, p.descripcion DescripcionMaterial
                             FROM tb_cotiza_equipo mc
                             JOIN tb_producto p on p.clave = mc.clave_producto
-                            WHERE id_cotizacion = @idCotizacion";
+                            WHERE id_cotizacion = @idCotizacion
+ORDER BY p.descripcion";
 
                 var equipoCotizacion = new List<MaterialCotizacion>();
 
@@ -1230,7 +1267,8 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
                                 mc.cantidad Cantidad, mc.total Total, mc.fecha_alta FechaAlta, mc.id_personal IdPersonal, p.descripcion DescripcionMaterial
                             FROM tb_cotiza_herramienta mc
                             JOIN tb_producto p on p.clave = mc.clave_producto
-                            WHERE id_puesto_direccioncotizacion = @id";
+                            WHERE id_puesto_direccioncotizacion = @id
+ORDER BY p.descripcion";
 
                 var equipoCotizacion = new List<MaterialCotizacion>();
 
@@ -1255,7 +1293,8 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
                                 mc.cantidad Cantidad, mc.total Total, mc.fecha_alta FechaAlta, mc.id_personal IdPersonal, p.descripcion DescripcionMaterial
                             FROM tb_cotiza_herramienta mc
                             JOIN tb_producto p on p.clave = mc.clave_producto
-                            WHERE id_cotizacion = @idCotizacion";
+                            WHERE id_cotizacion = @idCotizacion
+ORDER BY p.descripcion";
 
                 var equipoCotizacion = new List<MaterialCotizacion>();
 
@@ -1284,7 +1323,8 @@ WHERE id_servicioextra_cotizacion = @IdServicioExtraCotizacion";
                                 mc.cantidad Cantidad, mc.total Total, mc.fecha_alta FechaAlta, mc.id_personal IdPersonal, p.descripcion DescripcionMaterial
                             FROM tb_cotiza_uniforme mc
                             JOIN tb_producto p on p.clave = mc.clave_producto
-                            WHERE id_puesto_direccioncotizacion = @id";
+                            WHERE id_puesto_direccioncotizacion = @id
+                            ORDER BY p.descripcion";
 
                 var equipoCotizacion = new List<MaterialCotizacion>();
 
@@ -1317,7 +1357,8 @@ mc.id_personal IdPersonal,
 p.descripcion DescripcionMaterial
                             FROM tb_cotiza_uniforme mc
                             JOIN tb_producto p on p.clave = mc.clave_producto
-                            WHERE id_cotizacion = @idCotizacion";
+                            WHERE id_cotizacion = @idCotizacion
+ORDER BY p.descripcion";
 
                 var equipoCotizacion = new List<MaterialCotizacion>();
 
@@ -1345,7 +1386,8 @@ p.descripcion DescripcionMaterial
                                   mc.cantidad Cantidad, mc.total Total, mc.fecha_alta FechaAlta, mc.id_personal IdPersonal, p.descripcion DescripcionMaterial
                             FROM tb_cotiza_material mc
                             JOIN tb_producto p on p.clave = mc.clave_producto
-                            WHERE id_puesto_direccioncotizacion = @id";
+                            WHERE id_puesto_direccioncotizacion = @id
+                            ORDER BY p.descripcion";
 
                 var naterialCotizacion = new List<MaterialCotizacion>();
 
@@ -1379,7 +1421,8 @@ mc.id_personal IdPersonal,
 p.descripcion DescripcionMaterial
                             FROM tb_cotiza_material mc
                             JOIN tb_producto p on p.clave = mc.clave_producto
-                            WHERE id_cotizacion = @idCotizacion";
+                            WHERE id_cotizacion = @idCotizacion
+ORDER BY p.descripcion";
 
                 var naterialCotizacion = new List<MaterialCotizacion>();
 
@@ -1409,7 +1452,7 @@ p.descripcion DescripcionMaterial
                                   mc.id_puesto_direccioncotizacion IdPuestoDireccionCotizacion, mc.precio_unitario PrecioUnitario, id_frecuencia IdFrecuencia,
                                   mc.cantidad Cantidad, mc.total Total, mc.fecha_alta FechaAlta, mc.id_personal IdPersonal
                             FROM tb_cotiza_equipo mc
-                            WHERE id_equipo_cotizacion = @id;";
+                            WHERE id_equipo_cotizacion = @id";
 
             var naterialCotizacion = new MaterialCotizacion();
 
@@ -1434,7 +1477,7 @@ p.descripcion DescripcionMaterial
                                   mc.id_puesto_direccioncotizacion IdPuestoDireccionCotizacion, mc.precio_unitario PrecioUnitario, id_frecuencia IdFrecuencia,
                                   mc.cantidad Cantidad, mc.total Total, mc.fecha_alta FechaAlta, mc.id_personal IdPersonal
                             FROM tb_cotiza_herramienta mc
-                            WHERE id_herramienta_cotizacion = @id;";
+                            WHERE id_herramienta_cotizacion = @id";
 
             var naterialCotizacion = new MaterialCotizacion();
 
