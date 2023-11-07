@@ -183,7 +183,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
     }
 
     updPlan(id: number, tb: number) {
-        this.selPuesto = id;
+        //this.selPuesto = id;
         this.pueAdd.open(this.model.idCotizacion, this.selDireccion, tb, id);
     }
 
@@ -201,7 +201,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
     }
         
     getMat(tb: string) {
-        this.selPuesto = 0;
+        //this.selPuesto = 0;
         this.selTipo = tb;
         let fil: string = (this.txtMatKey != '' ? 'keywords=' + this.txtMatKey : '');
         if (fil.length > 0) fil += '&';
@@ -365,7 +365,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
     }
 
     return($event) {
-        if ($event = true) {
+        if ($event == true) {
             this.getMatPues(this.selPuesto, this.selDireccion, this.selTipo);
         }
     }

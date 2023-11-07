@@ -83,6 +83,9 @@ export class MaterialAddWidget {
         if (this.model.idPuestoDireccionCotizacion != 0) {
             this.returnModal.emit(true);
         }
+        else {
+            this.returnModal.emit(false);
+        }
     }
 
     open(cot: number, dir: number, pue: number, id: number, ser: number, tp: string, showS: boolean = false, edit: number) {
@@ -90,12 +93,12 @@ export class MaterialAddWidget {
         this.idC = cot;
         this.idD = dir;
         this.idP = pue;
-        if (this.idP != 0) {
-            this.hidedir = 1;
-        }
-        else {
-            this.hidedir = 0;
-        }
+        //if (this.idP != 0) {
+        //    this.hidedir = 1;
+        //}
+        //else {
+        //    this.hidedir = 0;
+        //}
         this.idS = ser;
         this.tipo = tp;
         this.showSuc = showS;
@@ -114,9 +117,12 @@ export class MaterialAddWidget {
         let docModal = document.getElementById('modalLimpiezaAgregarMaterialCotizacion');
         let myModal = bootstrap.Modal.getOrCreateInstance(docModal);
         myModal.hide();
-
+        //this.returnModal.emit(true);
         if (this.model.idPuestoDireccionCotizacion != 0) {
             this.returnModal.emit(true);
+        }
+        else {
+            this.returnModal.emit(false);
         }
     }
 }
