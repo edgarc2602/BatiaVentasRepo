@@ -217,14 +217,14 @@ namespace SistemaVentasBatia.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> DuplicarCotizacion([FromBody] int idCotizacion)
+        public async Task<int> DuplicarCotizacion([FromBody] int idCotizacion)
         {
             var idNuevaCotizacion = await cotizacionesSvc.DuplicarCotizacion(idCotizacion);
 
             // TempData["DescripcionAlerta"] = "Se duplicó correctamente la cotización";
             // TempData["IdTipoAlerta"] = TipoAlerta.Exito;
 
-            return RedirectToAction("LimpiezaResumen", new { id = idNuevaCotizacion });
+            return idNuevaCotizacion;
         }
 
         [HttpGet("[action]")]

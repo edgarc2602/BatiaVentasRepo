@@ -52,8 +52,8 @@ export class ProspectoComponent {
 
     elige(id: number) {
         this.idpro = id;
-        this.eliw.titulo = 'Eliminar prospecto';
-        this.eliw.mensaje = '¿Está seguro de que desea inactivar el prospecto?';
+        this.eliw.titulo = 'Desactivar';
+        this.eliw.mensaje = 'El estatus cambiará a "Inactivo"';
         this.eliw.open();
     }
 

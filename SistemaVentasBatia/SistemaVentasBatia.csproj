@@ -32,6 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="ClientApp\src\app\exclusivo\cotizacion\resumen\Effects.css" />
 	  <None Remove="ClientApp\src\app\models\acceso.ts" />
 	  <None Remove="ClientApp\src\app\models\listapuesto.ts" />
 	  <None Remove="ClientApp\src\app\models\productoitem.ts" />

@@ -131,7 +131,7 @@ export class CotizacionComponent implements OnInit, OnDestroy {
     elige(idCotizacion) {
         this.idpro = idCotizacion;
         this.eliw.titulo = 'Desactivar'; //error
-        this.eliw.mensaje = 'El estatus cambiara a "Inactivo"';
+        this.eliw.mensaje = 'El estatus cambiar\u00E1 a "Inactivo"';
         this.eliw.open();
     }
 

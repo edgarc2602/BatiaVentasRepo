@@ -90,6 +90,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
     evenSub: Subject<void> = new Subject<void>();
     isErr: boolean = false;
     validaMess: string = '';
+    idCotN: number = 0;
 
     constructor(
         @Inject('BASE_URL') private url: string,
@@ -97,7 +98,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private reportService: ReportService,
-         public user: StoreUser
+        public user: StoreUser
     ) {
         this.nuevo();
         this.lsdir = {
@@ -281,16 +282,25 @@ export class ResumenComponent implements OnInit, OnDestroy {
     }
 
     elige(idCotizacion) {
+        this.eliw.titulo = "";
+        this.eliw.mensaje = "";
         this.idpro = idCotizacion;
-        this.eliw.titulo = 'Duplicar cotización';
-        this.eliw.mensaje = '¿Está seguro de que desea duplicar la cotización?';
+        this.eliw.titulo = 'Duplicar cotizaci\u00F3n';
+        this.eliw.mensaje = "Se crear\u00E1 un duplicado";
         this.eliw.open();
     }
     elimina($event) {
         if ($event == true) {
             this.model.idCotizacion = this.model.idCotizacion;
             if (this.model.idCotizacion != 0) {
-                this.http.post<DireccionCotizacion>(`${this.url}api/cotizacion/DuplicarCotizacion`, this.model.idCotizacion).subscribe(response => {
+                this.http.post<number>(`${this.url}api/cotizacion/DuplicarCotizacion`, this.model.idCotizacion).subscribe(response => {
+                    this.idCotN = response;
+                        
+                    this.router.navigate(['/exclusivo/resumen/', this.idCotN]);
+                    this.eliope.titulo = 'Duplicado correctamente';
+                    this.eliope.mensaje = 'Ahora se encuentra en la nueva cotizaci\u00F3n';
+                    this.eliope.open();
+                    
                 }, err => console.log(err));
             }
         }
@@ -304,8 +314,8 @@ export class ResumenComponent implements OnInit, OnDestroy {
     }
     eligeOperario(idOperario) {
         this.idope = idOperario;
-        this.eliope.titulo = 'Eliminar Operario';
-        this.eliope.mensaje = 'Al eliminar al operario se borraran los registros relacionados';
+        this.eliope.titulo = 'Eliminar puesto';
+        this.eliope.mensaje = 'Se eliminar\u00E1n los items relacionados';
         this.eliope.open();
     }
 
@@ -339,7 +349,7 @@ export class ResumenComponent implements OnInit, OnDestroy {
     validaDireccionCotizacion(idDireccionCotizacion) {
         this.idDC = idDireccionCotizacion;
         this.elidir.titulo = 'Eliminar directorio';
-        this.elidir.mensaje = 'Eliminar el directorio tambien afectará a los items relacionados a el?¿';
+        this.elidir.mensaje = 'Se eliminar\u00E1n los items relacionados';
         this.elidir.open();
     }
     eliminaDireccionCotizacion($event) {

@@ -6,8 +6,8 @@ declare var bootstrap: any;
     templateUrl: './elimina.widget.html'
 })
 export class EliminaWidget implements OnChanges {
-    @Input() mensaje: string = '';
-    @Input() titulo: string = '';
+    @Input() mensaje: string = " ";
+    @Input() titulo: string = " ";
     @Output('ansEvent') sendEvent = new EventEmitter<boolean>();
 
     constructor() {}
