@@ -1077,7 +1077,7 @@ VALUES(
             var query = @"SELECT id_direccion IdDireccion, id_direccion_cotizacion IdDireccionCotizacion
                           FROM  tb_direccion_cotizacion 
                           WHERE id_cotizacion = @idCotizacion
-                          ORDER BY id_direccion_cotizacion";
+                          ORDER BY id_direccion";
 
             var direcciones = new List<DireccionCotizacion>();
 

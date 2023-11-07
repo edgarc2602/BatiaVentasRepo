@@ -530,7 +530,6 @@ namespace SistemaVentasBatia.Services
                 }
             }
             //Agrega extra de la cotizacion --OK
-            //foreach (var (direcNuevas, direcAnteriores) in direccionesCotizacionNueva.Zip(direccionesCotizacion))
             foreach (var (direcAnteriores, direcNuevas) in direccionesCotizacion.Zip(direccionesCotizacionNueva))
             {
                 foreach (var prod in productoscotizacion)
