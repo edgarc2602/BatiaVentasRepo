@@ -140,6 +140,7 @@ export class CotizacionComponent implements OnInit, OnDestroy {
             this.http.post<Cotizacion>(`${this.url}api/cotizacion/EliminarCotizacion`, this.idpro).subscribe(response => {
             }, err => console.log(err));
         }
+        this.init();
     }
     editar(idCotizacion: number, prospecto: string, servicio: string) {
         this.ediw.openSel(idCotizacion, prospecto, servicio);
