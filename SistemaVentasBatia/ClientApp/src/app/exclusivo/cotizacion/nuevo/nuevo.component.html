@@ -43,11 +43,16 @@
                     <br />
                     <div class="row">
                         <div *ngFor="let s of sers" class="col-sm-6 col-md-3">
-                            <div class="form-check">
+                            <!--<div class="form-check">
                                 <input class="form-check-input" type="checkbox" [(ngModel)]="s.act" value="s.id">
                                 <label class="form-check-label">
                                     {{ s.nom }}
                                 </label>
+                            </div>-->
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" id="s.nom" [value]="s.id" [(ngModel)]="s.act" /> {{ s.nom }}
+                                </label><br />
                             </div>
                         </div>
                         <span *ngIf="ferr('ListaServicio')" class="text-danger">{{ terr('ListaServicio') }}</span>
@@ -116,11 +121,16 @@
                         <br />
                         <div class="row">
                             <div *ngFor="let s of sers" class="col-sm-6 col-md-3">
-                                <div class="form-check">
+                                <!--<div class="form-check">
                                     <input class="form-check-input" type="checkbox" [(ngModel)]="s.act" value="s.id">
                                     <label class="form-check-label">
                                         {{ s.nom }}
                                     </label>
+                                </div>-->
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" id="s.nom" [value]="s.id" [(ngModel)]="s.act" /> {{ s.nom }}
+                                    </label><br />
                                 </div>
                             </div>
                             <span *ngIf="ferr('ListaServicio')" class="text-danger">{{ terr('ListaServicio') }}</span>

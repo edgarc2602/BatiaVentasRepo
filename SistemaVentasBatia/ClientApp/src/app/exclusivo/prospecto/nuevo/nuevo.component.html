@@ -71,15 +71,20 @@
                 </div>
             </div>
             <br />
-            <h5>Documentación</h5>
+            <h5>Documentaciónnn</h5>
             <br />
             <div class="row">
                 <div class="col-sm-6 col-md-3" *ngFor="let d of docs">
-                    <div class="form-check">
+                    <!--<div class="form-check">
                         <input class="form-check-input" type="checkbox" [(ngModel)]="d.act" [value]="d.id">
                         <label class="form-check-label">
                             {{ d.nom }}
                         </label>
+                    </div>-->
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" id="d.nom" [value]="d.id" [(ngModel)]="d.act" /> {{ d.nom }}
+                        </label><br />
                     </div>
                 </div>
             </div>
