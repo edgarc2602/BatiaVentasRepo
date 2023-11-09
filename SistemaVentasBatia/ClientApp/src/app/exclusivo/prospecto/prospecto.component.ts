@@ -63,6 +63,7 @@ export class ProspectoComponent {
                 console.log(response);
             }, err => console.log(err));
         }
+        this.lista();
     }
     goBack() {
         window.history.back();
