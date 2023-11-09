@@ -44,6 +44,8 @@ namespace SistemaVentasBatia.Services
         Task<int> ObtenerIdCotizacionPorMaterial(int idDireccionCotizacion);
         Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion();
         Task<bool> ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes);
+        Task<decimal> ObtenerImssBase();
+        Task<bool> ActualizarImssBase(decimal imss);
     }
 
     public class CotizacionesService : ICotizacionesService
@@ -664,6 +666,15 @@ namespace SistemaVentasBatia.Services
         {
             await cotizacionesRepo.ActualizarPorcentajesPredeterminadosCotizacion(porcentajes);
             return true;
+        }
+
+        public async Task<decimal> ObtenerImssBase()
+        {
+            return await cotizacionesRepo.ObtenerImssBase();
+        }
+        public async Task<bool> ActualizarImssBase(decimal imss)
+        {
+            return await cotizacionesRepo.ActualizarImssBase(imss);
         }
     }
 }

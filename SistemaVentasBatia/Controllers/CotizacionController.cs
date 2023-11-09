@@ -287,5 +287,18 @@ namespace SistemaVentasBatia.Controllers
             int autorizacion = await cotizacionesSvc.ObtenerAutorizacion(idPersonal);
             return autorizacion;
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<decimal>> ObtenerImssBase()
+        {
+            return await cotizacionesSvc.ObtenerImssBase();
+        }
+
+        [HttpPut("[action]")]
+        public async Task<ActionResult<bool>> ActualizarImssBase([FromBody] decimal imss)
+        {
+            await cotizacionesSvc.ActualizarImssBase(imss);
+            return true;
+        }
     }
 }

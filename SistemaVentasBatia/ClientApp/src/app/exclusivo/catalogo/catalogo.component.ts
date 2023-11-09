@@ -35,7 +35,9 @@ export class CatalogoComponent {
     @ViewChild('utilidadtxt',           { static: false }) utilidadtxt: ElementRef;
     @ViewChild('comisionSobreVentatxt', { static: false }) comisionSobreVentatxt: ElementRef;
     @ViewChild('comisionExternatxt',    { static: false }) comisionExternatxt: ElementRef;
-    @ViewChild('fechaAplicatxt',        { static: false }) fechaAplicatxt: ElementRef;
+    @ViewChild('fechaAplicatxt', { static: false }) fechaAplicatxt: ElementRef;
+
+    @ViewChild('imsstxt', { static: false }) imsstxt: ElementRef;
 
     pues: Catalogo[] = [];
     selPuesto: number = 0;
@@ -72,6 +74,7 @@ export class CatalogoComponent {
     lclas: Catalogo[] = [];
     idClase: number = 1;
     tipoProd: string = '';
+    imss: number = 0;
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, public user: StoreUser) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
@@ -200,6 +203,7 @@ export class CatalogoComponent {
             this.fechaAplica = this.cotpor.fechaAplica;
             this.limpiarPorcentajesNG();
         }, err => console.log(err));
+        this.getImss();
     }
     
     actualizarPorcentajesPredeterminadosCotizacion() {
@@ -294,5 +298,17 @@ export class CatalogoComponent {
         this.sal.zona5 = parseFloat(this.zona5txt.nativeElement.value);
         this.sal.idClase = this.idClase;
         this.sal.idPuesto = this.selPuesto;
+    }
+
+    getImss() {
+        this.http.get<number>(`${this.url}api/cotizacion/obtenerimssbase`).subscribe(response => {
+            this.imss = response;
+        }, err => console.log(err));
+    }
+
+    updImss() {
+        this.imss = parseFloat(this.imsstxt.nativeElement.value);
+        this.http.put<boolean>(`${this.url}api/cotizacion/actualizarimssbase`, this.imss).subscribe(response => {
+        }, err => console.log(err));
     }
 }

@@ -65,6 +65,8 @@ namespace SistemaVentasBatia.Repositories
         Task<bool> ActualizarSalarios(PuestoTabulador salarios);
         Task<CotizaPorcentajes> ObtenerPorcentajesCotizacion();
         Task ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes);
+        Task<decimal> ObtenerImssBase();
+        Task<bool> ActualizarImssBase(decimal imss);
     }
 
     public class CotizacionesRepository : ICotizacionesRepository
@@ -1619,6 +1621,40 @@ WHERE dc.id_direccion_cotizacion = @idPuestoDireccion
                 {
                     result = await connection.QueryFirstAsync<int>(query, new { idPuestoDireccion });
                 }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<decimal> ObtenerImssBase()
+        {
+            string query = @" 	SELECT ISNULL(imssbase,0)AS imssbase  FROM tb_cotiza_porcentaje WHERE id_porcentaje = 1";
+            decimal imss;
+            try
+            {
+                using var connection = ctx.CreateConnection();
+                imss = await connection.QueryFirstOrDefaultAsync<decimal>(query);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return imss;
+        }
+
+        public async Task<bool> ActualizarImssBase(decimal imss)
+        {
+            string query = @"UPDATE tb_cotiza_porcentaje
+	                        SET imssbase = @imss
+	                        WHERE id_porcentaje = 1";
+            bool result;
+            try
+            {
+                using var connection = ctx.CreateConnection();
+                result = await connection.ExecuteScalarAsync<bool>(query, new {imss});
             }
             catch(Exception ex)
             {
