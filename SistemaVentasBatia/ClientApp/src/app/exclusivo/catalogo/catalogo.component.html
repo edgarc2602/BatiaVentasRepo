@@ -21,10 +21,10 @@
     .btn-con-espacio-izquierdo {
         margin-left: 10px;
     }
+
     .table tbody td {
         vertical-align: middle;
     }
-
 </style>
 <div [@fadeInOut]>
     <br />
@@ -558,17 +558,27 @@
                             </div>
                         </div>
                         <div class=" col-md-2 col-sm-2 col-4">
-                            <div class="form-check mb-2">
+                            <!--<div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" [(ngModel)]="usuario.autoriza" [value]="usuario.autoriza">
                                 <label class="form-check-label">
                                     Autoriza
                                 </label>
+                            </div>-->
+                            <div class="form-check mb-2">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" id="d.nom" [value]="usuario.autoriza" [(ngModel)]="usuario.autoriza" /> Autoriza
+                                </label><br />
                             </div>
-                            <div class="form-check mb-3">
+                            <!--<div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" [(ngModel)]="usuario.revisa" [value]="usuario.revisa">
                                 <label class="form-check-label">
                                     Supervisa
                                 </label>
+                            </div>-->
+                            <div class="form-check mb-2">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" id="d.nom" [value]="usuario.revisa" [(ngModel)]="usuario.revisa" /> Supervisa
+                                </label><br />
                             </div>
                         </div>
                         <div class="col-md-2 col-sm-2 col-4 ">
