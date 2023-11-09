@@ -27,7 +27,14 @@ namespace SistemaVentasBatia.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult<MaterialPuestoDTO>> PostMaterial(MaterialPuestoDTO dto)
         {
-            await logic.CreateMaterial(dto);
+            if (dto.IdMaterialPuesto == 0)
+            {
+                await logic.CreateMaterial(dto);
+            }
+            else
+            {
+                await logic.ActualizarMaterial(dto);
+            }
             return dto;
         }
 
@@ -40,7 +47,14 @@ namespace SistemaVentasBatia.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult<MaterialPuestoDTO>> PostHerramienta(MaterialPuestoDTO dto)
         {
-            await logic.CreateHerramienta(dto);
+            if (dto.IdMaterialPuesto == 0)
+            {
+                await logic.CreateHerramienta(dto);
+            }
+            else
+            {
+                await logic.ActualizarHerramienta(dto);
+            }
             return dto;
         }
 
@@ -53,7 +67,14 @@ namespace SistemaVentasBatia.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult<MaterialPuestoDTO>> PostEquipo(MaterialPuestoDTO dto)
         {
-            await logic.CreateEquipo(dto);
+            if (dto.IdMaterialPuesto == 0)
+            {
+                await logic.CreateEquipo(dto);
+            }
+            else
+            {
+                await logic.ActualizarEquipo(dto);
+            }
             return dto;
         }
 
@@ -66,7 +87,14 @@ namespace SistemaVentasBatia.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult<MaterialPuestoDTO>> PostUniforme(MaterialPuestoDTO dto)
         {
-            await logic.CreateUniforme(dto);
+            if (dto.IdMaterialPuesto == 0)
+            {
+                await logic.CreateUniforme(dto);
+            }
+            else
+            {
+                await logic.ActualizarUniforme(dto);
+            }
             return dto;
         }
 
@@ -97,13 +125,20 @@ namespace SistemaVentasBatia.Controllers
         [HttpDelete("[action]/{id}")]
         public async Task<ActionResult<bool>> EliminarServicio(int id)
         {
-             return await logic.EliminarServicio(id);
+            return await logic.EliminarServicio(id);
         }
 
         [HttpGet("[action]/{servicio}/{idPersonal}")]
         public async Task<ActionResult<bool>> AgregarServicio(string servicio = "", int idPersonal = 0)
         {
-            return await logic.AgregarServicio(servicio,idPersonal);
+            return await logic.AgregarServicio(servicio, idPersonal);
         }
+
+        [HttpGet("[action]/{idProducto}/{tipo}/{idPuesto}")]
+        public async Task<ActionResult<MaterialPuestoDTO>> ObtenerProductoDefault(int idProducto, int tipo, int idPuesto)
+        {
+            return await logic.ObtenerProductoDefault(idProducto, tipo, idPuesto);
+        }
+
     }
 }

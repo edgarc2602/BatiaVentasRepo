@@ -1,27 +1,48 @@
-<div class="modal fade" id="modalActualizarCotizacion" data-bs-backdrop="static">
-    <div class="modal-dialog  modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Actualizar</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="row mb-12">
-                    <div class="col-sm-12 col-md-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" [(ngModel)]="clave">
-                            <label asp-for="RazonSocial">Ingresa la clave de autorización</label>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="modal fade" id="modalActualizarCotizacion" data-bs-backdrop="static">
+        <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Actualizar</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row mb-12">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" [(ngModel)]="clave">
+                                <label asp-for="RazonSocial">Ingresa la clave de autorización</label>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" id="btnGuardarMaterial" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-save"></i> Enviar</button>
-                <button type="button" class="btn btn-outline-secondary" (click)="close()" data-bs-dismiss="modal">Cancelar</button>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="btnGuardarMaterial" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-save"></i> Enviar</button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="close()" data-bs-dismiss="modal">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <style>
+        .modal.show::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            backdrop-filter: blur(5px);
+            transition: backdrop-filter 1s;
+            z-index: -1;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>

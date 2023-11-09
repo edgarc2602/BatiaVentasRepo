@@ -71,6 +71,7 @@ export class CatalogoComponent {
     }
     lclas: Catalogo[] = [];
     idClase: number = 1;
+    tipoProd: string = '';
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, public user: StoreUser) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
@@ -102,25 +103,24 @@ export class CatalogoComponent {
         this.getMaterial();
     }
 
-    openMat() {
+    openMat(id: number) {
         this.grupo = 'material';
-        this.prow.inicio();
+        this.prow.inicio(id,0, this.selPuesto);
     }
 
-    openEqui() {
+    openEqui(id:number) {
         this.grupo = 'equipo';
-        this.prow.inicio();
+        this.prow.inicio(id, 0, this.selPuesto);
     }
 
-    openHer() {
+    openHer(id: number) {
         this.grupo = 'herramienta';
-        this.prow.inicio();
-        
+        this.prow.inicio(id, 0, this.selPuesto);
     }
 
-    openUni() {
+    openUni(id: number) {
         this.grupo = 'uniforme';
-        this.prow.inicio();
+        this.prow.inicio(id, 0, this.selPuesto);
     }
 
     openSer() {
@@ -150,6 +150,11 @@ export class CatalogoComponent {
         this.http.delete<boolean>(`${this.url}api/producto/del${this.grupo}/${id}`).subscribe(response => {
             this.getMaterial();
         }, err => console.log(err));
+    }
+
+    updateProd(id: number, tipo: number) {
+        
+        this.prow.inicio(id,tipo, this.selPuesto);
     }
 
     deleteServ(id) {

@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SistemaVentasBatia.Enums;
+using System.Runtime.ConstrainedExecution;
+using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace SistemaVentasBatia.Services
 {
@@ -26,6 +29,11 @@ namespace SistemaVentasBatia.Services
         Task<IEnumerable<ProductoItemDTO>> GetHerramientaPuesto(int idPuesto);
         Task<IEnumerable<ProductoItemDTO>> GetUniformePuesto(int idPuesto);
         Task<IEnumerable<ProductoItemDTO>> GetEquipoPuesto(int idPuesto);
+        Task<ActionResult<MaterialPuestoDTO>> ObtenerProductoDefault(int idProdcuto, int tipo, int idPuesto);
+        Task ActualizarMaterial(MaterialPuestoDTO producto);
+        Task ActualizarHerramienta(MaterialPuestoDTO producto);
+        Task ActualizarEquipo(MaterialPuestoDTO producto);
+        Task ActualizarUniforme(MaterialPuestoDTO producto);
     }
 
     public class ProductoService : IProductoService
@@ -115,6 +123,38 @@ namespace SistemaVentasBatia.Services
         public async Task<IEnumerable<ProductoItemDTO>> GetUniformePuesto(int idPuesto)
         {
             return mapper.Map<IEnumerable<ProductoItemDTO>>(await repo.ObtenerUniformePuesto(idPuesto));
+        }
+
+        public async Task<ActionResult<MaterialPuestoDTO>> ObtenerProductoDefault(int idProdcuto, int tipo, int idPuesto)
+        {
+            var producto = await repo.ObtenerProductoDefault(idProdcuto, tipo, idPuesto);
+            MaterialPuestoDTO model = mapper.Map<MaterialPuestoDTO>(producto);
+            return model;
+        }
+
+        public async Task ActualizarMaterial(MaterialPuestoDTO producto)
+        {
+            MaterialPuesto model = mapper.Map<MaterialPuesto>(producto);
+
+            await repo.ActualizarMaterialPuesto(model);
+        }
+
+        public async Task ActualizarHerramienta(MaterialPuestoDTO producto)
+        {
+            MaterialPuesto model = mapper.Map<MaterialPuesto>(producto);
+            await repo.ActualizarHerramientaPuesto(model);
+        }
+
+        public async Task ActualizarEquipo(MaterialPuestoDTO producto)
+        {
+            MaterialPuesto model = mapper.Map<MaterialPuesto>(producto);
+            await repo.ActualizarEquipoPuesto(model);
+        }
+
+        public async Task ActualizarUniforme(MaterialPuestoDTO producto)
+        {
+            MaterialPuesto model = mapper.Map<MaterialPuesto>(producto);
+            await repo.ActualizarUniformePuesto(model);
         }
     }
 }

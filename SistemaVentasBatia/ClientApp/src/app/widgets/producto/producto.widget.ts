@@ -18,7 +18,7 @@ export class ProductoWidget implements OnChanges {
     sers: ItemN[] = [];
     fres: ItemN[] = [];
     lsmat: Catalogo[] = [];
-    idSer: number = 0;
+    idSer: number = 2;
     lerr: any = {};
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private sinU: StoreUser) {
@@ -30,20 +30,46 @@ export class ProductoWidget implements OnChanges {
         }, err => console.log(err));
     }
 
-    inicio() {
-        this.model = {
-            idMaterialPuesto: 0, claveProducto: '', idPuesto: this.idP,
-            precio: 0, cantidad: 0, idFrecuencia: 0, idPersonal: this.sinU.idPersonal
-        };
-        this.idSer = 0;
-        this.getProductos();
+    inicio(id: number, tipo: number, idPuesto: number) {
+        if (id != 0) {
+            this.existe(id,tipo,idPuesto);
+        }
+        else {
+            this.model = {
+                idMaterialPuesto: 0, claveProducto: '', idPuesto: this.idP,
+                precio: 0, cantidad: 0, idFrecuencia: 0, idPersonal: this.sinU.idPersonal
+            };
+            this.idSer = 2;
+            this.getProductos();
+            this.open();
+        }
+    }
+
+    existe(idProducto: number, tipo: number, idPuesto: number) {
+        this.http.get<MaterialPuesto>(`${this.url}api/producto/obtenerproductodefault/${idProducto}/${tipo}/${idPuesto}`).subscribe(response => {
+            this.model = response;
+        }, err => console.log(err));
         this.open();
+        this.getProductos();
     }
 
     guarda() {
         this.lerr = {};
         if (this.valida()) {
             if (this.model.idMaterialPuesto == 0) {
+                this.http.post<MaterialPuesto>(`${this.url}api/producto/post${this.grupo}`, this.model).subscribe(response => {
+                    this.sendEvent.emit(true);
+                    this.close();
+                }, err => {
+                    console.log(err);
+                    if (err.error) {
+                        if (err.error.errors) {
+                            this.lerr = err.error.errors;
+                        }
+                    }
+                });
+            }
+            if (this.model.idMaterialPuesto != 0) {
                 this.http.post<MaterialPuesto>(`${this.url}api/producto/post${this.grupo}`, this.model).subscribe(response => {
                     this.sendEvent.emit(true);
                     this.close();
