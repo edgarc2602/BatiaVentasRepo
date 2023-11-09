@@ -9,6 +9,7 @@ import { ListaDireccion } from 'src/app/models/listadireccion';
 import { DireccionWidget } from 'src/app/widgets/direccion/direccion.widget';
 import { StoreUser } from 'src/app/stores/StoreUser';
 import { fadeInOut } from 'src/app/fade-in-out';
+import { ProspectoComponent } from 'src/app/exclusivo/prospecto/prospecto.component';
 
 @Component({
     selector: 'pros-nuevo',
@@ -79,6 +80,9 @@ export class ProsNuevoComponent implements OnInit, OnDestroy {
                     this.validaMess = 'Guardado correctamente';
                     this.evenSub.next();
                     console.log(response);
+                    setTimeout(() => {
+                        this.router.navigate(['/exclusivo/prospecto']);
+                    }, 1000);
                 }, err => {
                     console.log(err);
                     if (err.error) {
@@ -96,6 +100,9 @@ export class ProsNuevoComponent implements OnInit, OnDestroy {
                     this.isErr = false;
                     this.validaMess = 'Guardado correctamente';
                     this.evenSub.next();
+                    setTimeout(() => {
+                        this.router.navigate(['/exclusivo/prospecto']);
+                    }, 1000);
                 }, err => {
                     console.log(err);
                     if (err.error) {
