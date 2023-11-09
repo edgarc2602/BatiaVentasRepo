@@ -158,7 +158,7 @@ namespace SistemaVentasBatia.Services
         {
             var operariosModel = mapper.Map<PuestoDireccionCotizacion>(operariosVM);
 
-            CalcularCostosOperario(operariosModel);
+            operariosModel = await CalcularCostosOperario(operariosModel);
 
             int idOperario = await cotizacionesRepo.InsertaPuestoDireccionCotizacion(operariosModel);
 
@@ -189,7 +189,7 @@ namespace SistemaVentasBatia.Services
             await InsertarMaterialesDefaultOperarios(materialPuesto, uniformePuesto, equipoPuesto, herraPuesto, idOperario, operariosModel.IdCotizacion, operariosModel.IdDireccionCotizacion, operariosVM.IdTurno, operariosModel.IdPersonal);
         }
 
-        private void CalcularCostosOperario(PuestoDireccionCotizacion operariosModel)
+        private async Task<PuestoDireccionCotizacion>  CalcularCostosOperario(PuestoDireccionCotizacion operariosModel)
         {
             //operariosModel.Aguinaldo = operariosModel.Vacaciones =
             //    Math.Round((operariosModel.Sueldo / 30m) * (15m / 365m) * 30m, 2);
@@ -206,10 +206,13 @@ namespace SistemaVentasBatia.Services
             {
 
             }
-            operariosModel.IMSS = 1834;/*operariosModel.Sueldo * .139M;*/
+            //Insertar validacion para calcular tipo salario MIXTO/REAL
+            decimal imss = await cotizacionesRepo.ObtenerImssBase();
+            operariosModel.IMSS = imss; /*operariosModel.Sueldo * .139M;*/
             operariosModel.ISN = operariosModel.Sueldo * .03M;
             operariosModel.Total = Math.Round(operariosModel.Sueldo + operariosModel.Aguinaldo + operariosModel.PrimaVacacional
                 + operariosModel.IMSS + operariosModel.ISN, 2); //+ operariosModel.Vacaciones 
+            return operariosModel;
         }
 
         private async Task InsertarMaterialesDefaultOperarios(List<MaterialPuesto> materialPuesto, List<MaterialPuesto> uniformePuesto, List<MaterialPuesto> equipoPuesto, List<MaterialPuesto> herramientaPuesto, int idOperario, int idCotizacion, int idDireccionCotizacion, Enums.Turno idTurno, int idPersonal)
@@ -611,7 +614,7 @@ namespace SistemaVentasBatia.Services
         {
             var operario = mapper.Map<PuestoDireccionCotizacion>(operarioVM);
 
-            CalcularCostosOperario(operario);
+            operario = await CalcularCostosOperario(operario);
 
             await cotizacionesRepo.ActualizarPuestoDireccionCotizacion(operario);
         }
