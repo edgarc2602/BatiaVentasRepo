@@ -9,4 +9,6 @@ export interface Cotizacion {
     idCotizacionOriginal: number;
     idPersonal: number;
     listaServicios: ItemN[];
+    listaTipoSalarios: ItemN[];
+    salTipo: number;
 }

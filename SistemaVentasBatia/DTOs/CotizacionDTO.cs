@@ -21,5 +21,7 @@ namespace SistemaVentasBatia.DTOs
         public ICollection<Item<int>> ListaServicios { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Usuario es requerido")]
         public int IdPersonal { get; set; }
+        public SalarioTipo SalTipo { get; set; }
+        public ICollection<Item<int>> ListaTipoSalarios { get; set; }
     }
 }

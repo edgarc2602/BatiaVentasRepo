@@ -37,6 +37,12 @@ namespace SistemaVentasBatia.Enums
         Sanitización = 3
     }
 
+    public enum SalarioTipo
+    {
+        Mixto = 1,
+        Real = 2
+    }
+
     public enum EstatusPuesto
     {
         Activo = 1,

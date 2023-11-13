@@ -92,7 +92,7 @@ namespace SistemaVentasBatia.Controllers
             {
                 return BadRequest(ModelState);
             }
-            await prospectosSvc.CrearProspecto(prospectoVM);        
+            await prospectosSvc.CrearProspecto(prospectoVM);
             return prospectoVM;
         }
 
@@ -103,7 +103,7 @@ namespace SistemaVentasBatia.Controllers
 
             return coincidencias;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> ObtenerCoincidenciasProspecto(string nombreComercial = null, string rfc = null)
         {
@@ -145,6 +145,20 @@ namespace SistemaVentasBatia.Controllers
         {
             List<Item<int>> ls = Enum.GetValues(typeof(Servicio))
                 .Cast<Servicio>().Select(s => new Item<int>
+                {
+                    Id = (int)s,
+                    Nom = s.ToString(),
+                    Act = false
+                }).ToList();
+
+            return ls;
+        }
+
+        [HttpGet("[action]")]
+        public IEnumerable<Item<int>> GetSalarioTipo()
+        {
+            List<Item<int>> ls = Enum.GetValues(typeof(SalarioTipo))
+                .Cast<SalarioTipo>().Select(s => new Item<int>
                 {
                     Id = (int)s,
                     Nom = s.ToString(),

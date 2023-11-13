@@ -26,6 +26,7 @@ namespace SistemaVentasBatia.Models
         public int IdCotizacionOriginal { get; set; }
         public int IdPorcentaje { get; set; }
         public string IdAlta { get; set; }
+        public SalarioTipo SalTipo { get; set; }
 
 
     }

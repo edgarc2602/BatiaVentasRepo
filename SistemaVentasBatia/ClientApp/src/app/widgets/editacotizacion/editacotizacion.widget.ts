@@ -41,7 +41,7 @@ export class EditarCotizacion {
         this.model = {
             idCotizacion: 0, idProspecto: 0, idServicio: 0, total: 0,
             fechaAlta: fec.toISOString(), idCotizacionOriginal: 0,
-            idPersonal: this.sinU.idPersonal, listaServicios: []
+            idPersonal: this.sinU.idPersonal, listaServicios: [], salTipo: 0, listaTipoSalarios: []
         };
     }
 

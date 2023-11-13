@@ -62,6 +62,13 @@ namespace SistemaVentasBatia.Controllers
         [HttpPost]
         public async Task<ActionResult<bool>> SeleccionarProspecto([FromBody] CotizacionDTO cotizacionVM)
         {
+            foreach (var servicio in cotizacionVM.ListaTipoSalarios)
+            {
+                if (servicio.Act)
+                {   
+                    cotizacionVM.SalTipo = (SalarioTipo)servicio.Id;
+                }
+            }
             foreach (var servicio in cotizacionVM.ListaServicios)
             {
                 if (servicio.Act)

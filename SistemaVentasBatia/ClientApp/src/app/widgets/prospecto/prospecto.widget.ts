@@ -35,6 +35,7 @@ export class ProspectoWidget implements OnChanges {
             representanteLegal: '', telefono: '', fechaAlta: this.dtpipe.transform(fec, 'yyyy-MM-ddTHH:mm:ss'), nombreContacto: '',
             emailContacto: '', numeroContacto: '', extContacto: '', idCotizacion: 0, listaDocumentos: [], idPersonal: this.sinU.idPersonal
         };
+        this.docs.forEach(d => d.act = false);
     }
 
     existe(id: number) {
