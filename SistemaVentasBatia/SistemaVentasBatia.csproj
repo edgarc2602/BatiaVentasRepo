@@ -42,10 +42,15 @@
 	  <None Remove="ClientApp\src\app\models\usuarioregistro.ts" />
 	  <None Remove="ClientApp\src\app\stores\StoreUser.ts" />
 	  <None Remove="ClientApp\src\app\widgets\puesto\puesto.widget.ts" />
+	  <None Remove="ClientApp\src\assets\batia_logo.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Content Include="ClientApp\fondologinBatia.png" />
+	  <Content Include="ClientApp\src\assets\batia_logo.png">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>
