@@ -191,27 +191,33 @@ namespace SistemaVentasBatia.Services
 
         private async Task<PuestoDireccionCotizacion>  CalcularCostosOperario(PuestoDireccionCotizacion operariosModel)
         {
-            //operariosModel.Aguinaldo = operariosModel.Vacaciones =
-            //    Math.Round((operariosModel.Sueldo / 30m) * (15m / 365m) * 30m, 2);
-            //operariosModel.PrimaVacacional =
-            //    Math.Round((operariosModel.Vacaciones / 30m) * (15m / 365m) * 30m, 2);
+            int idCotizacion = await cotizacionesRepo.ObtenerIdCotizacionPorDireccion(operariosModel.IdDireccionCotizacion);
+            decimal imss = await cotizacionesRepo.ObtenerImssBase();
+            int salt = await cotizacionesRepo.ObtenerTipoSalario(idCotizacion);
+
             operariosModel.Aguinaldo = (((operariosModel.Sueldo / 30.4167m) * 15m) / 12m);
-            //operariosModel.Vacaciones = Math.Round((((operariosModel.Sueldo / 30.4167m) * 12m)* .25m) / 12m, 2);
             operariosModel.PrimaVacacional = ((((operariosModel.Sueldo / 30.4167m) * 12m) * .25m) / 12m);
             if (operariosModel.Sueldo > (207.44m * 30.4167m))
             {
-
+                //mayor o igual que el salario minimo   
             }
             else
             {
-
+                //operariosModel.IMSS = imss;
             }
-            //Insertar validacion para calcular tipo salario MIXTO/REAL
-            decimal imss = await cotizacionesRepo.ObtenerImssBase();
-            operariosModel.IMSS = imss; /*operariosModel.Sueldo * .139M;*/
-            operariosModel.ISN = operariosModel.Sueldo * .03M;
+            if(salt == 1)
+            {
+                // logica para tipo de salario mixto
+            }
+            else
+            {
+                // Logica para tipo de salario real
+            }
+            
+            operariosModel.IMSS = imss;
+            operariosModel.ISN = (operariosModel.Sueldo + operariosModel.Aguinaldo+ operariosModel.PrimaVacacional) * .03M;
             operariosModel.Total = Math.Round(operariosModel.Sueldo + operariosModel.Aguinaldo + operariosModel.PrimaVacacional
-                + operariosModel.IMSS + operariosModel.ISN, 2); //+ operariosModel.Vacaciones 
+                + operariosModel.IMSS + operariosModel.ISN, 2);
             return operariosModel;
         }
 

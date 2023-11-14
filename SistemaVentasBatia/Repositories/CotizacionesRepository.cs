@@ -67,6 +67,7 @@ namespace SistemaVentasBatia.Repositories
         Task ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes);
         Task<decimal> ObtenerImssBase();
         Task<bool> ActualizarImssBase(decimal imss);
+        Task<int> ObtenerTipoSalario(int idCotizacion);
     }
 
     public class CotizacionesRepository : ICotizacionesRepository
@@ -1655,6 +1656,25 @@ WHERE dc.id_direccion_cotizacion = @idPuestoDireccion
             {
                 using var connection = ctx.CreateConnection();
                 result = await connection.ExecuteScalarAsync<bool>(query, new {imss});
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<int> ObtenerTipoSalario(int idCotizacion)
+        {
+            string query = @"SELECT
+                             id_tiposalario
+                             FROM tb_cotizacion
+                             WHERE id_cotizacion = @idCotizacion";
+            int result;
+            try
+            {
+                using var connection = ctx.CreateConnection();
+                result = await connection.QueryFirstOrDefaultAsync<int>(query, new { idCotizacion });
             }
             catch(Exception ex)
             {
