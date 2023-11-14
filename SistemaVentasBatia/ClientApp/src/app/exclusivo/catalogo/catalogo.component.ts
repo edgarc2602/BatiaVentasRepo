@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Catalogo } from 'src/app/models/catalogo';
 import { ProductoItem } from 'src/app/models/productoitem';
 import { ProductoWidget } from 'src/app/widgets/producto/producto.widget';
-import { AgregarServicioWidget  } from 'src/app/widgets/agregarservicio/agregarservicio.widget'
+import { AgregarServicioWidget } from 'src/app/widgets/agregarservicio/agregarservicio.widget'
 
 import { PuestoTabulador } from 'src/app/models/puestotabulador';
 import { Subject } from 'rxjs';
@@ -15,26 +15,28 @@ import { UsuarioRegistro } from 'src/app/models/usuarioregistro';
 import { Usuario } from '../../models/usuario';
 import { UsuarioAddWidget } from 'src/app/widgets/usuarioadd/usuarioadd.widget';
 
+import Swal from 'sweetalert2';
+
 @Component({
     selector: 'catalogo-comp',
     templateUrl: './catalogo.component.html',
     animations: [fadeInOut],
 })
 export class CatalogoComponent {
-    @ViewChild(ProductoWidget,        { static: false }) prow:   ProductoWidget;
+    @ViewChild(ProductoWidget, { static: false }) prow: ProductoWidget;
     @ViewChild(AgregarServicioWidget, { static: false }) addSer: AgregarServicioWidget;
-    @ViewChild(UsuarioAddWidget,      { static: false }) addUsu: UsuarioAddWidget;
+    @ViewChild(UsuarioAddWidget, { static: false }) addUsu: UsuarioAddWidget;
 
-    @ViewChild('zona1txt',{ static: false }) zona1txt: ElementRef;
-    @ViewChild('zona2txt',{ static: false }) zona2txt: ElementRef;
-    @ViewChild('zona3txt',{ static: false }) zona3txt: ElementRef;
-    @ViewChild('zona4txt',{ static: false }) zona4txt: ElementRef;
-    @ViewChild('zona5txt',{ static: false }) zona5txt: ElementRef;
+    @ViewChild('zona1txt', { static: false }) zona1txt: ElementRef;
+    @ViewChild('zona2txt', { static: false }) zona2txt: ElementRef;
+    @ViewChild('zona3txt', { static: false }) zona3txt: ElementRef;
+    @ViewChild('zona4txt', { static: false }) zona4txt: ElementRef;
+    @ViewChild('zona5txt', { static: false }) zona5txt: ElementRef;
 
-    @ViewChild('costoIndirectotxt',     { static: false }) costoIndirectotxt: ElementRef;
-    @ViewChild('utilidadtxt',           { static: false }) utilidadtxt: ElementRef;
+    @ViewChild('costoIndirectotxt', { static: false }) costoIndirectotxt: ElementRef;
+    @ViewChild('utilidadtxt', { static: false }) utilidadtxt: ElementRef;
     @ViewChild('comisionSobreVentatxt', { static: false }) comisionSobreVentatxt: ElementRef;
-    @ViewChild('comisionExternatxt',    { static: false }) comisionExternatxt: ElementRef;
+    @ViewChild('comisionExternatxt', { static: false }) comisionExternatxt: ElementRef;
     @ViewChild('fechaAplicatxt', { static: false }) fechaAplicatxt: ElementRef;
 
     @ViewChild('imsstxt', { static: false }) imsstxt: ElementRef;
@@ -55,12 +57,12 @@ export class CatalogoComponent {
     utilidad: number = 0;
     comisionSobreVenta: number = 0;
     comisionExterna: number = 0;
-    fechaAplica: string = '';
+    fechaAplica: Date;
     cotpor: CotizaPorcentajes = {
         idPersonal: 0, costoIndirecto: 0, utilidad: 0, comisionSobreVenta: 0, comisionExterna: 0, fechaAlta: null, personal: '', fechaAplica: null
     };
     sal: PuestoTabulador = {
-       idSueldoZonaClase: 0,  idPuesto: 0, idClase: 0, zona1: 0, zona2: 0, zona3: 0, zona4: 0, zona5: 0
+        idSueldoZonaClase: 0, idPuesto: 0, idClase: 0, zona1: 0, zona2: 0, zona3: 0, zona4: 0, zona5: 0
     };
     validaMess: string = '';
     evenSub: Subject<void> = new Subject<void>();
@@ -108,10 +110,10 @@ export class CatalogoComponent {
 
     openMat(id: number) {
         this.grupo = 'material';
-        this.prow.inicio(id,0, this.selPuesto);
+        this.prow.inicio(id, 0, this.selPuesto);
     }
 
-    openEqui(id:number) {
+    openEqui(id: number) {
         this.grupo = 'equipo';
         this.prow.inicio(id, 0, this.selPuesto);
     }
@@ -156,8 +158,8 @@ export class CatalogoComponent {
     }
 
     updateProd(id: number, tipo: number) {
-        
-        this.prow.inicio(id,tipo, this.selPuesto);
+
+        this.prow.inicio(id, tipo, this.selPuesto);
     }
 
     deleteServ(id) {
@@ -165,23 +167,23 @@ export class CatalogoComponent {
             this.getServicios();
         }, err => console.log(err));
     }
-    
+
     limpiarPorcentajesNG() {
         this.costoIndirecto = 0;
         this.utilidad = 0;
         this.comisionSobreVenta = 0;
         this.comisionExterna = 0;
-        this.fechaAplica = '';
+        this.fechaAplica = null;
     }
-    
+
     limpiarPorcentajes() {
         this.cotpor.costoIndirecto = 0;
         this.cotpor.utilidad = 0;
         this.cotpor.comisionSobreVenta = 0;
         this.cotpor.comisionExterna = 0;
-        this.cotpor.fechaAplica = '';
+        this.cotpor.fechaAplica = null;
     }
-    
+
     obtenerPorcentajesCotizacion() {
         this.cotpor.costoIndirecto = parseFloat(this.costoIndirectotxt.nativeElement.value);
         this.cotpor.utilidad = parseFloat(this.utilidadtxt.nativeElement.value);
@@ -190,7 +192,7 @@ export class CatalogoComponent {
         this.cotpor.fechaAplica = this.fechaAplicatxt.nativeElement.value;
         this.cotpor.idPersonal = this.user.idPersonal;
     }
-    
+
     getPorcentajes() {
         this.limpiarPorcentajes();
         this.limpiarPorcentajesNG();
@@ -201,19 +203,34 @@ export class CatalogoComponent {
             this.comisionSobreVenta = this.cotpor.comisionSobreVenta;
             this.comisionExterna = this.cotpor.comisionExterna;
             this.fechaAplica = this.cotpor.fechaAplica;
-            this.limpiarPorcentajesNG();
+            //this.limpiarPorcentajesNG();
         }, err => console.log(err));
         this.getImss();
     }
-    
+
     actualizarPorcentajesPredeterminadosCotizacion() {
         this.limpiarPorcentajes();
         this.obtenerPorcentajesCotizacion();
-        this.http.post<CotizaPorcentajes>(`${this.url}api/cotizacion/actualizarporcentajespredeterminadoscotizacion`, this.cotpor).subscribe(response => { 
+        this.http.post<CotizaPorcentajes>(`${this.url}api/cotizacion/actualizarporcentajespredeterminadoscotizacion`, this.cotpor).subscribe(response => {
             this.limpiarPorcentajesNG();
             this.limpiarPorcentajes();
             this.getPorcentajes();
-        }, err => console.log(err));    
+            Swal.fire({
+                icon: 'success',
+                timer: 1000,
+                showConfirmButton: false,
+            });
+        }, err => {
+            Swal.fire({
+                title: 'Error',
+                text: 'No se guardaron los cambios, porfavor revise la informaci\u00F3n',
+                icon: 'error',
+                timer: 2000,
+                showConfirmButton: false,
+            });
+            this.getPorcentajes()
+            console.log(err)
+        });
     }
 
     onFileSelected(event: any): void {
@@ -281,7 +298,21 @@ export class CatalogoComponent {
         this.obtenerValores();
         this.http.post<PuestoTabulador>(`${this.url}api/cotizacion/actualizarsalarios`, this.sal).subscribe(response => {
             this.getTabulador();
-        }, err => console.log(err));
+            Swal.fire({
+                icon: 'success',
+                timer: 1000,
+                showConfirmButton: false,
+            });
+        }, err => {
+            Swal.fire({
+                title: 'Error',
+                text: 'No se guardaron los cambios, porfavor revise la informaci\u00F3n',
+                icon: 'error',
+                timer: 2000,
+                showConfirmButton: false,
+            });
+            console.log(err)
+        });
     }
     limpiarObjeto() {
         this.sal.zona1 = 0;
@@ -309,6 +340,21 @@ export class CatalogoComponent {
     updImss() {
         this.imss = parseFloat(this.imsstxt.nativeElement.value);
         this.http.put<boolean>(`${this.url}api/cotizacion/actualizarimssbase`, this.imss).subscribe(response => {
-        }, err => console.log(err));
+            Swal.fire({
+                icon: 'success',
+                timer: 1000,
+                showConfirmButton: false,
+            });
+        }, err => {
+            Swal.fire({
+                title: 'Error',
+                text: 'No se guardaron los cambios, porfavor revise la informaci\u00F3n',
+                icon: 'error',
+                timer: 2000,
+                showConfirmButton: false,
+            });
+            this.getPorcentajes();
+            console.log(err)
+        });
     }
 }

@@ -7,7 +7,7 @@
     comisionSobreVenta: number;
     comisionExterna: number;
     fechaAlta: Date;
-    fechaAplica: string;
+    fechaAplica: Date;
 
 
     //imss 

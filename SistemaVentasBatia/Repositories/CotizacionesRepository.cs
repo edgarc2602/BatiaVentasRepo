@@ -1523,7 +1523,7 @@ WHERE id_puesto = @IdPuesto AND id_clase = @IdClase
         {
             var query = @"SELECT 
 cp.id_personal IdPersonal,
-cp.fechaaplica FechaAplica,
+FORMAT(cp.fechaaplica, 'yyyy-MM-dd') AS FechaAplica,
 p.Per_Nombre +' '+ p.Per_Paterno +' '+ p.Per_Materno Personal,
 cp.costoindirecto CostoIndirecto,
 cp.utilidad Utilidad,

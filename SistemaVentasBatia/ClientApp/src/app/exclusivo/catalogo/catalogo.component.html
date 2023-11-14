@@ -85,23 +85,23 @@
                                             <div class="row pb-2">
                                                 <div class="col-sm-3 col-3 pb-3">
                                                     <span class="badge text-dark">Costo Indirecto:</span>
-                                                    <input #costoIndirectotxt class="form-control aliggn-content-center text-center transparent-background" id="costoIndirecto" name="costoIndirecto" value="{{ cotpor.costoIndirecto }}" [(ngModel)]="costoIndirecto" placeholder="{{ cotpor.costoIndirecto }}" autocomplete="off" required>
+                                                    <input type="number" #costoIndirectotxt class="form-control aliggn-content-center text-center transparent-background" id="costoIndirecto" name="costoIndirecto" value="{{ cotpor.costoIndirecto }}" [(ngModel)]="costoIndirecto" placeholder="{{ cotpor.costoIndirecto }}" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-sm-3 col-3 pb-3">
                                                     <span class="badge  text-dark">Utilidad:</span>
-                                                    <input #utilidadtxt class="form-control aliggn-content-center text-center transparent-background" id="utilidad" name="utilidad" value="{{ cotpor.utilidad }}" [(ngModel)]="utilidad" placeholder="{{ cotpor.utilidad }}" autocomplete="off" required>
+                                                    <input type="number" #utilidadtxt class="form-control aliggn-content-center text-center transparent-background" id="utilidad" name="utilidad" value="{{ cotpor.utilidad }}" [(ngModel)]="utilidad" placeholder="{{ cotpor.utilidad }}" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-sm-3 col-3 pb-3">
                                                     <span class="badge  text-dark">Comision Venta:</span>
-                                                    <input #comisionSobreVentatxt class="form-control aliggn-content-center text-center transparent-background" id="comisionSobreVental" name="comisionSobreVental" value="{{ cotpor.comisionSobreVenta }}" [(ngModel)]="comisionSobreVenta" placeholder="{{ cotpor.comisionSobreVenta }}" autocomplete="off" required>
+                                                    <input type="number" #comisionSobreVentatxt class="form-control aliggn-content-center text-center transparent-background" id="comisionSobreVental" name="comisionSobreVental" value="{{ cotpor.comisionSobreVenta }}" [(ngModel)]="comisionSobreVenta" placeholder="{{ cotpor.comisionSobreVenta }}" autocomplete="off" required>
                                                 </div>
                                                 <div class=" col-sm-3 col-3 pb-3">
                                                     <span class="badge  text-dark ">Comisión Externa:</span>
-                                                    <input #comisionExternatxt class="form-control aliggn-content-center text-center transparent-background" id="comisionExterna" name="comisionExterna" value="{{ cotpor.comisionExterna }}" [(ngModel)]="comisionExterna" placeholder="{{ cotpor.comisionExterna }}" autocomplete="off" required>
+                                                    <input type="number" #comisionExternatxt class="form-control aliggn-content-center text-center transparent-background" id="comisionExterna" name="comisionExterna" value="{{ cotpor.comisionExterna }}" [(ngModel)]="comisionExterna" placeholder="{{ cotpor.comisionExterna }}" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-sm-3 col-3 pb-3">
                                                     <span class="badge  text-dark">Fecha Aplica:</span>
-                                                    <input #fechaAplicatxt class="form-control aliggn-content-center text-center transparent-background" id="fechaAplica" name="fechaAplica" value="{{ cotpor.fechaAplica | date: 'dd-MM-yyyy'}}" [(ngModel)]="fechaAplica" placeholder="dd-MM-yyyy" autocomplete="off" required>
+                                                    <input type="date" #fechaAplicatxt class="form-control aliggn-content-center text-center transparent-background" id="fechaAplica" name="fechaAplica" value="{{ cotpor.fechaAplica | date: 'dd-MM-yyyy'}}" [(ngModel)]="fechaAplica" placeholder="dd-MM-yyyy" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-sm-3 col-3 pb-3">
                                                     <span class="badge  text-dark">Fecha Alta:</span>
@@ -111,8 +111,6 @@
                                                     <span class="badge  text-dark">Usuario Alta:</span>
                                                     <div class="ms-2">{{ cotpor.personal }}</div>
                                                 </div>
-
-
                                                 <div class="col-sm-3 col-3 pb-3 text-center">
                                                     <span class="badge  text-dark"></span>
                                                     <button type="button" (click)="actualizarPorcentajesPredeterminadosCotizacion()" class="btn btn-lg btn-outline-success  box-shadow"><i class="fa-solid fa-save"></i> Guardar</button>
@@ -136,7 +134,7 @@
                                             <div class="row pb-2">
                                                 <div class="col-sm-3 col-3 pb-3">
                                                     <span class="badge text-dark">IMSS Base:</span>
-                                                    <input #imsstxt class="form-control aliggn-content-center text-center transparent-background" id="imss" name="imss" value="{{ imss }}" [(ngModel)]="imss" placeholder="{{ imss }}" autocomplete="off" required>
+                                                    <input type="number" #imsstxt class="form-control aliggn-content-center text-center transparent-background" id="imss" name="imss" value="{{ imss }}" [(ngModel)]="imss" placeholder="{{ imss }}" autocomplete="off" required>
                                                 </div>
                                                 <!--<div class="col-sm-3 col-3 pb-3">
                                                     <span class="badge  text-dark">Utilidad:</span>
