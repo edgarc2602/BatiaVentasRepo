@@ -15,6 +15,8 @@ import { UsuarioRegistro } from 'src/app/models/usuarioregistro';
 import { Usuario } from '../../models/usuario';
 import { UsuarioAddWidget } from 'src/app/widgets/usuarioadd/usuarioadd.widget';
 import { AgregarUsuario } from 'src/app/models/agregarusuario';
+import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
+
 
 import Swal from 'sweetalert2';
 
@@ -27,6 +29,7 @@ export class CatalogoComponent {
     @ViewChild(ProductoWidget, { static: false }) prow: ProductoWidget;
     @ViewChild(AgregarServicioWidget, { static: false }) addSer: AgregarServicioWidget;
     @ViewChild(UsuarioAddWidget, { static: false }) addUsu: UsuarioAddWidget;
+    @ViewChild(EliminaWidget, { static: false }) eliw: EliminaWidget;
 
     @ViewChild('zona1txt', { static: false }) zona1txt: ElementRef;
     @ViewChild('zona2txt', { static: false }) zona2txt: ElementRef;
@@ -83,6 +86,7 @@ export class CatalogoComponent {
     agregarusuario: AgregarUsuario = {
         idPersonal: 0, autorizaVentas: 0, estatusVentas: 0, cotizadorVentas: 0, revisaVentas: 0, nombres: '', apellidoPaterno: '', apellidoMaterno: '', puesto: '', telefono: '', telefonoExtension: '', telefonoMovil: '', email: '', firma: '', usuario: '', password: ''
     }
+    elimina: number = 0;
 
 
 
@@ -406,13 +410,21 @@ export class CatalogoComponent {
         }
     }
 
-    eliminarUsuario(idPersonal: number) {
-        this.http.put<boolean>(`${this.url}api/usuario/eliminarusuario`, idPersonal).subscribe(response => {
+    eliminarUsuario($event) {
+        this.idPersonal = this.elimina;
+        this.http.put<boolean>(`${this.url}api/usuario/eliminarusuario`, this.idPersonal).subscribe(response => {
             this.obtenerUsuarios();
         }, err => {
             console.log(err)
         });
+        this.idPersonal = 0;
+        this.elimina = 0;
     }
 
-
+    confirmarEliminarUsuario(idPersonal: number) {
+        this.elimina = idPersonal;
+        this.eliw.titulo = 'Eliminar Usuario';
+        this.eliw.mensaje = 'Las cotizaciones y prospectos relacionados no ser\u00E1n afectados';
+        this.eliw.open();
+    }
 }
