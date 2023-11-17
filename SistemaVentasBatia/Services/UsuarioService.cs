@@ -118,6 +118,17 @@ namespace SistemaVentasBatia.Services
         }
         public async Task<bool> ActualizarUsuario(AgregarUsuario usuario)
         {
+            var base64Data = usuario.Firma;
+
+            if (base64Data.StartsWith("data:image/jpeg;base64,"))
+            {
+                base64Data = base64Data.Substring("data:image/jpeg;base64,".Length);
+            }
+            if (base64Data.StartsWith("data:image/png;base64,"))
+            {
+                base64Data = base64Data.Substring("data:image/png;base64,".Length);
+            }
+            usuario.Firma = base64Data;
             return await _repo.ActualizarUsuario(usuario);
         }
         public async Task<bool> ActivarUsuario(int idPersonal)

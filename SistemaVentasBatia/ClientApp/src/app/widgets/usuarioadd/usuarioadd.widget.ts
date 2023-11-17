@@ -109,6 +109,7 @@ export class UsuarioAddWidget {
         this.nuevo();
         this.http.get<AgregarUsuario>(`${this.url}api/usuario/obtenerusuarioporidpersonal/${this.idPersonal}`).subscribe(response => {
             this.agregarusuario = response;
+            this.agregarusuario.firma = 'data:image/jpeg;base64,' + this.agregarusuario.firma;
             this.selectedImage = this.agregarusuario.firma;
         })
     }

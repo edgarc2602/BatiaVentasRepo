@@ -145,16 +145,12 @@ WHERE IdPersonal = @idPersonal AND Per_Nombre LIKE @Nombres;
         {
             var query = @"
 SELECT
-    p.Per_Nombre +' '+ p.Per_Paterno AS Nombre,
-    av.IdPersonal AS IdPersonal,
-    (SELECT COUNT(id_personal) FROM tb_cotizacion c WHERE c.id_personal = av.IdPersonal) AS Cotizaciones,
-    (SELECT COUNT(id_personal) FROM tb_prospecto pros WHERE pros.id_personal = av.IdPersonal) AS Prospectos
-FROM
-     tb_autorizacion_ventas av
-INNER JOIN
-    Personal p ON av.IdPersonal = p.IdPersonal
-WHERE
-    av.per_revisa = 0 
+p.Per_Nombre + ' ' + p.Per_Paterno AS Nombre,
+p.IdPersonal AS IdPersonal,
+(SELECT COUNT(id_personal) FROM tb_cotizacion c WHERE c.id_personal = p.IdPersonal) AS Cotizaciones,
+(SELECT COUNT(id_personal) FROM tb_prospecto pros WHERE pros.id_personal = p.IdPersonal) AS Prospectos
+FROM Personal p
+WHERE p.per_cotizadorventas = 1 AND  p.per_revisaventas = 0
 ";
             var usuarios = new List<UsuarioGrafica>();
             try
@@ -189,26 +185,24 @@ WITH MesesDeReferencia AS (
 )
 SELECT
     p.Per_Nombre +' '+ p.Per_Paterno AS Nombre,
-    av.IdPersonal AS IdPersonal,
+    p.IdPersonal AS IdPersonal,
     m.Mes AS Mes,
     COALESCE(SUM(CASE WHEN MONTH(c.fecha_alta) = m.Mes THEN 1 ELSE 0 END), 0) AS CotizacionesPorMes
-FROM tb_autorizacion_ventas av
-INNER JOIN
-    Personal p ON av.IdPersonal = p.IdPersonal
+FROM Personal p
 CROSS JOIN
     MesesDeReferencia m
 LEFT JOIN
-    tb_cotizacion c ON av.IdPersonal = c.id_personal
+    tb_cotizacion c ON p.IdPersonal = c.id_personal
         AND MONTH(c.fecha_alta) = m.Mes
 WHERE
-    av.per_revisa = 0
+    p.per_revisaventas = 0 AND p.per_cotizadorventas = 1 
 GROUP BY
-    av.IdPersonal,
+    p.IdPersonal,
     p.Per_Nombre,
     p.Per_Paterno,
     m.Mes
 ORDER BY
-    av.IdPersonal,
+    p.IdPersonal,
     Mes;
 ";
             var usuarios = new List<UsuarioGraficaMensual>();
