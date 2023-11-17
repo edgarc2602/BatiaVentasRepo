@@ -109,8 +109,14 @@ export class UsuarioAddWidget {
         this.nuevo();
         this.http.get<AgregarUsuario>(`${this.url}api/usuario/obtenerusuarioporidpersonal/${this.idPersonal}`).subscribe(response => {
             this.agregarusuario = response;
-            this.agregarusuario.firma = 'data:image/jpeg;base64,' + this.agregarusuario.firma;
-            this.selectedImage = this.agregarusuario.firma;
+            
+            if (this.agregarusuario.firma != '') {
+                this.agregarusuario.firma = 'data:image/jpeg;base64,' + this.agregarusuario.firma;
+                this.selectedImage = this.agregarusuario.firma;
+            }
+            else {
+                this.selectedImage = null;
+            }
         })
     }
 
@@ -165,5 +171,9 @@ export class UsuarioAddWidget {
             };
             reader.readAsDataURL(selectedFile);
         }
+    }
+
+    limpiarImagen() {
+        this.selectedImage = null;
     }
 }

@@ -69,7 +69,7 @@ namespace SistemaVentasBatia.Services
                 {
                     throw new CustomException("Usuario no Existe");
                 }
-                if (usu.Estatus != 0)
+                if (usu.Estatus == 0)
                 {
                     throw new CustomException("Usuario inactivo");
                 }

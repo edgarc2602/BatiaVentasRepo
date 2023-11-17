@@ -102,6 +102,21 @@ export class CatalogoComponent {
         http.get<Catalogo[]>(`${url}api/catalogo/getclase`).subscribe(response => {
             this.lclas = response;
         }, err => console.log(err));
+
+        this.http.get<CotizaPorcentajes>(`${this.url}api/cotizacion/obtenerporcentajescotizacion`).subscribe(response => { //falta
+            this.cotpor = response;
+            this.costoIndirecto = this.cotpor.costoIndirecto;
+            this.utilidad = this.cotpor.utilidad;
+            this.comisionSobreVenta = this.cotpor.comisionSobreVenta;
+            this.comisionExterna = this.cotpor.comisionExterna;
+            this.fechaAplica = this.cotpor.fechaAplica;
+        }, err => console.log(err));
+        this.http.get<number>(`${this.url}api/cotizacion/obtenerimssbase`).subscribe(response => {
+            this.imss = response;
+        }, err => console.log(err));
+        this.http.get<AgregarUsuario[]>(`${this.url}api/usuario/obtenerusuarios`).subscribe(response => {
+            this.lusu = response;
+        })
     }
     chgServicio() {
 

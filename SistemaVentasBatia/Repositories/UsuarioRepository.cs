@@ -39,8 +39,8 @@ namespace SistemaVentasBatia.Repositories
         {
             Usuario usu;
             string query = @"SELECT per_usuario Identificador, per_nombre Nombre, idpersonal as IdPersonal,
-per_interno as IdInterno, per_status Estatus, id_empleado as IdEmpleado
-FROM personal where per_usuario = @Usuario and per_password = @Contrasena AND per_cotizadorventas = 1 AND per_estatusventas = 1;"; // and per_status=0
+per_interno as IdInterno, per_estatusventas Estatus, id_empleado as IdEmpleado
+FROM personal where per_usuario = @Usuario and per_password = @Contrasena AND per_cotizadorventas = 1"; // and per_status=0
 
             using (var connection = _ctx.CreateConnection())
             {
