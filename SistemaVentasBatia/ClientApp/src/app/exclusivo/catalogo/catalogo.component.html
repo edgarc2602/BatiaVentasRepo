@@ -42,7 +42,6 @@
         .toggle-btn.active {
             background-color: #0f0; /* Color para estado activo */
         }
-
 </style>
 <div [@fadeInOut]>
     <br />
@@ -531,37 +530,39 @@
                             <tr *ngFor="let u of lusu">
                                 <td>
                                     <div class="row pb-4">
-                                        <div class="col-md-1 col-sm-6 col-1 text-center">
+                                        <div class="col-md-2 col-sm-6 col-4 text-center">
                                             <span class="badge text-dark">Estatus:</span>
                                             <button id="statusButton" (click)="chgEstatus(u.estatusVentas, u.idPersonal)" class="toggle-btn {{ u.estatusVentas === 1 ? 'active' : '' }}">
                                                 {{ u.estatusVentas === 1 ? 'Activo' : 'Inactivo' }}
                                             </button>
                                         </div>
-                                        <div class="col-md-4 col-sm-6 col-1 text-center">
+                                        <div class="col-md-4 col-sm-6 col-8 text-center">
                                             <span class="badge text-dark">Nombre:</span>
                                             <div class="ms-2">{{ u.nombres + " " + u.apellidoPaterno + " " + u.apellidoMaterno}}</div>
                                         </div>
-                                        <div class="col-md-2 col-sm-6 col-1 text-center">
+                                        <div class="col-md-2 col-sm-6 col-4 text-center">
                                             <span class="badge text-dark">Puesto:</span>
                                             <div class="ms-2">{{ u.puesto }}</div>
                                         </div>
-                                        <div class="col-md-1 col-sm-6 col-1 text-center">
+                                        <div class="col-md-2 col-sm-6 col-4 text-center">
                                             <span class="badge text-dark">Usuario:</span>
                                             <div class="ms-2">{{ u.usuario }}</div>
                                         </div>
-                                        <div class="col-md-2 col-sm-6 col-1 text-center">
+                                        <div class="col-md-2 col-sm-6 col-4 text-center">
                                             <span class="badge text-dark">Contraseña:</span>
                                             <div class="ms-2">{{ u.password }}</div>
                                         </div>
-                                        <div class="col-md-2 col-sm-6 col-1 text-center">
-                                            <button type="button" (click)="openUsu(u.idPersonal)" class="btn btn-lg btn-outline-info btn-con-espacio-izquierdo">
-                                                <i class="fa-solid fa-edit"></i>
-                                            </button>
-                                            <button type="button" (click)="confirmarEliminarUsuario(u.idPersonal)" class="btn btn-lg btn-outline-danger btn-con-espacio-izquierdo">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </div>
                                     </div>
+                                </td>
+                                <td class="w-auto">
+                                    <!--<div class="col-md-3 col-sm-6 col-1 text-center">-->
+                                        <button type="button" (click)="openUsu(u.idPersonal)" class="btn btn-lg btn-outline-info btn-con-espacio-izquierdo mb-1">
+                                            <i class="fa-solid fa-edit"></i>
+                                        </button>
+                                        <button type="button" (click)="confirmarEliminarUsuario(u.idPersonal)" class="btn btn-lg btn-outline-danger btn-con-espacio-izquierdo">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    <!--</div>-->
                                 </td>
 
                             </tr>
