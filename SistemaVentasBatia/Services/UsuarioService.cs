@@ -19,6 +19,13 @@ namespace SistemaVentasBatia.Services
         Task<bool> InsertarUsuario(UsuarioRegistro usuario);
         Task<List<UsuarioGrafica>> ObtenerCotizacionesUsuarios();
         Task<List<UsuarioGraficaMensual>> ObtenerCotizacionesMensuales();
+        Task<List<AgregarUsuario>> ObtenerUsuarios();
+        Task<AgregarUsuario> ObtenerUsuarioPorIdPersonal(int idPersonal);
+        Task<bool> ActualizarUsuario(AgregarUsuario usuario);
+        Task<bool> ActivarUsuario(int idPersonal);
+        Task<bool> DesactivarUsuario(int idPersonal);
+        Task<bool> AgregarUsuario(AgregarUsuario usuario);
+        Task<bool> EliminarUsuario(int idPersonal);
     }
     public class UsuarioService : IUsuarioService
     {
@@ -80,7 +87,7 @@ namespace SistemaVentasBatia.Services
             bool existe = false;
             bool result = false;
             existe = await _repo.ConsultarUsuario(usuario.IdPersonal, usuario.Nombres);
-            if ( existe == true)
+            if (existe == true)
             {
                 result = await _repo.InsertarUsuario(usuario);
 
@@ -99,6 +106,48 @@ namespace SistemaVentasBatia.Services
         public async Task<List<UsuarioGraficaMensual>> ObtenerCotizacionesMensuales()
         {
             return await _repo.ObtenerCotizacionesMensuales();
+        }
+
+        public async Task<List<AgregarUsuario>> ObtenerUsuarios()
+        {
+            return await _repo.ObtenerUsuarios();
+        }
+        public async Task<AgregarUsuario> ObtenerUsuarioPorIdPersonal(int idPersonal)
+        {
+            return await _repo.ObtenerUsuarioPorIdPersonal(idPersonal);
+        }
+        public async Task<bool> ActualizarUsuario(AgregarUsuario usuario)
+        {
+            return await _repo.ActualizarUsuario(usuario);
+        }
+        public async Task<bool> ActivarUsuario(int idPersonal)
+        {
+            return await _repo.ActivarUsuario(idPersonal);
+        }
+        public async Task<bool> DesactivarUsuario(int idPersonal)
+        {
+            return await _repo.DesactivarUsuario(idPersonal);
+        }
+        public async Task<bool> AgregarUsuario(AgregarUsuario usuario)
+        {
+            int idPersonal = await _repo.ConsultarUsuario(usuario);
+            usuario.IdPersonal = idPersonal;
+            var base64Data = usuario.Firma;
+
+            if (base64Data.StartsWith("data:image/jpeg;base64,"))
+            {
+                base64Data = base64Data.Substring("data:image/jpeg;base64,".Length);
+            }
+            if (base64Data.StartsWith("data:image/png;base64,"))
+            {
+                base64Data = base64Data.Substring("data:image/png;base64,".Length);
+            }
+            usuario.Firma = base64Data;
+            return await _repo.AgregarUsuario(usuario);
+        }
+        public async Task<bool> EliminarUsuario(int idPersonal)
+        {
+            return await _repo.EliminarUsuario(idPersonal);
         }
     }
 }

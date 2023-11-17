@@ -211,7 +211,7 @@ namespace SistemaVentasBatia.Repositories
 
         public async Task<int> ObtenerAutorizacion(int idPersonal)
         {
-            var query = @"SELECT per_autoriza FROM  tb_autorizacion_ventas WHERE idPersonal = @idPersonal";
+            var query = @"SELECT per_autorizaventas FROM  Personal WHERE IdPersonal = @idPersonal";
             int autorizacion = 0;
             try
             {

@@ -14,6 +14,7 @@ import { StoreUser } from 'src/app/stores/StoreUser';
 import { UsuarioRegistro } from 'src/app/models/usuarioregistro';
 import { Usuario } from '../../models/usuario';
 import { UsuarioAddWidget } from 'src/app/widgets/usuarioadd/usuarioadd.widget';
+import { AgregarUsuario } from 'src/app/models/agregarusuario';
 
 import Swal from 'sweetalert2';
 
@@ -77,6 +78,13 @@ export class CatalogoComponent {
     idClase: number = 1;
     tipoProd: string = '';
     imss: number = 0;
+
+    lusu: AgregarUsuario[];
+    agregarusuario: AgregarUsuario = {
+        idPersonal: 0, autorizaVentas: 0, estatusVentas: 0, cotizadorVentas: 0, revisaVentas: 0, nombres: '', apellidoPaterno: '', apellidoMaterno: '', puesto: '', telefono: '', telefonoExtension: '', telefonoMovil: '', email: '', firma: '', usuario: '', password: ''
+    }
+
+
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, public user: StoreUser) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
@@ -285,8 +293,8 @@ export class CatalogoComponent {
             firma: '', revisa: 0
         }
     }
-    openUsu() {
-        this.addUsu.open();
+    openUsu(idPuesto: number) {
+        this.addUsu.open(idPuesto);
     }
 
     getTabulador() {
@@ -357,4 +365,39 @@ export class CatalogoComponent {
             console.log(err)
         });
     }
+
+    obtenerUsuarios() {
+        this.http.get<AgregarUsuario[]>(`${this.url}api/usuario/obtenerusuarios`).subscribe(response => {
+            this.lusu = response;
+        })
+    }
+
+    chgEstatus(estatusVentas: number, idPersonal: number) {
+        const dato = { idPersonal: idPersonal };
+        if (estatusVentas === 1) {
+            this.http.put<boolean>(`${this.url}api/usuario/desactivarusuario`, idPersonal).subscribe(response => {
+                this.obtenerUsuarios();
+            }, err => {
+                console.log(err)
+            });
+            //estatusVentas = 0;
+        } else {
+            this.http.put<boolean>(`${this.url}api/usuario/activarusuario`, idPersonal).subscribe(response => {
+                this.obtenerUsuarios();
+            }, err => {
+                console.log(err)
+            });
+            //estatusVentas = 1;
+        }
+    }
+
+    eliminarUsuario(idPersonal: number) {
+        this.http.put<boolean>(`${this.url}api/usuario/eliminarusuario`, idPersonal).subscribe(response => {
+            this.obtenerUsuarios();
+        }, err => {
+            console.log(err)
+        });
+    }
+
+
 }

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Connections;
 using SistemaVentasBatia.Context;
 using SistemaVentasBatia.Models;
 using System;
@@ -15,6 +16,14 @@ namespace SistemaVentasBatia.Repositories
         Task<bool> ConsultarUsuario(int idPersonal, string Nombres);
         Task<List<UsuarioGrafica>> ObtenerCotizacionesUsuarios();
         Task<List<UsuarioGraficaMensual>> ObtenerCotizacionesMensuales();
+        Task<List<AgregarUsuario>> ObtenerUsuarios();
+        Task<AgregarUsuario> ObtenerUsuarioPorIdPersonal(int idPersonal);
+        Task<bool> ActualizarUsuario(AgregarUsuario usuario);
+        Task<bool> ActivarUsuario(int idPersonal);
+        Task<bool> DesactivarUsuario(int idPersonal);
+        Task<bool> AgregarUsuario(AgregarUsuario usuario);
+        Task<bool> EliminarUsuario(int idPersonal);
+        Task<int> ConsultarUsuario(AgregarUsuario usuario);
     }
 
     public class UsuarioRepository : IUsuarioRepository
@@ -30,8 +39,8 @@ namespace SistemaVentasBatia.Repositories
         {
             Usuario usu;
             string query = @"SELECT per_usuario Identificador, per_nombre Nombre, idpersonal as IdPersonal,
-                    per_interno as IdInterno, per_status Estatus, id_empleado as IdEmpleado
-                FROM personal where per_usuario = @Usuario and per_password = @Contrasena;"; // and per_status=0
+per_interno as IdInterno, per_status Estatus, id_empleado as IdEmpleado
+FROM personal where per_usuario = @Usuario and per_password = @Contrasena AND per_cotizadorventas = 1 AND per_estatusventas = 1;"; // and per_status=0
 
             using (var connection = _ctx.CreateConnection())
             {
@@ -215,6 +224,235 @@ ORDER BY
                 throw ex;
             }
             return usuarios;
+        }
+        public async Task<List<AgregarUsuario>> ObtenerUsuarios()
+        {
+            string query = @"
+SELECT 
+	IdPersonal IdPersonal,
+	CAST(per_autorizaventas AS BIT) AS AutorizaVentas,
+    CAST(per_estatusventas AS BIT) AS EstatusVentas,
+    CAST(per_cotizadorventas AS BIT) AS CotizadorVentas,
+    CAST(per_revisaventas AS BIT) AS RevisaVentas,
+	Per_Nombre Nombres,
+	Per_Paterno ApellidoPaterno,
+	Per_Materno ApellidoMaterno,
+	per_Puesto Puesto,
+	per_telefono Telefono,
+	per_telefonoextension TelefonoExtension,
+	per_telefonomovil TelefonoMovil,
+	per_Email Email,
+	per_firma Firma,
+	per_usuario Usuario,
+	per_password Password
+	FROM Personal WHERE per_cotizadorventas = 1 ORDER BY Per_Nombre
+";
+            var usuarios = new List<AgregarUsuario>();
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    usuarios = (await connection.QueryAsync<AgregarUsuario>(query)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return usuarios;
+        }
+        public async Task<AgregarUsuario> ObtenerUsuarioPorIdPersonal(int idPersonal)
+        {
+            var query = @"
+SELECT 
+	IdPersonal IdPersonal,
+	per_autorizaventas AutorizaVentas,
+	per_estatusventas EstatusVentas,
+	per_cotizadorventas CotizadorVentas,
+    per_revisaventas RevisaVentas,
+	Per_Nombre Nombres,
+	Per_Paterno ApellidoPaterno,
+	Per_Materno ApellidoMaterno,
+	per_Puesto Puesto,
+	per_telefono Telefono,
+	per_telefonoextension TelefonoExtension,
+	per_telefonomovil TelefonoMovil,
+	per_Email Email,
+	per_firma Firma
+	FROM Personal
+	WHERE IdPersonal = @idPersonal
+";
+            var usuario = new AgregarUsuario();
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    usuario = await connection.QueryFirstAsync<AgregarUsuario>(query, new { idPersonal });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return usuario;
+        }
+        public async Task<bool> ActualizarUsuario(AgregarUsuario usuario)
+        {
+            string query = @"
+UPDATE Personal
+SET
+per_telefono = @Telefono,
+per_telefonoextension = @TelefonoExtension,
+per_telefonomovil = @TelefonoMovil,
+per_firma = @Firma,
+per_autorizaventas = @AutorizaVentas,
+per_revisaventas = @RevisaVentas
+WHERE IdPersonal = @IdPersonal
+";
+            bool result;
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    int rowsaffected = await connection.ExecuteAsync(query, usuario);
+                    result = rowsaffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public async Task<bool> ActivarUsuario(int idPersonal)
+        {
+            string query = @"
+UPDATE Personal 
+SET
+per_estatusventas = 1
+WHERE IdPersonal = @idPersonal
+";
+            bool result;
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    int rowsaffected = await connection.ExecuteAsync(query, new { idPersonal });
+                    result = rowsaffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public async Task<bool> DesactivarUsuario(int idPersonal)
+        {
+            string query = @"
+UPDATE Personal 
+SET
+per_estatusventas = 0
+WHERE IdPersonal = @idPersonal
+";
+            bool result;
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    int rowsaffected = await connection.ExecuteAsync(query, new { idPersonal });
+                    result = rowsaffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public async Task<bool> AgregarUsuario(AgregarUsuario usuario)
+        {
+            string query = @"
+UPDATE Personal
+SET
+per_telefono = @Telefono,
+per_telefonoextension = @TelefonoExtension,
+per_telefonomovil = @TelefonoMovil,
+per_firma = @Firma,
+per_autorizaventas = @AutorizaVentas,
+per_estatusventas = 1,
+per_cotizadorventas = 1,
+per_revisaventas = @RevisaVentas
+WHERE IdPersonal = @IdPersonal
+";
+            bool result;
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    int rowsaffected = await connection.ExecuteAsync(query, usuario);
+                    result = rowsaffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public async Task<bool> EliminarUsuario(int idPersonal)
+        {
+            string query = @"
+UPDATE Personal
+SET
+per_autorizaventas = 0,
+per_estatusventas = 0,
+per_cotizadorventas = 0,
+per_revisaventas = 0
+WHERE IdPersonal = @IdPersonal
+";
+            bool result;
+            try
+            {
+                using (var connection = _ctx.CreateConnection())
+                {
+                    int rowsaffected = await connection.ExecuteAsync(query, new { idPersonal });
+                    result = rowsaffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public async Task<int> ConsultarUsuario(AgregarUsuario usuario)
+        {
+            if (string.IsNullOrEmpty(usuario.Nombres) && string.IsNullOrEmpty(usuario.ApellidoPaterno) && string.IsNullOrEmpty(usuario.ApellidoMaterno))
+            {
+                int idPersonal = 0;
+                return idPersonal;
+            }
+            else
+            {
+                string nombres = "%" + usuario.Nombres + "%";
+                string apellidoPaterno = "%" + usuario.ApellidoPaterno + "%";
+                string apellidoMaterno = "%" + usuario.ApellidoMaterno + "%";
+                string query = @"
+SELECT
+IdPersonal
+FROM Personal WHERE Per_Nombre LIKE @nombres 
+AND Per_Paterno LIKE @apellidoPaterno 
+AND Per_Materno LIKE @apellidoMaterno
+";
+                int idPersonal;
+                using (var connection = _ctx.CreateConnection())
+                {
+                    idPersonal = await connection.QueryFirstOrDefaultAsync<int>(query, new { nombres, apellidoPaterno, apellidoMaterno });
+                }
+                return idPersonal;
+            }
         }
     }
 }

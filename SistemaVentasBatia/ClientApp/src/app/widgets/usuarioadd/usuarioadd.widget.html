@@ -1,73 +1,118 @@
-<!--<div class="modal fade" id="modalAgregarUsuario" data-bs-backdrop="static">
+<div class="modal fade" id="modalAgregarUsuario" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">-->
-            <!-- Modal Header -->
-            <!--<div class="modal-header">
-                <h4 *ngIf="model.idMaterialCotizacion == 0" class="modal-title">Agregar {{ tipo }}</h4>
-                <h4 *ngIf="model.idMaterialCotizacion > 0" class="modal-title">Modificar {{ tipo }}</h4>
+        <div class="modal-content">
+            <!--Modal Header-->
+            <div class="modal-header">
+                <h4 *ngIf="this.edit == 0" class="modal-title">Agregar usuario</h4>
+                <h4 *ngIf="this.edit > 0" class="modal-title">Modificar usuario </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>-->
-
-            <!-- Modal body -->
-            <!--<div class="modal-body">
+            </div>
+            <!--Modal body-->
+            <div class="modal-body">
                 <div>
                     <div class="row">
-                        <div class="col-md-4 mb-3 col-12" id="dvSucursal">
+                        <!--<div *ngIf="this.edit == 0" class="col-6 col-md-4 col-sm-4 mb-3">
+        <div class="form-floating">
+            <input type="number" class="form-control" [(ngModel)]="agregarusuario.idPersonal">
+            <label asp-for="Cantidad">Id Personal</label>
+        </div>-->
+                        <!--<span asp-validation-for="Cantidad" class="text-danger"></span>-->
+                        <!--</div>-->
+                        <div *ngIf="this.edit > 0" class="col-6 col-md-4 col-sm-4 mb-3">
                             <div class="form-floating">
-                                <select class="form-select" [(ngModel)]="model.idDireccionCotizacion" aria-label="IdDireccionCotizacion">
-                                    <option value="0">Selecciona una opción...</option>
-                                    <option *ngFor="let d of dirs" [ngValue]="d.id">{{ d.descripcion }}</option>
-                                </select>
-                                <label for="ddlServicio">Sucursal</label>
+                                <input type="number" class="form-control" [(ngModel)]="agregarusuario.idPersonal" disabled>
+                                <label asp-for="Cantidad">Id Personal</label>
                             </div>
+                            <!--<span asp-validation-for="Cantidad" class="text-danger"></span>-->
                         </div>
-                        <div class="col-md-4 d-none mb-3 col-12" id="dvPuesto">
+                        <div *ngIf="this.edit == 0" class="col-6 col-md-4 col-sm-4 mb-3">
                             <div class="form-floating">
-                                <select class="form-select" [(ngModel)]="model.idPuestoDireccionCotizacion" aria-label="IdEstatusCotizacion">
-                                    <option value="0">Selecciona una opción...</option>
-                                    <option *ngFor="let p of pues" [ngValue]="p.id">{{ p.descripcion }}</option>
-                                </select>
-                                <label for="ddlServicio">Puesto</label>
+                                <input type="tel" class="form-control" [(ngModel)]="agregarusuario.nombres">
+                                <label asp-for="Cantidad">Nombres</label>
                             </div>
+                            <!--<span asp-validation-for="Cantidad" class="text-danger"></span>-->
                         </div>
-                        <div class="col-md-4 mb-3 col-12">
+                        <div *ngIf="this.edit == 0" class="col-6 col-md-4 col-sm-4 mb-3">
                             <div class="form-floating">
-                                <select class="form-select" [(ngModel)]="model.claveProducto">
-                                    <option value="">Selecciona una opción...</option>
-                                    <option *ngFor="let m of mats" [ngValue]="m.clave">{{ m.descripcion }}</option>
-                                </select>
-                                <label for="ClaveProducto">Producto</label>
+                                <input type="tel" class="form-control" [(ngModel)]="agregarusuario.apellidoPaterno">
+                                <label asp-for="Cantidad">Apellido Paterno</label>
                             </div>
+                            <!--<span asp-validation-for="Cantidad" class="text-danger"></span>-->
+                        </div>
+                        <div *ngIf="this.edit == 0" class="col-6 col-md-4 col-sm-4 mb-3">
+                            <div class="form-floating">
+                                <input type="tel" class="form-control" [(ngModel)]="agregarusuario.apellidoMaternoo">
+                                <label asp-for="Cantidad">Apellido Materno</label>
+                            </div>
+                            <!--<span asp-validation-for="Cantidad" class="text-danger"></span>-->
+                        </div>
+                        <div *ngIf="this.edit > 0" class="col-6 col-md-4 col-sm-4 mb-3">
+                            <div class="form-floating">
+                                <input type="tel" class="form-control" [(ngModel)]="agregarusuario.nombres" disabled>
+                                <label asp-for="Cantidad">Nombre</label>
+                            </div>
+                            <!--<span asp-validation-for="Cantidad" class="text-danger"></span>-->
                         </div>
                         <div class="col-6 col-md-4 col-sm-4 mb-3">
                             <div class="form-floating">
-                                <input type="number" class="form-control" [(ngModel)]="model.cantidad">
-                                <label asp-for="Cantidad">Cantidad</label>
+                                <input type="text" class="form-control" [(ngModel)]="agregarusuario.telefono">
+                                <label asp-for="Cantidad">Telefono</label>
                             </div>
-                            <span asp-validation-for="Cantidad" class="text-danger"></span>
+                            <!--<span asp-validation-for="Cantidad" class="text-danger"></span>-->
                         </div>
                         <div class="col-6 col-md-4 col-sm-4 mb-3">
                             <div class="form-floating">
-                                <select class="form-select" aria-label="IdFrecuencia" [(ngModel)]="model.idFrecuencia">
-                                    <option value="0">Selecciona una opción...</option>
-                                    <option *ngFor="let f of fres" [ngValue]="f.id">{{ f.nom }}</option>
-                                </select>
-                                <label asp-for="IdFrecuencia">Frecuencia:</label>
+                                <input type="text" class="form-control" [(ngModel)]="agregarusuario.telefonoExtension">
+                                <label asp-for="Cantidad">Extensión</label>
                             </div>
-                            <span asp-validation-for="IdFrecuencia" class="text-danger"></span>
+                            <!--<span asp-validation-for="Cantidad" class="text-danger"></span>-->
                         </div>
+                        <div class="col-6 col-md-4 col-sm-4 mb-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" [(ngModel)]="agregarusuario.telefonoMovil">
+                                <label asp-for="Cantidad">Telefono Móvil</label>
+                            </div>
+                            <!--<span asp-validation-for="Cantidad" class="text-danger"></span>-->
+                        </div>
+                        <div class="col-2 col-md-2 col-sm-4 mb-3">
+                            <div class="form-check mb-2">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" [value]="agregarusuario.autorizaVentas" [(ngModel)]="agregarusuario.autorizaVentas" /> Administrador
+                                </label><br />
+                                <span class="input-group-addon" data-toggle="tooltip" data-placement="top" title="Si se selecciona esta opción el usuario podrá ver y acceder a todas las cotizaciones">
+                                    <i class="fa fa-info-circle"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-2 col-md-2 col-sm-4 mb-3">
+                            <div class="form-check mb-2">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" [value]="agregarusuario.revisaVentas" [(ngModel)]="agregarusuario.revisaVentas" /> Supervisa
+                                </label>
+                                <br />
+                                <span class="input-group-addon" data-toggle="tooltip" data-placement="top" title="Si se selecciona esta opción el usuario no aparecerá en las estadisticas">
+                                    <i class="fa fa-info-circle"></i>
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-4 ">
+                            <input type="file" (change)="onFileSelected($event)" #fileInput style="display:none" accept="image/*">
+                            <button class="btn btn-sm btn-outline-primary  box-shadow" (click)="fileInput.click()">Seleccionar Firma</button>
+                        </div>
+                        <br />
+                        <div class="image-container col-4 col-md-4 col-sm-4">
+                            <img class="box-shadow" [src]="selectedImage" alt="Imagen seleccionada" *ngIf="selectedImage" width="100" height="100">
+                        </div>
+
                     </div>
                 </div>
-            </div>-->
-
-            <!-- Modal footer -->
-            <!--<div class="modal-footer">
-
-                <button type="button" id="btnGuardarMaterial" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-save"></i> Guardar</button>-->
-                <!--(click)="getMatPues(pt.idPuestoDireccionCotizacion, dir.idDireccionCotizacion, 'material')"-->
-                <!--<button type="button" class="btn btn-outline-secondary" (click)="close()" data-bs-dismiss="modal">Cancelar</button>
             </div>
-
+            <!--Modal footer-->
+            <div class="modal-footer">
+                <button type="button" id="btnGuardarMaterial" (click)="guarda()" class="btn btn-outline-success"><i class="fa-solid fa-save"></i> Guardar</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="close()" data-bs-dismiss="modal">Cancelar</button>
+            </div>
         </div>
     </div>
-</div>-->
+</div>
