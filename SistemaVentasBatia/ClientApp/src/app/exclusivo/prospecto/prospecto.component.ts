@@ -50,10 +50,10 @@ export class ProspectoComponent {
         this.rter.navigate(['/exclusivo/nuevopros']);
     }
 
-    elige(id: number) {
-        this.idpro = id;
-        this.eliw.titulo = 'Desactivar';
-        this.eliw.mensaje = 'El estatus cambiará a "Inactivo"';
+    elige(idProspecto: number) {
+        this.idpro = idProspecto;
+        this.eliw.titulo = 'Desactivar prospecto';
+        this.eliw.mensaje = 'Se desactivarán las cotizaciones relacionadas y no serán visibles';
         this.eliw.open();
     }
 
@@ -67,5 +67,25 @@ export class ProspectoComponent {
     }
     goBack() {
         window.history.back();
+    }
+
+    desactivar() {
+/*        if (this.ide === 1) {*/
+            this.http.put<boolean>(`${this.url}api/prospecto/desactivarprospecto`, this.idpro).subscribe(response => {
+                this.lista();
+            }, err => {
+                console.log(err)
+            });
+        //} else {
+            
+        //}
+        this.idpro = 0;
+    }
+    activar(idProspecto: number) {
+        this.http.put<boolean>(`${this.url}api/prospecto/activarprospecto`, idProspecto).subscribe(response => {
+            this.lista();
+        }, err => {
+            console.log(err)
+        });
     }
 }

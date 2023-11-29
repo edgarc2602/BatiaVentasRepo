@@ -167,5 +167,18 @@ namespace SistemaVentasBatia.Controllers
 
             return ls;
         }
+
+        [HttpPut("[action]")]
+        public async Task<ActionResult<bool>> ActivarProspecto([FromBody] int idProspecto)
+        {
+            return await prospectosSvc.ActivarProspecto(idProspecto);
+        }
+
+        [HttpPut("[action]")]
+        public async Task<ActionResult<bool>> DesactivarProspecto([FromBody] int idProspecto)
+        {
+            await cotizacionesSvc.DesactivarCotizaciones(idProspecto);
+            return await prospectosSvc.DesactivarProspecto(idProspecto);
+        }
     }
 }

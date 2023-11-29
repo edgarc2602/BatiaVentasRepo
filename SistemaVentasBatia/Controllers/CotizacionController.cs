@@ -307,5 +307,17 @@ namespace SistemaVentasBatia.Controllers
             await cotizacionesSvc.ActualizarImssBase(imss);
             return true;
         }
+
+        [HttpPut("[action]")]
+        public async Task<ActionResult<bool>> ActivarCotizacion([FromBody] int idCotizacion)
+        {
+            return await cotizacionesSvc.ActivarCotizacion(idCotizacion);
+        }
+
+        [HttpPut("[action]")]
+        public async Task<ActionResult<bool>> DesactivarCotizacion([FromBody] int idCotizacion)
+        {
+            return await cotizacionesSvc.DesactivarCotizacion(idCotizacion);
+        }
     }
 }

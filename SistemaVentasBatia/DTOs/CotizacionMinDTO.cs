@@ -1,3 +1,4 @@
+using SistemaVentasBatia.Enums;
 using System;
 
 namespace SistemaVentasBatia.DTOs
@@ -12,5 +13,6 @@ namespace SistemaVentasBatia.DTOs
         public int IdCotizacionOriginal { get; set; }
         public string NombreComercial { get; set; }
         public string IdAlta { get; set; }
+        public EstatusCotizacion IdEstatusCotizacion { get; set; }
     }
 }

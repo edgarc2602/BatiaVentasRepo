@@ -10,7 +10,7 @@ namespace SistemaVentasBatia.Models
     public class Prospecto
     {        
         public int IdProspecto { get; set; }
-        public string NombreComercial { get; set; }
+        public string NombreComercial { get; set; } 
         public string RazonSocial { get; set; }
         public string Rfc { get; set; }
         public string DomicilioFiscal { get; set; }

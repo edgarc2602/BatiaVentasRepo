@@ -27,6 +27,8 @@ namespace SistemaVentasBatia.Services
         Task<DireccionDTO> ObtenerDireccionPorId(int id);
         Task ActualizarDireccion(DireccionDTO direccionVM);
         Task<PuestoDireccionCotizacionDTO> ObtenerOperarioPorId(int id);
+        Task<bool> ActivarProspecto(int idProspecto);
+        Task<bool> DesactivarProspecto(int idProspecto);
     }
 
     public class ProspectosService : IProspectosService
@@ -221,6 +223,16 @@ namespace SistemaVentasBatia.Services
             var puestoDireccionCotizacionViewModel = mapper.Map<PuestoDireccionCotizacionDTO>(await prospectosRepo.ObtenerPuestoDireccionCotizacionPorId(id));
 
             return puestoDireccionCotizacionViewModel;
+        }
+
+        public async Task<bool> ActivarProspecto(int idProspecto)
+        {
+            return await prospectosRepo.ActivarProspecto(idProspecto);
+        }
+
+        public async Task<bool> DesactivarProspecto(int idProspecto)
+        {
+            return await prospectosRepo.DesactivarProspecto(idProspecto);
         }
     }
 }

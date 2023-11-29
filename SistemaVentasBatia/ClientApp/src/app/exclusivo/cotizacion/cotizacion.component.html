@@ -1,12 +1,30 @@
 <style>
     .btn-bottom-right {
         position: absolute;
-        bottom: 80px; 
-        right: 30px; 
+        bottom: 80px;
+        right: 30px;
     }
+
     .table tbody td {
         vertical-align: middle;
     }
+
+    .toggle-btn {
+        width: 60px;
+        height: 30px;
+        border-radius: 15px;
+        background-color: #ccc;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .toggle-btn.active {
+            background-color: #4a92fe;
+            color: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
 </style>
 <div [@fadeInOut]>
     <br />
@@ -50,26 +68,27 @@
         </div>
     </div>
     <div class="row" style="border-radius: 10px; overflow-x: hidden;">
-        <table class="table table-borderless table-striped table-responsive box-shadow">
+        <table class="table table-borderless table-striped table-responsive text-center">
             <thead>
                 <tr class="bg-primary bg-opacity-75 text-white">
-                    <th class="ps-2">Lista de cotizaciones</th>
-                    <th></th>
+                    <th class="ps-2 text-start">Lista de cotizaciones</th>
+                    <th class="col-md-2">
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let cot of lcots.cotizaciones">
                     <td>
-                        <div class="row pb-4">
-                            <div class="col-md-1 col-sm-6 col-1 text-center">
+                        <div class="row mb-2">
+                            <div class="col-md-1 col-sm-6 col-1">
                                 <span class="badge text-dark">ID:</span>
                                 <div class="ms-2">{{ cot.idCotizacion }}</div>
                             </div>
-                            <div class="col-md-3 col-sm-6 col-5 text-center ">
+                            <div class="col-md-3 col-sm-6 col-5">
                                 <span class="badge text-dark">Prospecto:</span>
                                 <div class="ms-2">{{ cot.nombreComercial }}</div>
                             </div>
-                            <div class="col-md-2 col-sm-6 col-3 ">
+                            <div class="col-md-2 col-sm-6 col-3">
                                 <span class="badge text-dark">Servicio:</span>
                                 <div class="ms-2">{{ cot.servicio }}</div>
                             </div>
@@ -87,19 +106,19 @@
                             </div>
                         </div>
                     </td>
-                    <td class=" w-auto">
-                        <button type="button" class="btn btn-sm text-primary mb-1" [routerLink]="['/exclusivo/resumen/' + cot.idCotizacion]" data-bs-toggle="tooltip" title="Detalle">
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm text-primary" [routerLink]="['/exclusivo/resumen/' + cot.idCotizacion]" data-bs-toggle="tooltip" title="Detalle">
                             <i class="fa-solid fa-search-dollar fa-2x"></i>
                         </button>
-                        <a *ngIf="cot.total == 0" class="btn btn-sm text-success mb-1" (click)="editar(cot.idCotizacion, cot.nombreComercial,cot.servicio)" data-bs-toggle="tooltip" title="Editar">
+                        <a *ngIf="cot.total == 0" class="btn btn-sm text-success" (click)="editar(cot.idCotizacion, cot.nombreComercial,cot.servicio)" data-bs-toggle="tooltip" title="Editar">
                             <i class="fa-solid fa-pencil fa-2x"></i>
                         </a>
-                        <a *ngIf="cot.total !== 0" class="btn btn-sm text-white mb-1" data-bs-toggle="tooltip" title="Editar" disabled>
+                        <a *ngIf="cot.total !== 0" class="btn btn-sm text-white" data-bs-toggle="tooltip" title="Editar" disabled>
                             <i class="fa-solid fa-pencil fa-2x" style="color: #ccc;"></i>
                         </a>
-                        <a class="btn btn-sm text-danger mb-1 btnEliminarCotizacion" data-bs-toggle="tooltip" title="Descartar" (click)="elige(cot.idCotizacion)">
-                            <i class="fa-solid fa-times fa-2x"></i>
-                        </a>
+                        <button id="statusButton" (click)="chgEstatus(cot.idCotizacion, cot.idEstatusCotizacion)" class="toggle-btn {{ cot.idEstatusCotizacion === 1 ? 'active' : '' }}">
+                            {{ cot.idEstatusCotizacion === 1 ? 'Activa' : 'Inactiva' }}
+                        </button>
                     </td>
                 </tr>
             </tbody>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SistemaVentasBatia.Enums;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.AspNetCore.Connections;
 
 namespace SistemaVentasBatia.Repositories
 {
@@ -27,6 +28,8 @@ namespace SistemaVentasBatia.Repositories
         Task<Direccion> ObtenerDireccionPorId(int id);
         Task ActualizarDireccion(Direccion direccion);
         Task<PuestoDireccionCotizacion> ObtenerPuestoDireccionCotizacionPorId(int id);
+        Task<bool> ActivarProspecto(int idProspecto);
+        Task<bool> DesactivarProspecto(int idProspecto);
     }
 
     public class ProspectosRepository : IProspectosRepository
@@ -121,7 +124,7 @@ namespace SistemaVentasBatia.Repositories
                             ISNULL(NULLIF(@idEstatusProspecto,0), id_estatus_prospecto) = id_estatus_prospecto AND
                             nombre_comercial like '%' + @keywords + '%'  AND
                             tb_prospecto.id_personal = @idPersonal
-                        ORDER BY id_prospecto
+                        ORDER BY nombre_comercial
                         OFFSET ((@pagina - 1) * 10) ROWS
                         FETCH NEXT 10 ROWS ONLY;";
             var prospectos = new List<Prospecto>();
@@ -444,6 +447,49 @@ namespace SistemaVentasBatia.Repositories
             }
 
             return puestoDireccionCotizacion;
+        }
+
+        public async Task<bool> ActivarProspecto(int idProspecto)
+        {
+            string query = @"
+UPDATE tb_prospecto
+SET id_estatus_prospecto = 1
+WHERE id_prospecto = @idProspecto
+";
+            bool result;
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    result = await connection.ExecuteScalarAsync<bool>(query, new { idProspecto });
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public async Task<bool> DesactivarProspecto(int idProspecto)
+        {
+            string query = @"
+UPDATE tb_prospecto
+SET id_estatus_prospecto = 2
+WHERE id_prospecto = @idProspecto
+";
+            bool result;
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    result = await connection.ExecuteScalarAsync<bool>(query, new { idProspecto });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
         }
     }
 }

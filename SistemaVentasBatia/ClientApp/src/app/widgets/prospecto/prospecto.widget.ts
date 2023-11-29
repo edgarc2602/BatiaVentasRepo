@@ -33,7 +33,7 @@ export class ProspectoWidget implements OnChanges {
         this.model = {
             idProspecto: 0, nombreComercial: '', razonSocial: '', rfc: '', domicilioFiscal: '',
             representanteLegal: '', telefono: '', fechaAlta: this.dtpipe.transform(fec, 'yyyy-MM-ddTHH:mm:ss'), nombreContacto: '',
-            emailContacto: '', numeroContacto: '', extContacto: '', idCotizacion: 0, listaDocumentos: [], idPersonal: this.sinU.idPersonal
+            emailContacto: '', numeroContacto: '', extContacto: '', idCotizacion: 0, listaDocumentos: [], idPersonal: this.sinU.idPersonal, idEstatusProspecto: 0
         };
         this.docs.forEach(d => d.act = false);
     }

@@ -11,6 +11,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Connections;
 using System.Reflection.Metadata.Ecma335;
 using SistemaVentasBatia.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SistemaVentasBatia.Repositories
 {
@@ -68,6 +69,9 @@ namespace SistemaVentasBatia.Repositories
         Task<decimal> ObtenerImssBase();
         Task<bool> ActualizarImssBase(decimal imss);
         Task<int> ObtenerTipoSalario(int idCotizacion);
+        Task<bool> ActivarCotizacion(int idCotizacion);
+        Task<bool> DesactivarCotizacion(int idCotizacion);
+        Task DesactivarCotizaciones(int idProspecto);
     }
 
     public class CotizacionesRepository : ICotizacionesRepository
@@ -112,14 +116,16 @@ namespace SistemaVentasBatia.Repositories
                                     c.id_personal = @idPersonal AND
                                     ISNULL(NULLIF(@idProspecto,0), c.id_prospecto) = c.id_prospecto AND
                                     ISNULL(NULLIF(@idEstatusCotizacion,0), c.id_estatus_cotizacion) = c.id_estatus_cotizacion AND
-                                    ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio";
+                                    ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio
+                                    AND p.id_estatus_prospecto = 1";
             var queryadmin = @"SELECT count(*) Rows
                                 FROM tb_cotizacion c
                                 JOIN tb_prospecto p on c.id_prospecto = p.id_prospecto
                                 WHERE 
                                     ISNULL(NULLIF(@idProspecto,0), c.id_prospecto) = c.id_prospecto AND
                                     ISNULL(NULLIF(@idEstatusCotizacion,0), c.id_estatus_cotizacion) = c.id_estatus_cotizacion AND
-                                    ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio";
+                                    ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio
+                                    AND p.id_estatus_prospecto = 1";
 
             var rows = 0;
 
@@ -159,9 +165,8 @@ namespace SistemaVentasBatia.Repositories
                                 WHERE 
                                     ISNULL(NULLIF(@idProspecto,0), c.id_prospecto) = c.id_prospecto AND
                                     ISNULL(NULLIF(@idEstatusCotizacion,0), c.id_estatus_cotizacion) = c.id_estatus_cotizacion AND
-                                    ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio
-                                    
-
+                                    ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio AND
+                                    p.id_estatus_prospecto = 1
                                ) AS Cotizaciones
                           WHERE   RowNum >= ((@pagina - 1) * 10) + 1
                               AND RowNum <= (@pagina * 10)
@@ -177,7 +182,8 @@ namespace SistemaVentasBatia.Repositories
                                     ISNULL(NULLIF(@idProspecto,0), c.id_prospecto) = c.id_prospecto AND
                                     ISNULL(NULLIF(@idEstatusCotizacion,0), c.id_estatus_cotizacion) = c.id_estatus_cotizacion AND
                                     ISNULL(NULLIF(@idServicio,0), c.id_servicio) = c.id_servicio AND
-                                    c.id_personal = @idPersonal
+                                    c.id_personal = @idPersonal AND
+                                    p.id_estatus_prospecto = 1
 
                                ) AS Cotizaciones
                           WHERE   RowNum >= ((@pagina - 1) * 10) + 1
@@ -532,7 +538,8 @@ DELETE FROM tb_puesto_direccion_cotizacion WHERE id_direccion_cotizacion = @idDi
 DELETE FROM tb_cotiza_material WHERE id_direccion_cotizacion = @idDireccionCotizacion
 DELETE FROM tb_cotiza_uniforme WHERE id_direccion_cotizacion = @idDireccionCotizacion
 DELETE FROM tb_cotiza_equipo WHERE id_direccion_cotizacion = @idDireccionCotizacion
-DELETE FROM tb_cotiza_herramienta WHERE id_direccion_cotizacion = @idDireccionCotizacion";
+DELETE FROM tb_cotiza_herramienta WHERE id_direccion_cotizacion = @idDireccionCotizacion
+DELETE FROM tb_cotiza_servicioextra WHERE id_direccion_cotizacion = @idDireccionCotizacion";
 
             try
             {
@@ -1681,6 +1688,69 @@ WHERE dc.id_direccion_cotizacion = @idPuestoDireccion
                 throw ex;
             }
             return result;
+        }
+
+        public async Task<bool> ActivarCotizacion(int idCotizacion)
+        {
+            string query = @"
+UPDATE tb_cotizacion
+SET id_estatus_cotizacion = 1
+WHERE id_cotizacion = @idCotizacion
+";
+            bool result;
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    result = await connection.ExecuteScalarAsync<bool>(query, new { idCotizacion });
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public async Task<bool> DesactivarCotizacion(int idCotizacion)
+        {
+            string query = @"
+UPDATE tb_cotizacion
+SET id_estatus_cotizacion = 3
+WHERE id_cotizacion = @idCotizacion
+";
+            bool result;
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    result = await connection.ExecuteScalarAsync<bool>(query, new { idCotizacion });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task DesactivarCotizaciones(int idProspecto)
+        {
+            string query = @"
+UPDATE tb_cotizacion
+SET id_estatus_cotizacion = 3 
+WHERE id_prospecto = @idProspecto
+";
+            try
+            {
+                using (var connection = ctx.CreateConnection())
+                {
+                    await connection.ExecuteScalarAsync<bool>(query, new { idProspecto });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

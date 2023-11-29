@@ -5,4 +5,5 @@ export interface CotizacionMin {
     total: number;
     fechaAlta: string;
     nombreComercial: string;
+    idEstatusCotizacion: number;
 }

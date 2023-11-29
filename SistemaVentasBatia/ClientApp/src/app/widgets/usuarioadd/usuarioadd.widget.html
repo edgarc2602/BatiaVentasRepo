@@ -24,43 +24,43 @@
                             </div>-->
                             <div *ngIf="this.edit == 0" class="col-7 col-md-4 col-sm-4 mb-3">
                                 <div class="form-floating">
-                                    <input type="tel" class="form-control" [(ngModel)]="agregarusuario.nombres">
+                                    <input type="text" class="form-control" [(ngModel)]="agregarusuario.nombres">
                                     <label asp-for="Cantidad">Nombres</label>
                                 </div>
                             </div>
                             <div *ngIf="this.edit == 0" class="col-5 col-md-4 col-sm-4 mb-3">
                                 <div class="form-floating">
-                                    <input type="tel" class="form-control" [(ngModel)]="agregarusuario.apellidoPaterno">
+                                    <input type="text" class="form-control" [(ngModel)]="agregarusuario.apellidoPaterno">
                                     <label asp-for="Cantidad">Apellido Paterno</label>
                                 </div>
                             </div>
                             <div *ngIf="this.edit == 0" class="col-5 col-md-4 col-sm-4 mb-3">
                                 <div class="form-floating">
-                                    <input type="tel" class="form-control" [(ngModel)]="agregarusuario.apellidoMaternoo">
+                                    <input type="text" class="form-control" [(ngModel)]="agregarusuario.apellidoMaternoo">
                                     <label asp-for="Cantidad">Apellido Materno</label>
                                 </div>
                             </div>
                             <div *ngIf="this.edit > 0" class="col-5 col-md-4 col-sm-4 mb-3">
                                 <div class="form-floating">
-                                    <input type="tel" class="form-control" [(ngModel)]="agregarusuario.nombres" disabled>
+                                    <input type="text" class="form-control" [(ngModel)]="agregarusuario.nombres" disabled>
                                     <label asp-for="Cantidad">Nombre</label>
                                 </div>
                             </div>
                             <div class="col-4 col-md-3 col-sm-2 mb-3">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" [(ngModel)]="agregarusuario.telefono">
+                                    <input type="tel" class="form-control" [(ngModel)]="agregarusuario.telefono">
                                     <label asp-for="Cantidad">Telefono</label>
                                 </div>
                             </div>
                             <div class="col-3 col-md-2 col-sm-4 mb-3">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" [(ngModel)]="agregarusuario.telefonoExtension">
+                                    <input type="tel" class="form-control" [(ngModel)]="agregarusuario.telefonoExtension">
                                     <label asp-for="Cantidad">Extensión</label>
                                 </div>
                             </div>
                             <div class="col-4 col-md-3 col-sm-4 mb-3">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" [(ngModel)]="agregarusuario.telefonoMovil">
+                                    <input type="tel" class="form-control" [(ngModel)]="agregarusuario.telefonoMovil">
                                     <label asp-for="Cantidad">Telefono Móvil</label>
                                 </div>
                             </div>

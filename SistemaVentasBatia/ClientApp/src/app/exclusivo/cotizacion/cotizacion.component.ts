@@ -148,4 +148,19 @@ export class CotizacionComponent implements OnInit, OnDestroy {
     goBack() {
         window.history.back();
     }
+    chgEstatus(idCotizacion: number, idEstatusCotizacion: number) {
+        if (idEstatusCotizacion === 1) {
+            this.http.put<boolean>(`${this.url}api/cotizacion/desactivarcotizacion`, idCotizacion).subscribe(response => {
+                this.lista();
+            }, err => {
+                console.log(err)
+            });
+        } else {
+            this.http.put<boolean>(`${this.url}api/cotizacion/activarcotizacion`, idCotizacion).subscribe(response => {
+                this.lista();
+            }, err => {
+                console.log(err)
+            });
+        }
+    }
 }

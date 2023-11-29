@@ -509,7 +509,7 @@ SELECT
 cs.id_servicioextra_cotizacion IdServicioCotizacion, 
 cs.id_servicioextra IdServicioExtra, 
 cs.id_cotizacion IdCotizacion, 
-ISNULL(dc.id_direccion,0)  IdDireccionCotizacion,
+ISNULL(cs.id_direccion_cotizacion,0)  IdDireccionCotizacion,
 cs.precio_unitario PrecioUnitario, 
 cs.id_frecuencia IdFrecuencia,
 cs.cantidad Cantidad, 
@@ -519,7 +519,7 @@ cs.fecha_alta FechaAlta,
 cs.id_personal IdPersonal
 FROM tb_cotiza_servicioextra cs
 LEFT OUTER JOIN tb_direccion_cotizacion dc on dc.id_direccion_cotizacion = cs.id_direccion_cotizacion
-WHERE cs.id_cotizacion = @idCotizacion
+WHERE cs.id_cotizacion = 3
 ORDER BY cs.fecha_alta
 ";
             var serviciosCotizacion = new List<ServicioCotizacion> ();

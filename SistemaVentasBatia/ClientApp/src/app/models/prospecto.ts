@@ -15,4 +15,5 @@ export interface Prospecto {
     listaDocumentos: ItemN[];
     idCotizacion: number;
     idPersonal: number;
+    idEstatusProspecto: number;
 }

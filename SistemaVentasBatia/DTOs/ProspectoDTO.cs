@@ -46,5 +46,6 @@ namespace SistemaVentasBatia.DTOs
         public ICollection<Item<int>> ListaDocumentos { get; set; }
 
         public int IdCotizacion { get; set; }
+        public EstatusProspecto IdEstatusProspecto { get; set; }
     }
 }

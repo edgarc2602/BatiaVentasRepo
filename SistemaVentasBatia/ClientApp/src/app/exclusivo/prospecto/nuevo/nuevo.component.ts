@@ -46,7 +46,7 @@ export class ProsNuevoComponent implements OnInit, OnDestroy {
             idProspecto: 0, nombreComercial: '', razonSocial: '', rfc: '', domicilioFiscal: '',
             representanteLegal: '', telefono: '', fechaAlta: this.dtpipe.transform(fec, 'yyyy-MM-ddTHH:mm:ss'), nombreContacto: '',
             emailContacto: '', numeroContacto: '', extContacto: '', idCotizacion: 0, listaDocumentos: [],
-            idPersonal: this.sinU.idPersonal
+            idPersonal: this.sinU.idPersonal, idEstatusProspecto: 0
         };
     }
 

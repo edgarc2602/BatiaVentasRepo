@@ -46,6 +46,10 @@ namespace SistemaVentasBatia.Services
         Task<bool> ActualizarPorcentajesPredeterminadosCotizacion(CotizaPorcentajes porcentajes);
         Task<decimal> ObtenerImssBase();
         Task<bool> ActualizarImssBase(decimal imss);
+        Task<bool> ActivarCotizacion(int idCotizacion);
+        Task<bool> DesactivarCotizacion(int idCotizacion);
+        Task DesactivarCotizaciones(int idProspecto);
+
     }
 
     public class CotizacionesService : ICotizacionesService
@@ -99,7 +103,8 @@ namespace SistemaVentasBatia.Services
                         FechaAlta = c.FechaAlta,
                         IdCotizacionOriginal = c.IdCotizacionOriginal,
                         NombreComercial = c.NombreComercial,
-                        IdAlta = c.IdAlta
+                        IdAlta = c.IdAlta,
+                        IdEstatusCotizacion = c.IdEstatusCotizacion
                     }).ToList();
             }
             else
@@ -684,6 +689,19 @@ namespace SistemaVentasBatia.Services
         public async Task<bool> ActualizarImssBase(decimal imss)
         {
             return await cotizacionesRepo.ActualizarImssBase(imss);
+        }
+
+        public async Task<bool> ActivarCotizacion(int idCotizacion)
+        {
+            return await cotizacionesRepo.ActivarCotizacion(idCotizacion);
+        }
+        public async Task<bool> DesactivarCotizacion(int idCotizacion)
+        {
+            return await cotizacionesRepo.DesactivarCotizacion(idCotizacion);
+        }
+        public async Task DesactivarCotizaciones(int idProspecto)
+        {
+            await cotizacionesRepo.DesactivarCotizaciones(idProspecto);
         }
     }
 }
