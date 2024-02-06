@@ -157,9 +157,6 @@ export class UsuarioAddWidget {
             } else {
                 console.error('Tipo no compatible para selectedImage');
             }
-            //this.http.post<boolean>(`${this.url}api/usuario/agregarusuario`, this.agregarusuario).subscribe(response => {
-                
-            //});
         }
     }
     onFileSelected(event: any): void {

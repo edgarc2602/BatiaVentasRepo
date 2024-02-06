@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace SistemaVentasBatia.DTOs
-{
+{   
     public class DireccionDTO
     {
         public int IdDireccion { get; set; }
