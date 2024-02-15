@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
         @Inject('BASE_URL') private url: string,
         private http: HttpClient
     ) {
-        http.get<UsuarioGrafica[]>(`${url}api/usuario/obtenercotizacionesusuarios`).subscribe(response => {
+        http.get<UsuarioGrafica[]>(`${url}api/usuario/obtenercotizacionesusuarios/`).subscribe(response => {
             this.usuarios = response;
             this.getDonut();
         }, err => console.log(err));

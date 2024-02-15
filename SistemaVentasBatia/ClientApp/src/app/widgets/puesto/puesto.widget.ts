@@ -1,10 +1,10 @@
 ﻿import { Component, Inject, Output, EventEmitter, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PuestoCotiza } from 'src/app/models/puestocotiza';
-import { Catalogo } from 'src/app/models/catalogo';
-import { ItemN } from 'src/app/models/item';
-import { SalarioMin } from 'src/app/models/salariomin';
-import { StoreUser } from 'src/app/stores/StoreUser';
+import { PuestoCotiza } from '../../models/puestocotiza';
+import { Catalogo } from '../../models/catalogo';
+import { ItemN } from '../../models/item';
+import { SalarioMin } from '../../models/salariomin';
+import { StoreUser } from '../../stores/StoreUser';
 import { Subject } from 'rxjs';
 import { ToastWidget } from '../toast/toast.widget';
 declare var bootstrap: any;
@@ -32,6 +32,7 @@ export class PuestoWidget {
     evenSub: Subject<void> = new Subject<void>();
     isErr: boolean = false;
     validaMess: string = '';
+    validacion: boolean = false;
 
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, private sinU: StoreUser) {
         http.get<Catalogo[]>(`${url}api/catalogo/getpuesto`).subscribe(response => {
@@ -65,7 +66,7 @@ export class PuestoWidget {
             jornada: 0, idTurno: 0, hrInicio: '', hrFin: '', diaInicio: 0, diaFin: 0,
             fechaAlta: dt.toISOString(), sueldo: 0, vacaciones: 0, primaVacacional: 0, imss: 0,
             isn: 0, aguinaldo: 0, total: 0, idCotizacion: this.idC, idPersonal: this.sinU.idPersonal,
-            idSalario: 0, idClase: 0, idTabulador: 0, jornadadesc: '', idZona: 0
+            idSalario: 0, idClase: 0, idTabulador: 0, jornadadesc: '', idZona: 0, cantidad: 0,
         };
     }
 
@@ -141,27 +142,48 @@ export class PuestoWidget {
     }
 
     valida() {
+        this.validacion = true;
         if (this.model.idTurno == 0) {
             this.lerr['IdTurno'] = ['Turno es obligatorio'];
-            return false;
+            this.validacion = false;
+        }
+        if (this.model.idPuesto == 0) {
+            this.lerr['IdPuesto'] = ['Puesto es obligatorio'];
+            this.validacion = false;
         }
         if (this.model.diaInicio == 0) {
             this.lerr['DiaInicio'] = ['Día inicio es obligatorio'];
-            return false;
+            this.validacion = false;
         }
         if (this.model.diaFin == 0) {
             this.lerr['DiaFin'] = ['Día fin es obligatorio'];
-            return false;
+            this.validacion = false;
         }
         if (this.model.hrInicio == '') {
             this.lerr['HrInicio'] = ['Hora inicio es obligatorio'];
-            return false;
+            this.validacion = false;
         }
         if (this.model.hrFin == '') {
             this.lerr['HrFin'] = ['Hora fin es obligatorio'];
-            return false;
+            this.validacion = false;
         }
-        return true;
+        if (this.model.jornada == 0) {
+            this.lerr['Jornada'] = ['Jornada es obligatorio'];
+            this.validacion = false;
+        }
+        if (this.model.idTabulador == 0) {
+            this.lerr['idZona'] = ['Zona es obligatorio'];
+            this.validacion = false;
+        }
+        if (this.model.idClase == 0) {
+            this.lerr['idClase'] = ['Clase es obligatorio'];
+            this.validacion = false;
+        }
+        if (this.model.cantidad == 0) {
+            this.lerr['Cantidad'] = ['Cantidad es obligatorio'];
+            this.validacion = false;
+        }
+        return this.validacion;
     }
 
     ferr(nm: string) {

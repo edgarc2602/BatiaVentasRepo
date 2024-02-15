@@ -51,7 +51,7 @@
                                     </select>
                                     <label asp-for="IdMunicipio">Municipio</label>
                                 </div>
-                                <span *ngIf="ferr('IdMunicipio')" class="text-danger">{{ terr('Municipio') }}</span>
+                                <span *ngIf="ferr('Municipio')" class="text-danger">{{ terr('Municipio') }}</span>
                             </div>
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <div class="form-floating">
@@ -93,29 +93,5 @@
         </div>
     </div>
     <toast-widget [events]="evenSub.asObservable()" [isError]="isErr" [message]="validaMess"></toast-widget>
-
-    <style>
-        .modal.show::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            backdrop-filter: blur(5px);
-            animation: blurAnimation 0.8s;
-            z-index: -1;
-        }
-
-        @keyframes blurAnimation {
-            0% {
-                backdrop-filter: blur(0);
-            }
-
-            100% {
-                backdrop-filter: blur(5px); /* Establece el valor final de desenfoque */
-            }
-        }
-    </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

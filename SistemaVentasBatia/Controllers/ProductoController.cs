@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaVentasBatia.DTOs;
 using SistemaVentasBatia.Services;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace SistemaVentasBatia.Controllers
@@ -138,6 +139,16 @@ namespace SistemaVentasBatia.Controllers
         public async Task<ActionResult<MaterialPuestoDTO>> ObtenerProductoDefault(int idProducto, int tipo, int idPuesto)
         {
             return await logic.ObtenerProductoDefault(idProducto, tipo, idPuesto);
+        }
+
+        [HttpGet("[action]/{idEstado}/{pagina}/{idFamilia}")]
+        public async Task<ActionResult<ListaProductoDTO>> GetProductoProveedorByIdEstado(int idEstado, int pagina, int idFamilia = 0)
+        {
+            var listaproducto = new ListaProductoDTO()
+            {
+                Pagina = pagina
+            };
+            return await logic.GetProductoProveedorByIdEstado(listaproducto, idEstado, idFamilia);
         }
 
     }

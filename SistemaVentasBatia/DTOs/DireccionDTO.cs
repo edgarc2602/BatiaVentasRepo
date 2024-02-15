@@ -28,6 +28,7 @@ namespace SistemaVentasBatia.DTOs
         [Required(ErrorMessage = "Municipio es necesario")]
         [StringLength(200, ErrorMessage = "Máximo 200 posiciones")]
         public string Municipio { get; set; }
+        [Required(ErrorMessage = "Ciudad es necesario")]
         [StringLength(200, ErrorMessage = "Máximo 200 posiciones")]
         public string Ciudad { get; set; }
 

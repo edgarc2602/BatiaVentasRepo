@@ -34,6 +34,7 @@ namespace SistemaVentasBatia.Services
         Task ActualizarHerramienta(MaterialPuestoDTO producto);
         Task ActualizarEquipo(MaterialPuestoDTO producto);
         Task ActualizarUniforme(MaterialPuestoDTO producto);
+        Task<ActionResult<ListaProductoDTO>> GetProductoProveedorByIdEstado(ListaProductoDTO listaProducto, int idEstado, int idFamilia);
     }
 
     public class ProductoService : IProductoService
@@ -155,6 +156,30 @@ namespace SistemaVentasBatia.Services
         {
             MaterialPuesto model = mapper.Map<MaterialPuesto>(producto);
             await repo.ActualizarUniformePuesto(model);
+        }
+
+        public async Task<ActionResult<ListaProductoDTO>> GetProductoProveedorByIdEstado(ListaProductoDTO listaProducto, int idEstado, int idFamilia)
+        {
+            listaProducto.Rows = await repo.CountProductoProveedorByIdEstado(idEstado,idFamilia);
+            listaProducto.Proveedor = await repo.GetProveedorByIdEstado(idEstado);
+            listaProducto.IdProveedor = await repo.GetIdProveedorByIdEstado(idEstado);
+            var familias = await repo.GetFamiliasByIdEstado(idEstado);
+            listaProducto.Familias = mapper.Map<List<ProductoFamiliaDTO>>(familias);
+            if(listaProducto.Rows > 0)
+            {
+                listaProducto.NumPaginas = (listaProducto.Rows / 40);
+                if (listaProducto.Rows % 40 > 0)
+                {
+                    listaProducto.NumPaginas++;
+                }
+                var lista = await repo.GetProductoProveedorByIdEstado(idEstado, listaProducto.Pagina, idFamilia);
+                listaProducto.Productos = mapper.Map<List<ProductoPrecioEstadoDTO>>(lista);
+            }
+            else
+            {
+                listaProducto.Productos = new List<ProductoPrecioEstadoDTO>();
+            }
+            return listaProducto;
         }
     }
 }

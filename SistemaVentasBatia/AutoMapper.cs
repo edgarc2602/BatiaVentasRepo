@@ -72,6 +72,12 @@ namespace SistemaVentasBatia
             CreateMap<Salario, SalarioMinDTO>();
             CreateMap<Tabulador, TabuladorDTO>();
             CreateMap<TabuladorDTO, Tabulador>();
+
+            CreateMap<ProductoPrecioEstado, ProductoPrecioEstadoDTO>();
+            CreateMap<ProductoPrecioEstadoDTO, ProductoPrecioEstado>();
+
+            CreateMap<ProductoFamilia, ProductoFamiliaDTO>();
+            CreateMap<ProductoFamiliaDTO,ProductoFamilia>();
         }
     }
 }

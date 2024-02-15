@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SistemaVentasBatia.Models;
 using System;
 using System.IO;
 using System.Net;
@@ -113,5 +114,29 @@ namespace SistemaVentasBatia.Controllers
             }
         }
 
+        [HttpPost("[action]/{idEstado}/{idFamilia}")]
+        public IActionResult DescargarListaProductosPorEstado(int idEstado = 0, int idFamilia = 0)
+        {
+            try
+            {
+                var url = ("http://192.168.2.4/Reporte?%2freporteproductoestado&rs:Format=PDF&idEstado=" + idEstado.ToString() + "&idFamilia=" + idFamilia.ToString());
+                WebClient wc = new WebClient
+                {
+                    Credentials = new NetworkCredential("Administrador", "GrupoBatia@")
+                };
+                byte[] myDataBuffer = wc.DownloadData(url.ToString());
+
+                return new FileContentResult(myDataBuffer, "application/pdf")
+                {
+                    FileDownloadName = "ListadoProductosPorEstado.pdf"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener el archivo PDF: {ex.Message}");
+                return StatusCode(500, "Error al obtener el archivo PDF");
+            }
+        }
     }
 }

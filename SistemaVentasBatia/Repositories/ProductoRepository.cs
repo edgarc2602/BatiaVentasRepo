@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using SistemaVentasBatia.Enums;
 using SistemaVentasBatia.DTOs;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 
 namespace SistemaVentasBatia.Repositories
 {
@@ -35,6 +37,11 @@ namespace SistemaVentasBatia.Repositories
         //Task ActualizarHerramienta(MaterialPuesto producto);
         //Task ActualizarEquipo(MaterialPuesto producto);
         //Task ActualizarUniforme(MaterialPuesto producto);
+        Task<int> CountProductoProveedorByIdEstado(int idEstado, int idFamilia);
+        Task<List<ProductoPrecioEstado>> GetProductoProveedorByIdEstado(int idEstado, int pagina, int idFamilia);
+        Task<string> GetProveedorByIdEstado(int idEstado);
+        Task<int> GetIdProveedorByIdEstado(int idEstado);
+        Task<List<ProductoFamilia>> GetFamiliasByIdEstado(int idEstado);
     }
 
     public class ProductoRepository : IProductoRepository
@@ -471,5 +478,132 @@ WHERE id_herramienta_puesto = @idProducto AND id_puesto = @idPuesto
         //        throw ex;
         //    }
         //}
+
+        public async Task<int> CountProductoProveedorByIdEstado(int idEstado, int idFamilia)
+        {
+            var query = @"
+SELECT 
+count(a.clave) Rows
+FROM tb_productoprecio a
+INNER JOIN tb_producto b ON b.clave = a.clave 
+INNER JOIN tb_estado c ON c.id_proveedor = a.id_proveedor
+WHERE c.id_estado = @idEstado AND
+ISNULL(NULLIF(@idFamilia,0), b.id_familia) = b.id_familia
+";
+            var numrows = 0;
+            try
+            {
+                using var connection = ctx.CreateConnection();
+                numrows = await connection.QuerySingleAsync<int>(query, new {idEstado, idFamilia});
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return numrows;
+        }
+
+        public async Task<List<ProductoPrecioEstado>> GetProductoProveedorByIdEstado(int idEstado, int pagina, int idFamilia)
+        {
+            string query = @"
+SELECT  *   
+FROM (
+SELECT 
+ROW_NUMBER() OVER ( ORDER BY b.descripcion ) AS RowNum,
+a.clave Clave, 
+b.id_familia Familia, 
+b.descripcion Descripcion, 
+a.id_proveedor IdProveedor, 
+precio PrecioProveedor, 
+b.preciobase PrecioBase 
+FROM tb_productoprecio a
+INNER JOIN tb_producto b ON b.clave = a.clave 
+INNER JOIN tb_estado c ON c.id_proveedor = a.id_proveedor
+WHERE c.id_estado = @idEstado AND
+ISNULL(NULLIF(@idFamilia,0), b.id_familia) = b.id_familia
+) AS Supervisiones
+WHERE   RowNum >= ((@pagina - 1) * 40) + 1
+AND RowNum <= (@pagina * 40)
+ORDER BY RowNum
+";
+            var productos = new List<ProductoPrecioEstado>();
+            try
+            {
+                using var connection = ctx.CreateConnection();
+                productos = (await connection.QueryAsync<ProductoPrecioEstado>(query, new { idEstado, pagina, idFamilia })).ToList();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return productos;
+        }
+
+        public async Task<string> GetProveedorByIdEstado(int idEstado)
+        {
+            var query = @"
+SELECT b.nombre FROM tb_estado a 
+INNER JOIN tb_proveedor b ON b.id_proveedor = a.id_proveedor
+WHERE a.id_estado = @idEstado";
+            string proveedor;
+            try
+            {
+                using var connection = ctx.CreateConnection();
+                proveedor = await connection.QuerySingleAsync<string>(query, new { idEstado});
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return proveedor;
+        }
+
+        public async Task<int> GetIdProveedorByIdEstado(int idEstado)
+        {
+            var query = @"
+SELECT a.id_proveedor FROM tb_estado a WHERE a.id_estado = @idEstado
+";
+            int  idProveedor;
+            try
+            {
+                using var connection = ctx.CreateConnection();
+                idProveedor = await connection.QueryFirstAsync<int>(query, new { idEstado });
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return idProveedor;
+        }
+
+        public async Task<List<ProductoFamilia>> GetFamiliasByIdEstado(int idEstado)
+        {
+            string query = @"
+SELECT 
+ DISTINCT 
+ b.id_familia idFamilia,
+ d.descripcion Descripcion
+FROM tb_productoprecio a
+INNER JOIN tb_producto b ON b.clave = a.clave 
+INNER JOIN tb_estado c ON c.id_proveedor = a.id_proveedor
+INNER JOIN tb_familia d ON d.id_familia = b.id_familia
+WHERE c.id_estado = @idEstado 
+";
+            var familias = new List<ProductoFamilia>();
+            try
+            {
+                using var connection = ctx.CreateConnection();
+                familias = (await connection.QueryAsync<ProductoFamilia>(query, new { idEstado })).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return familias;
+        }
     }
 }

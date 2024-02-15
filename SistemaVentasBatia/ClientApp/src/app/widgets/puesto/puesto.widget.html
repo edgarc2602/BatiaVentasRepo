@@ -18,7 +18,7 @@
                             <div class="col-sm-12 col-md-6 col-12">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" aria-label="IdPuesto" [(ngModel)]="model.idPuesto" (change)="chgSalariodos()">
-                                        <option value="0">Seleccione</option>
+                                        <option value="0">Seleccione...</option>
                                         <option *ngFor="let p of pues" [ngValue]="p.id">{{ p.descripcion }}</option>
                                     </select>
                                     <label asp-for="IdPuesto">Puesto</label>
@@ -28,7 +28,7 @@
                             <div class="col-sm-12 col-md-6 col-4">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" aria-label="IdTurno" [(ngModel)]="model.idTurno" (change)="chgSalariodos()">
-                                        <option value="0">Seleccione</option>
+                                        <option value="0">Seleccione...</option>
                                         <option *ngFor="let t of turs" [ngValue]="t.id">{{ t.descripcion }}</option>
                                     </select>
                                     <label asp-for="IdTurno">Turno</label>
@@ -40,7 +40,7 @@
                             <div class="col-sm-12 col-md-3 col-4">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" aria-label="DiaInicio" [(ngModel)]="model.diaInicio">
-                                        <option value="0">Seleccione</option>
+                                        <option value="0">Seleccione...</option>
                                         <option *ngFor="let d of dias" [ngValue]="d.id">{{ d.nom }}</option>
                                     </select>
                                     <label asp-for="DiaInicio">Dia Inicio</label>
@@ -50,7 +50,7 @@
                             <div class="col-sm-12 col-md-3 col-4">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" aria-label="DiaFin" [(ngModel)]="model.diaFin">
-                                        <option value="0">Seleccione</option>
+                                        <option value="0">Seleccione...</option>
                                         <option *ngFor="let d of dias" [ngValue]="d.id">{{ d.nom }}</option>
                                     </select>
                                     <label asp-for="DiaFin">Dia Fin</label>
@@ -60,6 +60,7 @@
                             <div class="col-sm-12 col-md-3 col-4">
                                 <div class="form-floating mb-3">
                                     <select type="text" class="form-select" [(ngModel)]="model.hrInicio">
+                                        <option value="''">Seleccione...</option>
                                         <option *ngFor="let h of hors" [ngValue]="h">{{ h }}</option>
                                     </select>
                                     <label asp-for="HrInicio">De</label>
@@ -69,6 +70,7 @@
                             <div class="col-sm-12 col-md-3 col-4">
                                 <div class="form-floating mb-3">
                                     <select type="text" class="form-select" [(ngModel)]="model.hrFin">
+                                        <option value="''">Seleccione...</option>
                                         <option *ngFor="let h of hors" [ngValue]="h">{{ h }}</option>
                                     </select>
                                     <label asp-for="HrFin">A</label>
@@ -87,45 +89,48 @@
                             <!--<div class="col-sm-12 col-md-3">
                                 <div class="form-floating">
                                     <select class="form-select" aria-label="DiaFin" [(ngModel)]="model.diaFin">
-                                        <option value="0">Seleccione</option>
+                                        <option value="0">Seleccione...</option>
                                         <option *ngFor="let d of dias" [ngValue]="d.id">{{ d.nom }}</option>
                                     </select>
                                     <label asp-for="DiaFin">Dia Fin</label>
                                 </div>
                                 <span *ngIf="ferr('DiaFin')" class="text-danger">{{ terr('DiaFin') }}</span>
                             </div>-->
-                            <div class="col-sm-12 col-md-2 col-4">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" [(ngModel)]="model.jornada">
-                                        <option *ngFor="let j of ljor" [ngValue]="j.id">{{ j.descripcion }}</option>
-                                    </select>
-                                    <label asp-for="Jornada">Jornada</label>
-                                </div>
+                        <div class="col-sm-12 col-md-2 col-4">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" [(ngModel)]="model.jornada">
+                                    <option value="0">Seleccione...</option>
+                                    <option *ngFor="let j of ljor" [ngValue]="j.id">{{ j.descripcion }}</option>
+                                </select>
+                                <label asp-for="Jornada">Jornada</label>
                             </div>
+                            <span *ngIf="ferr('Jornada')" class="text-danger">{{ terr('Jornada') }}</span>
+                        </div>
                             <div class="col-sm-12 col-md-2 col-4">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" aria-label="IdTabulador" [(ngModel)]="model.idTabulador" (change)="chgSalariodos()">
+                                        <option value="0">Seleccione...</option>
                                         <option *ngFor="let t of tabs" [ngValue]="t.id">{{ t.descripcion }}</option>
                                     </select>
                                     <label asp-for="IdZona">Zona</label>
                                 </div>
-                                <span *ngIf="ferr('IdTabulador')" class="text-danger">{{ terr('IdTabulador') }}</span>
+                                <span *ngIf="ferr('idZona')" class="text-danger">{{ terr('idZona') }}</span>
                             </div>
                             <div class="col-sm-12 col-md-2 col-4">
                                 <div class="form-floating mb-3">
                                     <select type="text" class="form-select" [(ngModel)]="model.idClase" (change)="chgSalariodos()">
+                                        <option value="0">Seleccione...</option>
                                         <option *ngFor="let c of lclas" [ngValue]="c.id">{{ c.descripcion }}</option>
                                     </select>
                                     <label asp-for="Clase">Clase</label>
                                 </div>
-                                <!--<span *ngIf="ferr('HrFin')" class="text-danger">{{ terr('HrFin') }}</span>-->
+                                <span *ngIf="ferr('idClase')" class="text-danger">{{ terr('idClase') }}</span>
                             </div>
                             <div class="col-sm-12 col-md-3">
                                 <div class="form-floating">
                                     <input type="number" class="form-control" [(ngModel)]="model.sueldo" disabled>
                                     <label asp-for="Sueldo">Sueldo</label>
                                 </div>
-                                <span *ngIf="ferr('Sueldo')" class="text-danger">{{ terr('Sueldo') }}</span>
                             </div>
                             <div class="col-sm-12 col-md-2 col-4">
                                 <div class="form-floating mb-3">
@@ -147,28 +152,5 @@
         </div>
     </div>
     <toast-widget [events]="evenSub.asObservable()" [isError]="isErr" [message]="validaMess"></toast-widget>
-    <style>
-        .modal.show::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            backdrop-filter: blur(5px);
-            animation: blurAnimation 0.8s;
-            z-index: -1;
-        }
-
-        @keyframes blurAnimation {
-            0% {
-                backdrop-filter: blur(0);
-            }
-
-            100% {
-                backdrop-filter: blur(5px); /* Establece el valor final de desenfoque */
-            }
-        }
-    </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

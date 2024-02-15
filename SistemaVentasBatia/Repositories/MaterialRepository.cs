@@ -519,7 +519,7 @@ cs.fecha_alta FechaAlta,
 cs.id_personal IdPersonal
 FROM tb_cotiza_servicioextra cs
 LEFT OUTER JOIN tb_direccion_cotizacion dc on dc.id_direccion_cotizacion = cs.id_direccion_cotizacion
-WHERE cs.id_cotizacion = 3
+WHERE cs.id_cotizacion = @idCotizacion
 ORDER BY cs.fecha_alta
 ";
             var serviciosCotizacion = new List<ServicioCotizacion> ();

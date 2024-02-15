@@ -19,4 +19,15 @@ export class ExclusivoComponent {
             this.user.estatus = uST.estatus;
         }
     }
+    goBack() {
+        window.history.back();
+        this.quitarFocoDeElementos();
+    }
+    quitarFocoDeElementos(): void {
+        const elementos = document.querySelectorAll('button, input[type="text"]');
+
+        elementos.forEach((elemento: HTMLElement) => {
+            elemento.blur();
+        });
+    }
 }

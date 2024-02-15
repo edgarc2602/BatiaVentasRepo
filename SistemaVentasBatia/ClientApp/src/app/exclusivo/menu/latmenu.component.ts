@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LatMenuComponent implements OnInit {
     autorizacion: number = 0;
+    isDarkTheme: boolean = false;
     constructor(@Inject('BASE_URL') private url: string, private http: HttpClient, public user: StoreUser) {
         http.get<number>(`${url}api/cotizacion/obtenerautorizacion/${user.idPersonal}`).subscribe(response => {
             this.autorizacion = response;   
@@ -21,5 +22,20 @@ export class LatMenuComponent implements OnInit {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         });
 
+    }
+    toggleTheme() {
+        this.isDarkTheme = !this.isDarkTheme;
+        if (this.isDarkTheme) {
+            document.body.classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+        }
+        this.quitarFocoDeElementos();
+    }
+    quitarFocoDeElementos(): void {
+        const elementos = document.querySelectorAll('button, input[type="text"]');
+        elementos.forEach((elemento: HTMLElement) => {
+            elemento.blur();
+        });
     }
 }

@@ -19,6 +19,7 @@ import { EliminaWidget } from 'src/app/widgets/elimina/elimina.widget';
 
 
 import Swal from 'sweetalert2';
+import { ListaProducto } from '../../models/listaproducto';
 
 @Component({
     selector: 'catalogo-comp',
@@ -87,6 +88,13 @@ export class CatalogoComponent {
         idPersonal: 0, autorizaVentas: 0, estatusVentas: 0, cotizadorVentas: 0, revisaVentas: 0, nombres: '', apellidoPaterno: '', apellidoMaterno: '', puesto: '', telefono: '', telefonoExtension: '', telefonoMovil: '', email: '', firma: '', usuario: '', password: ''
     }
     elimina: number = 0;
+    model: ListaProducto = {
+        productos: [], familias: [], pagina: 1, numPaginas: 0, rows: 0, idProveedor: 0, proveedor: ''
+    }
+    idEstado: number = 0;
+    isLoading: boolean = false;
+    estados: Catalogo[];
+    idFamilia: number = 0;
 
 
 
@@ -105,6 +113,9 @@ export class CatalogoComponent {
         }, err => console.log(err));
         http.get<Catalogo[]>(`${url}api/catalogo/getclase`).subscribe(response => {
             this.lclas = response;
+        }, err => console.log(err));
+        http.get<Catalogo[]>(`${url}api/catalogo/getestado`).subscribe(response => {
+            this.estados = response;
         }, err => console.log(err));
 
         this.http.get<CotizaPorcentajes>(`${this.url}api/cotizacion/obtenerporcentajescotizacion`).subscribe(response => { //falta
@@ -426,5 +437,70 @@ export class CatalogoComponent {
         this.eliw.titulo = 'Eliminar Usuario';
         this.eliw.mensaje = 'Las cotizaciones y prospectos relacionados no ser\u00E1n afectados';
         this.eliw.open();
+    }
+
+    getPrecioProductoByEstado(filtro: number) {
+        if (filtro == 2) {
+            this.model.pagina = 1;
+            this.http.get<ListaProducto>(`${this.url}api/producto/GetProductoProveedorByIdEstado/${this.idEstado}/${this.model.pagina}/${this.idFamilia}`).subscribe(response => {
+                this.model = response;
+            }, err => {
+            });
+        }
+        if (filtro == 0) {
+            this.http.get<ListaProducto>(`${this.url}api/producto/GetProductoProveedorByIdEstado/${this.idEstado}/${this.model.pagina}/${this.idFamilia}`).subscribe(response => {
+                this.model = response;
+            }, err => {
+            });
+        }
+        if (filtro == 1) {
+            this.model.productos = [];
+            this.model.proveedor = '';
+            this.idFamilia = 0;
+            this.model.pagina = 1;
+            this.isLoading = true;
+
+            this.http.get<ListaProducto>(`${this.url}api/producto/GetProductoProveedorByIdEstado/${this.idEstado}/${this.model.pagina}/${this.idFamilia}`).subscribe(response => {
+                setTimeout(() => {
+                    this.model = response;
+                    this.isLoading = false;
+                }, 300);
+            }, err => {
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 300);
+            });
+            if (this.model.productos.length == 0) {
+                this.model.familias = [];
+            }
+        }
+
+
+    }
+    muevePagina(event) {
+        this.model.pagina = event;
+        this.getPrecioProductoByEstado(0);
+    }
+
+    descargarListaProductosPorEstado() {
+        const boton1 = document.getElementById("btnProdDes") as HTMLButtonElement;
+        boton1.disabled = true;
+        this.http.post(`${this.url}api/report/DescargarListaProductosPorEstado/${this.idEstado}/${this.idFamilia}`, { responseType: 'arraybuffer' })
+            .subscribe(
+                (data: ArrayBuffer) => {
+                    const pdfDataUrl = this.arrayBufferToDataUrl(data);
+                    window.open(pdfDataUrl, '_blank');
+                    boton1.disabled = false;
+                },
+                error => {
+                    console.error('Error al obtener el archivo PDF', error);
+                    boton1.disabled = false;
+                }
+            );
+    }
+    arrayBufferToDataUrl(buffer: ArrayBuffer): string {
+        const blob = new Blob([buffer], { type: 'application/pdf' });
+        const dataUrl = URL.createObjectURL(blob);
+        return dataUrl;
     }
 }

@@ -8,6 +8,7 @@ import { StoreUser } from 'src/app/stores/StoreUser';
 })
 export class ExMenuComponent {
     isExpanded = false;
+    visibilidadLatMenu
 
     constructor(public user: StoreUser, private rtr: Router) {
         if (user.idPersonal == undefined) {
@@ -25,7 +26,17 @@ export class ExMenuComponent {
     this.isExpanded = false;
   }
 
-  toggle() {
-    this.isExpanded = !this.isExpanded;
-  }
+    toggle() {
+        this.isExpanded = !this.isExpanded;
+    }
+    button() {
+        this.visibilidadLatMenu = 0;
+        this.quitarFocoDeElementos();
+    }
+    quitarFocoDeElementos(): void {
+        const elementos = document.querySelectorAll('button, input[type="text"]');
+        elementos.forEach((elemento: HTMLElement) => {
+            elemento.blur();
+        });
+    }
 }
